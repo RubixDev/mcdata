@@ -1,0 +1,3 @@
+{
+  "rust-analyzer.cargo.features": ["latest", "serde", "block-states", "entities", "block-entities"]
+}

@@ -1,0 +1,37 @@
+[workspace]
+members = ["xtask"]
+
+[package]
+name = "mcdata"
+version = "0.1.0"
+edition = "2021"
+
+[features]
+serde = ["dep:serde", "dep:strum", "bounded-integer/serde1"]
+
+block-states = []
+entities = []
+block-entities = []
+
+### FEATURE AUTOGEN START ###
+latest = ["1.20.5"]
+"1.14" = []
+"1.15" = []
+"1.16" = []
+"1.17-1.18" = []
+"1.19" = []
+"1.19.3" = []
+"1.19.4" = []
+"1.20" = []
+"1.20.2" = []
+"1.20.4" = []
+"1.20.5" = []
+### FEATURE AUTOGEN END ###
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+bounded-integer = { version = "0.5.7", features = ["types", "std"] }
+fastnbt = "2.5.0"
+serde = { version = "1.0.198", features = ["derive"], optional = true }
+strum = { version = "0.26.2", features = ["derive"], optional = true }
