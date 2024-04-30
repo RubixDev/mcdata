@@ -7,11 +7,21 @@ version = "0.1.0"
 edition = "2021"
 
 [features]
+#! ## Features
+default = []
+
+## Provide implementations of serde's `Serialize` and `Deserialize` traits for the various types
 serde = ["dep:serde", "dep:strum", "bounded-integer/serde1"]
 
+## Include lists for known, typed block states
 block-states = []
+## Include lists for known, typed entities
 entities = []
+## Include lists for known, typed block entities
 block-entities = []
+
+## Enable this when building the docs
+docs = ["dep:document-features", "dep:rustc_version"]
 
 ### FEATURE AUTOGEN START ###
 latest = ["1.20.5"]
@@ -32,6 +42,13 @@ latest = ["1.20.5"]
 
 [dependencies]
 bounded-integer = { version = "0.5.7", features = ["types", "std"] }
+document-features = { version = "0.2.8", optional = true }
 fastnbt = "2.5.0"
 serde = { version = "1.0.198", features = ["derive"], optional = true }
 strum = { version = "0.26.2", features = ["derive"], optional = true }
+
+[build-dependencies]
+rustc_version = { version = "0.4.0", optional = true }
+
+[package.metadata.docs.rs]
+all-features = true
