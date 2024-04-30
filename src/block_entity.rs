@@ -42,8 +42,8 @@ impl<'de: 'a, 'a> serde::Deserialize<'de> for GenericBlockEntity<'a> {
         impl<'de: 'a, 'a> serde::de::Visitor<'de> for _Visitor<'de, 'a> {
             type Value = GenericBlockEntity<'a>;
 
-            fn expecting(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-                write!(f, "BlockEntity")
+            fn expecting(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
+                fmt.write_str("BlockEntity")
             }
 
             fn visit_map<A>(self, mut map: A) -> Result<Self::Value, A::Error>

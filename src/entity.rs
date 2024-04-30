@@ -5,6 +5,15 @@ use std::{borrow::Cow, collections::HashMap};
 #[cfg(feature = "serde")]
 use std::{fmt, marker::PhantomData};
 
+#[cfg(feature = "entities")]
+pub use self::list::*;
+
+#[cfg(feature = "entities")]
+#[macro_use]
+mod macros;
+#[cfg(feature = "entities")]
+mod list;
+
 /// Any type that can represent an entity.
 pub trait Entity: Clone {}
 
@@ -35,8 +44,8 @@ impl<'de: 'a, 'a> serde::Deserialize<'de> for GenericEntity<'a> {
         impl<'de: 'a, 'a> serde::de::Visitor<'de> for _Visitor<'de, 'a> {
             type Value = GenericEntity<'a>;
 
-            fn expecting(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-                write!(f, "Entity")
+            fn expecting(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
+                fmt.write_str("Entity")
             }
 
             fn visit_map<A>(self, mut map: A) -> Result<Self::Value, A::Error>

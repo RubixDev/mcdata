@@ -31,6 +31,7 @@ macro_rules! blocks {
         use serde::{Deserialize, de::Visitor, Serialize};
 
         #[doc = concat!("A typed block state for Minecraft ", $mc_version, ".")]
+        // TODO: PartialEq, Hash
         #[derive(Debug, Clone)]
         pub enum BlockState<'a> {
             $(
@@ -56,7 +57,7 @@ macro_rules! blocks {
             /// This internally allocates new strings. It is used for implementing equality, as the
             /// same block state can be represented by both a known variant and the [`Self::Other`]
             /// variant.
-            pub fn as_generic(&self) -> super::super::GenericBlockState {
+            pub fn as_generic(&self) -> super::super::GenericBlockState<'static> {
                 match self {
                     $(
                         Self::$variant $({ $($prop),+ })? => super::super::GenericBlockState {
@@ -100,8 +101,8 @@ macro_rules! blocks {
                         impl<'de> Visitor<'de> for _FieldVisitor {
                             type Value = _Field;
 
-                            fn expecting(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-                                write!(f, "`Name` or `Properties`")
+                            fn expecting(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
+                                fmt.write_str("`Name` or `Properties`")
                             }
 
                             fn visit_str<E>(self, value: &str) -> Result<_Field, E>
@@ -125,8 +126,8 @@ macro_rules! blocks {
                 impl<'de: 'a, 'a> Visitor<'de> for _Visitor<'de, 'a> {
                     type Value = BlockState<'a>;
 
-                    fn expecting(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-                        write!(f, "BlockState")
+                    fn expecting(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
+                        fmt.write_str("BlockState")
                     }
 
                     fn visit_map<V>(self, mut map: V) -> Result<Self::Value, V::Error>

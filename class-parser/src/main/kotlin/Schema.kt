@@ -29,6 +29,7 @@ data class InputEntity(
 data class EntityInfo(
     val entities: List<Entity>,
     val types: List<EntityType>,
+    val compoundTypes: List<CompoundType>,
 )
 
 @Serializable
@@ -46,7 +47,7 @@ data class EntityType(
 )
 
 @Serializable
-sealed class NbtElement() {
+sealed class NbtElement {
     open fun merge(other: NbtElement, mergeStrategy: MergeStrategy = MergeStrategy.SameDataSet): NbtElement {
         require(other == NbtAny || this::class == other::class) {
             "cannot merge ${this::class.simpleName} with ${other::class.simpleName}"
@@ -95,7 +96,6 @@ data object NbtAnyCompound : NbtElement() {
 }
 
 @Serializable
-@SerialName("Compound")
 data class NbtCompound(val entries: MutableMap<String, NbtCompoundEntry>) : NbtElement() {
     fun add(name: String, entry: NbtCompoundEntry, mergeStrategy: MergeStrategy = MergeStrategy.SameDataSet) {
         entries[name] = entries[name]?.merge(entry, mergeStrategy) ?: entry
@@ -107,11 +107,23 @@ data class NbtCompound(val entries: MutableMap<String, NbtCompoundEntry>) : NbtE
         other.entries.forEach { (k, v) -> add(k, v, mergeStrategy) }
         return this
     }
+
+    fun nameCompounds(compoundTypes: MutableList<CompoundType>) {
+        for (entry in entries.values) {
+            val elem = entry.value
+            if (elem is NbtCompound) {
+                val name = "Compound${compoundTypes.size}"
+                compoundTypes.add(CompoundType(name, elem.entries))
+                elem.nameCompounds(compoundTypes)
+                entry.value = NbtNamedCompound(name)
+            }
+        }
+    }
 }
 
 @Serializable
 data class NbtCompoundEntry(
-    val value: NbtElement,
+    var value: NbtElement,
     var optional: Boolean = false,
 ) {
     fun merge(other: NbtCompoundEntry, mergeStrategy: MergeStrategy = MergeStrategy.SameDataSet) = NbtCompoundEntry(
@@ -129,3 +141,19 @@ enum class MergeStrategy {
     SameDataSet,
     DifferentDataSet,
 }
+
+@Serializable
+@SerialName("Compound")
+data class NbtNamedCompound(val name: String) : NbtElement()
+
+/**
+ * A replacement for [NbtCompound] which also stores a name for how the Rust
+ * struct representing this compound should be named. The [NbtCompound]s are
+ * replaced by [NbtNamedCompound]s pointing to the corresponding [CompoundType]
+ * via its name.
+ */
+@Serializable
+data class CompoundType(
+    val name: String,
+    val entries: Map<String, NbtCompoundEntry>,
+) : NbtElement()
