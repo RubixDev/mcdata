@@ -5,12 +5,15 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.lang.reflect.ParameterizedType;
 import java.util.*;
 import java.util.stream.Collectors;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.*;
@@ -99,6 +102,7 @@ public class DataExtractor implements ModInitializer {
             blocks.add(blockInfo);
         }
 
+        LOGGER.info("Getting block property enums info");
         JsonArray enumList = new JsonArray();
         enums.forEach((key, value) -> {
             JsonObject enumInfo = new JsonObject();
@@ -107,24 +111,66 @@ public class DataExtractor implements ModInitializer {
             enumList.add(enumInfo);
         });
 
-        LOGGER.info("Getting block property enums info");
+        LOGGER.info("Writing blocks.json");
         JsonObject blocksJson = new JsonObject();
         blocksJson.add("blocks", blocks);
         blocksJson.add("enums", enumList);
-
-        LOGGER.info("Writing blocks.json");
         try (FileWriter writer = new FileWriter("blocks.json")) {
             writer.write(gson.toJson(blocksJson));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        // entities must be spawned to inspect, which requires a world
-        ServerLifecycleEvents.SERVER_STARTED.register(server -> {
-            // TODO: entity and tile entity stuff
+        LOGGER.info("Getting entity info");
+        // maps from id to class name
+        JsonArray entities = new JsonArray();
+        JsonObject superClassMap = new JsonObject();
+        for (Field field : EntityType.class.getDeclaredFields()) {
+            if (!Modifier.isStatic(field.getModifiers())) continue;
 
-            LOGGER.info("Done!");
-            server.halt(false);
-        });
+            EntityType<?> entityType;
+            try {
+                entityType = (EntityType<?>) field.get(null);
+            } catch (IllegalAccessException | ClassCastException ignored) {
+                // skip non-entity fields
+                continue;
+            }
+            if (entityType == EntityType.PLAYER) {
+                LOGGER.info("Skipping player");
+                continue;
+            }
+            Class<?> entityClass = (Class<?>) ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
+
+            JsonObject entityInfo = new JsonObject();
+            entityInfo.addProperty("id", EntityType.getKey(entityType).toString());
+            entityInfo.addProperty("class", entityClass.getName());
+            // check whether the entity is experimental
+            if (FeatureFlags.isExperimental(entityType.requiredFeatures())) {
+                entityInfo.addProperty("experimental", true);
+            }
+            entities.add(entityInfo);
+
+            Class<?> superclass = entityClass.getSuperclass();
+            while (superclass != null && superclass != Object.class && !superClassMap.has(entityClass.getName())) {
+                superClassMap.addProperty(entityClass.getName(), superclass.getName());
+                entityClass = superclass;
+                superclass = entityClass.getSuperclass();
+            }
+        }
+
+        LOGGER.info("Writing entities.json");
+        JsonObject entitiesJson = new JsonObject();
+        entitiesJson.add("entities", entities);
+        entitiesJson.add("classes", superClassMap);
+        try (FileWriter writer = new FileWriter("entities.json")) {
+            writer.write(gson.toJson(entitiesJson));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        // TODO: block entities
+
+        LOGGER.info("Done!");
+        System.exit(0);
     }
 }

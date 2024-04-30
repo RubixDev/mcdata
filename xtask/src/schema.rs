@@ -1,3 +1,5 @@
+use std::collections::BTreeMap;
+
 use serde::{Deserialize, Serialize};
 
 pub type FeaturesJson = Vec<Feature>;
@@ -8,6 +10,8 @@ pub struct Feature {
     pub mc: String,
     pub extractor: u8,
 }
+
+///////////////////////////////////////////////
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct BlocksJson {
@@ -55,4 +59,61 @@ impl Property {
 pub struct Enum {
     pub name: String,
     pub values: Vec<String>,
+}
+
+///////////////////////////////////////////////
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct EntitiesJson {
+    pub entities: Vec<Entity>,
+    pub types: Vec<EntityType>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Entity {
+    pub id: String,
+    #[serde(rename = "type")]
+    pub type_: String,
+    #[serde(default)]
+    pub experimental: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct EntityType {
+    pub name: String,
+    pub parent: Option<String>,
+    pub nbt: NbtCompound,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct NbtCompound {
+    pub entries: BTreeMap<String, NbtCompoundEntry>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct NbtCompoundEntry {
+    pub value: NbtElement,
+    #[serde(default)]
+    pub optional: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub enum NbtElement {
+    Any,
+    Byte,
+    Short,
+    Int,
+    Long,
+    Float,
+    Double,
+    String,
+    ByteArray,
+    IntArray,
+    LongArray,
+    Uuid,
+    Boolean,
+    List { inner: Box<NbtElement> },
+    AnyCompound,
+    Compound(NbtCompound),
 }

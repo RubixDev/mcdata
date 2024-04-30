@@ -3,7 +3,7 @@ import * as path from 'https://deno.land/std@0.177.1/path/mod.ts'
 import { colors } from 'https://deno.land/x/cliffy@v0.25.7/ansi/mod.ts'
 import { parse as parseXml } from 'https://deno.land/x/xml@2.1.1/mod.ts'
 import * as generator from './tmp/fabricmc.net/scripts/dist/fabric-template-generator.js'
-import versions from './versions.json' assert { type: "json" }
+import versions from './versions.json' with { type: "json" }
 
 const error = colors.bold.red
 const progress = colors.bold.yellow
@@ -42,9 +42,11 @@ async function generate() {
             minecraftVersion,
             projectName: 'data-extractor',
             packageName: 'com.example',
+            mojmap: true,
             useKotlin: false,
             dataGeneration: false,
             splitSources: false,
+            uniqueModIcon: false,
         }
 
         const options: generator.Options = {

@@ -16,7 +16,7 @@ use tokio::{
     process::Command as TokioCommand,
 };
 
-use crate::schema::{BlocksJson, Enum, Feature, FeaturesJson, Property};
+use crate::schema::*;
 
 mod schema;
 
@@ -41,14 +41,24 @@ Usage: Run with `cargo xtask <task>`, eg. `cargo xtask codegen`.
             "###
             .trim(),
         ),
-        "codegen" => match env::args().nth(2).as_deref() {
-            Some("block-states") => codegen_block_states().await?,
-            Some(subtask) => {
-                eprintln!("unknown codegen subtask '{subtask}', run `cargo xtask --help` to see a list of available tasks");
-                std::process::exit(1);
+        "codegen" => {
+            let arg = env::args().nth(2);
+
+            // read the versions
+            println!("\x1b[1;36m>>> reading `versions.json`\x1b[0m");
+            let root = WORKSPACE_DIR.join("data-extractor");
+            let versions: FeaturesJson =
+                serde_json::from_reader(BufReader::new(File::open(root.join("versions.json"))?))?;
+
+            let outputs = codegen_extract(&versions).await?;
+
+            if arg.map_or(true, |arg| arg == "block-states") {
+                codegen_block_states(&versions, &outputs.block_lists).await?;
             }
-            None => codegen_block_states().await?,
-        },
+
+            let outputs = codegen_class_analysis(outputs)?;
+            // dbg!(outputs);
+        }
         task => {
             eprintln!(
                 "unknown task '{task}', run `cargo xtask --help` to see a list of available tasks"
@@ -60,10 +70,29 @@ Usage: Run with `cargo xtask <task>`, eg. `cargo xtask codegen`.
     Ok(())
 }
 
-async fn codegen_block_states() -> Result<()> {
-    // TODO: use xshell?
-    // TODO: separate data extraction and reuse across codegen tasks
+fn run_command(cmd: &mut Command) -> Result<()> {
+    let status = cmd.status()?;
+    if !status.success() {
+        bail!("command exited with {status}");
+    }
+    Ok(())
+}
 
+fn modify_file(path: impl AsRef<Path>, func: impl FnOnce(String) -> Result<String>) -> Result<()> {
+    let content = fs::read_to_string(&path)
+        .with_context(|| format!("could not modify file {}", path.as_ref().display()))?;
+    let new_content = func(content)?;
+    fs::write(&path, new_content)?;
+    Ok(())
+}
+
+struct ExtractOutput {
+    block_lists: Vec<BlocksJson>,
+    mc_jar_paths: Vec<PathBuf>,
+    entity_list_paths: Vec<PathBuf>,
+}
+
+async fn codegen_extract(versions: &FeaturesJson) -> Result<ExtractOutput> {
     let root = WORKSPACE_DIR.join("data-extractor");
 
     // prepare directories
@@ -132,36 +161,22 @@ export default {
         .with_context(|| "failed to generate template mods")?;
     }
 
-    // read the versions
-    println!("\x1b[1;36m>>> reading `versions.json`\x1b[0m");
-    let versions: FeaturesJson =
-        serde_json::from_reader(BufReader::new(File::open(root.join("versions.json"))?))?;
-
     // for each mod:
     let mut logs: Vec<Vec<String>> = vec![];
-    let mut outputs: Vec<BlocksJson> = vec![];
+    let mut block_lists: Vec<BlocksJson> = vec![];
+    let mut mc_jar_paths: Vec<PathBuf> = vec![];
+    let mut entity_list_paths: Vec<PathBuf> = vec![];
     for Feature {
         name: feature,
-        mc: _,
+        mc,
         extractor,
-    } in &versions
+    } in versions
     {
         let mod_dir = mods_dir.join(feature);
         // accept the EULA
         println!("\x1b[1;36m>>> version '{feature}': accepting the EULA\x1b[0m");
         fs::create_dir_all(mod_dir.join("run"))?;
         fs::write(mod_dir.join("run/eula.txt"), "eula=true")?;
-
-        // use the official Mojang mappings
-        println!("\x1b[1;36m>>> version '{feature}': switching to Mojang mappings\x1b[0m");
-        modify_file(mod_dir.join("build.gradle"), |str| {
-            Ok(
-                regex_replace_all!(r"(^\s*mappings\s*).*$"m, &str, |_, start| format!(
-                    "{start}loom.officialMojangMappings()"
-                ))
-                .into_owned(),
-            )
-        })?;
 
         // disable all mixins and dependencies, and set the entrypoint
         println!("\x1b[1;36m>>> version '{feature}': setting up `fabric.mod.json`\x1b[0m");
@@ -177,16 +192,6 @@ export default {
             "{}",
         )?;
 
-        // set world type to void world for faster generation
-        println!("\x1b[1;36m>>> version '{feature}': setting void world type\x1b[0m");
-        fs::write(
-            mod_dir.join("run/server.properties"),
-            r#"
-generator-settings={"lakes"\:false,"features"\:false,"layers"\:[{"block"\:"minecraft\:air","height"\:1}],"structures"\:{"structures"\:{}}}
-level-type=flat
-"#,
-        )?;
-
         // copy the appropriate DataExtractor class
         println!("\x1b[1;36m>>> version '{feature}': copying the DataExtractor class\x1b[0m");
         fs::copy(
@@ -196,8 +201,9 @@ level-type=flat
 
         // run the extraction
         println!("\x1b[1;36m>>> version '{feature}': running the extraction\x1b[0m");
-        if mod_dir.join("run/blocks.json").is_file() {
-            println!("\x1b[36m> output file already exists, skipping extraction\x1b[0m");
+        if mod_dir.join("run/blocks.json").is_file() && mod_dir.join("run/entities.json").is_file()
+        {
+            println!("\x1b[36m> output files already exist, skipping extraction\x1b[0m");
         } else {
             let mut log = vec![];
             let mut cmd = TokioCommand::new(mod_dir.join("gradlew"))
@@ -229,19 +235,34 @@ level-type=flat
                     println!("{line}");
                 }
             }
-            cmd.wait().await?;
+            let status = cmd.wait().await?;
+            if !status.success() {
+                bail!("command exited with {status}");
+            }
             logs.push(log);
         }
 
-        // save the output
-        outputs.push(serde_json::from_reader(BufReader::new(File::open(
+        // save the outputs
+        block_lists.push(serde_json::from_reader(BufReader::new(File::open(
             mod_dir.join("run/blocks.json"),
         )?))?);
+        mc_jar_paths.push(
+            glob::glob(
+                mod_dir.join(".gradle/loom-cache/minecraftMaven/net/minecraft/minecraft-merged-*/*-loom.mappings.*/*.jar")
+                    .to_str()
+                    .with_context(|| format!("failed to find Minecraft jar for {mc}"))?,
+            )
+                .with_context(|| format!("failed to find Minecraft jar for {mc}"))?
+                .next()
+                .with_context(|| format!("failed to find Minecraft jar for {mc}"))?
+                .with_context(|| format!("failed to find Minecraft jar for {mc}"))?,
+        );
+        entity_list_paths.push(mod_dir.join("run/entities.json"));
     }
 
     println!("\x1b[1;32m>>> Done!\x1b[0m");
 
-    for (log, Feature { name: feature, .. }) in logs.into_iter().zip(&versions) {
+    for (log, Feature { name: feature, .. }) in logs.into_iter().zip(versions) {
         if !log.is_empty() {
             println!("\x1b[1;33m>>> WARNING: data-extractor for {feature} logged non-info:\x1b[0m");
         }
@@ -254,6 +275,14 @@ level-type=flat
         }
     }
 
+    Ok(ExtractOutput {
+        block_lists,
+        mc_jar_paths,
+        entity_list_paths,
+    })
+}
+
+async fn codegen_block_states(versions: &FeaturesJson, block_lists: &[BlocksJson]) -> Result<()> {
     // generate `block_state.rs`
     let mut block_state_list_rs = r###"
 // IMPORTANT: DO NOT EDIT THIS FILE MANUALLY!
@@ -262,9 +291,12 @@ level-type=flat
 "###
     .trim_start()
     .to_owned();
+    // TODO: the latest feature should also provide a module that's either aliasing the latest or
+    // even provides its own definitions which then change over time and are marked as
+    // non-exhaustive
     let mut cargo_features = format!("latest = [\"{}\"]\n", versions.last().unwrap().name);
     for (BlocksJson { blocks, enums }, Feature { name: feature, .. }) in
-        outputs.into_iter().zip(&versions)
+        block_lists.iter().zip(versions)
     {
         cargo_features += &format!("\"{feature}\" = []\n");
 
@@ -292,7 +324,7 @@ pub mod mc{mod_name} {{
             if !block.properties.is_empty() {
                 block_state_list_rs += " - ";
                 let last_index = block.properties.len() - 1;
-                for (index, prop) in block.properties.into_iter().enumerate() {
+                for (index, prop) in block.properties.iter().enumerate() {
                     let name = prop.name();
                     let mut rename = "";
                     if name == "type" {
@@ -330,7 +362,7 @@ pub mod mc{mod_name} {{
         for Enum { name, values } in enums {
             block_state_list_rs += &format!("        {name} => ");
             let last_index = values.len() - 1;
-            for (index, value) in values.into_iter().enumerate() {
+            for (index, value) in values.iter().enumerate() {
                 block_state_list_rs += &value.to_pascal_case();
                 if index != last_index {
                     block_state_list_rs += ", ";
@@ -360,18 +392,31 @@ pub mod mc{mod_name} {{
     Ok(())
 }
 
-fn run_command(cmd: &mut Command) -> Result<()> {
-    let status = cmd.status()?;
-    if !status.success() {
-        bail!("command exited with {status}");
-    }
-    Ok(())
-}
+fn codegen_class_analysis(outputs: ExtractOutput) -> Result<Vec<EntitiesJson>> {
+    let class_parser_dir = WORKSPACE_DIR.join("class-parser");
+    let mut entity_lists: Vec<EntitiesJson> = vec![];
 
-fn modify_file(path: impl AsRef<Path>, func: impl FnOnce(String) -> Result<String>) -> Result<()> {
-    let content = fs::read_to_string(&path)
-        .with_context(|| format!("could not modify file {}", path.as_ref().display()))?;
-    let new_content = func(content)?;
-    fs::write(&path, new_content)?;
-    Ok(())
+    println!("\x1b[1;36m>>> running class-parser on extracted data\x1b[0m");
+    for (jar_path, entity_json_path) in outputs
+        .mc_jar_paths
+        .into_iter()
+        .zip(outputs.entity_list_paths)
+    {
+        run_command(
+            Command::new(class_parser_dir.join("gradlew"))
+                .args(["run", "--args"])
+                .arg(format!(
+                    "{} {}",
+                    jar_path.display(),
+                    entity_json_path.display()
+                ))
+                .current_dir(&class_parser_dir),
+        )?;
+        entity_lists.push(serde_json::from_reader(BufReader::new(File::open(
+            class_parser_dir.join("out/entities.json"),
+        )?))?);
+    }
+    println!("\x1b[1;32m>>> Done!\x1b[0m");
+
+    Ok(entity_lists)
 }

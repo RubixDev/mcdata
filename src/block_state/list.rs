@@ -8272,11 +8272,11 @@ pub mod mc1_20_2 {
     }
 }
 
-/// Block states and property types for Minecraft 1.20.4.
-#[cfg(feature = "1.20.4")]
-pub mod mc1_20_4 {
+/// Block states and property types for Minecraft 1.20.3.
+#[cfg(feature = "1.20.3")]
+pub mod mc1_20_3 {
     blocks! {
-        "1.20.4";
+        "1.20.3";
         "minecraft:air", Air;
         "minecraft:stone", Stone;
         "minecraft:granite", Granite;
@@ -9338,7 +9338,7 @@ pub mod mc1_20_4 {
     }
 
     prop_enums! {
-        "1.20.4";
+        "1.20.3";
         DoorHingeSide => Left, Right;
         SlabType => Top, Bottom, Double;
         StructureMode => Save, Load, Corner, Data;
