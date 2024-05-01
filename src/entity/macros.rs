@@ -210,6 +210,7 @@ struct B { a: i32, b: f64 }
             #[derive(Debug, Clone, PartialEq)]
             pub struct $name {
                 $(
+                    #[doc = concat!("`\"", $entry_name, "\"`")]
                     pub $entry_field: entity_types!(@optional $type $(, $optional)?),
                 )*
                 $(

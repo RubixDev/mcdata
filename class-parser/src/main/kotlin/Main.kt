@@ -13,20 +13,21 @@ fun main(args: Array<String>) {
     val inputEntityInfo = Json.decodeFromString<InputEntityInfo>(File(entitiesJsonPath).readText())
 
     val vm = Vm(jarPath)
-    val baseNbt = vm.call(
+    val baseNbt = vm.analyzeFrom(MethodPointer(
         "net.minecraft.world.entity.Entity",
         "saveWithoutId",
         "(Lnet/minecraft/nbt/CompoundTag;)Lnet/minecraft/nbt/CompoundTag;",
-    )
+    ))
 
+    val compoundTypes = mutableListOf<CompoundType>()
+    baseNbt.nameCompounds(compoundTypes)
     val entityTypes = mutableListOf(EntityType(
         name = "Entity",
         parent = null,
         nbt = baseNbt,
     ))
-    val compoundTypes = mutableListOf<CompoundType>()
     for ((i, entry) in inputEntityInfo.classes.entries.withIndex()) {
-        val nbt = vm.call(entry.key, "addAdditionalSaveData", "(Lnet/minecraft/nbt/CompoundTag;)V")
+        val nbt = vm.analyzeFrom(MethodPointer(entry.key, "addAdditionalSaveData", "(Lnet/minecraft/nbt/CompoundTag;)V"))
         println("${i + 1}/${inputEntityInfo.classes.size}: ${entry.key}")
         // TODO: filter out "empty" types?
         //  e.g. PathfinderMob has no added NBT, so it could be omitted, but then all other types that have

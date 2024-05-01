@@ -1,5 +1,9 @@
+@file:OptIn(ExperimentalSerializationApi::class)
+
 package de.rubixdev
 
+import kotlinx.serialization.EncodeDefault
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -77,11 +81,16 @@ data object NbtAny : NbtElement() {
 
 @Serializable
 @SerialName("List")
-data class NbtList(val inner: NbtElement) : NbtElement() {
+data class NbtList(@EncodeDefault var inner: NbtElement = NbtAny) : NbtElement() {
+    fun add(value: NbtElement, mergeStrategy: MergeStrategy = MergeStrategy.SameDataSet) {
+        inner = inner.merge(value, mergeStrategy)
+    }
+
     override fun merge(other: NbtElement, mergeStrategy: MergeStrategy): NbtElement {
         if (other == NbtAny) return this
         require(other is NbtList) { "cannot merge NbtList with ${other::class.simpleName}" }
-        return NbtList(inner.merge(other.inner, mergeStrategy))
+        add(other.inner)
+        return this
     }
 }
 
@@ -96,15 +105,18 @@ data object NbtAnyCompound : NbtElement() {
 }
 
 @Serializable
-data class NbtCompound(val entries: MutableMap<String, NbtCompoundEntry>) : NbtElement() {
-    fun add(name: String, entry: NbtCompoundEntry, mergeStrategy: MergeStrategy = MergeStrategy.SameDataSet) {
+data class NbtCompound(
+    @EncodeDefault
+    val entries: MutableMap<String, NbtCompoundEntry> = mutableMapOf(),
+) : NbtElement() {
+    fun put(name: String, entry: NbtCompoundEntry, mergeStrategy: MergeStrategy = MergeStrategy.SameDataSet) {
         entries[name] = entries[name]?.merge(entry, mergeStrategy) ?: entry
     }
 
     override fun merge(other: NbtElement, mergeStrategy: MergeStrategy): NbtElement {
         if (other is NbtAny || other is NbtAnyCompound) return this
         require(other is NbtCompound) { "cannot merge NbtCompound with ${other::class.simpleName}" }
-        other.entries.forEach { (k, v) -> add(k, v, mergeStrategy) }
+        other.entries.forEach { (k, v) -> put(k, v, mergeStrategy) }
         return this
     }
 
@@ -112,10 +124,26 @@ data class NbtCompound(val entries: MutableMap<String, NbtCompoundEntry>) : NbtE
         for (entry in entries.values) {
             val elem = entry.value
             if (elem is NbtCompound) {
-                val name = "Compound${compoundTypes.size}"
-                compoundTypes.add(CompoundType(name, elem.entries))
-                elem.nameCompounds(compoundTypes)
-                entry.value = NbtNamedCompound(name)
+                if (elem.entries.isEmpty()) {
+                    entry.value = NbtAnyCompound
+                } else {
+                    val name = "Compound${compoundTypes.size}"
+                    compoundTypes.add(CompoundType(name, elem.entries))
+                    elem.nameCompounds(compoundTypes)
+                    entry.value = NbtNamedCompound(name)
+                }
+            } else if (elem is NbtList) {
+                val inner = elem.inner
+                if (inner is NbtCompound) {
+                    if (inner.entries.isEmpty()) {
+                        elem.inner = NbtAnyCompound
+                    } else {
+                        val name = "Compound${compoundTypes.size}"
+                        compoundTypes.add(CompoundType(name, inner.entries))
+                        inner.nameCompounds(compoundTypes)
+                        elem.inner = NbtNamedCompound(name)
+                    }
+                }
             }
         }
     }
@@ -156,4 +184,4 @@ data class NbtNamedCompound(val name: String) : NbtElement()
 data class CompoundType(
     val name: String,
     val entries: Map<String, NbtCompoundEntry>,
-) : NbtElement()
+)

@@ -113,7 +113,7 @@ pub mod mc1_14 {
     entity_types! {
         "1.14";
         AbstractArrow > Entity - optional "OwnerUUID" as owner_uuid: u128, "PierceLevel" as pierce_level: u8, "ShotFromCrossbow" as shot_from_crossbow: bool, "SoundEvent" as sound_event: String, "crit" as crit: bool, "damage" as damage: f64, optional "inBlockState" as in_block_state: std::collections::HashMap<String, fastnbt::Value>, "inGround" as in_ground: u8, "life" as life: i16, "pickup" as pickup: u8, "shake" as shake: u8;
-        AbstractChestedHorse > AbstractHorse - "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<fastnbt::Value>, optional "Slot" as slot: u8;
+        AbstractChestedHorse > AbstractHorse - "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<super::compounds::Compound1>;
         AbstractFish > WaterAnimal - "FromBucket" as from_bucket: bool;
         AbstractGolem > PathfinderMob - ;
         AbstractHorse > Animal - "Bred" as bred: bool, "EatingHaystack" as eating_haystack: bool, optional "OwnerUUID" as owner_uuid: String, optional "SaddleItem" as saddle_item: std::collections::HashMap<String, fastnbt::Value>, "Tame" as tame: bool, "Temper" as temper: i32;
@@ -123,13 +123,13 @@ pub mod mc1_14 {
         AbstractMinecartContainer > AbstractMinecart - optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64;
         AbstractSchoolingFish > AbstractFish - ;
         AbstractSkeleton > Monster - ;
-        AbstractVillager > AgableMob - "Inventory" as inventory: Vec<fastnbt::Value>, optional "Offers" as offers: std::collections::HashMap<String, fastnbt::Value>;
+        AbstractVillager > AgableMob - "Inventory" as inventory: Vec<std::collections::HashMap<String, fastnbt::Value>>, optional "Offers" as offers: std::collections::HashMap<String, fastnbt::Value>;
         AgableMob > PathfinderMob - "Age" as age: i32, "ForcedAge" as forced_age: i32;
         AmbientCreature > Mob - ;
         Animal > AgableMob - "InLove" as in_love: i32, optional "LoveCause" as love_cause: u128;
-        AreaEffectCloud > Entity - "Age" as age: i32, optional "Color" as color: i32, "Duration" as duration: i32, "DurationOnUse" as duration_on_use: i32, optional "Effects" as effects: Vec<fastnbt::Value>, optional "OwnerUUID" as owner_uuid: u128, "Particle" as particle: String, optional "Potion" as potion: String, "Radius" as radius: f32, "RadiusOnUse" as radius_on_use: f32, "RadiusPerTick" as radius_per_tick: f32, "ReapplicationDelay" as reapplication_delay: i32, "WaitTime" as wait_time: i32;
-        ArmorStand > LivingEntity - "ArmorItems" as armor_items: Vec<fastnbt::Value>, "DisabledSlots" as disabled_slots: i32, "HandItems" as hand_items: Vec<fastnbt::Value>, "Invisible" as invisible: bool, optional "Marker" as marker: bool, "NoBasePlate" as no_base_plate: bool, "Pose" as pose: std::collections::HashMap<String, fastnbt::Value>, "ShowArms" as show_arms: bool, "Small" as small: bool;
-        Arrow > AbstractArrow - optional "Color" as color: i32, optional "CustomPotionEffects" as custom_potion_effects: Vec<fastnbt::Value>, optional "Potion" as potion: String;
+        AreaEffectCloud > Entity - "Age" as age: i32, optional "Color" as color: i32, "Duration" as duration: i32, "DurationOnUse" as duration_on_use: i32, optional "Effects" as effects: Vec<std::collections::HashMap<String, fastnbt::Value>>, optional "OwnerUUID" as owner_uuid: u128, "Particle" as particle: String, optional "Potion" as potion: String, "Radius" as radius: f32, "RadiusOnUse" as radius_on_use: f32, "RadiusPerTick" as radius_per_tick: f32, "ReapplicationDelay" as reapplication_delay: i32, "WaitTime" as wait_time: i32;
+        ArmorStand > LivingEntity - "ArmorItems" as armor_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "DisabledSlots" as disabled_slots: i32, "HandItems" as hand_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "Invisible" as invisible: bool, optional "Marker" as marker: bool, "NoBasePlate" as no_base_plate: bool, "Pose" as pose: std::collections::HashMap<String, fastnbt::Value>, "ShowArms" as show_arms: bool, "Small" as small: bool;
+        Arrow > AbstractArrow - optional "Color" as color: i32, optional "CustomPotionEffects" as custom_potion_effects: Vec<std::collections::HashMap<String, fastnbt::Value>>, optional "Potion" as potion: String;
         Bat > AmbientCreature - "BatFlags" as bat_flags: u8;
         Blaze > Monster - ;
         Boat > Entity - "Type" as r#type: String;
@@ -148,7 +148,7 @@ pub mod mc1_14 {
         EnderDragon > Mob - "DragonPhase" as dragon_phase: i32;
         EnderMan > Monster - optional "carriedBlockState" as carried_block_state: std::collections::HashMap<String, fastnbt::Value>;
         Endermite > Monster - "Lifetime" as lifetime: i32, "PlayerSpawned" as player_spawned: bool;
-        Entity - "Air" as air: i16, optional "CustomName" as custom_name: String, optional "CustomNameVisible" as custom_name_visible: bool, "Dimension" as dimension: i32, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<fastnbt::Value>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<fastnbt::Value>, "PortalCooldown" as portal_cooldown: i32, "Pos" as pos: Vec<fastnbt::Value>, "Rotation" as rotation: Vec<fastnbt::Value>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<fastnbt::Value>, "UUID" as uuid: u128;
+        Entity - "Air" as air: i16, optional "CustomName" as custom_name: String, optional "CustomNameVisible" as custom_name_visible: bool, "Dimension" as dimension: i32, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<fastnbt::Value>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<std::collections::HashMap<String, fastnbt::Value>>, "PortalCooldown" as portal_cooldown: i32, "Pos" as pos: Vec<fastnbt::Value>, "Rotation" as rotation: Vec<fastnbt::Value>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<String>, "UUID" as uuid: u128;
         Evoker > SpellcasterIllager - ;
         EvokerFangs > Entity - optional "OwnerUUID" as owner_uuid: u128, "Warmup" as warmup: i32;
         ExperienceOrb > Entity - "Age" as age: i16, "Health" as health: i16, "Value" as value: i16;
@@ -158,7 +158,7 @@ pub mod mc1_14 {
         FireworkRocketEntity > Entity - optional "FireworksItem" as fireworks_item: std::collections::HashMap<String, fastnbt::Value>, "Life" as life: i32, "LifeTime" as life_time: i32, "ShotAtAngle" as shot_at_angle: bool;
         FishingHook > Entity - ;
         FlyingMob > Mob - ;
-        Fox > Animal - "Crouching" as crouching: bool, "Sitting" as sitting: bool, "Sleeping" as sleeping: bool, "TrustedUUIDs" as trusted_uui_ds: Vec<fastnbt::Value>, "Type" as r#type: String;
+        Fox > Animal - "Crouching" as crouching: bool, "Sitting" as sitting: bool, "Sleeping" as sleeping: bool, "TrustedUUIDs" as trusted_uui_ds: Vec<std::collections::HashMap<String, fastnbt::Value>>, "Type" as r#type: String;
         Ghast > FlyingMob - "ExplosionPower" as explosion_power: i32;
         Giant > Monster - ;
         Guardian > Monster - ;
@@ -172,9 +172,9 @@ pub mod mc1_14 {
         LargeFireball > Fireball - "ExplosionPower" as explosion_power: i32;
         LeashFenceKnotEntity > HangingEntity - ;
         LightningBolt > Entity - ;
-        LivingEntity > Entity - "AbsorptionAmount" as absorption_amount: f32, optional "ActiveEffects" as active_effects: Vec<fastnbt::Value>, "Attributes" as attributes: Vec<fastnbt::Value>, "Brain" as brain: fastnbt::Value, "DeathTime" as death_time: i16, "FallFlying" as fall_flying: bool, "Health" as health: f32, "HurtByTimestamp" as hurt_by_timestamp: i32, "HurtTime" as hurt_time: i16, optional "SleepingX" as sleeping_x: i32, optional "SleepingY" as sleeping_y: i32, optional "SleepingZ" as sleeping_z: i32;
+        LivingEntity > Entity - "AbsorptionAmount" as absorption_amount: f32, optional "ActiveEffects" as active_effects: Vec<std::collections::HashMap<String, fastnbt::Value>>, "Attributes" as attributes: Vec<fastnbt::Value>, "Brain" as brain: fastnbt::Value, "DeathTime" as death_time: i16, "FallFlying" as fall_flying: bool, "Health" as health: f32, "HurtByTimestamp" as hurt_by_timestamp: i32, "HurtTime" as hurt_time: i16, optional "SleepingX" as sleeping_x: i32, optional "SleepingY" as sleeping_y: i32, optional "SleepingZ" as sleeping_z: i32;
         Llama > AbstractChestedHorse - optional "DecorItem" as decor_item: std::collections::HashMap<String, fastnbt::Value>, "Strength" as strength: i32, "Variant" as variant: i32;
-        LlamaSpit > Entity - optional "Owner" as owner: std::collections::HashMap<String, fastnbt::Value>, optional "OwnerUUID" as owner_uuid: u128;
+        LlamaSpit > Entity - optional "Owner" as owner: super::compounds::Compound2;
         MagmaCube > Slime - ;
         Minecart > AbstractMinecart - ;
         MinecartChest > AbstractMinecartContainer - ;
@@ -183,7 +183,7 @@ pub mod mc1_14 {
         MinecartHopper > AbstractMinecartContainer - "Enabled" as enabled: bool, "TransferCooldown" as transfer_cooldown: i32;
         MinecartSpawner > AbstractMinecart - ;
         MinecartTNT > AbstractMinecart - "TNTFuse" as tnt_fuse: i32;
-        Mob > LivingEntity - "ArmorDropChances" as armor_drop_chances: Vec<fastnbt::Value>, "ArmorItems" as armor_items: Vec<fastnbt::Value>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: String, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<fastnbt::Value>, "HandItems" as hand_items: Vec<fastnbt::Value>, optional "Leash" as leash: std::collections::HashMap<String, fastnbt::Value>, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool, optional "UUID" as uuid: u128, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32;
+        Mob > LivingEntity - "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: String, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, optional "Leash" as leash: super::compounds::Compound0, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool;
         Monster > PathfinderMob - ;
         Mule > AbstractChestedHorse - ;
         MushroomCow > Cow - optional "EffectDuration" as effect_duration: i32, optional "EffectId" as effect_id: u8, "Type" as r#type: String;
@@ -196,7 +196,7 @@ pub mod mc1_14 {
         Phantom > FlyingMob - "AX" as ax: i32, "AY" as ay: i32, "AZ" as az: i32, "Size" as size: i32;
         Pig > Animal - "Saddle" as saddle: bool;
         PigZombie > Zombie - "Anger" as anger: i16, "HurtBy" as hurt_by: String;
-        Pillager > AbstractIllager - "Inventory" as inventory: Vec<fastnbt::Value>;
+        Pillager > AbstractIllager - "Inventory" as inventory: Vec<std::collections::HashMap<String, fastnbt::Value>>;
         PolarBear > Animal - ;
         PrimedTnt > Entity - "Fuse" as fuse: i16;
         Pufferfish > AbstractFish - "PuffState" as puff_state: i32;
@@ -207,7 +207,7 @@ pub mod mc1_14 {
         Sheep > Animal - "Color" as color: u8, "Sheared" as sheared: bool;
         ShoulderRidingEntity > TamableAnimal - ;
         Shulker > AbstractGolem - optional "APX" as apx: i32, optional "APY" as apy: i32, optional "APZ" as apz: i32, "AttachFace" as attach_face: u8, "Color" as color: u8, "Peek" as peek: u8;
-        ShulkerBullet > Entity - optional "Dir" as dir: i32, optional "Owner" as owner: std::collections::HashMap<String, fastnbt::Value>, "Steps" as steps: i32, "TXD" as txd: f64, "TYD" as tyd: f64, "TZD" as tzd: f64, optional "Target" as target: std::collections::HashMap<String, fastnbt::Value>, "X" as x: i32, "Y" as y: i32, "Z" as z: i32;
+        ShulkerBullet > Entity - optional "Dir" as dir: i32, optional "Owner" as owner: super::compounds::Compound3, "Steps" as steps: i32, "TXD" as txd: f64, "TYD" as tyd: f64, "TZD" as tzd: f64, optional "Target" as target: super::compounds::Compound4;
         Silverfish > Monster - ;
         Skeleton > AbstractSkeleton - ;
         SkeletonHorse > AbstractHorse - "SkeletonTrap" as skeleton_trap: bool, "SkeletonTrapTime" as skeleton_trap_time: i32;
@@ -248,6 +248,11 @@ pub mod mc1_14 {
 
     entity_compound_types! {
         "1.14";
+        Compound0 - optional "UUID" as uuid: u128, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32;
+        Compound1 - optional "Slot" as slot: u8;
+        Compound2 - optional "OwnerUUID" as owner_uuid: u128;
+        Compound3 - optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32;
+        Compound4 - optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32;
     }
 }
 
@@ -363,7 +368,7 @@ pub mod mc1_15 {
     entity_types! {
         "1.15";
         AbstractArrow > Entity - optional "OwnerUUID" as owner_uuid: u128, "PierceLevel" as pierce_level: u8, "ShotFromCrossbow" as shot_from_crossbow: bool, "SoundEvent" as sound_event: String, "crit" as crit: bool, "damage" as damage: f64, optional "inBlockState" as in_block_state: std::collections::HashMap<String, fastnbt::Value>, "inGround" as in_ground: bool, "life" as life: i16, "pickup" as pickup: u8, "shake" as shake: u8;
-        AbstractChestedHorse > AbstractHorse - "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<fastnbt::Value>, optional "Slot" as slot: u8;
+        AbstractChestedHorse > AbstractHorse - "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<super::compounds::Compound1>;
         AbstractFish > WaterAnimal - "FromBucket" as from_bucket: bool;
         AbstractGolem > PathfinderMob - ;
         AbstractHorse > Animal - "Bred" as bred: bool, "EatingHaystack" as eating_haystack: bool, optional "OwnerUUID" as owner_uuid: String, optional "SaddleItem" as saddle_item: std::collections::HashMap<String, fastnbt::Value>, "Tame" as tame: bool, "Temper" as temper: i32;
@@ -373,13 +378,13 @@ pub mod mc1_15 {
         AbstractMinecartContainer > AbstractMinecart - optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64;
         AbstractSchoolingFish > AbstractFish - ;
         AbstractSkeleton > Monster - ;
-        AbstractVillager > AgableMob - "Inventory" as inventory: Vec<fastnbt::Value>, optional "Offers" as offers: std::collections::HashMap<String, fastnbt::Value>;
+        AbstractVillager > AgableMob - "Inventory" as inventory: Vec<std::collections::HashMap<String, fastnbt::Value>>, optional "Offers" as offers: std::collections::HashMap<String, fastnbt::Value>;
         AgableMob > PathfinderMob - "Age" as age: i32, "ForcedAge" as forced_age: i32;
         AmbientCreature > Mob - ;
         Animal > AgableMob - "InLove" as in_love: i32, optional "LoveCause" as love_cause: u128;
-        AreaEffectCloud > Entity - "Age" as age: i32, optional "Color" as color: i32, "Duration" as duration: i32, "DurationOnUse" as duration_on_use: i32, optional "Effects" as effects: Vec<fastnbt::Value>, optional "OwnerUUID" as owner_uuid: u128, "Particle" as particle: String, optional "Potion" as potion: String, "Radius" as radius: f32, "RadiusOnUse" as radius_on_use: f32, "RadiusPerTick" as radius_per_tick: f32, "ReapplicationDelay" as reapplication_delay: i32, "WaitTime" as wait_time: i32;
-        ArmorStand > LivingEntity - "ArmorItems" as armor_items: Vec<fastnbt::Value>, "DisabledSlots" as disabled_slots: i32, "HandItems" as hand_items: Vec<fastnbt::Value>, "Invisible" as invisible: bool, optional "Marker" as marker: bool, "NoBasePlate" as no_base_plate: bool, "Pose" as pose: std::collections::HashMap<String, fastnbt::Value>, "ShowArms" as show_arms: bool, "Small" as small: bool;
-        Arrow > AbstractArrow - optional "Color" as color: i32, optional "CustomPotionEffects" as custom_potion_effects: Vec<fastnbt::Value>, optional "Potion" as potion: String;
+        AreaEffectCloud > Entity - "Age" as age: i32, optional "Color" as color: i32, "Duration" as duration: i32, "DurationOnUse" as duration_on_use: i32, optional "Effects" as effects: Vec<std::collections::HashMap<String, fastnbt::Value>>, optional "OwnerUUID" as owner_uuid: u128, "Particle" as particle: String, optional "Potion" as potion: String, "Radius" as radius: f32, "RadiusOnUse" as radius_on_use: f32, "RadiusPerTick" as radius_per_tick: f32, "ReapplicationDelay" as reapplication_delay: i32, "WaitTime" as wait_time: i32;
+        ArmorStand > LivingEntity - "ArmorItems" as armor_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "DisabledSlots" as disabled_slots: i32, "HandItems" as hand_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "Invisible" as invisible: bool, optional "Marker" as marker: bool, "NoBasePlate" as no_base_plate: bool, "Pose" as pose: std::collections::HashMap<String, fastnbt::Value>, "ShowArms" as show_arms: bool, "Small" as small: bool;
+        Arrow > AbstractArrow - optional "Color" as color: i32, optional "CustomPotionEffects" as custom_potion_effects: Vec<std::collections::HashMap<String, fastnbt::Value>>, optional "Potion" as potion: String;
         Bat > AmbientCreature - "BatFlags" as bat_flags: u8;
         Bee > Animal - "Anger" as anger: i32, "CannotEnterHiveTicks" as cannot_enter_hive_ticks: i32, "CropsGrownSincePollination" as crops_grown_since_pollination: i32, optional "FlowerPos" as flower_pos: std::collections::HashMap<String, fastnbt::Value>, "HasNectar" as has_nectar: bool, "HasStung" as has_stung: bool, optional "HivePos" as hive_pos: std::collections::HashMap<String, fastnbt::Value>, "HurtBy" as hurt_by: String, "TicksSincePollination" as ticks_since_pollination: i32;
         Blaze > Monster - ;
@@ -399,7 +404,7 @@ pub mod mc1_15 {
         EnderDragon > Mob - "DragonPhase" as dragon_phase: i32;
         EnderMan > Monster - optional "carriedBlockState" as carried_block_state: std::collections::HashMap<String, fastnbt::Value>;
         Endermite > Monster - "Lifetime" as lifetime: i32, "PlayerSpawned" as player_spawned: bool;
-        Entity - "Air" as air: i16, optional "CustomName" as custom_name: String, optional "CustomNameVisible" as custom_name_visible: bool, "Dimension" as dimension: i32, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<fastnbt::Value>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<fastnbt::Value>, "PortalCooldown" as portal_cooldown: i32, "Pos" as pos: Vec<fastnbt::Value>, "Rotation" as rotation: Vec<fastnbt::Value>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<fastnbt::Value>, "UUID" as uuid: u128;
+        Entity - "Air" as air: i16, optional "CustomName" as custom_name: String, optional "CustomNameVisible" as custom_name_visible: bool, "Dimension" as dimension: i32, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<fastnbt::Value>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<std::collections::HashMap<String, fastnbt::Value>>, "PortalCooldown" as portal_cooldown: i32, "Pos" as pos: Vec<fastnbt::Value>, "Rotation" as rotation: Vec<fastnbt::Value>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<String>, "UUID" as uuid: u128;
         Evoker > SpellcasterIllager - ;
         EvokerFangs > Entity - optional "OwnerUUID" as owner_uuid: u128, "Warmup" as warmup: i32;
         ExperienceOrb > Entity - "Age" as age: i16, "Health" as health: i16, "Value" as value: i16;
@@ -409,7 +414,7 @@ pub mod mc1_15 {
         FireworkRocketEntity > Entity - optional "FireworksItem" as fireworks_item: std::collections::HashMap<String, fastnbt::Value>, "Life" as life: i32, "LifeTime" as life_time: i32, "ShotAtAngle" as shot_at_angle: bool;
         FishingHook > Entity - ;
         FlyingMob > Mob - ;
-        Fox > Animal - "Crouching" as crouching: bool, "Sitting" as sitting: bool, "Sleeping" as sleeping: bool, "TrustedUUIDs" as trusted_uui_ds: Vec<fastnbt::Value>, "Type" as r#type: String;
+        Fox > Animal - "Crouching" as crouching: bool, "Sitting" as sitting: bool, "Sleeping" as sleeping: bool, "TrustedUUIDs" as trusted_uui_ds: Vec<std::collections::HashMap<String, fastnbt::Value>>, "Type" as r#type: String;
         Ghast > FlyingMob - "ExplosionPower" as explosion_power: i32;
         Giant > Monster - ;
         Guardian > Monster - ;
@@ -423,9 +428,9 @@ pub mod mc1_15 {
         LargeFireball > Fireball - "ExplosionPower" as explosion_power: i32;
         LeashFenceKnotEntity > HangingEntity - ;
         LightningBolt > Entity - ;
-        LivingEntity > Entity - "AbsorptionAmount" as absorption_amount: f32, optional "ActiveEffects" as active_effects: Vec<fastnbt::Value>, "Attributes" as attributes: Vec<fastnbt::Value>, "Brain" as brain: fastnbt::Value, "DeathTime" as death_time: i16, "FallFlying" as fall_flying: bool, "Health" as health: f32, "HurtByTimestamp" as hurt_by_timestamp: i32, "HurtTime" as hurt_time: i16, optional "SleepingX" as sleeping_x: i32, optional "SleepingY" as sleeping_y: i32, optional "SleepingZ" as sleeping_z: i32;
+        LivingEntity > Entity - "AbsorptionAmount" as absorption_amount: f32, optional "ActiveEffects" as active_effects: Vec<std::collections::HashMap<String, fastnbt::Value>>, "Attributes" as attributes: Vec<fastnbt::Value>, "Brain" as brain: fastnbt::Value, "DeathTime" as death_time: i16, "FallFlying" as fall_flying: bool, "Health" as health: f32, "HurtByTimestamp" as hurt_by_timestamp: i32, "HurtTime" as hurt_time: i16, optional "SleepingX" as sleeping_x: i32, optional "SleepingY" as sleeping_y: i32, optional "SleepingZ" as sleeping_z: i32;
         Llama > AbstractChestedHorse - optional "DecorItem" as decor_item: std::collections::HashMap<String, fastnbt::Value>, "Strength" as strength: i32, "Variant" as variant: i32;
-        LlamaSpit > Entity - optional "Owner" as owner: std::collections::HashMap<String, fastnbt::Value>, optional "OwnerUUID" as owner_uuid: u128;
+        LlamaSpit > Entity - optional "Owner" as owner: super::compounds::Compound2;
         MagmaCube > Slime - ;
         Minecart > AbstractMinecart - ;
         MinecartChest > AbstractMinecartContainer - ;
@@ -434,7 +439,7 @@ pub mod mc1_15 {
         MinecartHopper > AbstractMinecartContainer - "Enabled" as enabled: bool, "TransferCooldown" as transfer_cooldown: i32;
         MinecartSpawner > AbstractMinecart - ;
         MinecartTNT > AbstractMinecart - "TNTFuse" as tnt_fuse: i32;
-        Mob > LivingEntity - "ArmorDropChances" as armor_drop_chances: Vec<fastnbt::Value>, "ArmorItems" as armor_items: Vec<fastnbt::Value>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: String, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<fastnbt::Value>, "HandItems" as hand_items: Vec<fastnbt::Value>, "Leash" as leash: std::collections::HashMap<String, fastnbt::Value>, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool, optional "UUID" as uuid: u128, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32;
+        Mob > LivingEntity - "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: String, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "Leash" as leash: super::compounds::Compound0, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool;
         Monster > PathfinderMob - ;
         Mule > AbstractChestedHorse - ;
         MushroomCow > Cow - optional "EffectDuration" as effect_duration: i32, optional "EffectId" as effect_id: u8, "Type" as r#type: String;
@@ -447,7 +452,7 @@ pub mod mc1_15 {
         Phantom > FlyingMob - "AX" as ax: i32, "AY" as ay: i32, "AZ" as az: i32, "Size" as size: i32;
         Pig > Animal - "Saddle" as saddle: bool;
         PigZombie > Zombie - "Anger" as anger: i16, "HurtBy" as hurt_by: String;
-        Pillager > AbstractIllager - "Inventory" as inventory: Vec<fastnbt::Value>;
+        Pillager > AbstractIllager - "Inventory" as inventory: Vec<std::collections::HashMap<String, fastnbt::Value>>;
         PolarBear > Animal - ;
         PrimedTnt > Entity - "Fuse" as fuse: i16;
         Pufferfish > AbstractFish - "PuffState" as puff_state: i32;
@@ -458,7 +463,7 @@ pub mod mc1_15 {
         Sheep > Animal - "Color" as color: u8, "Sheared" as sheared: bool;
         ShoulderRidingEntity > TamableAnimal - ;
         Shulker > AbstractGolem - optional "APX" as apx: i32, optional "APY" as apy: i32, optional "APZ" as apz: i32, "AttachFace" as attach_face: u8, "Color" as color: u8, "Peek" as peek: u8;
-        ShulkerBullet > Entity - optional "Dir" as dir: i32, optional "Owner" as owner: std::collections::HashMap<String, fastnbt::Value>, "Steps" as steps: i32, "TXD" as txd: f64, "TYD" as tyd: f64, "TZD" as tzd: f64, optional "Target" as target: std::collections::HashMap<String, fastnbt::Value>, "X" as x: i32, "Y" as y: i32, "Z" as z: i32;
+        ShulkerBullet > Entity - optional "Dir" as dir: i32, optional "Owner" as owner: super::compounds::Compound3, "Steps" as steps: i32, "TXD" as txd: f64, "TYD" as tyd: f64, "TZD" as tzd: f64, optional "Target" as target: super::compounds::Compound4;
         Silverfish > Monster - ;
         Skeleton > AbstractSkeleton - ;
         SkeletonHorse > AbstractHorse - "SkeletonTrap" as skeleton_trap: bool, "SkeletonTrapTime" as skeleton_trap_time: i32;
@@ -499,6 +504,11 @@ pub mod mc1_15 {
 
     entity_compound_types! {
         "1.15";
+        Compound0 - optional "UUID" as uuid: u128, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32;
+        Compound1 - optional "Slot" as slot: u8;
+        Compound2 - optional "OwnerUUID" as owner_uuid: u128;
+        Compound3 - optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32;
+        Compound4 - optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32;
     }
 }
 
@@ -619,7 +629,7 @@ pub mod mc1_16 {
     entity_types! {
         "1.16";
         AbstractArrow > Projectile - "PierceLevel" as pierce_level: u8, "ShotFromCrossbow" as shot_from_crossbow: bool, "SoundEvent" as sound_event: String, "crit" as crit: bool, "damage" as damage: f64, optional "inBlockState" as in_block_state: std::collections::HashMap<String, fastnbt::Value>, "inGround" as in_ground: bool, "life" as life: i16, "pickup" as pickup: u8, "shake" as shake: u8;
-        AbstractChestedHorse > AbstractHorse - "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<fastnbt::Value>, optional "Slot" as slot: u8;
+        AbstractChestedHorse > AbstractHorse - "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<super::compounds::Compound1>;
         AbstractFish > WaterAnimal - "FromBucket" as from_bucket: bool;
         AbstractGolem > PathfinderMob - ;
         AbstractHorse > Animal - "Bred" as bred: bool, "EatingHaystack" as eating_haystack: bool, optional "Owner" as owner: u128, optional "SaddleItem" as saddle_item: std::collections::HashMap<String, fastnbt::Value>, "Tame" as tame: bool, "Temper" as temper: i32;
@@ -634,9 +644,9 @@ pub mod mc1_16 {
         AgableMob > PathfinderMob - "Age" as age: i32, "ForcedAge" as forced_age: i32;
         AmbientCreature > Mob - ;
         Animal > AgableMob - "InLove" as in_love: i32, optional "LoveCause" as love_cause: u128;
-        AreaEffectCloud > Entity - "Age" as age: i32, optional "Color" as color: i32, "Duration" as duration: i32, "DurationOnUse" as duration_on_use: i32, optional "Effects" as effects: Vec<fastnbt::Value>, optional "Owner" as owner: u128, "Particle" as particle: String, optional "Potion" as potion: String, "Radius" as radius: f32, "RadiusOnUse" as radius_on_use: f32, "RadiusPerTick" as radius_per_tick: f32, "ReapplicationDelay" as reapplication_delay: i32, "WaitTime" as wait_time: i32;
-        ArmorStand > LivingEntity - "ArmorItems" as armor_items: Vec<fastnbt::Value>, "DisabledSlots" as disabled_slots: i32, "HandItems" as hand_items: Vec<fastnbt::Value>, "Invisible" as invisible: bool, optional "Marker" as marker: bool, "NoBasePlate" as no_base_plate: bool, "Pose" as pose: std::collections::HashMap<String, fastnbt::Value>, "ShowArms" as show_arms: bool, "Small" as small: bool;
-        Arrow > AbstractArrow - optional "Color" as color: i32, optional "CustomPotionEffects" as custom_potion_effects: Vec<fastnbt::Value>, optional "Potion" as potion: String;
+        AreaEffectCloud > Entity - "Age" as age: i32, optional "Color" as color: i32, "Duration" as duration: i32, "DurationOnUse" as duration_on_use: i32, optional "Effects" as effects: Vec<std::collections::HashMap<String, fastnbt::Value>>, optional "Owner" as owner: u128, "Particle" as particle: String, optional "Potion" as potion: String, "Radius" as radius: f32, "RadiusOnUse" as radius_on_use: f32, "RadiusPerTick" as radius_per_tick: f32, "ReapplicationDelay" as reapplication_delay: i32, "WaitTime" as wait_time: i32;
+        ArmorStand > LivingEntity - "ArmorItems" as armor_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "DisabledSlots" as disabled_slots: i32, "HandItems" as hand_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "Invisible" as invisible: bool, optional "Marker" as marker: bool, "NoBasePlate" as no_base_plate: bool, "Pose" as pose: std::collections::HashMap<String, fastnbt::Value>, "ShowArms" as show_arms: bool, "Small" as small: bool;
+        Arrow > AbstractArrow - optional "Color" as color: i32, optional "CustomPotionEffects" as custom_potion_effects: Vec<std::collections::HashMap<String, fastnbt::Value>>, optional "Potion" as potion: String;
         Bat > AmbientCreature - "BatFlags" as bat_flags: u8;
         Bee > Animal - "CannotEnterHiveTicks" as cannot_enter_hive_ticks: i32, "CropsGrownSincePollination" as crops_grown_since_pollination: i32, optional "FlowerPos" as flower_pos: std::collections::HashMap<String, fastnbt::Value>, "HasNectar" as has_nectar: bool, "HasStung" as has_stung: bool, optional "HivePos" as hive_pos: std::collections::HashMap<String, fastnbt::Value>, "TicksSincePollination" as ticks_since_pollination: i32;
         Blaze > Monster - ;
@@ -656,7 +666,7 @@ pub mod mc1_16 {
         EnderDragon > Mob - "DragonPhase" as dragon_phase: i32;
         EnderMan > Monster - optional "carriedBlockState" as carried_block_state: std::collections::HashMap<String, fastnbt::Value>;
         Endermite > Monster - "Lifetime" as lifetime: i32, "PlayerSpawned" as player_spawned: bool;
-        Entity - "Air" as air: i16, optional "CustomName" as custom_name: String, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<fastnbt::Value>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<fastnbt::Value>, "PortalCooldown" as portal_cooldown: i32, "Pos" as pos: Vec<fastnbt::Value>, "Rotation" as rotation: Vec<fastnbt::Value>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<fastnbt::Value>, "UUID" as uuid: u128;
+        Entity - "Air" as air: i16, optional "CustomName" as custom_name: String, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<fastnbt::Value>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<std::collections::HashMap<String, fastnbt::Value>>, "PortalCooldown" as portal_cooldown: i32, "Pos" as pos: Vec<fastnbt::Value>, "Rotation" as rotation: Vec<fastnbt::Value>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<String>, "UUID" as uuid: u128;
         Evoker > SpellcasterIllager - ;
         EvokerFangs > Entity - optional "Owner" as owner: u128, "Warmup" as warmup: i32;
         ExperienceOrb > Entity - "Age" as age: i16, "Health" as health: i16, "Value" as value: i16;
@@ -666,7 +676,7 @@ pub mod mc1_16 {
         FireworkRocketEntity > Projectile - optional "FireworksItem" as fireworks_item: std::collections::HashMap<String, fastnbt::Value>, "Life" as life: i32, "LifeTime" as life_time: i32, "ShotAtAngle" as shot_at_angle: bool;
         FishingHook > Projectile - ;
         FlyingMob > Mob - ;
-        Fox > Animal - "Crouching" as crouching: bool, "Sitting" as sitting: bool, "Sleeping" as sleeping: bool, "Trusted" as trusted: Vec<fastnbt::Value>, "Type" as r#type: String;
+        Fox > Animal - "Crouching" as crouching: bool, "Sitting" as sitting: bool, "Sleeping" as sleeping: bool, "Trusted" as trusted: Vec<fastnbt::IntArray>, "Type" as r#type: String;
         Ghast > FlyingMob - "ExplosionPower" as explosion_power: i32;
         Giant > Monster - ;
         Guardian > Monster - ;
@@ -681,7 +691,7 @@ pub mod mc1_16 {
         LargeFireball > Fireball - "ExplosionPower" as explosion_power: i32;
         LeashFenceKnotEntity > HangingEntity - ;
         LightningBolt > Entity - ;
-        LivingEntity > Entity - "AbsorptionAmount" as absorption_amount: f32, optional "ActiveEffects" as active_effects: Vec<fastnbt::Value>, "Attributes" as attributes: Vec<fastnbt::Value>, optional "Brain" as brain: fastnbt::Value, "DeathTime" as death_time: i16, "FallFlying" as fall_flying: bool, "Health" as health: f32, "HurtByTimestamp" as hurt_by_timestamp: i32, "HurtTime" as hurt_time: i16, optional "SleepingX" as sleeping_x: i32, optional "SleepingY" as sleeping_y: i32, optional "SleepingZ" as sleeping_z: i32;
+        LivingEntity > Entity - "AbsorptionAmount" as absorption_amount: f32, optional "ActiveEffects" as active_effects: Vec<std::collections::HashMap<String, fastnbt::Value>>, "Attributes" as attributes: Vec<fastnbt::Value>, optional "Brain" as brain: fastnbt::Value, "DeathTime" as death_time: i16, "FallFlying" as fall_flying: bool, "Health" as health: f32, "HurtByTimestamp" as hurt_by_timestamp: i32, "HurtTime" as hurt_time: i16, optional "SleepingX" as sleeping_x: i32, optional "SleepingY" as sleeping_y: i32, optional "SleepingZ" as sleeping_z: i32;
         Llama > AbstractChestedHorse - optional "DecorItem" as decor_item: std::collections::HashMap<String, fastnbt::Value>, "Strength" as strength: i32, "Variant" as variant: i32;
         LlamaSpit > Projectile - ;
         MagmaCube > Slime - ;
@@ -692,7 +702,7 @@ pub mod mc1_16 {
         MinecartHopper > AbstractMinecartContainer - "Enabled" as enabled: bool, "TransferCooldown" as transfer_cooldown: i32;
         MinecartSpawner > AbstractMinecart - ;
         MinecartTNT > AbstractMinecart - "TNTFuse" as tnt_fuse: i32;
-        Mob > LivingEntity - "ArmorDropChances" as armor_drop_chances: Vec<fastnbt::Value>, "ArmorItems" as armor_items: Vec<fastnbt::Value>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: String, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<fastnbt::Value>, "HandItems" as hand_items: Vec<fastnbt::Value>, "Leash" as leash: std::collections::HashMap<String, fastnbt::Value>, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool, optional "UUID" as uuid: u128, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32;
+        Mob > LivingEntity - "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: String, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "Leash" as leash: super::compounds::Compound0, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool;
         Monster > PathfinderMob - ;
         Mule > AbstractChestedHorse - ;
         MushroomCow > Cow - optional "EffectDuration" as effect_duration: i32, optional "EffectId" as effect_id: u8, "Type" as r#type: String;
@@ -706,7 +716,7 @@ pub mod mc1_16 {
         Pig > Animal - ;
         Piglin > AbstractPiglin - optional "CannotHunt" as cannot_hunt: bool, "Inventory" as inventory: Vec<fastnbt::Value>, optional "IsBaby" as is_baby: bool;
         PiglinBrute > AbstractPiglin - ;
-        Pillager > AbstractIllager - "Inventory" as inventory: Vec<fastnbt::Value>;
+        Pillager > AbstractIllager - "Inventory" as inventory: Vec<std::collections::HashMap<String, fastnbt::Value>>;
         PolarBear > Animal - ;
         PrimedTnt > Entity - "Fuse" as fuse: i16;
         Projectile > Entity - optional "LeftOwner" as left_owner: bool, optional "Owner" as owner: u128;
@@ -762,6 +772,8 @@ pub mod mc1_16 {
 
     entity_compound_types! {
         "1.16";
+        Compound0 - optional "UUID" as uuid: u128, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32;
+        Compound1 - optional "Slot" as slot: u8;
     }
 }
 
@@ -887,7 +899,7 @@ pub mod mc1_17_mc1_18 {
     entity_types! {
         "1.17-1.18";
         AbstractArrow > Projectile - "PierceLevel" as pierce_level: u8, "ShotFromCrossbow" as shot_from_crossbow: bool, "SoundEvent" as sound_event: String, "crit" as crit: bool, "damage" as damage: f64, optional "inBlockState" as in_block_state: std::collections::HashMap<String, fastnbt::Value>, "inGround" as in_ground: bool, "life" as life: i16, "pickup" as pickup: u8, "shake" as shake: u8;
-        AbstractChestedHorse > AbstractHorse - "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<fastnbt::Value>, optional "Slot" as slot: u8;
+        AbstractChestedHorse > AbstractHorse - "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<super::compounds::Compound1>;
         AbstractFish > WaterAnimal - "FromBucket" as from_bucket: bool;
         AbstractGolem > PathfinderMob - ;
         AbstractHorse > Animal - "Bred" as bred: bool, "EatingHaystack" as eating_haystack: bool, optional "Owner" as owner: u128, optional "SaddleItem" as saddle_item: std::collections::HashMap<String, fastnbt::Value>, "Tame" as tame: bool, "Temper" as temper: i32;
@@ -902,9 +914,9 @@ pub mod mc1_17_mc1_18 {
         AgeableMob > PathfinderMob - "Age" as age: i32, "ForcedAge" as forced_age: i32;
         AmbientCreature > Mob - ;
         Animal > AgeableMob - "InLove" as in_love: i32, optional "LoveCause" as love_cause: u128;
-        AreaEffectCloud > Entity - "Age" as age: i32, optional "Color" as color: i32, "Duration" as duration: i32, "DurationOnUse" as duration_on_use: i32, optional "Effects" as effects: Vec<fastnbt::Value>, optional "Owner" as owner: u128, "Particle" as particle: String, optional "Potion" as potion: String, "Radius" as radius: f32, "RadiusOnUse" as radius_on_use: f32, "RadiusPerTick" as radius_per_tick: f32, "ReapplicationDelay" as reapplication_delay: i32, "WaitTime" as wait_time: i32;
-        ArmorStand > LivingEntity - "ArmorItems" as armor_items: Vec<fastnbt::Value>, "DisabledSlots" as disabled_slots: i32, "HandItems" as hand_items: Vec<fastnbt::Value>, "Invisible" as invisible: bool, optional "Marker" as marker: bool, "NoBasePlate" as no_base_plate: bool, "Pose" as pose: std::collections::HashMap<String, fastnbt::Value>, "ShowArms" as show_arms: bool, "Small" as small: bool;
-        Arrow > AbstractArrow - optional "Color" as color: i32, optional "CustomPotionEffects" as custom_potion_effects: Vec<fastnbt::Value>, optional "Potion" as potion: String;
+        AreaEffectCloud > Entity - "Age" as age: i32, optional "Color" as color: i32, "Duration" as duration: i32, "DurationOnUse" as duration_on_use: i32, optional "Effects" as effects: Vec<std::collections::HashMap<String, fastnbt::Value>>, optional "Owner" as owner: u128, "Particle" as particle: String, optional "Potion" as potion: String, "Radius" as radius: f32, "RadiusOnUse" as radius_on_use: f32, "RadiusPerTick" as radius_per_tick: f32, "ReapplicationDelay" as reapplication_delay: i32, "WaitTime" as wait_time: i32;
+        ArmorStand > LivingEntity - "ArmorItems" as armor_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "DisabledSlots" as disabled_slots: i32, "HandItems" as hand_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "Invisible" as invisible: bool, optional "Marker" as marker: bool, "NoBasePlate" as no_base_plate: bool, "Pose" as pose: std::collections::HashMap<String, fastnbt::Value>, "ShowArms" as show_arms: bool, "Small" as small: bool;
+        Arrow > AbstractArrow - optional "Color" as color: i32, optional "CustomPotionEffects" as custom_potion_effects: Vec<std::collections::HashMap<String, fastnbt::Value>>, optional "Potion" as potion: String;
         Axolotl > Animal - "FromBucket" as from_bucket: bool, "Variant" as variant: i32;
         Bat > AmbientCreature - "BatFlags" as bat_flags: u8;
         Bee > Animal - "CannotEnterHiveTicks" as cannot_enter_hive_ticks: i32, "CropsGrownSincePollination" as crops_grown_since_pollination: i32, optional "FlowerPos" as flower_pos: std::collections::HashMap<String, fastnbt::Value>, "HasNectar" as has_nectar: bool, "HasStung" as has_stung: bool, optional "HivePos" as hive_pos: std::collections::HashMap<String, fastnbt::Value>, "TicksSincePollination" as ticks_since_pollination: i32;
@@ -925,7 +937,7 @@ pub mod mc1_17_mc1_18 {
         EnderDragon > Mob - "DragonDeathTime" as dragon_death_time: i32, "DragonPhase" as dragon_phase: i32;
         EnderMan > Monster - optional "carriedBlockState" as carried_block_state: std::collections::HashMap<String, fastnbt::Value>;
         Endermite > Monster - "Lifetime" as lifetime: i32;
-        Entity - "Air" as air: i16, optional "CustomName" as custom_name: String, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, optional "HasVisualFire" as has_visual_fire: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<fastnbt::Value>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<fastnbt::Value>, "PortalCooldown" as portal_cooldown: i32, "Pos" as pos: Vec<fastnbt::Value>, "Rotation" as rotation: Vec<fastnbt::Value>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<fastnbt::Value>, optional "TicksFrozen" as ticks_frozen: i32, "UUID" as uuid: u128;
+        Entity - "Air" as air: i16, optional "CustomName" as custom_name: String, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, optional "HasVisualFire" as has_visual_fire: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<fastnbt::Value>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<std::collections::HashMap<String, fastnbt::Value>>, "PortalCooldown" as portal_cooldown: i32, "Pos" as pos: Vec<fastnbt::Value>, "Rotation" as rotation: Vec<fastnbt::Value>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<String>, optional "TicksFrozen" as ticks_frozen: i32, "UUID" as uuid: u128;
         Evoker > SpellcasterIllager - ;
         EvokerFangs > Entity - optional "Owner" as owner: u128, "Warmup" as warmup: i32;
         ExperienceOrb > Entity - "Age" as age: i16, "Count" as count: i32, "Health" as health: i16, "Value" as value: i16;
@@ -935,7 +947,7 @@ pub mod mc1_17_mc1_18 {
         FireworkRocketEntity > Projectile - optional "FireworksItem" as fireworks_item: std::collections::HashMap<String, fastnbt::Value>, "Life" as life: i32, "LifeTime" as life_time: i32, "ShotAtAngle" as shot_at_angle: bool;
         FishingHook > Projectile - ;
         FlyingMob > Mob - ;
-        Fox > Animal - "Crouching" as crouching: bool, "Sitting" as sitting: bool, "Sleeping" as sleeping: bool, "Trusted" as trusted: Vec<fastnbt::Value>, "Type" as r#type: String;
+        Fox > Animal - "Crouching" as crouching: bool, "Sitting" as sitting: bool, "Sleeping" as sleeping: bool, "Trusted" as trusted: Vec<fastnbt::IntArray>, "Type" as r#type: String;
         Ghast > FlyingMob - "ExplosionPower" as explosion_power: u8;
         Giant > Monster - ;
         GlowItemFrame > ItemFrame - ;
@@ -953,7 +965,7 @@ pub mod mc1_17_mc1_18 {
         LargeFireball > Fireball - "ExplosionPower" as explosion_power: u8;
         LeashFenceKnotEntity > HangingEntity - ;
         LightningBolt > Entity - ;
-        LivingEntity > Entity - "AbsorptionAmount" as absorption_amount: f32, optional "ActiveEffects" as active_effects: Vec<fastnbt::Value>, "Attributes" as attributes: Vec<fastnbt::Value>, optional "Brain" as brain: fastnbt::Value, "DeathTime" as death_time: i16, "FallFlying" as fall_flying: bool, "Health" as health: f32, "HurtByTimestamp" as hurt_by_timestamp: i32, "HurtTime" as hurt_time: i16, optional "SleepingX" as sleeping_x: i32, optional "SleepingY" as sleeping_y: i32, optional "SleepingZ" as sleeping_z: i32;
+        LivingEntity > Entity - "AbsorptionAmount" as absorption_amount: f32, optional "ActiveEffects" as active_effects: Vec<std::collections::HashMap<String, fastnbt::Value>>, "Attributes" as attributes: Vec<fastnbt::Value>, optional "Brain" as brain: fastnbt::Value, "DeathTime" as death_time: i16, "FallFlying" as fall_flying: bool, "Health" as health: f32, "HurtByTimestamp" as hurt_by_timestamp: i32, "HurtTime" as hurt_time: i16, optional "SleepingX" as sleeping_x: i32, optional "SleepingY" as sleeping_y: i32, optional "SleepingZ" as sleeping_z: i32;
         Llama > AbstractChestedHorse - optional "DecorItem" as decor_item: std::collections::HashMap<String, fastnbt::Value>, "Strength" as strength: i32, "Variant" as variant: i32;
         LlamaSpit > Projectile - ;
         MagmaCube > Slime - ;
@@ -965,7 +977,7 @@ pub mod mc1_17_mc1_18 {
         MinecartHopper > AbstractMinecartContainer - "Enabled" as enabled: bool, "TransferCooldown" as transfer_cooldown: i32;
         MinecartSpawner > AbstractMinecart - ;
         MinecartTNT > AbstractMinecart - "TNTFuse" as tnt_fuse: i32;
-        Mob > LivingEntity - "ArmorDropChances" as armor_drop_chances: Vec<fastnbt::Value>, "ArmorItems" as armor_items: Vec<fastnbt::Value>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: String, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<fastnbt::Value>, "HandItems" as hand_items: Vec<fastnbt::Value>, "Leash" as leash: std::collections::HashMap<String, fastnbt::Value>, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool, optional "UUID" as uuid: u128, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32;
+        Mob > LivingEntity - "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: String, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "Leash" as leash: super::compounds::Compound0, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool;
         Monster > PathfinderMob - ;
         Mule > AbstractChestedHorse - ;
         MushroomCow > Cow - optional "EffectDuration" as effect_duration: i32, optional "EffectId" as effect_id: u8, "Type" as r#type: String;
@@ -979,7 +991,7 @@ pub mod mc1_17_mc1_18 {
         Pig > Animal - ;
         Piglin > AbstractPiglin - optional "CannotHunt" as cannot_hunt: bool, "Inventory" as inventory: Vec<fastnbt::Value>, optional "IsBaby" as is_baby: bool;
         PiglinBrute > AbstractPiglin - ;
-        Pillager > AbstractIllager - "Inventory" as inventory: Vec<fastnbt::Value>;
+        Pillager > AbstractIllager - "Inventory" as inventory: Vec<std::collections::HashMap<String, fastnbt::Value>>;
         PolarBear > Animal - ;
         PrimedTnt > Entity - "Fuse" as fuse: i16;
         Projectile > Entity - "HasBeenShot" as has_been_shot: bool, optional "LeftOwner" as left_owner: bool, optional "Owner" as owner: u128;
@@ -1035,6 +1047,8 @@ pub mod mc1_17_mc1_18 {
 
     entity_compound_types! {
         "1.17-1.18";
+        Compound0 - optional "UUID" as uuid: u128, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32;
+        Compound1 - optional "Slot" as slot: u8;
     }
 }
 
@@ -1165,7 +1179,7 @@ pub mod mc1_19 {
     entity_types! {
         "1.19";
         AbstractArrow > Projectile - "PierceLevel" as pierce_level: u8, "ShotFromCrossbow" as shot_from_crossbow: bool, "SoundEvent" as sound_event: String, "crit" as crit: bool, "damage" as damage: f64, optional "inBlockState" as in_block_state: std::collections::HashMap<String, fastnbt::Value>, "inGround" as in_ground: bool, "life" as life: i16, "pickup" as pickup: u8, "shake" as shake: u8;
-        AbstractChestedHorse > AbstractHorse - "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<fastnbt::Value>, optional "Slot" as slot: u8;
+        AbstractChestedHorse > AbstractHorse - "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<super::compounds::Compound1>;
         AbstractFish > WaterAnimal - "FromBucket" as from_bucket: bool;
         AbstractGolem > PathfinderMob - ;
         AbstractHorse > Animal - "Bred" as bred: bool, "EatingHaystack" as eating_haystack: bool, optional "Owner" as owner: u128, optional "SaddleItem" as saddle_item: std::collections::HashMap<String, fastnbt::Value>, "Tame" as tame: bool, "Temper" as temper: i32;
@@ -1181,9 +1195,9 @@ pub mod mc1_19 {
         Allay > PathfinderMob - "CanDuplicate" as can_duplicate: bool, "DuplicationCooldown" as duplication_cooldown: i64, "Inventory" as inventory: Vec<fastnbt::Value>, optional "listener" as listener: fastnbt::Value;
         AmbientCreature > Mob - ;
         Animal > AgeableMob - "InLove" as in_love: i32, optional "LoveCause" as love_cause: u128;
-        AreaEffectCloud > Entity - "Age" as age: i32, optional "Color" as color: i32, "Duration" as duration: i32, "DurationOnUse" as duration_on_use: i32, optional "Effects" as effects: Vec<fastnbt::Value>, optional "Owner" as owner: u128, "Particle" as particle: String, optional "Potion" as potion: String, "Radius" as radius: f32, "RadiusOnUse" as radius_on_use: f32, "RadiusPerTick" as radius_per_tick: f32, "ReapplicationDelay" as reapplication_delay: i32, "WaitTime" as wait_time: i32;
-        ArmorStand > LivingEntity - "ArmorItems" as armor_items: Vec<fastnbt::Value>, "DisabledSlots" as disabled_slots: i32, "HandItems" as hand_items: Vec<fastnbt::Value>, "Invisible" as invisible: bool, optional "Marker" as marker: bool, "NoBasePlate" as no_base_plate: bool, "Pose" as pose: std::collections::HashMap<String, fastnbt::Value>, "ShowArms" as show_arms: bool, "Small" as small: bool;
-        Arrow > AbstractArrow - optional "Color" as color: i32, optional "CustomPotionEffects" as custom_potion_effects: Vec<fastnbt::Value>, optional "Potion" as potion: String;
+        AreaEffectCloud > Entity - "Age" as age: i32, optional "Color" as color: i32, "Duration" as duration: i32, "DurationOnUse" as duration_on_use: i32, optional "Effects" as effects: Vec<std::collections::HashMap<String, fastnbt::Value>>, optional "Owner" as owner: u128, "Particle" as particle: String, optional "Potion" as potion: String, "Radius" as radius: f32, "RadiusOnUse" as radius_on_use: f32, "RadiusPerTick" as radius_per_tick: f32, "ReapplicationDelay" as reapplication_delay: i32, "WaitTime" as wait_time: i32;
+        ArmorStand > LivingEntity - "ArmorItems" as armor_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "DisabledSlots" as disabled_slots: i32, "HandItems" as hand_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "Invisible" as invisible: bool, optional "Marker" as marker: bool, "NoBasePlate" as no_base_plate: bool, "Pose" as pose: std::collections::HashMap<String, fastnbt::Value>, "ShowArms" as show_arms: bool, "Small" as small: bool;
+        Arrow > AbstractArrow - optional "Color" as color: i32, optional "CustomPotionEffects" as custom_potion_effects: Vec<std::collections::HashMap<String, fastnbt::Value>>, optional "Potion" as potion: String;
         Axolotl > Animal - "FromBucket" as from_bucket: bool, "Variant" as variant: i32;
         Bat > AmbientCreature - "BatFlags" as bat_flags: u8;
         Bee > Animal - "CannotEnterHiveTicks" as cannot_enter_hive_ticks: i32, "CropsGrownSincePollination" as crops_grown_since_pollination: i32, optional "FlowerPos" as flower_pos: std::collections::HashMap<String, fastnbt::Value>, "HasNectar" as has_nectar: bool, "HasStung" as has_stung: bool, optional "HivePos" as hive_pos: std::collections::HashMap<String, fastnbt::Value>, "TicksSincePollination" as ticks_since_pollination: i32;
@@ -1205,7 +1219,7 @@ pub mod mc1_19 {
         EnderDragon > Mob - "DragonDeathTime" as dragon_death_time: i32, "DragonPhase" as dragon_phase: i32;
         EnderMan > Monster - optional "carriedBlockState" as carried_block_state: std::collections::HashMap<String, fastnbt::Value>;
         Endermite > Monster - "Lifetime" as lifetime: i32;
-        Entity - "Air" as air: i16, optional "CustomName" as custom_name: String, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, optional "HasVisualFire" as has_visual_fire: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<fastnbt::Value>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<fastnbt::Value>, "PortalCooldown" as portal_cooldown: i32, "Pos" as pos: Vec<fastnbt::Value>, "Rotation" as rotation: Vec<fastnbt::Value>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<fastnbt::Value>, optional "TicksFrozen" as ticks_frozen: i32, "UUID" as uuid: u128;
+        Entity - "Air" as air: i16, optional "CustomName" as custom_name: String, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, optional "HasVisualFire" as has_visual_fire: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<fastnbt::Value>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<std::collections::HashMap<String, fastnbt::Value>>, "PortalCooldown" as portal_cooldown: i32, "Pos" as pos: Vec<fastnbt::Value>, "Rotation" as rotation: Vec<fastnbt::Value>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<String>, optional "TicksFrozen" as ticks_frozen: i32, "UUID" as uuid: u128;
         Evoker > SpellcasterIllager - ;
         EvokerFangs > Entity - optional "Owner" as owner: u128, "Warmup" as warmup: i32;
         ExperienceOrb > Entity - "Age" as age: i16, "Count" as count: i32, "Health" as health: i16, "Value" as value: i16;
@@ -1215,7 +1229,7 @@ pub mod mc1_19 {
         FireworkRocketEntity > Projectile - optional "FireworksItem" as fireworks_item: std::collections::HashMap<String, fastnbt::Value>, "Life" as life: i32, "LifeTime" as life_time: i32, "ShotAtAngle" as shot_at_angle: bool;
         FishingHook > Projectile - ;
         FlyingMob > Mob - ;
-        Fox > Animal - "Crouching" as crouching: bool, "Sitting" as sitting: bool, "Sleeping" as sleeping: bool, "Trusted" as trusted: Vec<fastnbt::Value>, "Type" as r#type: String;
+        Fox > Animal - "Crouching" as crouching: bool, "Sitting" as sitting: bool, "Sleeping" as sleeping: bool, "Trusted" as trusted: Vec<fastnbt::IntArray>, "Type" as r#type: String;
         Frog > Animal - "variant" as variant: String;
         Ghast > FlyingMob - "ExplosionPower" as explosion_power: u8;
         Giant > Monster - ;
@@ -1234,7 +1248,7 @@ pub mod mc1_19 {
         LargeFireball > Fireball - "ExplosionPower" as explosion_power: u8;
         LeashFenceKnotEntity > HangingEntity - ;
         LightningBolt > Entity - ;
-        LivingEntity > Entity - "AbsorptionAmount" as absorption_amount: f32, optional "ActiveEffects" as active_effects: Vec<fastnbt::Value>, "Attributes" as attributes: Vec<fastnbt::Value>, optional "Brain" as brain: fastnbt::Value, "DeathTime" as death_time: i16, "FallFlying" as fall_flying: bool, "Health" as health: f32, "HurtByTimestamp" as hurt_by_timestamp: i32, "HurtTime" as hurt_time: i16, optional "SleepingX" as sleeping_x: i32, optional "SleepingY" as sleeping_y: i32, optional "SleepingZ" as sleeping_z: i32;
+        LivingEntity > Entity - "AbsorptionAmount" as absorption_amount: f32, optional "ActiveEffects" as active_effects: Vec<std::collections::HashMap<String, fastnbt::Value>>, "Attributes" as attributes: Vec<fastnbt::Value>, optional "Brain" as brain: fastnbt::Value, "DeathTime" as death_time: i16, "FallFlying" as fall_flying: bool, "Health" as health: f32, "HurtByTimestamp" as hurt_by_timestamp: i32, "HurtTime" as hurt_time: i16, optional "SleepingX" as sleeping_x: i32, optional "SleepingY" as sleeping_y: i32, optional "SleepingZ" as sleeping_z: i32;
         Llama > AbstractChestedHorse - optional "DecorItem" as decor_item: std::collections::HashMap<String, fastnbt::Value>, "Strength" as strength: i32, "Variant" as variant: i32;
         LlamaSpit > Projectile - ;
         MagmaCube > Slime - ;
@@ -1246,7 +1260,7 @@ pub mod mc1_19 {
         MinecartHopper > AbstractMinecartContainer - "Enabled" as enabled: bool, "TransferCooldown" as transfer_cooldown: i32;
         MinecartSpawner > AbstractMinecart - ;
         MinecartTNT > AbstractMinecart - "TNTFuse" as tnt_fuse: i32;
-        Mob > LivingEntity - "ArmorDropChances" as armor_drop_chances: Vec<fastnbt::Value>, "ArmorItems" as armor_items: Vec<fastnbt::Value>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: String, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<fastnbt::Value>, "HandItems" as hand_items: Vec<fastnbt::Value>, "Leash" as leash: std::collections::HashMap<String, fastnbt::Value>, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool, optional "UUID" as uuid: u128, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32;
+        Mob > LivingEntity - "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: String, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "Leash" as leash: super::compounds::Compound0, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool;
         Monster > PathfinderMob - ;
         Mule > AbstractChestedHorse - ;
         MushroomCow > Cow - optional "EffectDuration" as effect_duration: i32, optional "EffectId" as effect_id: i32, "Type" as r#type: String;
@@ -1260,7 +1274,7 @@ pub mod mc1_19 {
         Pig > Animal - ;
         Piglin > AbstractPiglin - optional "CannotHunt" as cannot_hunt: bool, "Inventory" as inventory: Vec<fastnbt::Value>, optional "IsBaby" as is_baby: bool;
         PiglinBrute > AbstractPiglin - ;
-        Pillager > AbstractIllager - "Inventory" as inventory: Vec<fastnbt::Value>;
+        Pillager > AbstractIllager - "Inventory" as inventory: Vec<std::collections::HashMap<String, fastnbt::Value>>;
         PolarBear > Animal - ;
         PrimedTnt > Entity - "Fuse" as fuse: i16;
         Projectile > Entity - "HasBeenShot" as has_been_shot: bool, optional "LeftOwner" as left_owner: bool, optional "Owner" as owner: u128;
@@ -1318,6 +1332,8 @@ pub mod mc1_19 {
 
     entity_compound_types! {
         "1.19";
+        Compound0 - optional "UUID" as uuid: u128, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32;
+        Compound1 - optional "Slot" as slot: u8;
     }
 }
 
@@ -1449,7 +1465,7 @@ pub mod mc1_19_3 {
     entity_types! {
         "1.19.3";
         AbstractArrow > Projectile - "PierceLevel" as pierce_level: u8, "ShotFromCrossbow" as shot_from_crossbow: bool, "SoundEvent" as sound_event: String, "crit" as crit: bool, "damage" as damage: f64, optional "inBlockState" as in_block_state: std::collections::HashMap<String, fastnbt::Value>, "inGround" as in_ground: bool, "life" as life: i16, "pickup" as pickup: u8, "shake" as shake: u8;
-        AbstractChestedHorse > AbstractHorse - "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<fastnbt::Value>, optional "Slot" as slot: u8;
+        AbstractChestedHorse > AbstractHorse - "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<super::compounds::Compound1>;
         AbstractFish > WaterAnimal - "FromBucket" as from_bucket: bool;
         AbstractGolem > PathfinderMob - ;
         AbstractHorse > Animal - "Bred" as bred: bool, "EatingHaystack" as eating_haystack: bool, optional "Owner" as owner: u128, optional "SaddleItem" as saddle_item: std::collections::HashMap<String, fastnbt::Value>, "Tame" as tame: bool, "Temper" as temper: i32;
@@ -1465,9 +1481,9 @@ pub mod mc1_19_3 {
         Allay > PathfinderMob - "CanDuplicate" as can_duplicate: bool, "DuplicationCooldown" as duplication_cooldown: i64, optional "listener" as listener: fastnbt::Value;
         AmbientCreature > Mob - ;
         Animal > AgeableMob - "InLove" as in_love: i32, optional "LoveCause" as love_cause: u128;
-        AreaEffectCloud > Entity - "Age" as age: i32, optional "Color" as color: i32, "Duration" as duration: i32, "DurationOnUse" as duration_on_use: i32, optional "Effects" as effects: Vec<fastnbt::Value>, optional "Owner" as owner: u128, "Particle" as particle: String, optional "Potion" as potion: String, "Radius" as radius: f32, "RadiusOnUse" as radius_on_use: f32, "RadiusPerTick" as radius_per_tick: f32, "ReapplicationDelay" as reapplication_delay: i32, "WaitTime" as wait_time: i32;
-        ArmorStand > LivingEntity - "ArmorItems" as armor_items: Vec<fastnbt::Value>, "DisabledSlots" as disabled_slots: i32, "HandItems" as hand_items: Vec<fastnbt::Value>, "Invisible" as invisible: bool, optional "Marker" as marker: bool, "NoBasePlate" as no_base_plate: bool, "Pose" as pose: std::collections::HashMap<String, fastnbt::Value>, "ShowArms" as show_arms: bool, "Small" as small: bool;
-        Arrow > AbstractArrow - optional "Color" as color: i32, optional "CustomPotionEffects" as custom_potion_effects: Vec<fastnbt::Value>, optional "Potion" as potion: String;
+        AreaEffectCloud > Entity - "Age" as age: i32, optional "Color" as color: i32, "Duration" as duration: i32, "DurationOnUse" as duration_on_use: i32, optional "Effects" as effects: Vec<std::collections::HashMap<String, fastnbt::Value>>, optional "Owner" as owner: u128, "Particle" as particle: String, optional "Potion" as potion: String, "Radius" as radius: f32, "RadiusOnUse" as radius_on_use: f32, "RadiusPerTick" as radius_per_tick: f32, "ReapplicationDelay" as reapplication_delay: i32, "WaitTime" as wait_time: i32;
+        ArmorStand > LivingEntity - "ArmorItems" as armor_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "DisabledSlots" as disabled_slots: i32, "HandItems" as hand_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "Invisible" as invisible: bool, optional "Marker" as marker: bool, "NoBasePlate" as no_base_plate: bool, "Pose" as pose: std::collections::HashMap<String, fastnbt::Value>, "ShowArms" as show_arms: bool, "Small" as small: bool;
+        Arrow > AbstractArrow - optional "Color" as color: i32, optional "CustomPotionEffects" as custom_potion_effects: Vec<std::collections::HashMap<String, fastnbt::Value>>, optional "Potion" as potion: String;
         Axolotl > Animal - "FromBucket" as from_bucket: bool, "Variant" as variant: i32;
         Bat > AmbientCreature - "BatFlags" as bat_flags: u8;
         Bee > Animal - "CannotEnterHiveTicks" as cannot_enter_hive_ticks: i32, "CropsGrownSincePollination" as crops_grown_since_pollination: i32, optional "FlowerPos" as flower_pos: std::collections::HashMap<String, fastnbt::Value>, "HasNectar" as has_nectar: bool, "HasStung" as has_stung: bool, optional "HivePos" as hive_pos: std::collections::HashMap<String, fastnbt::Value>, "TicksSincePollination" as ticks_since_pollination: i32;
@@ -1490,7 +1506,7 @@ pub mod mc1_19_3 {
         EnderDragon > Mob - "DragonDeathTime" as dragon_death_time: i32, "DragonPhase" as dragon_phase: i32;
         EnderMan > Monster - optional "carriedBlockState" as carried_block_state: std::collections::HashMap<String, fastnbt::Value>;
         Endermite > Monster - "Lifetime" as lifetime: i32;
-        Entity - "Air" as air: i16, optional "CustomName" as custom_name: String, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, optional "HasVisualFire" as has_visual_fire: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<fastnbt::Value>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<fastnbt::Value>, "PortalCooldown" as portal_cooldown: i32, "Pos" as pos: Vec<fastnbt::Value>, "Rotation" as rotation: Vec<fastnbt::Value>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<fastnbt::Value>, optional "TicksFrozen" as ticks_frozen: i32, "UUID" as uuid: u128;
+        Entity - "Air" as air: i16, optional "CustomName" as custom_name: String, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, optional "HasVisualFire" as has_visual_fire: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<fastnbt::Value>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<std::collections::HashMap<String, fastnbt::Value>>, "PortalCooldown" as portal_cooldown: i32, "Pos" as pos: Vec<fastnbt::Value>, "Rotation" as rotation: Vec<fastnbt::Value>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<String>, optional "TicksFrozen" as ticks_frozen: i32, "UUID" as uuid: u128;
         Evoker > SpellcasterIllager - ;
         EvokerFangs > Entity - optional "Owner" as owner: u128, "Warmup" as warmup: i32;
         ExperienceOrb > Entity - "Age" as age: i16, "Count" as count: i32, "Health" as health: i16, "Value" as value: i16;
@@ -1500,7 +1516,7 @@ pub mod mc1_19_3 {
         FireworkRocketEntity > Projectile - optional "FireworksItem" as fireworks_item: std::collections::HashMap<String, fastnbt::Value>, "Life" as life: i32, "LifeTime" as life_time: i32, "ShotAtAngle" as shot_at_angle: bool;
         FishingHook > Projectile - ;
         FlyingMob > Mob - ;
-        Fox > Animal - "Crouching" as crouching: bool, "Sitting" as sitting: bool, "Sleeping" as sleeping: bool, "Trusted" as trusted: Vec<fastnbt::Value>, "Type" as r#type: String;
+        Fox > Animal - "Crouching" as crouching: bool, "Sitting" as sitting: bool, "Sleeping" as sleeping: bool, "Trusted" as trusted: Vec<fastnbt::IntArray>, "Type" as r#type: String;
         Frog > Animal - "variant" as variant: String;
         Ghast > FlyingMob - "ExplosionPower" as explosion_power: u8;
         Giant > Monster - ;
@@ -1519,7 +1535,7 @@ pub mod mc1_19_3 {
         LargeFireball > Fireball - "ExplosionPower" as explosion_power: u8;
         LeashFenceKnotEntity > HangingEntity - ;
         LightningBolt > Entity - ;
-        LivingEntity > Entity - "AbsorptionAmount" as absorption_amount: f32, optional "ActiveEffects" as active_effects: Vec<fastnbt::Value>, "Attributes" as attributes: Vec<fastnbt::Value>, optional "Brain" as brain: fastnbt::Value, "DeathTime" as death_time: i16, "FallFlying" as fall_flying: bool, "Health" as health: f32, "HurtByTimestamp" as hurt_by_timestamp: i32, "HurtTime" as hurt_time: i16, optional "SleepingX" as sleeping_x: i32, optional "SleepingY" as sleeping_y: i32, optional "SleepingZ" as sleeping_z: i32;
+        LivingEntity > Entity - "AbsorptionAmount" as absorption_amount: f32, optional "ActiveEffects" as active_effects: Vec<std::collections::HashMap<String, fastnbt::Value>>, "Attributes" as attributes: Vec<fastnbt::Value>, optional "Brain" as brain: fastnbt::Value, "DeathTime" as death_time: i16, "FallFlying" as fall_flying: bool, "Health" as health: f32, "HurtByTimestamp" as hurt_by_timestamp: i32, "HurtTime" as hurt_time: i16, optional "SleepingX" as sleeping_x: i32, optional "SleepingY" as sleeping_y: i32, optional "SleepingZ" as sleeping_z: i32;
         Llama > AbstractChestedHorse - optional "DecorItem" as decor_item: std::collections::HashMap<String, fastnbt::Value>, "Strength" as strength: i32, "Variant" as variant: i32;
         LlamaSpit > Projectile - ;
         MagmaCube > Slime - ;
@@ -1531,7 +1547,7 @@ pub mod mc1_19_3 {
         MinecartHopper > AbstractMinecartContainer - "Enabled" as enabled: bool, "TransferCooldown" as transfer_cooldown: i32;
         MinecartSpawner > AbstractMinecart - ;
         MinecartTNT > AbstractMinecart - "TNTFuse" as tnt_fuse: i32;
-        Mob > LivingEntity - "ArmorDropChances" as armor_drop_chances: Vec<fastnbt::Value>, "ArmorItems" as armor_items: Vec<fastnbt::Value>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: String, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<fastnbt::Value>, "HandItems" as hand_items: Vec<fastnbt::Value>, "Leash" as leash: std::collections::HashMap<String, fastnbt::Value>, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool, optional "UUID" as uuid: u128, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32;
+        Mob > LivingEntity - "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: String, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "Leash" as leash: super::compounds::Compound0, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool;
         Monster > PathfinderMob - ;
         Mule > AbstractChestedHorse - ;
         MushroomCow > Cow - optional "EffectDuration" as effect_duration: i32, optional "EffectId" as effect_id: i32, "Type" as r#type: String;
@@ -1603,6 +1619,8 @@ pub mod mc1_19_3 {
 
     entity_compound_types! {
         "1.19.3";
+        Compound0 - optional "UUID" as uuid: u128, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32;
+        Compound1 - optional "Slot" as slot: u8;
     }
 }
 
@@ -1739,7 +1757,7 @@ pub mod mc1_19_4 {
     entity_types! {
         "1.19.4";
         AbstractArrow > Projectile - "PierceLevel" as pierce_level: u8, "ShotFromCrossbow" as shot_from_crossbow: bool, "SoundEvent" as sound_event: String, "crit" as crit: bool, "damage" as damage: f64, optional "inBlockState" as in_block_state: std::collections::HashMap<String, fastnbt::Value>, "inGround" as in_ground: bool, "life" as life: i16, "pickup" as pickup: u8, "shake" as shake: u8;
-        AbstractChestedHorse > AbstractHorse - "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<fastnbt::Value>, optional "Slot" as slot: u8;
+        AbstractChestedHorse > AbstractHorse - "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<super::compounds::Compound1>;
         AbstractFish > WaterAnimal - "FromBucket" as from_bucket: bool;
         AbstractGolem > PathfinderMob - ;
         AbstractHorse > Animal - "Bred" as bred: bool, "EatingHaystack" as eating_haystack: bool, optional "Owner" as owner: u128, optional "SaddleItem" as saddle_item: std::collections::HashMap<String, fastnbt::Value>, "Tame" as tame: bool, "Temper" as temper: i32;
@@ -1755,9 +1773,9 @@ pub mod mc1_19_4 {
         Allay > PathfinderMob - "CanDuplicate" as can_duplicate: bool, "DuplicationCooldown" as duplication_cooldown: i64, optional "listener" as listener: fastnbt::Value;
         AmbientCreature > Mob - ;
         Animal > AgeableMob - "InLove" as in_love: i32, optional "LoveCause" as love_cause: u128;
-        AreaEffectCloud > Entity - "Age" as age: i32, optional "Color" as color: i32, "Duration" as duration: i32, "DurationOnUse" as duration_on_use: i32, optional "Effects" as effects: Vec<fastnbt::Value>, optional "Owner" as owner: u128, "Particle" as particle: String, optional "Potion" as potion: String, "Radius" as radius: f32, "RadiusOnUse" as radius_on_use: f32, "RadiusPerTick" as radius_per_tick: f32, "ReapplicationDelay" as reapplication_delay: i32, "WaitTime" as wait_time: i32;
-        ArmorStand > LivingEntity - "ArmorItems" as armor_items: Vec<fastnbt::Value>, "DisabledSlots" as disabled_slots: i32, "HandItems" as hand_items: Vec<fastnbt::Value>, "Invisible" as invisible: bool, optional "Marker" as marker: bool, "NoBasePlate" as no_base_plate: bool, "Pose" as pose: std::collections::HashMap<String, fastnbt::Value>, "ShowArms" as show_arms: bool, "Small" as small: bool;
-        Arrow > AbstractArrow - optional "Color" as color: i32, optional "CustomPotionEffects" as custom_potion_effects: Vec<fastnbt::Value>, optional "Potion" as potion: String;
+        AreaEffectCloud > Entity - "Age" as age: i32, optional "Color" as color: i32, "Duration" as duration: i32, "DurationOnUse" as duration_on_use: i32, optional "Effects" as effects: Vec<std::collections::HashMap<String, fastnbt::Value>>, optional "Owner" as owner: u128, "Particle" as particle: String, optional "Potion" as potion: String, "Radius" as radius: f32, "RadiusOnUse" as radius_on_use: f32, "RadiusPerTick" as radius_per_tick: f32, "ReapplicationDelay" as reapplication_delay: i32, "WaitTime" as wait_time: i32;
+        ArmorStand > LivingEntity - "ArmorItems" as armor_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "DisabledSlots" as disabled_slots: i32, "HandItems" as hand_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "Invisible" as invisible: bool, optional "Marker" as marker: bool, "NoBasePlate" as no_base_plate: bool, "Pose" as pose: std::collections::HashMap<String, fastnbt::Value>, "ShowArms" as show_arms: bool, "Small" as small: bool;
+        Arrow > AbstractArrow - optional "Color" as color: i32, optional "CustomPotionEffects" as custom_potion_effects: Vec<std::collections::HashMap<String, fastnbt::Value>>, optional "Potion" as potion: String;
         Axolotl > Animal - "FromBucket" as from_bucket: bool, "Variant" as variant: i32;
         Bat > AmbientCreature - "BatFlags" as bat_flags: u8;
         Bee > Animal - "CannotEnterHiveTicks" as cannot_enter_hive_ticks: i32, "CropsGrownSincePollination" as crops_grown_since_pollination: i32, optional "FlowerPos" as flower_pos: std::collections::HashMap<String, fastnbt::Value>, "HasNectar" as has_nectar: bool, "HasStung" as has_stung: bool, optional "HivePos" as hive_pos: std::collections::HashMap<String, fastnbt::Value>, "TicksSincePollination" as ticks_since_pollination: i32;
@@ -1782,7 +1800,7 @@ pub mod mc1_19_4 {
         EnderDragon > Mob - "DragonDeathTime" as dragon_death_time: i32, "DragonPhase" as dragon_phase: i32;
         EnderMan > Monster - optional "carriedBlockState" as carried_block_state: std::collections::HashMap<String, fastnbt::Value>;
         Endermite > Monster - "Lifetime" as lifetime: i32;
-        Entity - "Air" as air: i16, optional "CustomName" as custom_name: String, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, optional "HasVisualFire" as has_visual_fire: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<fastnbt::Value>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<fastnbt::Value>, "PortalCooldown" as portal_cooldown: i32, "Pos" as pos: Vec<fastnbt::Value>, "Rotation" as rotation: Vec<fastnbt::Value>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<fastnbt::Value>, optional "TicksFrozen" as ticks_frozen: i32, "UUID" as uuid: u128;
+        Entity - "Air" as air: i16, optional "CustomName" as custom_name: String, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, optional "HasVisualFire" as has_visual_fire: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<fastnbt::Value>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<std::collections::HashMap<String, fastnbt::Value>>, "PortalCooldown" as portal_cooldown: i32, "Pos" as pos: Vec<fastnbt::Value>, "Rotation" as rotation: Vec<fastnbt::Value>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<String>, optional "TicksFrozen" as ticks_frozen: i32, "UUID" as uuid: u128;
         Evoker > SpellcasterIllager - ;
         EvokerFangs > Entity - optional "Owner" as owner: u128, "Warmup" as warmup: i32;
         ExperienceOrb > Entity - "Age" as age: i16, "Count" as count: i32, "Health" as health: i16, "Value" as value: i16;
@@ -1792,7 +1810,7 @@ pub mod mc1_19_4 {
         FireworkRocketEntity > Projectile - optional "FireworksItem" as fireworks_item: std::collections::HashMap<String, fastnbt::Value>, "Life" as life: i32, "LifeTime" as life_time: i32, "ShotAtAngle" as shot_at_angle: bool;
         FishingHook > Projectile - ;
         FlyingMob > Mob - ;
-        Fox > Animal - "Crouching" as crouching: bool, "Sitting" as sitting: bool, "Sleeping" as sleeping: bool, "Trusted" as trusted: Vec<fastnbt::Value>, "Type" as r#type: String;
+        Fox > Animal - "Crouching" as crouching: bool, "Sitting" as sitting: bool, "Sleeping" as sleeping: bool, "Trusted" as trusted: Vec<fastnbt::IntArray>, "Type" as r#type: String;
         Frog > Animal - "variant" as variant: String;
         Ghast > FlyingMob - "ExplosionPower" as explosion_power: u8;
         Giant > Monster - ;
@@ -1813,7 +1831,7 @@ pub mod mc1_19_4 {
         LargeFireball > Fireball - "ExplosionPower" as explosion_power: u8;
         LeashFenceKnotEntity > HangingEntity - ;
         LightningBolt > Entity - ;
-        LivingEntity > Entity - "AbsorptionAmount" as absorption_amount: f32, optional "ActiveEffects" as active_effects: Vec<fastnbt::Value>, "Attributes" as attributes: Vec<fastnbt::Value>, optional "Brain" as brain: fastnbt::Value, "DeathTime" as death_time: i16, "FallFlying" as fall_flying: bool, "Health" as health: f32, "HurtByTimestamp" as hurt_by_timestamp: i32, "HurtTime" as hurt_time: i16, optional "SleepingX" as sleeping_x: i32, optional "SleepingY" as sleeping_y: i32, optional "SleepingZ" as sleeping_z: i32;
+        LivingEntity > Entity - "AbsorptionAmount" as absorption_amount: f32, optional "ActiveEffects" as active_effects: Vec<std::collections::HashMap<String, fastnbt::Value>>, "Attributes" as attributes: Vec<fastnbt::Value>, optional "Brain" as brain: fastnbt::Value, "DeathTime" as death_time: i16, "FallFlying" as fall_flying: bool, "Health" as health: f32, "HurtByTimestamp" as hurt_by_timestamp: i32, "HurtTime" as hurt_time: i16, optional "SleepingX" as sleeping_x: i32, optional "SleepingY" as sleeping_y: i32, optional "SleepingZ" as sleeping_z: i32;
         Llama > AbstractChestedHorse - optional "DecorItem" as decor_item: std::collections::HashMap<String, fastnbt::Value>, "Strength" as strength: i32, "Variant" as variant: i32;
         LlamaSpit > Projectile - ;
         MagmaCube > Slime - ;
@@ -1825,7 +1843,7 @@ pub mod mc1_19_4 {
         MinecartHopper > AbstractMinecartContainer - "Enabled" as enabled: bool;
         MinecartSpawner > AbstractMinecart - ;
         MinecartTNT > AbstractMinecart - "TNTFuse" as tnt_fuse: i32;
-        Mob > LivingEntity - "ArmorDropChances" as armor_drop_chances: Vec<fastnbt::Value>, "ArmorItems" as armor_items: Vec<fastnbt::Value>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: String, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<fastnbt::Value>, "HandItems" as hand_items: Vec<fastnbt::Value>, "Leash" as leash: std::collections::HashMap<String, fastnbt::Value>, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool, optional "UUID" as uuid: u128, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32;
+        Mob > LivingEntity - "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: String, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "Leash" as leash: super::compounds::Compound0, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool;
         Monster > PathfinderMob - ;
         Mule > AbstractChestedHorse - ;
         MushroomCow > Cow - optional "EffectDuration" as effect_duration: i32, optional "EffectId" as effect_id: i32, "Type" as r#type: String;
@@ -1899,6 +1917,8 @@ pub mod mc1_19_4 {
 
     entity_compound_types! {
         "1.19.4";
+        Compound0 - optional "UUID" as uuid: u128, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32;
+        Compound1 - optional "Slot" as slot: u8;
     }
 }
 
@@ -2035,7 +2055,7 @@ pub mod mc1_20 {
     entity_types! {
         "1.20";
         AbstractArrow > Projectile - "PierceLevel" as pierce_level: u8, "ShotFromCrossbow" as shot_from_crossbow: bool, "SoundEvent" as sound_event: String, "crit" as crit: bool, "damage" as damage: f64, optional "inBlockState" as in_block_state: std::collections::HashMap<String, fastnbt::Value>, "inGround" as in_ground: bool, "life" as life: i16, "pickup" as pickup: u8, "shake" as shake: u8;
-        AbstractChestedHorse > AbstractHorse - "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<fastnbt::Value>, optional "Slot" as slot: u8;
+        AbstractChestedHorse > AbstractHorse - "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<super::compounds::Compound1>;
         AbstractFish > WaterAnimal - "FromBucket" as from_bucket: bool;
         AbstractGolem > PathfinderMob - ;
         AbstractHorse > Animal - "Bred" as bred: bool, "EatingHaystack" as eating_haystack: bool, optional "Owner" as owner: u128, optional "SaddleItem" as saddle_item: std::collections::HashMap<String, fastnbt::Value>, "Tame" as tame: bool, "Temper" as temper: i32;
@@ -2051,9 +2071,9 @@ pub mod mc1_20 {
         Allay > PathfinderMob - "CanDuplicate" as can_duplicate: bool, "DuplicationCooldown" as duplication_cooldown: i64, optional "listener" as listener: fastnbt::Value;
         AmbientCreature > Mob - ;
         Animal > AgeableMob - "InLove" as in_love: i32, optional "LoveCause" as love_cause: u128;
-        AreaEffectCloud > Entity - "Age" as age: i32, optional "Color" as color: i32, "Duration" as duration: i32, "DurationOnUse" as duration_on_use: i32, optional "Effects" as effects: Vec<fastnbt::Value>, optional "Owner" as owner: u128, "Particle" as particle: String, optional "Potion" as potion: String, "Radius" as radius: f32, "RadiusOnUse" as radius_on_use: f32, "RadiusPerTick" as radius_per_tick: f32, "ReapplicationDelay" as reapplication_delay: i32, "WaitTime" as wait_time: i32;
-        ArmorStand > LivingEntity - "ArmorItems" as armor_items: Vec<fastnbt::Value>, "DisabledSlots" as disabled_slots: i32, "HandItems" as hand_items: Vec<fastnbt::Value>, "Invisible" as invisible: bool, optional "Marker" as marker: bool, "NoBasePlate" as no_base_plate: bool, "Pose" as pose: std::collections::HashMap<String, fastnbt::Value>, "ShowArms" as show_arms: bool, "Small" as small: bool;
-        Arrow > AbstractArrow - optional "Color" as color: i32, optional "CustomPotionEffects" as custom_potion_effects: Vec<fastnbt::Value>, optional "Potion" as potion: String;
+        AreaEffectCloud > Entity - "Age" as age: i32, optional "Color" as color: i32, "Duration" as duration: i32, "DurationOnUse" as duration_on_use: i32, optional "Effects" as effects: Vec<std::collections::HashMap<String, fastnbt::Value>>, optional "Owner" as owner: u128, "Particle" as particle: String, optional "Potion" as potion: String, "Radius" as radius: f32, "RadiusOnUse" as radius_on_use: f32, "RadiusPerTick" as radius_per_tick: f32, "ReapplicationDelay" as reapplication_delay: i32, "WaitTime" as wait_time: i32;
+        ArmorStand > LivingEntity - "ArmorItems" as armor_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "DisabledSlots" as disabled_slots: i32, "HandItems" as hand_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "Invisible" as invisible: bool, optional "Marker" as marker: bool, "NoBasePlate" as no_base_plate: bool, "Pose" as pose: std::collections::HashMap<String, fastnbt::Value>, "ShowArms" as show_arms: bool, "Small" as small: bool;
+        Arrow > AbstractArrow - optional "Color" as color: i32, optional "CustomPotionEffects" as custom_potion_effects: Vec<std::collections::HashMap<String, fastnbt::Value>>, optional "Potion" as potion: String;
         Axolotl > Animal - "FromBucket" as from_bucket: bool, "Variant" as variant: i32;
         Bat > AmbientCreature - "BatFlags" as bat_flags: u8;
         Bee > Animal - "CannotEnterHiveTicks" as cannot_enter_hive_ticks: i32, "CropsGrownSincePollination" as crops_grown_since_pollination: i32, optional "FlowerPos" as flower_pos: std::collections::HashMap<String, fastnbt::Value>, "HasNectar" as has_nectar: bool, "HasStung" as has_stung: bool, optional "HivePos" as hive_pos: std::collections::HashMap<String, fastnbt::Value>, "TicksSincePollination" as ticks_since_pollination: i32;
@@ -2078,7 +2098,7 @@ pub mod mc1_20 {
         EnderDragon > Mob - "DragonDeathTime" as dragon_death_time: i32, "DragonPhase" as dragon_phase: i32;
         EnderMan > Monster - optional "carriedBlockState" as carried_block_state: std::collections::HashMap<String, fastnbt::Value>;
         Endermite > Monster - "Lifetime" as lifetime: i32;
-        Entity - "Air" as air: i16, optional "CustomName" as custom_name: String, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, optional "HasVisualFire" as has_visual_fire: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<fastnbt::Value>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<fastnbt::Value>, "PortalCooldown" as portal_cooldown: i32, "Pos" as pos: Vec<fastnbt::Value>, "Rotation" as rotation: Vec<fastnbt::Value>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<fastnbt::Value>, optional "TicksFrozen" as ticks_frozen: i32, "UUID" as uuid: u128;
+        Entity - "Air" as air: i16, optional "CustomName" as custom_name: String, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, optional "HasVisualFire" as has_visual_fire: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<fastnbt::Value>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<std::collections::HashMap<String, fastnbt::Value>>, "PortalCooldown" as portal_cooldown: i32, "Pos" as pos: Vec<fastnbt::Value>, "Rotation" as rotation: Vec<fastnbt::Value>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<String>, optional "TicksFrozen" as ticks_frozen: i32, "UUID" as uuid: u128;
         Evoker > SpellcasterIllager - ;
         EvokerFangs > Entity - optional "Owner" as owner: u128, "Warmup" as warmup: i32;
         ExperienceOrb > Entity - "Age" as age: i16, "Count" as count: i32, "Health" as health: i16, "Value" as value: i16;
@@ -2088,7 +2108,7 @@ pub mod mc1_20 {
         FireworkRocketEntity > Projectile - optional "FireworksItem" as fireworks_item: std::collections::HashMap<String, fastnbt::Value>, "Life" as life: i32, "LifeTime" as life_time: i32, "ShotAtAngle" as shot_at_angle: bool;
         FishingHook > Projectile - ;
         FlyingMob > Mob - ;
-        Fox > Animal - "Crouching" as crouching: bool, "Sitting" as sitting: bool, "Sleeping" as sleeping: bool, "Trusted" as trusted: Vec<fastnbt::Value>, "Type" as r#type: String;
+        Fox > Animal - "Crouching" as crouching: bool, "Sitting" as sitting: bool, "Sleeping" as sleeping: bool, "Trusted" as trusted: Vec<fastnbt::IntArray>, "Type" as r#type: String;
         Frog > Animal - "variant" as variant: String;
         Ghast > FlyingMob - "ExplosionPower" as explosion_power: u8;
         Giant > Monster - ;
@@ -2109,7 +2129,7 @@ pub mod mc1_20 {
         LargeFireball > Fireball - "ExplosionPower" as explosion_power: u8;
         LeashFenceKnotEntity > HangingEntity - ;
         LightningBolt > Entity - ;
-        LivingEntity > Entity - "AbsorptionAmount" as absorption_amount: f32, optional "ActiveEffects" as active_effects: Vec<fastnbt::Value>, "Attributes" as attributes: Vec<fastnbt::Value>, optional "Brain" as brain: fastnbt::Value, "DeathTime" as death_time: i16, "FallFlying" as fall_flying: bool, "Health" as health: f32, "HurtByTimestamp" as hurt_by_timestamp: i32, "HurtTime" as hurt_time: i16, optional "SleepingX" as sleeping_x: i32, optional "SleepingY" as sleeping_y: i32, optional "SleepingZ" as sleeping_z: i32;
+        LivingEntity > Entity - "AbsorptionAmount" as absorption_amount: f32, optional "ActiveEffects" as active_effects: Vec<std::collections::HashMap<String, fastnbt::Value>>, "Attributes" as attributes: Vec<fastnbt::Value>, optional "Brain" as brain: fastnbt::Value, "DeathTime" as death_time: i16, "FallFlying" as fall_flying: bool, "Health" as health: f32, "HurtByTimestamp" as hurt_by_timestamp: i32, "HurtTime" as hurt_time: i16, optional "SleepingX" as sleeping_x: i32, optional "SleepingY" as sleeping_y: i32, optional "SleepingZ" as sleeping_z: i32;
         Llama > AbstractChestedHorse - optional "DecorItem" as decor_item: std::collections::HashMap<String, fastnbt::Value>, "Strength" as strength: i32, "Variant" as variant: i32;
         LlamaSpit > Projectile - ;
         MagmaCube > Slime - ;
@@ -2121,7 +2141,7 @@ pub mod mc1_20 {
         MinecartHopper > AbstractMinecartContainer - "Enabled" as enabled: bool;
         MinecartSpawner > AbstractMinecart - ;
         MinecartTNT > AbstractMinecart - "TNTFuse" as tnt_fuse: i32;
-        Mob > LivingEntity - "ArmorDropChances" as armor_drop_chances: Vec<fastnbt::Value>, "ArmorItems" as armor_items: Vec<fastnbt::Value>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: String, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<fastnbt::Value>, "HandItems" as hand_items: Vec<fastnbt::Value>, "Leash" as leash: std::collections::HashMap<String, fastnbt::Value>, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool, optional "UUID" as uuid: u128, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32;
+        Mob > LivingEntity - "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: String, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "Leash" as leash: super::compounds::Compound0, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool;
         Monster > PathfinderMob - ;
         Mule > AbstractChestedHorse - ;
         MushroomCow > Cow - optional "EffectDuration" as effect_duration: i32, optional "EffectId" as effect_id: i32, "Type" as r#type: String;
@@ -2195,6 +2215,8 @@ pub mod mc1_20 {
 
     entity_compound_types! {
         "1.20";
+        Compound0 - optional "UUID" as uuid: u128, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32;
+        Compound1 - optional "Slot" as slot: u8;
     }
 }
 
@@ -2331,7 +2353,7 @@ pub mod mc1_20_2 {
     entity_types! {
         "1.20.2";
         AbstractArrow > Projectile - "PierceLevel" as pierce_level: u8, "ShotFromCrossbow" as shot_from_crossbow: bool, "SoundEvent" as sound_event: String, "crit" as crit: bool, "damage" as damage: f64, optional "inBlockState" as in_block_state: std::collections::HashMap<String, fastnbt::Value>, "inGround" as in_ground: bool, "life" as life: i16, "pickup" as pickup: u8, "shake" as shake: u8;
-        AbstractChestedHorse > AbstractHorse - "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<fastnbt::Value>, optional "Slot" as slot: u8;
+        AbstractChestedHorse > AbstractHorse - "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<super::compounds::Compound1>;
         AbstractFish > WaterAnimal - "FromBucket" as from_bucket: bool;
         AbstractGolem > PathfinderMob - ;
         AbstractHorse > Animal - "Bred" as bred: bool, "EatingHaystack" as eating_haystack: bool, optional "Owner" as owner: u128, optional "SaddleItem" as saddle_item: std::collections::HashMap<String, fastnbt::Value>, "Tame" as tame: bool, "Temper" as temper: i32;
@@ -2347,9 +2369,9 @@ pub mod mc1_20_2 {
         Allay > PathfinderMob - "CanDuplicate" as can_duplicate: bool, "DuplicationCooldown" as duplication_cooldown: i64, optional "listener" as listener: fastnbt::Value;
         AmbientCreature > Mob - ;
         Animal > AgeableMob - "InLove" as in_love: i32, optional "LoveCause" as love_cause: u128;
-        AreaEffectCloud > Entity - "Age" as age: i32, optional "Color" as color: i32, "Duration" as duration: i32, "DurationOnUse" as duration_on_use: i32, optional "Owner" as owner: u128, "Particle" as particle: String, optional "Potion" as potion: String, "Radius" as radius: f32, "RadiusOnUse" as radius_on_use: f32, "RadiusPerTick" as radius_per_tick: f32, "ReapplicationDelay" as reapplication_delay: i32, "WaitTime" as wait_time: i32, optional "effects" as effects: Vec<fastnbt::Value>;
-        ArmorStand > LivingEntity - "ArmorItems" as armor_items: Vec<fastnbt::Value>, "DisabledSlots" as disabled_slots: i32, "HandItems" as hand_items: Vec<fastnbt::Value>, "Invisible" as invisible: bool, optional "Marker" as marker: bool, "NoBasePlate" as no_base_plate: bool, "Pose" as pose: std::collections::HashMap<String, fastnbt::Value>, "ShowArms" as show_arms: bool, "Small" as small: bool;
-        Arrow > AbstractArrow - optional "Color" as color: i32, optional "Potion" as potion: String, optional "custom_potion_effects" as custom_potion_effects: Vec<fastnbt::Value>;
+        AreaEffectCloud > Entity - "Age" as age: i32, optional "Color" as color: i32, "Duration" as duration: i32, "DurationOnUse" as duration_on_use: i32, optional "Owner" as owner: u128, "Particle" as particle: String, optional "Potion" as potion: String, "Radius" as radius: f32, "RadiusOnUse" as radius_on_use: f32, "RadiusPerTick" as radius_per_tick: f32, "ReapplicationDelay" as reapplication_delay: i32, "WaitTime" as wait_time: i32, optional "effects" as effects: Vec<std::collections::HashMap<String, fastnbt::Value>>;
+        ArmorStand > LivingEntity - "ArmorItems" as armor_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "DisabledSlots" as disabled_slots: i32, "HandItems" as hand_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "Invisible" as invisible: bool, optional "Marker" as marker: bool, "NoBasePlate" as no_base_plate: bool, "Pose" as pose: std::collections::HashMap<String, fastnbt::Value>, "ShowArms" as show_arms: bool, "Small" as small: bool;
+        Arrow > AbstractArrow - optional "Color" as color: i32, optional "Potion" as potion: String, optional "custom_potion_effects" as custom_potion_effects: Vec<std::collections::HashMap<String, fastnbt::Value>>;
         Axolotl > Animal - "FromBucket" as from_bucket: bool, "Variant" as variant: i32;
         Bat > AmbientCreature - "BatFlags" as bat_flags: u8;
         Bee > Animal - "CannotEnterHiveTicks" as cannot_enter_hive_ticks: i32, "CropsGrownSincePollination" as crops_grown_since_pollination: i32, optional "FlowerPos" as flower_pos: std::collections::HashMap<String, fastnbt::Value>, "HasNectar" as has_nectar: bool, "HasStung" as has_stung: bool, optional "HivePos" as hive_pos: std::collections::HashMap<String, fastnbt::Value>, "TicksSincePollination" as ticks_since_pollination: i32;
@@ -2374,7 +2396,7 @@ pub mod mc1_20_2 {
         EnderDragon > Mob - "DragonDeathTime" as dragon_death_time: i32, "DragonPhase" as dragon_phase: i32;
         EnderMan > Monster - optional "carriedBlockState" as carried_block_state: std::collections::HashMap<String, fastnbt::Value>;
         Endermite > Monster - "Lifetime" as lifetime: i32;
-        Entity - "Air" as air: i16, optional "CustomName" as custom_name: String, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, optional "HasVisualFire" as has_visual_fire: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<fastnbt::Value>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<fastnbt::Value>, "PortalCooldown" as portal_cooldown: i32, "Pos" as pos: Vec<fastnbt::Value>, "Rotation" as rotation: Vec<fastnbt::Value>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<fastnbt::Value>, optional "TicksFrozen" as ticks_frozen: i32, "UUID" as uuid: u128;
+        Entity - "Air" as air: i16, optional "CustomName" as custom_name: String, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, optional "HasVisualFire" as has_visual_fire: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<fastnbt::Value>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<std::collections::HashMap<String, fastnbt::Value>>, "PortalCooldown" as portal_cooldown: i32, "Pos" as pos: Vec<fastnbt::Value>, "Rotation" as rotation: Vec<fastnbt::Value>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<String>, optional "TicksFrozen" as ticks_frozen: i32, "UUID" as uuid: u128;
         Evoker > SpellcasterIllager - ;
         EvokerFangs > Entity - optional "Owner" as owner: u128, "Warmup" as warmup: i32;
         ExperienceOrb > Entity - "Age" as age: i16, "Count" as count: i32, "Health" as health: i16, "Value" as value: i16;
@@ -2384,7 +2406,7 @@ pub mod mc1_20_2 {
         FireworkRocketEntity > Projectile - optional "FireworksItem" as fireworks_item: std::collections::HashMap<String, fastnbt::Value>, "Life" as life: i32, "LifeTime" as life_time: i32, "ShotAtAngle" as shot_at_angle: bool;
         FishingHook > Projectile - ;
         FlyingMob > Mob - ;
-        Fox > Animal - "Crouching" as crouching: bool, "Sitting" as sitting: bool, "Sleeping" as sleeping: bool, "Trusted" as trusted: Vec<fastnbt::Value>, "Type" as r#type: String;
+        Fox > Animal - "Crouching" as crouching: bool, "Sitting" as sitting: bool, "Sleeping" as sleeping: bool, "Trusted" as trusted: Vec<fastnbt::IntArray>, "Type" as r#type: String;
         Frog > Animal - "variant" as variant: String;
         Ghast > FlyingMob - "ExplosionPower" as explosion_power: u8;
         Giant > Monster - ;
@@ -2405,7 +2427,7 @@ pub mod mc1_20_2 {
         LargeFireball > Fireball - "ExplosionPower" as explosion_power: u8;
         LeashFenceKnotEntity > HangingEntity - ;
         LightningBolt > Entity - ;
-        LivingEntity > Entity - "AbsorptionAmount" as absorption_amount: f32, "Attributes" as attributes: Vec<fastnbt::Value>, optional "Brain" as brain: fastnbt::Value, "DeathTime" as death_time: i16, "FallFlying" as fall_flying: bool, "Health" as health: f32, "HurtByTimestamp" as hurt_by_timestamp: i32, "HurtTime" as hurt_time: i16, optional "SleepingX" as sleeping_x: i32, optional "SleepingY" as sleeping_y: i32, optional "SleepingZ" as sleeping_z: i32, optional "active_effects" as active_effects: Vec<fastnbt::Value>;
+        LivingEntity > Entity - "AbsorptionAmount" as absorption_amount: f32, "Attributes" as attributes: Vec<fastnbt::Value>, optional "Brain" as brain: fastnbt::Value, "DeathTime" as death_time: i16, "FallFlying" as fall_flying: bool, "Health" as health: f32, "HurtByTimestamp" as hurt_by_timestamp: i32, "HurtTime" as hurt_time: i16, optional "SleepingX" as sleeping_x: i32, optional "SleepingY" as sleeping_y: i32, optional "SleepingZ" as sleeping_z: i32, optional "active_effects" as active_effects: Vec<std::collections::HashMap<String, fastnbt::Value>>;
         Llama > AbstractChestedHorse - optional "DecorItem" as decor_item: std::collections::HashMap<String, fastnbt::Value>, "Strength" as strength: i32, "Variant" as variant: i32;
         LlamaSpit > Projectile - ;
         MagmaCube > Slime - ;
@@ -2417,7 +2439,7 @@ pub mod mc1_20_2 {
         MinecartHopper > AbstractMinecartContainer - "Enabled" as enabled: bool;
         MinecartSpawner > AbstractMinecart - ;
         MinecartTNT > AbstractMinecart - "TNTFuse" as tnt_fuse: i32;
-        Mob > LivingEntity - "ArmorDropChances" as armor_drop_chances: Vec<fastnbt::Value>, "ArmorItems" as armor_items: Vec<fastnbt::Value>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: String, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<fastnbt::Value>, "HandItems" as hand_items: Vec<fastnbt::Value>, "Leash" as leash: std::collections::HashMap<String, fastnbt::Value>, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool, optional "UUID" as uuid: u128, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32;
+        Mob > LivingEntity - "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: String, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "Leash" as leash: super::compounds::Compound0, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool;
         Monster > PathfinderMob - ;
         Mule > AbstractChestedHorse - ;
         MushroomCow > Cow - "Type" as r#type: String, optional "stew_effects" as stew_effects: fastnbt::Value;
@@ -2491,6 +2513,8 @@ pub mod mc1_20_2 {
 
     entity_compound_types! {
         "1.20.2";
+        Compound0 - optional "UUID" as uuid: u128, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32;
+        Compound1 - optional "Slot" as slot: u8;
     }
 }
 
@@ -2629,7 +2653,7 @@ pub mod mc1_20_3 {
     entity_types! {
         "1.20.3";
         AbstractArrow > Projectile - "PierceLevel" as pierce_level: u8, "ShotFromCrossbow" as shot_from_crossbow: bool, "SoundEvent" as sound_event: String, "crit" as crit: bool, "damage" as damage: f64, optional "inBlockState" as in_block_state: std::collections::HashMap<String, fastnbt::Value>, "inGround" as in_ground: bool, "item" as item: std::collections::HashMap<String, fastnbt::Value>, "life" as life: i16, "pickup" as pickup: u8, "shake" as shake: u8;
-        AbstractChestedHorse > AbstractHorse - "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<fastnbt::Value>, optional "Slot" as slot: u8;
+        AbstractChestedHorse > AbstractHorse - "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<super::compounds::Compound1>;
         AbstractFish > WaterAnimal - "FromBucket" as from_bucket: bool;
         AbstractGolem > PathfinderMob - ;
         AbstractHorse > Animal - "Bred" as bred: bool, "EatingHaystack" as eating_haystack: bool, optional "Owner" as owner: u128, optional "SaddleItem" as saddle_item: std::collections::HashMap<String, fastnbt::Value>, "Tame" as tame: bool, "Temper" as temper: i32;
@@ -2645,9 +2669,9 @@ pub mod mc1_20_3 {
         Allay > PathfinderMob - "CanDuplicate" as can_duplicate: bool, "DuplicationCooldown" as duplication_cooldown: i64, optional "listener" as listener: fastnbt::Value;
         AmbientCreature > Mob - ;
         Animal > AgeableMob - "InLove" as in_love: i32, optional "LoveCause" as love_cause: u128;
-        AreaEffectCloud > Entity - "Age" as age: i32, optional "Color" as color: i32, "Duration" as duration: i32, "DurationOnUse" as duration_on_use: i32, optional "Owner" as owner: u128, "Particle" as particle: String, optional "Potion" as potion: String, "Radius" as radius: f32, "RadiusOnUse" as radius_on_use: f32, "RadiusPerTick" as radius_per_tick: f32, "ReapplicationDelay" as reapplication_delay: i32, "WaitTime" as wait_time: i32, optional "effects" as effects: Vec<fastnbt::Value>;
-        ArmorStand > LivingEntity - "ArmorItems" as armor_items: Vec<fastnbt::Value>, "DisabledSlots" as disabled_slots: i32, "HandItems" as hand_items: Vec<fastnbt::Value>, "Invisible" as invisible: bool, optional "Marker" as marker: bool, "NoBasePlate" as no_base_plate: bool, "Pose" as pose: std::collections::HashMap<String, fastnbt::Value>, "ShowArms" as show_arms: bool, "Small" as small: bool;
-        Arrow > AbstractArrow - optional "Color" as color: i32, optional "Potion" as potion: String, optional "custom_potion_effects" as custom_potion_effects: Vec<fastnbt::Value>;
+        AreaEffectCloud > Entity - "Age" as age: i32, optional "Color" as color: i32, "Duration" as duration: i32, "DurationOnUse" as duration_on_use: i32, optional "Owner" as owner: u128, "Particle" as particle: String, optional "Potion" as potion: String, "Radius" as radius: f32, "RadiusOnUse" as radius_on_use: f32, "RadiusPerTick" as radius_per_tick: f32, "ReapplicationDelay" as reapplication_delay: i32, "WaitTime" as wait_time: i32, optional "effects" as effects: Vec<std::collections::HashMap<String, fastnbt::Value>>;
+        ArmorStand > LivingEntity - "ArmorItems" as armor_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "DisabledSlots" as disabled_slots: i32, "HandItems" as hand_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "Invisible" as invisible: bool, optional "Marker" as marker: bool, "NoBasePlate" as no_base_plate: bool, "Pose" as pose: std::collections::HashMap<String, fastnbt::Value>, "ShowArms" as show_arms: bool, "Small" as small: bool;
+        Arrow > AbstractArrow - optional "Color" as color: i32, optional "Potion" as potion: String, optional "custom_potion_effects" as custom_potion_effects: Vec<std::collections::HashMap<String, fastnbt::Value>>;
         Axolotl > Animal - "FromBucket" as from_bucket: bool, "Variant" as variant: i32;
         Bat > AmbientCreature - "BatFlags" as bat_flags: u8;
         Bee > Animal - "CannotEnterHiveTicks" as cannot_enter_hive_ticks: i32, "CropsGrownSincePollination" as crops_grown_since_pollination: i32, optional "FlowerPos" as flower_pos: std::collections::HashMap<String, fastnbt::Value>, "HasNectar" as has_nectar: bool, "HasStung" as has_stung: bool, optional "HivePos" as hive_pos: std::collections::HashMap<String, fastnbt::Value>, "TicksSincePollination" as ticks_since_pollination: i32;
@@ -2673,7 +2697,7 @@ pub mod mc1_20_3 {
         EnderDragon > Mob - "DragonDeathTime" as dragon_death_time: i32, "DragonPhase" as dragon_phase: i32;
         EnderMan > Monster - optional "carriedBlockState" as carried_block_state: std::collections::HashMap<String, fastnbt::Value>;
         Endermite > Monster - "Lifetime" as lifetime: i32;
-        Entity - "Air" as air: i16, optional "CustomName" as custom_name: String, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, optional "HasVisualFire" as has_visual_fire: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<fastnbt::Value>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<fastnbt::Value>, "PortalCooldown" as portal_cooldown: i32, "Pos" as pos: Vec<fastnbt::Value>, "Rotation" as rotation: Vec<fastnbt::Value>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<fastnbt::Value>, optional "TicksFrozen" as ticks_frozen: i32, "UUID" as uuid: u128;
+        Entity - "Air" as air: i16, optional "CustomName" as custom_name: String, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, optional "HasVisualFire" as has_visual_fire: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<fastnbt::Value>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<std::collections::HashMap<String, fastnbt::Value>>, "PortalCooldown" as portal_cooldown: i32, "Pos" as pos: Vec<fastnbt::Value>, "Rotation" as rotation: Vec<fastnbt::Value>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<String>, optional "TicksFrozen" as ticks_frozen: i32, "UUID" as uuid: u128;
         Evoker > SpellcasterIllager - ;
         EvokerFangs > Entity - optional "Owner" as owner: u128, "Warmup" as warmup: i32;
         ExperienceOrb > Entity - "Age" as age: i16, "Count" as count: i32, "Health" as health: i16, "Value" as value: i16;
@@ -2683,7 +2707,7 @@ pub mod mc1_20_3 {
         FireworkRocketEntity > Projectile - optional "FireworksItem" as fireworks_item: std::collections::HashMap<String, fastnbt::Value>, "Life" as life: i32, "LifeTime" as life_time: i32, "ShotAtAngle" as shot_at_angle: bool;
         FishingHook > Projectile - ;
         FlyingMob > Mob - ;
-        Fox > Animal - "Crouching" as crouching: bool, "Sitting" as sitting: bool, "Sleeping" as sleeping: bool, "Trusted" as trusted: Vec<fastnbt::Value>, "Type" as r#type: String;
+        Fox > Animal - "Crouching" as crouching: bool, "Sitting" as sitting: bool, "Sleeping" as sleeping: bool, "Trusted" as trusted: Vec<fastnbt::IntArray>, "Type" as r#type: String;
         Frog > Animal - "variant" as variant: String;
         Ghast > FlyingMob - "ExplosionPower" as explosion_power: u8;
         Giant > Monster - ;
@@ -2704,7 +2728,7 @@ pub mod mc1_20_3 {
         LargeFireball > Fireball - "ExplosionPower" as explosion_power: u8;
         LeashFenceKnotEntity > HangingEntity - ;
         LightningBolt > Entity - ;
-        LivingEntity > Entity - "AbsorptionAmount" as absorption_amount: f32, "Attributes" as attributes: Vec<fastnbt::Value>, optional "Brain" as brain: fastnbt::Value, "DeathTime" as death_time: i16, "FallFlying" as fall_flying: bool, "Health" as health: f32, "HurtByTimestamp" as hurt_by_timestamp: i32, "HurtTime" as hurt_time: i16, optional "SleepingX" as sleeping_x: i32, optional "SleepingY" as sleeping_y: i32, optional "SleepingZ" as sleeping_z: i32, optional "active_effects" as active_effects: Vec<fastnbt::Value>;
+        LivingEntity > Entity - "AbsorptionAmount" as absorption_amount: f32, "Attributes" as attributes: Vec<fastnbt::Value>, optional "Brain" as brain: fastnbt::Value, "DeathTime" as death_time: i16, "FallFlying" as fall_flying: bool, "Health" as health: f32, "HurtByTimestamp" as hurt_by_timestamp: i32, "HurtTime" as hurt_time: i16, optional "SleepingX" as sleeping_x: i32, optional "SleepingY" as sleeping_y: i32, optional "SleepingZ" as sleeping_z: i32, optional "active_effects" as active_effects: Vec<std::collections::HashMap<String, fastnbt::Value>>;
         Llama > AbstractChestedHorse - optional "DecorItem" as decor_item: std::collections::HashMap<String, fastnbt::Value>, "Strength" as strength: i32, "Variant" as variant: i32;
         LlamaSpit > Projectile - ;
         MagmaCube > Slime - ;
@@ -2716,7 +2740,7 @@ pub mod mc1_20_3 {
         MinecartHopper > AbstractMinecartContainer - "Enabled" as enabled: bool;
         MinecartSpawner > AbstractMinecart - ;
         MinecartTNT > AbstractMinecart - "TNTFuse" as tnt_fuse: i32;
-        Mob > LivingEntity - "ArmorDropChances" as armor_drop_chances: Vec<fastnbt::Value>, "ArmorItems" as armor_items: Vec<fastnbt::Value>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: String, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<fastnbt::Value>, "HandItems" as hand_items: Vec<fastnbt::Value>, "Leash" as leash: std::collections::HashMap<String, fastnbt::Value>, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool, optional "UUID" as uuid: u128, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32;
+        Mob > LivingEntity - "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: String, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "Leash" as leash: super::compounds::Compound0, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool;
         Monster > PathfinderMob - ;
         Mule > AbstractChestedHorse - ;
         MushroomCow > Cow - "Type" as r#type: String, optional "stew_effects" as stew_effects: fastnbt::Value;
@@ -2792,6 +2816,8 @@ pub mod mc1_20_3 {
 
     entity_compound_types! {
         "1.20.3";
+        Compound0 - optional "UUID" as uuid: u128, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32;
+        Compound1 - optional "Slot" as slot: u8;
     }
 }
 
@@ -2934,7 +2960,7 @@ pub mod mc1_20_5 {
     entity_types! {
         "1.20.5";
         AbstractArrow > Projectile - "PierceLevel" as pierce_level: u8, "ShotFromCrossbow" as shot_from_crossbow: bool, "SoundEvent" as sound_event: String, "crit" as crit: bool, "damage" as damage: f64, optional "inBlockState" as in_block_state: std::collections::HashMap<String, fastnbt::Value>, "inGround" as in_ground: bool, "item" as item: fastnbt::Value, "life" as life: i16, "pickup" as pickup: u8, "shake" as shake: u8;
-        AbstractChestedHorse > AbstractHorse - "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<fastnbt::Value>, optional "Slot" as slot: u8;
+        AbstractChestedHorse > AbstractHorse - "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<fastnbt::Value>;
         AbstractFish > WaterAnimal - "FromBucket" as from_bucket: bool;
         AbstractGolem > PathfinderMob - ;
         AbstractHorse > Animal - "Bred" as bred: bool, "EatingHaystack" as eating_haystack: bool, optional "Owner" as owner: u128, optional "SaddleItem" as saddle_item: fastnbt::Value, "Tame" as tame: bool, "Temper" as temper: i32;
@@ -2982,7 +3008,7 @@ pub mod mc1_20_5 {
         EnderDragon > Mob - "DragonDeathTime" as dragon_death_time: i32, "DragonPhase" as dragon_phase: i32;
         EnderMan > Monster - optional "carriedBlockState" as carried_block_state: std::collections::HashMap<String, fastnbt::Value>;
         Endermite > Monster - "Lifetime" as lifetime: i32;
-        Entity - "Air" as air: i16, optional "CustomName" as custom_name: String, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, optional "HasVisualFire" as has_visual_fire: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<fastnbt::Value>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<fastnbt::Value>, "PortalCooldown" as portal_cooldown: i32, "Pos" as pos: Vec<fastnbt::Value>, "Rotation" as rotation: Vec<fastnbt::Value>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<fastnbt::Value>, optional "TicksFrozen" as ticks_frozen: i32, "UUID" as uuid: u128;
+        Entity - "Air" as air: i16, optional "CustomName" as custom_name: String, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, optional "HasVisualFire" as has_visual_fire: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<fastnbt::Value>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<std::collections::HashMap<String, fastnbt::Value>>, "PortalCooldown" as portal_cooldown: i32, "Pos" as pos: Vec<fastnbt::Value>, "Rotation" as rotation: Vec<fastnbt::Value>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<String>, optional "TicksFrozen" as ticks_frozen: i32, "UUID" as uuid: u128;
         Evoker > SpellcasterIllager - ;
         EvokerFangs > Entity - optional "Owner" as owner: u128, "Warmup" as warmup: i32;
         ExperienceOrb > Entity - "Age" as age: i16, "Count" as count: i32, "Health" as health: i16, "Value" as value: i16;
@@ -2992,7 +3018,7 @@ pub mod mc1_20_5 {
         FireworkRocketEntity > Projectile - "FireworksItem" as fireworks_item: fastnbt::Value, "Life" as life: i32, "LifeTime" as life_time: i32, "ShotAtAngle" as shot_at_angle: bool;
         FishingHook > Projectile - ;
         FlyingMob > Mob - ;
-        Fox > Animal - "Crouching" as crouching: bool, "Sitting" as sitting: bool, "Sleeping" as sleeping: bool, "Trusted" as trusted: Vec<fastnbt::Value>, "Type" as r#type: String;
+        Fox > Animal - "Crouching" as crouching: bool, "Sitting" as sitting: bool, "Sleeping" as sleeping: bool, "Trusted" as trusted: Vec<fastnbt::IntArray>, "Type" as r#type: String;
         Frog > Animal - "variant" as variant: String;
         Ghast > FlyingMob - "ExplosionPower" as explosion_power: u8;
         Giant > Monster - ;
@@ -3025,7 +3051,7 @@ pub mod mc1_20_5 {
         MinecartHopper > AbstractMinecartContainer - "Enabled" as enabled: bool;
         MinecartSpawner > AbstractMinecart - ;
         MinecartTNT > AbstractMinecart - "TNTFuse" as tnt_fuse: i32;
-        Mob > LivingEntity - "ArmorDropChances" as armor_drop_chances: Vec<fastnbt::Value>, "ArmorItems" as armor_items: Vec<fastnbt::Value>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: String, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<fastnbt::Value>, "HandItems" as hand_items: Vec<fastnbt::Value>, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool, optional "body_armor_drop_chance" as body_armor_drop_chance: f32, optional "body_armor_item" as body_armor_item: fastnbt::Value, optional "leash" as leash: fastnbt::Value;
+        Mob > LivingEntity - "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: String, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<std::collections::HashMap<String, fastnbt::Value>>, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool, optional "body_armor_drop_chance" as body_armor_drop_chance: f32, optional "body_armor_item" as body_armor_item: fastnbt::Value, optional "leash" as leash: fastnbt::Value;
         Monster > PathfinderMob - ;
         Mule > AbstractChestedHorse - ;
         MushroomCow > Cow - "Type" as r#type: String;
