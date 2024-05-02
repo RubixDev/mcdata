@@ -2,10 +2,7 @@
 
 package de.rubixdev
 
-import kotlinx.serialization.EncodeDefault
-import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import kotlinx.serialization.*
 
 /////////////////////////
 ///////// INPUT /////////
@@ -66,6 +63,7 @@ data object NbtAny : NbtElement() {
     override fun merge(other: NbtElement, mergeStrategy: MergeStrategy): NbtElement = other
 }
 
+// @formatter:off
 @Serializable @SerialName("Byte")      data object NbtByte      : NbtElement()
 @Serializable @SerialName("Short")     data object NbtShort     : NbtElement()
 @Serializable @SerialName("Int")       data object NbtInt       : NbtElement()
@@ -78,6 +76,7 @@ data object NbtAny : NbtElement() {
 @Serializable @SerialName("LongArray") data object NbtLongArray : NbtElement()
 @Serializable @SerialName("Uuid")      data object NbtUuid      : NbtElement()
 @Serializable @SerialName("Boolean")   data object NbtBoolean   : NbtElement()
+// @formatter:on
 
 @Serializable
 @SerialName("List")
@@ -94,7 +93,11 @@ data class NbtList(@EncodeDefault var inner: NbtElement = NbtAny) : NbtElement()
     }
 }
 
-// for compounds with unknown fields
+/**
+ * A CompoundTag with an unknown structure. Will be represented as `Map<String, Any>`.
+ */
+// TODO: sometimes we can still know the specific type of the values.
+//  e.g. BlockState properties could be `Map<String, String>` instead of `Map<String, Any>`
 @Serializable
 @SerialName("AnyCompound")
 data object NbtAnyCompound : NbtElement() {
@@ -108,6 +111,24 @@ data object NbtAnyCompound : NbtElement() {
 data class NbtCompound(
     @EncodeDefault
     val entries: MutableMap<String, NbtCompoundEntry> = mutableMapOf(),
+    /**
+     * Can be used to give this compound a more descriptive name.
+     */
+    @Transient
+    var name: String? = null,
+    /**
+     * Contains type information about additional keys of which the names aren't statically known.
+     */
+    // TODO: use this in the Rust world
+    var unknownKeys: MutableList<NbtElement> = mutableListOf(),
+    /**
+     * If any type stores an Entity somewhere in its own structure, the structure is recursive.
+     * To represent that in Rust we must introduce a `Box<types::Entity>` alongside the rest of
+     * the keys in the compound. This field indicates whether this compound should contain a
+     * flattened Entity.
+     */
+    // TODO: use this in the Rust world
+    var nestedEntity: Boolean = false,
 ) : NbtElement() {
     fun put(name: String, entry: NbtCompoundEntry, mergeStrategy: MergeStrategy = MergeStrategy.SameDataSet) {
         entries[name] = entries[name]?.merge(entry, mergeStrategy) ?: entry
@@ -117,6 +138,10 @@ data class NbtCompound(
         if (other is NbtAny || other is NbtAnyCompound) return this
         require(other is NbtCompound) { "cannot merge NbtCompound with ${other::class.simpleName}" }
         other.entries.forEach { (k, v) -> put(k, v, mergeStrategy) }
+        name = name ?: other.name
+        // TODO: really _add_ them all?
+        unknownKeys.addAll(other.unknownKeys)
+        nestedEntity = nestedEntity || other.nestedEntity
         return this
     }
 
@@ -127,20 +152,47 @@ data class NbtCompound(
                 if (elem.entries.isEmpty()) {
                     entry.value = NbtAnyCompound
                 } else {
-                    val name = "Compound${compoundTypes.size}"
-                    compoundTypes.add(CompoundType(name, elem.entries))
                     elem.nameCompounds(compoundTypes)
+                    var name = elem.name ?: "Compound${compoundTypes.size}"
+                    val new = CompoundType(name, elem.entries, elem.unknownKeys, elem.nestedEntity)
+                    val sameName = compoundTypes.filter { new.sameNameAs(it) }
+                    if (sameName.isEmpty()) {
+                        compoundTypes.add(new)
+                    } else {
+                        val existing = sameName.find { new.sameAs(it) }
+                        if (existing != null) {
+                            name = existing.name
+                        } else {
+                            name += "_${sameName.size}"
+                            new.name = name
+                            compoundTypes.add(new)
+                        }
+                    }
                     entry.value = NbtNamedCompound(name)
                 }
             } else if (elem is NbtList) {
+                // TODO: deduplicate
                 val inner = elem.inner
                 if (inner is NbtCompound) {
                     if (inner.entries.isEmpty()) {
                         elem.inner = NbtAnyCompound
                     } else {
-                        val name = "Compound${compoundTypes.size}"
-                        compoundTypes.add(CompoundType(name, inner.entries))
                         inner.nameCompounds(compoundTypes)
+                        var name = inner.name ?: "Compound${compoundTypes.size}"
+                        val new = CompoundType(name, inner.entries, inner.unknownKeys, inner.nestedEntity)
+                        val sameName = compoundTypes.filter { new.sameNameAs(it) }
+                        if (sameName.isEmpty()) {
+                            compoundTypes.add(new)
+                        } else {
+                            val existing = sameName.find { new.sameAs(it) }
+                            if (existing != null) {
+                                name = existing.name
+                            } else {
+                                name += "_${sameName.size}"
+                                new.name = name
+                                compoundTypes.add(new)
+                            }
+                        }
                         elem.inner = NbtNamedCompound(name)
                     }
                 }
@@ -156,7 +208,7 @@ data class NbtCompoundEntry(
 ) {
     fun merge(other: NbtCompoundEntry, mergeStrategy: MergeStrategy = MergeStrategy.SameDataSet) = NbtCompoundEntry(
         value = value.merge(other.value),
-        optional = when(mergeStrategy) {
+        optional = when (mergeStrategy) {
             // this XOR is to prevent code like `if (x) put("a", y) else put("a", z)` where "a" is added twice in the
             // same method and both times marked as optional, but it isn't actually optional
             MergeStrategy.SameDataSet -> optional xor other.optional
@@ -182,6 +234,16 @@ data class NbtNamedCompound(val name: String) : NbtElement()
  */
 @Serializable
 data class CompoundType(
-    val name: String,
+    var name: String,
     val entries: Map<String, NbtCompoundEntry>,
-)
+    val unknownKeys: List<NbtElement> = listOf(),
+    var nestedEntity: Boolean = false,
+) {
+    fun sameNameAs(other: CompoundType): Boolean = other.name.matches(Regex("$name(_\\d+)?"))
+
+    fun sameAs(other: CompoundType): Boolean =
+        sameNameAs(other)
+                && entries == other.entries
+                && unknownKeys == other.unknownKeys
+                && nestedEntity == other.nestedEntity
+}

@@ -198,7 +198,7 @@ struct B { a: i32, b: f64 }
         $(;)?
     ) => {
         #[doc = $doc]
-        #[allow(missing_docs, unused_imports)]
+        #[allow(missing_docs, unused_imports, non_camel_case_types)]
         pub mod $mod_name {
             use $crate::util::Flatten;
             #[cfg(feature = "serde")]

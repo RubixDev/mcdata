@@ -27,8 +27,8 @@ fun main(args: Array<String>) {
         nbt = baseNbt,
     ))
     for ((i, entry) in inputEntityInfo.classes.entries.withIndex()) {
-        val nbt = vm.analyzeFrom(MethodPointer(entry.key, "addAdditionalSaveData", "(Lnet/minecraft/nbt/CompoundTag;)V"))
         println("${i + 1}/${inputEntityInfo.classes.size}: ${entry.key}")
+        val nbt = vm.analyzeFrom(MethodPointer(entry.key, "addAdditionalSaveData", "(Lnet/minecraft/nbt/CompoundTag;)V"))
         // TODO: filter out "empty" types?
         //  e.g. PathfinderMob has no added NBT, so it could be omitted, but then all other types that have
         //  PathfinderMob as their parent would instead have to set the parent of PathfinderMob as their parent.
@@ -55,5 +55,3 @@ fun main(args: Array<String>) {
     Path("out").createDirectories()
     File("out/entities.json").writeText(Json.encodeToString(entityInfo))
 }
-
-fun classToTypeName(className: String): String = className.split('.').last().split('$').last()

@@ -3,16 +3,19 @@ package de.rubixdev
 import org.apache.bcel.Const
 import org.apache.bcel.classfile.*
 import org.apache.bcel.generic.*
-import org.apache.bcel.verifier.structurals.*
+import org.apache.bcel.verifier.structurals.ExecutionVisitor
+import org.apache.bcel.verifier.structurals.Frame
+import java.io.IOException
 import kotlin.math.max
 
 class Vm(private val jarFile: String) {
     private val classes = mutableMapOf<String, JavaClass>()
+    private val callStack = mutableListOf<MethodPointer>()
 
     fun analyzeFrom(method: MethodPointer): NbtCompound {
         // assume a single argument of type CompoundTag
         val compound = NbtCompound()
-        call(method, listOf(ObjectType(method.className), TypedCompoundTag(compound)))
+        call(method, listOf(ObjectType(method.className), TypedCompoundTag(compound)), ignoreSuper = true)
         return compound
     }
 
@@ -20,34 +23,72 @@ class Vm(private val jarFile: String) {
         methodPointer: MethodPointer,
         args: List<Type>,
         overrideOptional: Boolean = false,
+        ignoreSuper: Boolean = false,
     ): Type {
+        // no recursion
+        // TODO: recursive structures, e.g. MobEffectInstance
+        if (callStack.contains(methodPointer)) {
+            return Type.getReturnType(methodPointer.signature).ensureTyped()
+        }
+
         val clazz = getClass(methodPointer.className)
         val method = clazz.methods.find {
             it.name == methodPointer.name
                     && Type.getMethodSignature(it.returnType, it.argumentTypes) == methodPointer.signature
         } ?: return Type.getReturnType(methodPointer.signature)
 
+        callStack.add(methodPointer)
+
+        // if there's only one CompoundTag argument, and it doesn't have a name yet, give it one based
+        // on the class and method names. The caller may add additional fields to the passed tag, in
+        // which case a distinct number will later be appended to this name for each distinct caller.
+        val compoundArgs = args.filterIsInstance<TypedCompoundTag>()
+        if (compoundArgs.size == 1) {
+            val tag = compoundArgs.first().nbt
+            if (tag.name == null) {
+                tag.name = "${classToTypeName(methodPointer.className)}_${methodPointer.name}"
+            }
+        }
+
         val insns = InstructionList(method.code.code)
-        val runner = MethodRunner(clazz, method, args)
+        val runner = MethodRunner(clazz, method, args, ignoreSuper)
         if (overrideOptional) runner.optionalUntil = Int.MAX_VALUE
         for (insn in insns) {
             runner.visit(insn)
         }
+        callStack.removeLast()
 
-        return if (Type.getReturnType(methodPointer.signature).isNbt) {
+        val returnType = Type.getReturnType(methodPointer.signature)
+        return if (returnType == Type.VOID) {
+            Type.VOID
+        } else if (returnType.isNbt()) {
             var nbt: NbtElement = NbtAny
             for (value in runner.returnValues) {
-                nbt = value.asNbt?.merge(nbt, MergeStrategy.DifferentDataSet) ?: continue
+                nbt = value.asNbt()?.merge(nbt, MergeStrategy.DifferentDataSet) ?: continue
             }
-            nbt.asType
+            // if the return value is a CompoundTag, and it doesn't have a name yet, give it one based
+            // on the class and method names
+            if (nbt is NbtCompound && nbt.name == null) {
+                nbt.name = "${classToTypeName(methodPointer.className)}_${methodPointer.name}"
+            }
+            nbt.asType()
         } else {
-            // TODO: or just the return type from signature?
             runner.returnValues.first()
         }
     }
 
     private fun getClass(name: String) = classes.getOrPut(name) {
-        ClassParser(jarFile, "${name.replace('.', '/')}.class").parse()!!
+        ClassParser(jarFile, "${name.replace('.', '/')}.class").parse()
+    }
+
+    private fun getClassOrNull(name: String): JavaClass? {
+        return classes.getOrPut(name) {
+            try {
+                ClassParser(jarFile, "${name.replace('.', '/')}.class").parse()
+            } catch (_: IOException) {
+                return null
+            }
+        }
     }
 
     /**
@@ -59,7 +100,11 @@ class Vm(private val jarFile: String) {
      * a few classes that extend the [Type] class but, despite the name, also hold values.
      * These are for example [StringTypeWithValue] or [TypedCompoundTag].
      */
-    inner class MethodRunner(clazz: JavaClass, private val method: Method, args: List<Type>) : ExecutionVisitor() {
+    inner class MethodRunner(
+        clazz: JavaClass,
+        private val method: Method, args: List<Type>,
+        private val ignoreSuper: Boolean,
+    ) : ExecutionVisitor() {
         private val cpg = ConstantPoolGen(clazz.constantPool)
         private val bootstrapMethods =
             clazz.attributes.filterIsInstance<BootstrapMethods>().firstOrNull()?.bootstrapMethods
@@ -168,7 +213,7 @@ class Vm(private val jarFile: String) {
             setConstantPoolGen(cpg)
             setFrame(frame)
             for ((idx, arg) in args.withIndex()) {
-                locals[idx] = arg
+                locals[idx] = arg.ensureTyped()
             }
             for (idx in args.size..<locals.maxLocals()) {
                 locals[idx] = UninitializedLocal
@@ -192,7 +237,7 @@ class Vm(private val jarFile: String) {
                         extraType != null && extraType.className == newType.className -> extraType
                         prevType.className == newType.className -> prevType
                         else -> newType
-                    }
+                    }.ensureTyped()
                 }
                 // set the rest to uninitialized
                 for (i in entry.first.size..<locals.maxLocals()) {
@@ -220,9 +265,15 @@ class Vm(private val jarFile: String) {
         }
 
         override fun visitINVOKEVIRTUAL(o: INVOKEVIRTUAL) {
-            if (o.getClassName(cpg) == "net.minecraft.nbt.CompoundTag") {
+            val className = o.getClassName(cpg)
+            val methodName = o.getMethodName(cpg)
+            val signature = o.getSignature(cpg)
+            val argTypes = Type.getArgumentTypes(signature)
+            val returnType = Type.getReturnType(signature)
+
+            if (className == "net.minecraft.nbt.CompoundTag") {
                 // TODO: same for the getX methods
-                val type = when (o.getMethodName(cpg)) {
+                val type = when (methodName) {
                     "putByte" -> NbtByte
                     "putShort" -> NbtShort
                     "putInt" -> NbtInt
@@ -235,30 +286,33 @@ class Vm(private val jarFile: String) {
                     "putIntArray" -> NbtIntArray
                     "putLongArray" -> NbtLongArray
                     "putBoolean" -> NbtBoolean
-                    "put" -> stack.peek().asNbt
+                    "put" -> stack.peek().asNbt()
                     else -> null
                 }
-                val compound = stack.peek(2)
                 if (type != null) {
+                    val compound = stack.peek(2)
                     if (compound !is TypedCompoundTag) {
                         println("WARNING: untyped CompoundTag on stack, cannot save value")
                     } else {
-                        compound.nbt.put(
-                            (stack.peek(1) as StringTypeWithValue).value,
-                            NbtCompoundEntry(
-                                type,
-                                optional = pc < optionalUntil
+                        when (val string = stack.peek(1) as? StringTypeWithValue) {
+                            null -> compound.nbt.unknownKeys.add(type)
+                            else -> compound.nbt.put(
+                                string.value,
+                                NbtCompoundEntry(
+                                    type,
+                                    optional = pc < optionalUntil
+                                )
                             )
-                        )
+                        }
                     }
                 }
-            } else if (o.getClassName(cpg) == "net.minecraft.nbt.ListTag") {
-                val type = when (o.getMethodName(cpg)) {
+            } else if (className == "net.minecraft.nbt.ListTag") {
+                val type = when (methodName) {
                     // both `add(index: Int, element: Tag)` and `add(element: Tag)` have the tag as their last argument
-                    "add", "addTag", "addFirst", "addLast" -> stack.peek().asNbt
+                    "add", "addTag", "addFirst", "addLast" -> stack.peek().asNbt()
                     // TODO: `addAll`
                     "addAll" -> println("INFO: called `addAll` on ListTag").let { null }
-                    "set", "setTag" -> stack.peek().asNbt
+                    "set", "setTag" -> stack.peek().asNbt()
                     // TODO: can we get info from `get()` and `remove()`?
                     "getCompound" -> NbtCompound()
                     "getList" -> NbtList()
@@ -271,8 +325,7 @@ class Vm(private val jarFile: String) {
                     "getString" -> NbtString
                     else -> null
                 }
-                val argCount = Type.getArgumentTypes(o.getSignature(cpg)).size
-                val list = stack.peek(argCount)
+                val list = stack.peek(argTypes.size)
                 if (type != null) {
                     if (list !is TypedListTag) {
                         println("WARNING: untyped ListTag on stack, cannot save value")
@@ -280,7 +333,7 @@ class Vm(private val jarFile: String) {
                         list.nbt.add(type)
                     }
                 }
-            } else if (o.getClassName(cpg) == "java.util.Optional" && o.getMethodName(cpg) == "ifPresent") {
+            } else if (className == "java.util.Optional" && methodName == "ifPresent") {
                 // lambda methods are resolved in `visitINVOKEDYNAMIC`, now actually call
                 // it but mark everything as optional because it's in `Optional.ifPresent`
                 val consumer = stack.peek()
@@ -291,9 +344,180 @@ class Vm(private val jarFile: String) {
                         overrideOptional = true,
                     )
                 }
+            } else if (invoke(className, methodName, signature, argTypes, returnType, virtual = true, static = false)) {
+                return
             }
-            // TODO: call most other methods to find out more about nested types
+            // further candidates for special cases:
+            // - Either.map - call both lambdas and mark all as optional
+            // - DataResult.resultOrPartial
+            //   - Codecs with NbtOps
+            // TODO: the default visitINVOKE* impls replace bools, chars, bytes, and shorts with int. we might not want that
             super.visitINVOKEVIRTUAL(o)
+        }
+
+        override fun visitINVOKEINTERFACE(o: INVOKEINTERFACE) {
+            if (!invoke(
+                    o.getClassName(cpg),
+                    o.getMethodName(cpg),
+                    o.getSignature(cpg),
+                    virtual = true,
+                    static = false,
+                )
+            ) {
+                super.visitINVOKEINTERFACE(o)
+            }
+        }
+
+        override fun visitINVOKESTATIC(o: INVOKESTATIC) {
+            if (
+                !invoke(
+                    o.getClassName(cpg),
+                    o.getMethodName(cpg),
+                    o.getSignature(cpg),
+                    virtual = false,
+                    static = true,
+                )
+            ) {
+                super.visitINVOKESTATIC(o)
+            }
+        }
+
+        override fun visitINVOKESPECIAL(o: INVOKESPECIAL) {
+            val methodName = o.getMethodName(cpg)
+            val signature = o.getSignature(cpg)
+            if (
+                (ignoreSuper && methodName == method.name && signature == method.signature)
+                || !invoke(
+                    o.getClassName(cpg),
+                    methodName,
+                    signature,
+                    virtual = false,
+                    static = false,
+                )
+            ) {
+                super.visitINVOKESPECIAL(o)
+            }
+        }
+
+        private fun invoke(
+            className: String,
+            methodName: String,
+            signature: String,
+            virtual: Boolean,
+            static: Boolean,
+        ) = invoke(
+            className,
+            methodName,
+            signature,
+            Type.getArgumentTypes(signature),
+            Type.getReturnType(signature),
+            virtual,
+            static,
+        )
+
+        /**
+         * Resolve and call the specified method.
+         * @return `true` if the stack got updated, `false` if nothing was done.
+         */
+        private fun invoke(
+            className: String,
+            methodName: String,
+            signature: String,
+            argTypes: Array<Type>,
+            returnType: Type,
+            virtual: Boolean,
+            static: Boolean,
+        ): Boolean {
+            // special case for `Entity.saveWithoutId`:
+            // we never want to re-enter that method as that would introduce a recursive structure,
+            // which we mark by setting `nestedEntity` to `true`
+            if (
+                className == "net.minecraft.world.entity.Entity"
+                && methodName == "saveWithoutId"
+                && signature == "(Lnet/minecraft/nbt/CompoundTag;)Lnet/minecraft/nbt/CompoundTag;"
+            ) {
+                val args = (0..1).map { stack.pop() }.reversed()
+                (args[1] as TypedCompoundTag).nbt.nestedEntity = true
+                stack.push(args[1])
+                return true
+            }
+
+            // enter every method that takes or returns any NBT type for further analysis
+            if (argTypes.any { it.isNbt() } || returnType.isNbt()) {
+                // get the args from the stack, including the instance if not static
+                val args = (0..<argTypes.size + if (static) 0 else 1).reversed().map { stack.peek(it) }
+                // resolve the method to call
+                val targetClass = when (static || !virtual) {
+                    true -> className
+                    false -> args.first().className.also {
+                        // TODO: is this guaranteed? which one do we use?
+                        require(it == className) { "$it != $className" }
+                    }
+                }
+                val targetMethod = when (virtual) {
+                    true -> resolveVirtual(MethodPointer(targetClass, methodName, signature)) ?: return false
+                    false -> MethodPointer(targetClass, methodName, signature)
+                }
+                // pop the args
+                stack.pop(args.size)
+                // call it
+                val res = call(targetMethod, args)
+                // store the result
+                if (returnType != Type.VOID) {
+                    stack.push(res)
+                }
+                return true
+            }
+            return false
+        }
+
+        /**
+         * Resolves a virtual method as described in the [Java Virtual Machine Specification](https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-6.html#jvms-6.5.invokevirtual).
+         */
+        private fun resolveVirtual(method: MethodPointer): MethodPointer? {
+            // Let C be the class of objectref. The actual method to be invoked is selected by the following lookup
+            // procedure:
+            // 1. If C contains a declaration for an instance method m that overrides (§5.4.5) the resolved method,
+            //    then m is the method to be invoked.
+            var clazz = getClass(method.className)
+            if (clazz.methods.any { it.name == method.name && it.signature == method.signature && !it.isAbstract }) {
+                return method
+            }
+            // 2. Otherwise, if C has a superclass, a search for a declaration of an instance method that overrides
+            //    the resolved method is performed, starting with the direct superclass of C and continuing with the
+            //    direct superclass of that class, and so forth, until an overriding method is found or no further
+            //    superclasses exist. If an overriding method is found, it is the method to be invoked.
+            val superInterfaceNames = mutableListOf<String>()
+            while (clazz.className != Type.OBJECT.className) {
+                superInterfaceNames.addAll(clazz.interfaceNames)
+                clazz = getClassOrNull(clazz.superclassName) ?: break
+                if (clazz.methods.any { it.name == method.name && it.signature == method.signature && !it.isAbstract }) {
+                    return MethodPointer(clazz.className, method.name, method.signature)
+                }
+            }
+            // 3. Otherwise, if there is exactly one maximally-specific method (§5.4.3.3) in the superinterfaces of
+            //    C that matches the resolved method's name and descriptor and is not abstract, then it is the
+            //    method to be invoked.
+            val superInterFaces = superInterfaceNames.mapNotNull { getClassOrNull(it) }
+            val candidates = superInterFaces.mapNotNull { iface ->
+                val m =
+                    iface.methods.find { it.name == method.name && it.signature == method.signature && !it.isAbstract }
+                when (m) {
+                    null -> null
+                    else -> MethodPointer(iface.className, m.name, m.signature)
+                }
+            }
+            if (candidates.size == 1) {
+                return candidates.first()
+            }
+
+            // if we try to call an abstract method on an abstract class there's no code to execute, so we can skip
+            // this invoke
+            clazz = getClass(method.className)
+            if (clazz.isAbstract && clazz.methods.any { it.name == method.name && it.signature == method.signature && it.isAbstract }) {
+                return null
+            }
+            throw RuntimeException("Virtual method $method could not be resolved")
         }
 
         override fun visitINVOKEDYNAMIC(o: INVOKEDYNAMIC) {
@@ -370,93 +594,30 @@ class Vm(private val jarFile: String) {
             }
         }
 
-        override fun visitGOTO(o: GOTO) {
-            super.visitGOTO(o); visitBranchInstructionAfter(o)
-        }
-
-        override fun visitGOTO_W(o: GOTO_W) {
-            super.visitGOTO_W(o); visitBranchInstructionAfter(o)
-        }
-
-        override fun visitIFEQ(o: IFEQ) {
-            super.visitIFEQ(o); visitBranchInstructionAfter(o)
-        }
-
-        override fun visitIFGE(o: IFGE) {
-            super.visitIFGE(o); visitBranchInstructionAfter(o)
-        }
-
-        override fun visitIFGT(o: IFGT) {
-            super.visitIFGT(o); visitBranchInstructionAfter(o)
-        }
-
-        override fun visitIFLE(o: IFLE) {
-            super.visitIFLE(o); visitBranchInstructionAfter(o)
-        }
-
-        override fun visitIFLT(o: IFLT) {
-            super.visitIFLT(o); visitBranchInstructionAfter(o)
-        }
-
-        override fun visitIFNE(o: IFNE) {
-            super.visitIFNE(o); visitBranchInstructionAfter(o)
-        }
-
-        override fun visitIFNONNULL(o: IFNONNULL) {
-            super.visitIFNONNULL(o); visitBranchInstructionAfter(o)
-        }
-
-        override fun visitIFNULL(o: IFNULL) {
-            super.visitIFNULL(o); visitBranchInstructionAfter(o)
-        }
-
-        override fun visitIF_ACMPEQ(o: IF_ACMPEQ) {
-            super.visitIF_ACMPEQ(o); visitBranchInstructionAfter(o)
-        }
-
-        override fun visitIF_ACMPNE(o: IF_ACMPNE) {
-            super.visitIF_ACMPNE(o); visitBranchInstructionAfter(o)
-        }
-
-        override fun visitIF_ICMPEQ(o: IF_ICMPEQ) {
-            super.visitIF_ICMPEQ(o); visitBranchInstructionAfter(o)
-        }
-
-        override fun visitIF_ICMPGE(o: IF_ICMPGE) {
-            super.visitIF_ICMPGE(o); visitBranchInstructionAfter(o)
-        }
-
-        override fun visitIF_ICMPGT(o: IF_ICMPGT) {
-            super.visitIF_ICMPGT(o); visitBranchInstructionAfter(o)
-        }
-
-        override fun visitIF_ICMPLE(o: IF_ICMPLE) {
-            super.visitIF_ICMPLE(o); visitBranchInstructionAfter(o)
-        }
-
-        override fun visitIF_ICMPLT(o: IF_ICMPLT) {
-            super.visitIF_ICMPLT(o); visitBranchInstructionAfter(o)
-        }
-
-        override fun visitIF_ICMPNE(o: IF_ICMPNE) {
-            super.visitIF_ICMPNE(o); visitBranchInstructionAfter(o)
-        }
-
-        override fun visitJSR(o: JSR) {
-            super.visitJSR(o); visitBranchInstructionAfter(o)
-        }
-
-        override fun visitJSR_W(o: JSR_W) {
-            super.visitJSR_W(o); visitBranchInstructionAfter(o)
-        }
-
-        override fun visitLOOKUPSWITCH(o: LOOKUPSWITCH) {
-            super.visitLOOKUPSWITCH(o); visitBranchInstructionAfter(o)
-        }
-
-        override fun visitTABLESWITCH(o: TABLESWITCH) {
-            super.visitTABLESWITCH(o); visitBranchInstructionAfter(o)
-        }
+        // @formatter:off
+        override fun visitGOTO(o: GOTO) { super.visitGOTO(o); visitBranchInstructionAfter(o) }
+        override fun visitGOTO_W(o: GOTO_W) { super.visitGOTO_W(o); visitBranchInstructionAfter(o) }
+        override fun visitIFEQ(o: IFEQ) { super.visitIFEQ(o); visitBranchInstructionAfter(o) }
+        override fun visitIFGE(o: IFGE) { super.visitIFGE(o); visitBranchInstructionAfter(o) }
+        override fun visitIFGT(o: IFGT) { super.visitIFGT(o); visitBranchInstructionAfter(o) }
+        override fun visitIFLE(o: IFLE) { super.visitIFLE(o); visitBranchInstructionAfter(o) }
+        override fun visitIFLT(o: IFLT) { super.visitIFLT(o); visitBranchInstructionAfter(o) }
+        override fun visitIFNE(o: IFNE) { super.visitIFNE(o); visitBranchInstructionAfter(o) }
+        override fun visitIFNONNULL(o: IFNONNULL) { super.visitIFNONNULL(o); visitBranchInstructionAfter(o) }
+        override fun visitIFNULL(o: IFNULL) { super.visitIFNULL(o); visitBranchInstructionAfter(o) }
+        override fun visitIF_ACMPEQ(o: IF_ACMPEQ) { super.visitIF_ACMPEQ(o); visitBranchInstructionAfter(o) }
+        override fun visitIF_ACMPNE(o: IF_ACMPNE) { super.visitIF_ACMPNE(o); visitBranchInstructionAfter(o) }
+        override fun visitIF_ICMPEQ(o: IF_ICMPEQ) { super.visitIF_ICMPEQ(o); visitBranchInstructionAfter(o) }
+        override fun visitIF_ICMPGE(o: IF_ICMPGE) { super.visitIF_ICMPGE(o); visitBranchInstructionAfter(o) }
+        override fun visitIF_ICMPGT(o: IF_ICMPGT) { super.visitIF_ICMPGT(o); visitBranchInstructionAfter(o) }
+        override fun visitIF_ICMPLE(o: IF_ICMPLE) { super.visitIF_ICMPLE(o); visitBranchInstructionAfter(o) }
+        override fun visitIF_ICMPLT(o: IF_ICMPLT) { super.visitIF_ICMPLT(o); visitBranchInstructionAfter(o) }
+        override fun visitIF_ICMPNE(o: IF_ICMPNE) { super.visitIF_ICMPNE(o); visitBranchInstructionAfter(o) }
+        override fun visitJSR(o: JSR) { super.visitJSR(o); visitBranchInstructionAfter(o) }
+        override fun visitJSR_W(o: JSR_W) { super.visitJSR_W(o); visitBranchInstructionAfter(o) }
+        override fun visitLOOKUPSWITCH(o: LOOKUPSWITCH) { super.visitLOOKUPSWITCH(o); visitBranchInstructionAfter(o) }
+        override fun visitTABLESWITCH(o: TABLESWITCH) { super.visitTABLESWITCH(o); visitBranchInstructionAfter(o) }
+        // @formatter:on
 
         override fun visitReturnInstruction(o: ReturnInstruction) {
             if (o is RETURN) {
@@ -467,19 +628,19 @@ class Vm(private val jarFile: String) {
         }
 
         override fun visitASTORE(o: ASTORE) {
+            super.visitASTORE(o)
             // when storing NBT types in the locals, make sure they have type
             // information attached which can then later be expanded
-            val type = when (stack.peek()) {
-                is TypedCompoundTag,
-                is TypedListTag,
-                is TypedTag -> return super.visitASTORE(o)
-                ObjectType("net.minecraft.nbt.CompoundTag") -> TypedCompoundTag()
-                ObjectType("net.minecraft.nbt.ListTag") -> TypedListTag()
-                ObjectType("net.minecraft.nbt.Tag") -> TypedTag()
-                else -> return super.visitASTORE(o)
+            locals[o.index] = locals[o.index].ensureTyped()
+        }
+
+        override fun visitGETFIELD(o: GETFIELD) {
+            super.visitGETFIELD(o)
+            // some CompoundTag's are stored as fields instead of locals.
+            // it should be enough to attach type info to them when loading
+            if (o.getType(cpg).isNbt()) {
+                stack.push(stack.pop().ensureTyped())
             }
-            stack.pop()
-            locals[o.index] = type
         }
     }
 }

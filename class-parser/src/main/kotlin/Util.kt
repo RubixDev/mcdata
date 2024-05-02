@@ -10,6 +10,8 @@ import org.apache.bcel.verifier.structurals.UninitializedObjectType
 
 object UninitializedLocal : Type(Const.T_UNKNOWN, "<uninitialized local>")
 
+fun classToTypeName(className: String): String = className.split('.').last().split('$').last()
+
 data class MethodPointer(
     val className: String,
     val name: String,
@@ -81,12 +83,13 @@ fun internalTypeNameToSignature(internalTypeName: String): String {
         } else {
             "L$internalTypeName;"
         }
+
         else -> "L$internalTypeName;"
     }
 }
 
-val Type.asNbt: NbtElement?
-    get() = when (this) {
+fun Type.asNbt(): NbtElement? =
+    when (this) {
         is TypedCompoundTag -> nbt
         is TypedListTag -> nbt
         is TypedTag -> nbt
@@ -106,10 +109,10 @@ val Type.asNbt: NbtElement?
         else -> null
     }
 
-val Type.isNbt: Boolean get() = asNbt != null
+fun Type.isNbt(): Boolean = asNbt() != null
 
-val NbtElement.asType: Type
-    get() = when (this) {
+fun NbtElement.asType(): Type =
+    when (this) {
         NbtAny -> ObjectType("net.minecraft.nbt.Tag")
         NbtByte -> ObjectType("net.minecraft.nbt.ByteTag")
         NbtShort -> ObjectType("net.minecraft.nbt.ShortTag")
@@ -127,6 +130,17 @@ val NbtElement.asType: Type
         NbtBoolean -> TypedTag(this, "net.minecraft.nbt.ByteTag")
         NbtUuid -> TypedTag(this, "net.minecraft.nbt.IntArrayTag")
         is NbtNamedCompound -> throw IllegalStateException("named compound before finished running")
+    }
+
+fun Type.ensureTyped(): Type =
+    when (this) {
+        is TypedCompoundTag -> this
+        is TypedListTag -> this
+        is TypedTag -> this
+        ObjectType("net.minecraft.nbt.CompoundTag") -> TypedCompoundTag()
+        ObjectType("net.minecraft.nbt.ListTag") -> TypedListTag()
+        ObjectType("net.minecraft.nbt.Tag") -> TypedTag()
+        else -> this
     }
 
 fun LocalVariables.toList(): List<Type> = (0..<maxLocals()).map { get(it) }
