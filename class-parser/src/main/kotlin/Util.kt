@@ -10,7 +10,7 @@ import org.apache.bcel.verifier.structurals.UninitializedObjectType
 
 object UninitializedLocal : Type(Const.T_UNKNOWN, "<uninitialized local>")
 
-fun classToTypeName(className: String): String = className.split('.').last().split('$').last()
+fun classToTypeName(className: String): String = className.split('.', '/').last().split('$').last()
 
 data class MethodPointer(
     val className: String,
@@ -125,6 +125,7 @@ fun NbtElement.asType(): Type =
         NbtIntArray -> ObjectType("net.minecraft.nbt.IntArrayTag")
         NbtLongArray -> ObjectType("net.minecraft.nbt.LongArrayTag")
         is NbtAnyCompound -> TypedCompoundTag(NbtCompound(unknownKeys = valueType))
+        is NbtEither -> TypedTag(this)
         is NbtList -> TypedListTag(this)
         is NbtCompound -> TypedCompoundTag(this)
         NbtBoolean -> TypedTag(this, "net.minecraft.nbt.ByteTag")

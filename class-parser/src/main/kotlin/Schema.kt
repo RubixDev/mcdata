@@ -78,6 +78,12 @@ sealed class NbtElement {
             NbtBoolean -> if (other == NbtBoolean) this else NbtAny
             is NbtNamedCompound -> throw IllegalStateException("named compound before finished running")
             is NbtList -> if (other is NbtList) NbtList(inner.encompass(other.inner)) else NbtAny
+            is NbtEither -> when (other) {
+                left, right -> this
+                is NbtEither -> NbtEither(left.encompass(other.left), right.encompass(other.right))
+                else -> NbtAny
+            }
+
             is NbtAnyCompound -> when (other) {
                 is NbtAnyCompound -> NbtAnyCompound(valueType.encompass(other.valueType))
                 is NbtCompound -> NbtAnyCompound(other.entries.values.fold(valueType) { acc, it -> acc.encompass(it.value) }
@@ -128,6 +134,19 @@ data object NbtAny : NbtElement() {
 @Serializable @SerialName("Uuid")      data object NbtUuid      : NbtElement()
 @Serializable @SerialName("Boolean")   data object NbtBoolean   : NbtElement()
 // @formatter:on
+
+@Serializable
+@SerialName("Either")
+data class NbtEither(
+    var left: NbtElement,
+    var right: NbtElement,
+) : NbtElement() {
+    override fun merge(other: NbtElement, mergeStrategy: MergeStrategy): NbtElement {
+        if (other == NbtAny || other == left || other == right) return this
+        require(other is NbtEither) { "cannot merge NbtEither with ${other::class.simpleName}" }
+        return NbtEither(left.merge(other.left, mergeStrategy), right.merge(other.right, mergeStrategy))
+    }
+}
 
 @Serializable
 @SerialName("List")
@@ -205,54 +224,46 @@ data class NbtCompound(
         for (entry in entries.values) {
             val elem = entry.value
             if (elem is NbtCompound) {
-                if (elem.entries.isEmpty()) {
-                    entry.value = NbtAnyCompound(elem.unknownKeys ?: NbtAny)
-                } else {
-                    elem.nameCompounds(compoundTypes)
-                    var name = elem.name ?: "Compound${compoundTypes.size}"
-                    val new = CompoundType(name, elem.entries, elem.unknownKeys, elem.nestedEntity)
-                    val sameName = compoundTypes.filter { new.sameNameAs(it) }
-                    if (sameName.isEmpty()) {
-                        compoundTypes.add(new)
-                    } else {
-                        val existing = sameName.find { new.sameAs(it) }
-                        if (existing != null) {
-                            name = existing.name
-                        } else {
-                            name += "_${sameName.size}"
-                            new.name = name
-                            compoundTypes.add(new)
-                        }
-                    }
-                    entry.value = NbtNamedCompound(name)
-                }
+                elem.nameSelf(compoundTypes) { entry.value = it }
             } else if (elem is NbtList) {
-                // TODO: deduplicate
                 val inner = elem.inner
                 if (inner is NbtCompound) {
-                    if (inner.entries.isEmpty()) {
-                        elem.inner = NbtAnyCompound(inner.unknownKeys ?: NbtAny)
-                    } else {
-                        inner.nameCompounds(compoundTypes)
-                        var name = inner.name ?: "Compound${compoundTypes.size}"
-                        val new = CompoundType(name, inner.entries, inner.unknownKeys, inner.nestedEntity)
-                        val sameName = compoundTypes.filter { new.sameNameAs(it) }
-                        if (sameName.isEmpty()) {
-                            compoundTypes.add(new)
-                        } else {
-                            val existing = sameName.find { new.sameAs(it) }
-                            if (existing != null) {
-                                name = existing.name
-                            } else {
-                                name += "_${sameName.size}"
-                                new.name = name
-                                compoundTypes.add(new)
-                            }
-                        }
-                        elem.inner = NbtNamedCompound(name)
-                    }
+                    inner.nameSelf(compoundTypes) { elem.inner = it }
+                }
+            } else if (elem is NbtEither) {
+                val left = elem.left
+                val right = elem.right
+                if (left is NbtCompound) {
+                    left.nameSelf(compoundTypes) { elem.left = it }
+                }
+                if (right is NbtCompound) {
+                    right.nameSelf(compoundTypes) { elem.right = it }
                 }
             }
+        }
+    }
+
+    private fun nameSelf(compoundTypes: MutableList<CompoundType>, reAssign: (NbtElement) -> Unit) {
+        if (entries.isEmpty()) {
+            reAssign(NbtAnyCompound(unknownKeys ?: NbtAny))
+        } else {
+            nameCompounds(compoundTypes)
+            var name = name ?: "Compound${compoundTypes.size}"
+            val new = CompoundType(name, entries, unknownKeys, nestedEntity)
+            val sameName = compoundTypes.filter { new.sameNameAs(it) }
+            if (sameName.isEmpty()) {
+                compoundTypes.add(new)
+            } else {
+                val existing = sameName.find { new.sameAs(it) }
+                if (existing != null) {
+                    name = existing.name
+                } else {
+                    name += "_${sameName.size}"
+                    new.name = name
+                    compoundTypes.add(new)
+                }
+            }
+            reAssign(NbtNamedCompound(name))
         }
     }
 }

@@ -124,6 +124,10 @@ pub enum NbtElement {
     LongArray,
     Uuid,
     Boolean,
+    Either {
+        left: Box<NbtElement>,
+        right: Box<NbtElement>,
+    },
     List {
         inner: Box<NbtElement>,
     },
@@ -154,6 +158,12 @@ impl NbtElement {
             NbtElement::LongArray => "fastnbt::LongArray".into(),
             NbtElement::Uuid => "u128".into(),
             NbtElement::Boolean => "bool".into(),
+            NbtElement::Either { left, right } => format!(
+                "either::Either<{}, {}>",
+                left.as_rust_type(),
+                right.as_rust_type()
+            )
+            .into(),
             NbtElement::List { inner } => format!("Vec<{}>", inner.as_rust_type()).into(),
             NbtElement::AnyCompound { value_type } => {
                 format!("HashMap<String, {}>", value_type.as_rust_type()).into()

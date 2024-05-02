@@ -344,11 +344,37 @@ class Vm(private val jarFile: String) {
                         overrideOptional = true,
                     )
                 }
+            } else if (className == "com.mojang.datafixers.util.Either" && methodName == "map") {
+                val mapLeft = stack.peek(1)
+                val mapRight = stack.peek()
+                if (mapLeft is TypeWithLambda || mapRight is TypeWithLambda) {
+                    val mapReturnType = (mapLeft as? TypeWithLambda)?.method?.signature?.let { Type.getReturnType(it) }
+                        ?: Type.getReturnType((mapRight as TypeWithLambda).method.signature)
+                    val left = when (mapLeft) {
+                        // TODO: perhaps override optional if it modifies an existing tag instead of creating one
+                        is TypeWithLambda -> call(mapLeft.method, mapLeft.args)
+                        else -> mapReturnType
+                    }.asNbt()
+                    val right = when (mapRight) {
+                        is TypeWithLambda -> call(mapRight.method, mapRight.args)
+                        else -> mapReturnType
+                    }.asNbt()
+
+                    val type = if (left == null) {
+                        right?.asType() ?: mapReturnType
+                    } else if (right == null) {
+                        left.asType()
+                    } else {
+                        NbtEither(left, right).asType()
+                    }
+                    stack.pop(3)
+                    stack.push(type)
+                    return
+                }
             } else if (invoke(className, methodName, signature, argTypes, returnType, virtual = true, static = false)) {
                 return
             }
             // further candidates for special cases:
-            // - Either.map - call both lambdas and mark all as optional
             // - DataResult.resultOrPartial
             //   - Codecs with NbtOps
             // TODO: the default visitINVOKE* impls replace bools, chars, bytes, and shorts with int. we might not want that
@@ -641,6 +667,11 @@ class Vm(private val jarFile: String) {
             if (o.getType(cpg).isNbt()) {
                 stack.push(stack.pop().ensureTyped())
             }
+        }
+
+        override fun visitCHECKCAST(o: CHECKCAST) {
+            if (stack.peek().isNbt() && o.getType(cpg).isNbt()) return
+            super.visitCHECKCAST(o)
         }
     }
 }

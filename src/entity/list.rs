@@ -3154,7 +3154,7 @@ pub mod mc1_20_5 {
         MinecartHopper > AbstractMinecartContainer { "Enabled" as enabled: bool }
         MinecartSpawner > AbstractMinecart { "Delay" as delay: i16, "MaxNearbyEntities" as max_nearby_entities: i16, "MaxSpawnDelay" as max_spawn_delay: i16, "MinSpawnDelay" as min_spawn_delay: i16, "RequiredPlayerRange" as required_player_range: i16, "SpawnCount" as spawn_count: i16, optional "SpawnData" as spawn_data: fastnbt::Value, "SpawnPotentials" as spawn_potentials: fastnbt::Value, "SpawnRange" as spawn_range: i16 }
         MinecartTNT > AbstractMinecart { "TNTFuse" as tnt_fuse: i32 }
-        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<HashMap<String, fastnbt::Value>>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: String, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<HashMap<String, fastnbt::Value>>, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool, optional "body_armor_drop_chance" as body_armor_drop_chance: f32, optional "body_armor_item" as body_armor_item: fastnbt::Value, optional "leash" as leash: fastnbt::Value }
+        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<HashMap<String, fastnbt::Value>>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: String, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<HashMap<String, fastnbt::Value>>, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool, optional "body_armor_drop_chance" as body_armor_drop_chance: f32, optional "body_armor_item" as body_armor_item: fastnbt::Value, optional "leash" as leash: either::Either<super::compounds::Mob_method_56995, fastnbt::IntArray> }
         Monster > PathfinderMob {  }
         Mule > AbstractChestedHorse {  }
         MushroomCow > Cow { "Type" as r#type: String }
@@ -3235,6 +3235,7 @@ pub mod mc1_20_5 {
         AttributeInstance_save { "Base" as base: f64, optional "Modifiers" as modifiers: Vec<super::compounds::AttributeModifier_save>, "Name" as name: String }
         AttributeModifier_save { "Amount" as amount: f64, "Name" as name: String, "Operation" as operation: i32, "UUID" as uuid: u128 }
         Entity_saveAsPassenger { "id" as id: String }
+        Mob_method_56995 { "UUID" as uuid: u128 }
         NbtUtils_writeBlockState { "Name" as name: String, optional "Properties" as properties: HashMap<String, String> }
     }
 }
