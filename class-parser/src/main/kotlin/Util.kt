@@ -124,7 +124,7 @@ fun NbtElement.asType(): Type =
         NbtByteArray -> ObjectType("net.minecraft.nbt.ByteArrayTag")
         NbtIntArray -> ObjectType("net.minecraft.nbt.IntArrayTag")
         NbtLongArray -> ObjectType("net.minecraft.nbt.LongArrayTag")
-        NbtAnyCompound -> ObjectType("net.minecraft.nbt.CompoundTag")
+        is NbtAnyCompound -> TypedCompoundTag(NbtCompound(unknownKeys = valueType))
         is NbtList -> TypedListTag(this)
         is NbtCompound -> TypedCompoundTag(this)
         NbtBoolean -> TypedTag(this, "net.minecraft.nbt.ByteTag")

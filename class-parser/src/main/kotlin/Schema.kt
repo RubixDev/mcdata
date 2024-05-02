@@ -55,6 +55,57 @@ sealed class NbtElement {
         }
         return this
     }
+
+    /**
+     * Combine this type and [other] into one type which can represent all values
+     * from both types.
+     */
+    fun encompass(other: NbtElement?): NbtElement {
+        if (other == null) return this
+        return when (this) {
+            NbtAny -> this
+            NbtByte -> if (other == NbtByte) this else NbtAny
+            NbtShort -> if (other == NbtShort) this else NbtAny
+            NbtInt -> if (other == NbtInt) this else NbtAny
+            NbtLong -> if (other == NbtLong) this else NbtAny
+            NbtFloat -> if (other == NbtFloat) this else NbtAny
+            NbtDouble -> if (other == NbtDouble) this else NbtAny
+            NbtString -> if (other == NbtString) this else NbtAny
+            NbtByteArray -> if (other == NbtByteArray) this else NbtAny
+            NbtIntArray -> if (other == NbtIntArray) this else NbtAny
+            NbtLongArray -> if (other == NbtLongArray) this else NbtAny
+            NbtUuid -> if (other == NbtUuid) this else NbtAny
+            NbtBoolean -> if (other == NbtBoolean) this else NbtAny
+            is NbtNamedCompound -> throw IllegalStateException("named compound before finished running")
+            is NbtList -> if (other is NbtList) NbtList(inner.encompass(other.inner)) else NbtAny
+            is NbtAnyCompound -> when (other) {
+                is NbtAnyCompound -> NbtAnyCompound(valueType.encompass(other.valueType))
+                is NbtCompound -> NbtAnyCompound(other.entries.values.fold(valueType) { acc, it -> acc.encompass(it.value) }
+                    .encompass(other.unknownKeys))
+
+                else -> NbtAny
+            }
+
+            is NbtCompound -> when (other) {
+                is NbtAnyCompound -> NbtAnyCompound(entries.values.fold(other.valueType) { acc, it -> acc.encompass(it.value) }
+                    .encompass(unknownKeys))
+
+                is NbtCompound -> if (this == other) this else {
+                    NbtAnyCompound(
+                        entries.values.plus(other.entries.values).run {
+                            if (isEmpty()) {
+                                NbtAny
+                            } else {
+                                fold(first().value) { acc, it -> acc.encompass(it.value) }
+                            }
+                        }
+                    )
+                }
+
+                else -> NbtAny
+            }
+        }
+    }
 }
 
 @Serializable
@@ -80,7 +131,10 @@ data object NbtAny : NbtElement() {
 
 @Serializable
 @SerialName("List")
-data class NbtList(@EncodeDefault var inner: NbtElement = NbtAny) : NbtElement() {
+data class NbtList(
+    @EncodeDefault
+    var inner: NbtElement = NbtAny,
+) : NbtElement() {
     fun add(value: NbtElement, mergeStrategy: MergeStrategy = MergeStrategy.SameDataSet) {
         inner = inner.merge(value, mergeStrategy)
     }
@@ -94,13 +148,15 @@ data class NbtList(@EncodeDefault var inner: NbtElement = NbtAny) : NbtElement()
 }
 
 /**
- * A CompoundTag with an unknown structure. Will be represented as `Map<String, Any>`.
+ * A CompoundTag with an unknown structure. Will be represented as `Map<String, T>` where `T`
+ * is the type stored in [valueType].
  */
-// TODO: sometimes we can still know the specific type of the values.
-//  e.g. BlockState properties could be `Map<String, String>` instead of `Map<String, Any>`
 @Serializable
 @SerialName("AnyCompound")
-data object NbtAnyCompound : NbtElement() {
+data class NbtAnyCompound(
+    @EncodeDefault
+    val valueType: NbtElement = NbtAny,
+) : NbtElement() {
     override fun merge(other: NbtElement, mergeStrategy: MergeStrategy): NbtElement {
         if (other is NbtCompound) return other
         return super.merge(other, mergeStrategy)
@@ -117,10 +173,11 @@ data class NbtCompound(
     @Transient
     var name: String? = null,
     /**
-     * Contains type information about additional keys of which the names aren't statically known.
+     * If this compound may contain extra keys which aren't statically known, we record which type
+     * they all have in common (similar to [NbtAnyCompound.valueType]). These keys are then stored
+     * in a flattened `HashMap<String, T>`.
      */
-    // TODO: use this in the Rust world
-    var unknownKeys: MutableList<NbtElement> = mutableListOf(),
+    var unknownKeys: NbtElement? = null,
     /**
      * If any type stores an Entity somewhere in its own structure, the structure is recursive.
      * To represent that in Rust we must introduce a `Box<types::Entity>` alongside the rest of
@@ -139,8 +196,7 @@ data class NbtCompound(
         require(other is NbtCompound) { "cannot merge NbtCompound with ${other::class.simpleName}" }
         other.entries.forEach { (k, v) -> put(k, v, mergeStrategy) }
         name = name ?: other.name
-        // TODO: really _add_ them all?
-        unknownKeys.addAll(other.unknownKeys)
+        unknownKeys = unknownKeys?.encompass(other.unknownKeys) ?: other.unknownKeys
         nestedEntity = nestedEntity || other.nestedEntity
         return this
     }
@@ -150,7 +206,7 @@ data class NbtCompound(
             val elem = entry.value
             if (elem is NbtCompound) {
                 if (elem.entries.isEmpty()) {
-                    entry.value = NbtAnyCompound
+                    entry.value = NbtAnyCompound(elem.unknownKeys ?: NbtAny)
                 } else {
                     elem.nameCompounds(compoundTypes)
                     var name = elem.name ?: "Compound${compoundTypes.size}"
@@ -175,7 +231,7 @@ data class NbtCompound(
                 val inner = elem.inner
                 if (inner is NbtCompound) {
                     if (inner.entries.isEmpty()) {
-                        elem.inner = NbtAnyCompound
+                        elem.inner = NbtAnyCompound(inner.unknownKeys ?: NbtAny)
                     } else {
                         inner.nameCompounds(compoundTypes)
                         var name = inner.name ?: "Compound${compoundTypes.size}"
@@ -236,7 +292,7 @@ data class NbtNamedCompound(val name: String) : NbtElement()
 data class CompoundType(
     var name: String,
     val entries: Map<String, NbtCompoundEntry>,
-    val unknownKeys: List<NbtElement> = listOf(),
+    val unknownKeys: NbtElement? = null,
     var nestedEntity: Boolean = false,
 ) {
     fun sameNameAs(other: CompoundType): Boolean = other.name.matches(Regex("$name(_\\d+)?"))

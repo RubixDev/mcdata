@@ -1,6 +1,6 @@
 //! Other Minecraft related types.
 
-use std::collections::HashMap;
+use std::{borrow::Cow, collections::HashMap};
 
 /// A Minecraft BlockPos storing an integer coordinate in 3D.
 ///
@@ -93,20 +93,23 @@ vec_debug!(UVec3);
 // TODO: things below should arguably use serde_value::Value instead of fastnbt::Value
 
 #[allow(unused)]
-pub(crate) fn flatten(entity: &impl Flatten) -> HashMap<&'static str, fastnbt::Value> {
+pub(crate) fn flatten(entity: &impl Flatten) -> HashMap<Cow<'static, str>, fastnbt::Value> {
     let mut map = HashMap::new();
     entity.flatten(&mut map);
     map
 }
 
 pub(crate) trait Flatten {
-    fn flatten(&self, map: &mut HashMap<&'static str, fastnbt::Value>);
+    fn flatten(&self, map: &mut HashMap<Cow<'static, str>, fastnbt::Value>);
 }
 
 #[cfg(feature = "serde")]
-use std::marker::PhantomData;
+use serde::{
+    de::{DeserializeSeed, Error, MapAccess, Visitor},
+    Deserializer,
+};
 #[cfg(feature = "serde")]
-use serde::{Deserializer, de::{Error, Visitor, MapAccess, DeserializeSeed}};
+use std::marker::PhantomData;
 
 #[cfg(feature = "serde")]
 pub(crate) struct FlatMapDeserializer<'a, E>(
@@ -217,7 +220,10 @@ impl<'a: 'de, 'de, E: Error> MapAccess<'de> for FlatMapAccess<'a, E> {
     {
         if let Some((key, content)) = self.iter.next() {
             self.pending_content = Some(content);
-            return seed.deserialize(key).map(Some).map_err(|e| Error::custom(e));
+            return seed
+                .deserialize(key)
+                .map(Some)
+                .map_err(|e| Error::custom(e));
         }
         Ok(None)
     }

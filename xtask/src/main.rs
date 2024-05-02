@@ -479,11 +479,15 @@ pub mod mc{mod_name} {{
         );
 
         for EntityType { name, parent, nbt } in types {
+            if let Some(extras) = &nbt.unknown_keys {
+                println!("\x1b[1;33m>>> WARNING: version '{feature}': entity type '{name}' specifies unknown keys as '{}'\x1b[0m", extras.as_rust_type());
+            }
+
             entity_list_rs += &format!("        {name} ");
             if let Some(parent) = parent {
                 entity_list_rs += &format!("> {parent} ");
             }
-            entity_list_rs += "- ";
+            entity_list_rs += "{ ";
 
             let last_index = nbt.entries.len().saturating_sub(1);
             for (index, (name, entry)) in nbt.entries.iter().enumerate() {
@@ -500,7 +504,7 @@ pub mod mc{mod_name} {{
                     entity_list_rs += ", ";
                 }
             }
-            entity_list_rs += ";\n";
+            entity_list_rs += " }\n";
         }
 
         entity_list_rs += &format!(
@@ -512,7 +516,11 @@ pub mod mc{mod_name} {{
         );
 
         for CompoundType { name, compound } in compound_types {
-            entity_list_rs += &format!("        {name} - ");
+            entity_list_rs += &format!("        {name} ");
+            if let Some(extras) = &compound.unknown_keys {
+                entity_list_rs += &format!("with extras as {} ", extras.as_rust_type());
+            }
+            entity_list_rs += "{ ";
 
             let last_index = compound.entries.len().saturating_sub(1);
             for (index, (name, entry)) in compound.entries.iter().enumerate() {
@@ -529,7 +537,7 @@ pub mod mc{mod_name} {{
                     entity_list_rs += ", ";
                 }
             }
-            entity_list_rs += ";\n";
+            entity_list_rs += " }\n";
         }
 
         entity_list_rs += "    }\n}\n";

@@ -57,7 +57,7 @@ macro_rules! blocks {
             /// This internally allocates new strings. It is used for implementing equality, as the
             /// same block state can be represented by both a known variant and the [`Self::Other`]
             /// variant.
-            pub fn as_generic(&self) -> super::super::GenericBlockState<'static> {
+            pub fn as_generic(&self) -> super::super::GenericBlockState<'_> {
                 match self {
                     $(
                         Self::$variant $({ $($prop),+ })? => super::super::GenericBlockState {
@@ -192,6 +192,10 @@ macro_rules! props {
 }
 
 macro_rules! prop_str {
-    ($prop:ident $prop_str:literal) => { $prop_str };
-    ($prop:ident) => { stringify!($prop) };
+    ($prop:ident $prop_str:literal) => {
+        $prop_str
+    };
+    ($prop:ident) => {
+        stringify!($prop)
+    };
 }

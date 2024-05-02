@@ -88,8 +88,10 @@ pub struct EntityType {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct NbtCompound {
     pub entries: BTreeMap<String, NbtCompoundEntry>,
+    pub unknown_keys: Option<NbtElement>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -122,9 +124,16 @@ pub enum NbtElement {
     LongArray,
     Uuid,
     Boolean,
-    List { inner: Box<NbtElement> },
-    AnyCompound,
-    Compound { name: String },
+    List {
+        inner: Box<NbtElement>,
+    },
+    AnyCompound {
+        #[serde(rename = "valueType")]
+        value_type: Box<NbtElement>,
+    },
+    Compound {
+        name: String,
+    },
 }
 
 impl NbtElement {
@@ -146,7 +155,9 @@ impl NbtElement {
             NbtElement::Uuid => "u128".into(),
             NbtElement::Boolean => "bool".into(),
             NbtElement::List { inner } => format!("Vec<{}>", inner.as_rust_type()).into(),
-            NbtElement::AnyCompound => "std::collections::HashMap<String, fastnbt::Value>".into(),
+            NbtElement::AnyCompound { value_type } => {
+                format!("HashMap<String, {}>", value_type.as_rust_type()).into()
+            }
             NbtElement::Compound { name } => format!("super::compounds::{name}").into(),
         }
     }

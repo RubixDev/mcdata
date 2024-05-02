@@ -295,7 +295,7 @@ class Vm(private val jarFile: String) {
                         println("WARNING: untyped CompoundTag on stack, cannot save value")
                     } else {
                         when (val string = stack.peek(1) as? StringTypeWithValue) {
-                            null -> compound.nbt.unknownKeys.add(type)
+                            null -> compound.nbt.unknownKeys = type.encompass(compound.nbt.unknownKeys)
                             else -> compound.nbt.put(
                                 string.value,
                                 NbtCompoundEntry(

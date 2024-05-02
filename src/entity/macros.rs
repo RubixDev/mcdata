@@ -43,9 +43,7 @@ macro_rules! entities {
                             super::super::GenericEntity {
                                 id: Cow::Borrowed($id),
                                 uuid,
-                                properties: HashMap::from_iter(
-                                    props.into_iter().map(|(k, v)| (Cow::Borrowed(k), v))
-                                ),
+                                properties: props,
                             }
                         }
                     )+
@@ -147,7 +145,18 @@ macro_rules! entities {
 }
 
 macro_rules! entity_types {
-    ($mc_version:literal; $($tt:tt)*) => {
+    (
+        $mc_version:literal;
+        $(
+            $name:ident
+            $( > $parent:ident)?
+            { $(
+                $($optional:ident)?
+                $entry_name:literal as $entry_field:ident
+                : $type:ty
+            ),* }
+        )*
+    ) => {
         entity_types!(
             @impl
             concat!(
@@ -180,7 +189,7 @@ struct B { a: i32, b: f64 }
 ```
 "###
             ), types;
-            $($tt)*
+            $( $name $(> $parent)? { $( $($optional)? $entry_name as $entry_field : $type ),* } )*
         );
     };
     (
@@ -189,18 +198,19 @@ struct B { a: i32, b: f64 }
         $(
             $name:ident
             $( > $parent:ident)?
-            - $(
+            $(extra $extras_type:ty)?
+            { $(
                 $($optional:ident)?
                 $entry_name:literal as $entry_field:ident
                 : $type:ty
-            ),*
-        );*
-        $(;)?
+            ),* }
+        )*
     ) => {
         #[doc = $doc]
         #[allow(missing_docs, unused_imports, non_camel_case_types)]
         pub mod $mod_name {
             use $crate::util::Flatten;
+            use std::{borrow, collections::HashMap};
             #[cfg(feature = "serde")]
             use serde::{Deserialize, de::Visitor, Serialize};
             #[cfg(feature = "serde")]
@@ -216,15 +226,24 @@ struct B { a: i32, b: f64 }
                 $(
                     pub parent: $parent,
                 )?
+                $(
+                    pub extra: HashMap<String, $extras_type>,
+                )?
             }
 
             impl Flatten for $name {
-                fn flatten(&self, map: &mut std::collections::HashMap<&'static str, fastnbt::Value>) {
+                fn flatten(&self, map: &mut HashMap<borrow::Cow<'static, str>, fastnbt::Value>) {
                     $(
-                        map.insert($entry_name, fastnbt::value::to_value(&self.$entry_field).expect("structure is valid NBT"));
+                        map.insert(borrow::Cow::Borrowed($entry_name), fastnbt::to_value(&self.$entry_field).expect("structure is valid NBT"));
                     )*
                     $(
                         <$parent as Flatten>::flatten(&self.parent, map);
+                    )?
+                    $(
+                        stringify!($extras_type); // just to have the correct macro variable in here somewhere
+                        for (k, v) in &self.extra {
+                            map.insert(borrow::Cow::Owned(k.clone()), fastnbt::to_value(v).expect("structure is valid NBT"));
+                        }
                     )?
                 }
             }
@@ -316,6 +335,9 @@ struct B { a: i32, b: f64 }
                                 $(
                                     parent: <$parent as Deserialize>::deserialize($crate::util::FlatMapDeserializer(&mut __collect, PhantomData))?,
                                 )?
+                                $(
+                                    extra: <HashMap<String, $extras_type> as Deserialize>::deserialize($crate::util::FlatMapDeserializer(&mut __collect, PhantomData))?,
+                                )?
                             })
                         }
                     }
@@ -339,18 +361,18 @@ macro_rules! entity_compound_types {
         $mc_version:literal;
         $(
             $name:ident
-            - $(
+            $(with extras as $extras_type:ty)?
+            { $(
                 $($optional:ident)?
                 $entry_name:literal as $entry_field:ident
                 : $type:ty
-            ),*
-        );*
-        $(;)?
+            ),* }
+        )*
     ) => {
         entity_types!(
             @impl
             concat!("Additional typed NBT compounds for entities in Minecraft ", $mc_version, "."), compounds;
-            $( $name - $( $($optional)? $entry_name as $entry_field : $type ),* );*
+            $( $name $(extra $extras_type)? { $( $($optional)? $entry_name as $entry_field : $type ),* } )*
         );
     };
 }
