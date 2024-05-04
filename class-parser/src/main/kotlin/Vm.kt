@@ -8,15 +8,64 @@ import org.apache.bcel.verifier.structurals.Frame
 import java.io.IOException
 import kotlin.math.max
 
+data class MethodCall(
+    val method: MethodPointer,
+    /**
+     * These args should never carry any NBT information, i.e. [Type.untyped] should have been called on each one.
+     */
+    val args: List<Type>,
+) {
+    fun toTypeName(): String = "${classToTypeName(method.className)}_${method.name}"
+}
+
+/**
+ * Stores the modifications that calling a method does to the NBT arguments and what NBT it returns.
+ */
+data class CallResult(
+    val argsNbt: List<NbtElement>,
+    val returnNbt: NbtElement?,
+) {
+    /**
+     * Apply this diff to the actual call arguments.
+     */
+    fun applyTo(actualArgs: List<Type>): NbtElement? {
+        // TODO: this assumes that we never call this for methods on NBT classes,
+        //  as otherwise the `actualArgs` would contain an extra arg for the instance
+        for ((before, diff) in actualArgs.mapNotNull { it.asNbt() }.zip(argsNbt)) {
+            when (before) {
+                is NbtCompound -> when (diff) {
+                    NbtAny -> {}
+                    is NbtCompound, is NbtBoxed -> before.flattened.add(diff)
+                    else -> throw RuntimeException("actual arg doesn't match computed diff:\n  before = $before\n  diff = $diff")
+                }
+
+                is NbtList -> before.merge(diff)
+                NbtAny -> {}
+                else -> throw RuntimeException("don't know how to handle this type in args:\n  before = $before\n  diff = $diff")
+            }
+        }
+        return returnNbt?.clone()
+    }
+}
+
 class Vm(private val jarFile: String) {
     private val classes = mutableMapOf<String, JavaClass>()
-    private val callStack = mutableListOf<MethodPointer>()
+    private val methods = mutableMapOf<MethodCall, CallResult>()
+    private val callStack = mutableListOf<MethodCall>()
+
+    /**
+     * A set of method calls which were recursive _somewhere_.
+     */
+    val boxedTypes = mutableSetOf<MethodCall>()
 
     fun analyzeFrom(method: MethodPointer): NbtCompound {
         // assume a single argument of type CompoundTag
-        val compound = NbtCompound()
-        call(method, listOf(ObjectType(method.className), TypedCompoundTag(compound)), ignoreSuper = true)
-        return compound
+        val res = call(
+            method,
+            listOf(ObjectType(method.className), TypedTag(NbtCompound(), "net.minecraft.nbt.CompoundTag")),
+            ignoreSuper = true,
+        )
+        return res.argsNbt[0] as NbtCompound
     }
 
     private fun call(
@@ -24,44 +73,55 @@ class Vm(private val jarFile: String) {
         args: List<Type>,
         overrideOptional: Boolean = false,
         ignoreSuper: Boolean = false,
-    ): Type {
-        // no recursion
-        // TODO: recursive structures, e.g. MobEffectInstance
-        if (callStack.contains(methodPointer)) {
-            return Type.getReturnType(methodPointer.signature).ensureTyped()
+    ): CallResult = methods.getOrPut(MethodCall(methodPointer, args.map { it.untyped() })) {
+        val thisCall = MethodCall(methodPointer, args.map { it.untyped() })
+
+        // don't recurse the same method with the same arguments
+        if (callStack.contains(thisCall)) {
+            val isNew = boxedTypes.add(thisCall)
+            require(isNew)
+            // instead return boxed versions of compounds resulting from this call
+            return CallResult(
+                Type.getArgumentTypes(methodPointer.signature).mapNotNull { it.asNbt() }
+                    .map { if (it is NbtCompound) NbtBoxed(thisCall.toTypeName()) else it },
+                Type.getReturnType(methodPointer.signature).asNbt()
+                    ?.let { if (it is NbtCompound) NbtBoxed(thisCall.toTypeName()) else it },
+            )
         }
 
         val clazz = getClass(methodPointer.className)
-        val method = clazz.methods.find {
-            it.name == methodPointer.name
-                    && Type.getMethodSignature(it.returnType, it.argumentTypes) == methodPointer.signature
-        } ?: return Type.getReturnType(methodPointer.signature)
+        val method = clazz.methods.find { it.name == methodPointer.name && it.signature == methodPointer.signature }
+            ?: return CallResult(
+                Type.getArgumentTypes(methodPointer.signature).mapNotNull { it.asNbt() },
+                Type.getReturnType(methodPointer.signature).asNbt(),
+            )
 
-        callStack.add(methodPointer)
+        // strip any existing NBT information from passed args
+        val callArgs = args.map { it.untyped().ensureTyped() }
+
+        callStack.add(thisCall)
 
         // if there's only one CompoundTag argument, and it doesn't have a name yet, give it one based
-        // on the class and method names. The caller may add additional fields to the passed tag, in
-        // which case a distinct number will later be appended to this name for each distinct caller.
-        val compoundArgs = args.filterIsInstance<TypedCompoundTag>()
+        // on the class and method names
+        val compoundArgs = callArgs.mapNotNull { it.asNbt() }.filterIsInstance<NbtCompound>()
         if (compoundArgs.size == 1) {
-            val tag = compoundArgs.first().nbt
+            val tag = compoundArgs.first()
             if (tag.name == null) {
-                tag.name = "${classToTypeName(methodPointer.className)}_${methodPointer.name}"
+                tag.name = thisCall
             }
+        } else if (compoundArgs.size > 1) {
+            printWarning("method has more than one compound argument, this is probably handled incorrectly: $methodPointer")
         }
 
         val insns = InstructionList(method.code.code)
-        val runner = MethodRunner(clazz, method, args, ignoreSuper)
-        if (overrideOptional) runner.optionalUntil = Int.MAX_VALUE
+        val runner = MethodRunner(clazz, method, callArgs, ignoreSuper)
         for (insn in insns) {
             runner.visit(insn)
         }
         callStack.removeLast()
 
         val returnType = Type.getReturnType(methodPointer.signature)
-        return if (returnType == Type.VOID) {
-            Type.VOID
-        } else if (returnType.isNbt()) {
+        val returnNbt = returnType.asNbt()?.let {
             var nbt: NbtElement = NbtAny
             for (value in runner.returnValues) {
                 nbt = value.asNbt()?.merge(nbt, MergeStrategy.DifferentDataSet) ?: continue
@@ -69,12 +129,24 @@ class Vm(private val jarFile: String) {
             // if the return value is a CompoundTag, and it doesn't have a name yet, give it one based
             // on the class and method names
             if (nbt is NbtCompound && nbt.name == null) {
-                nbt.name = "${classToTypeName(methodPointer.className)}_${methodPointer.name}"
+                nbt.name = thisCall
             }
-            nbt.asType()
-        } else {
-            runner.returnValues.first()
+            nbt
         }
+        val argsNbt = callArgs.mapNotNull { it.asNbt() }
+        if (overrideOptional) {
+            for (elem in argsNbt.filterIsInstance<NbtCompound>()) {
+                for (entry in elem.entries.values) {
+                    entry.optional = true
+                }
+            }
+            if (returnNbt is NbtCompound) {
+                for (entry in returnNbt.entries.values) {
+                    entry.optional = true
+                }
+            }
+        }
+        CallResult(argsNbt, returnNbt)
     }
 
     private fun getClass(name: String) = classes.getOrPut(name) {
@@ -98,7 +170,7 @@ class Vm(private val jarFile: String) {
      *
      * Because we need to actually store some values and not just their types, we introduce
      * a few classes that extend the [Type] class but, despite the name, also hold values.
-     * These are for example [StringTypeWithValue] or [TypedCompoundTag].
+     * These are for example [StringTypeWithValue] or [TypedTag].
      */
     inner class MethodRunner(
         clazz: JavaClass,
@@ -200,7 +272,7 @@ class Vm(private val jarFile: String) {
         private val stack get() = frame.stack
 
         private var pc = 0
-        var optionalUntil = 0
+        private var optionalUntil = 0
 
         /**
          * Because we run all instructions in linear order, we can encounter multiple return instructions.
@@ -213,7 +285,7 @@ class Vm(private val jarFile: String) {
             setConstantPoolGen(cpg)
             setFrame(frame)
             for ((idx, arg) in args.withIndex()) {
-                locals[idx] = arg.ensureTyped()
+                locals[idx] = arg.ensureTyped().forLocalsOrStack()
             }
             for (idx in args.size..<locals.maxLocals()) {
                 locals[idx] = UninitializedLocal
@@ -237,7 +309,7 @@ class Vm(private val jarFile: String) {
                         extraType != null && extraType.className == newType.className -> extraType
                         prevType.className == newType.className -> prevType
                         else -> newType
-                    }.ensureTyped()
+                    }.ensureTyped().forLocalsOrStack()
                 }
                 // set the rest to uninitialized
                 for (i in entry.first.size..<locals.maxLocals()) {
@@ -291,18 +363,20 @@ class Vm(private val jarFile: String) {
                 }
                 if (type != null) {
                     val compound = stack.peek(2)
-                    if (compound !is TypedCompoundTag) {
-                        println("WARNING: untyped CompoundTag on stack, cannot save value")
+                    if (compound !is TypedTag || compound.nbt !is NbtCompound) {
+                        printWarning("untyped CompoundTag on stack, cannot save entry")
                     } else {
-                        when (val string = stack.peek(1) as? StringTypeWithValue) {
-                            null -> compound.nbt.unknownKeys = type.encompass(compound.nbt.unknownKeys)
-                            else -> compound.nbt.put(
-                                string.value,
-                                NbtCompoundEntry(
-                                    type,
-                                    optional = pc < optionalUntil
+                        (compound.nbt as NbtCompound).let { nbt ->
+                            when (val string = stack.peek(1) as? StringTypeWithValue) {
+                                null -> nbt.unknownKeys = type.encompass(nbt.unknownKeys)
+                                else -> nbt.put(
+                                    string.value,
+                                    NbtCompoundEntry(
+                                        type,
+                                        optional = pc < optionalUntil
+                                    )
                                 )
-                            )
+                            }
                         }
                     }
                 }
@@ -327,10 +401,10 @@ class Vm(private val jarFile: String) {
                 }
                 val list = stack.peek(argTypes.size)
                 if (type != null) {
-                    if (list !is TypedListTag) {
-                        println("WARNING: untyped ListTag on stack, cannot save value")
+                    if (list !is TypedTag || list.nbt !is NbtList) {
+                        printWarning("untyped ListTag on stack, cannot save value")
                     } else {
-                        list.nbt.add(type)
+                        (list.nbt as NbtList).add(type)
                     }
                 }
             } else if (className == "java.util.Optional" && methodName == "ifPresent") {
@@ -338,11 +412,7 @@ class Vm(private val jarFile: String) {
                 // it but mark everything as optional because it's in `Optional.ifPresent`
                 val consumer = stack.peek()
                 if (consumer is TypeWithLambda) {
-                    call(
-                        consumer.method,
-                        consumer.args,
-                        overrideOptional = true,
-                    )
+                    call(consumer.method, consumer.args, overrideOptional = true).applyTo(consumer.args)
                 }
             } else if (className == "com.mojang.datafixers.util.Either" && methodName == "map") {
                 val mapLeft = stack.peek(1)
@@ -352,13 +422,13 @@ class Vm(private val jarFile: String) {
                         ?: Type.getReturnType((mapRight as TypeWithLambda).method.signature)
                     val left = when (mapLeft) {
                         // TODO: perhaps override optional if it modifies an existing tag instead of creating one
-                        is TypeWithLambda -> call(mapLeft.method, mapLeft.args)
-                        else -> mapReturnType
-                    }.asNbt()
+                        is TypeWithLambda -> call(mapLeft.method, mapLeft.args).applyTo(mapLeft.args)
+                        else -> mapReturnType.asNbt()
+                    }
                     val right = when (mapRight) {
-                        is TypeWithLambda -> call(mapRight.method, mapRight.args)
-                        else -> mapReturnType
-                    }.asNbt()
+                        is TypeWithLambda -> call(mapRight.method, mapRight.args).applyTo(mapRight.args)
+                        else -> mapReturnType.asNbt()
+                    }
 
                     val type = if (left == null) {
                         right?.asType() ?: mapReturnType
@@ -374,10 +444,7 @@ class Vm(private val jarFile: String) {
             } else if (invoke(className, methodName, signature, argTypes, returnType, virtual = true, static = false)) {
                 return
             }
-            // further candidates for special cases:
-            // - DataResult.resultOrPartial
-            //   - Codecs with NbtOps
-            // TODO: the default visitINVOKE* impls replace bools, chars, bytes, and shorts with int. we might not want that
+            // TODO: Codecs and DataResult
             super.visitINVOKEVIRTUAL(o)
         }
 
@@ -454,18 +521,34 @@ class Vm(private val jarFile: String) {
             virtual: Boolean,
             static: Boolean,
         ): Boolean {
+            // special case for `Entity.saveAsPassenger`:
+            // This is currently the only place where `Entity.saveWithoutId` is called,
+            // and the only relevant extra thing it does is add the `id` field. Our
+            // normal recursing logic won't work for this, as `Entity.saveWithoutId`
+            // is an entrypoint. And even if it wasn't, the only type in Rust that will
+            // represent _any_ Entity with an id is the `Entity` enum. That means we
+            // need this special case to return a `Box<Entity>` where `Entity` isn't
+            // the struct used for `Entity.saveWithoutId` but the enum that can represent
+            // any entity.
+            if (
+                className == "net.minecraft.world.entity.Entity"
+                && methodName == "saveAsPassenger"
+                && signature == "(Lnet/minecraft/nbt/CompoundTag;)Z"
+            ) {
+                val args = (0..1).map { stack.pop() }.reversed()
+                (args[1] as TypedTag).nbt = NbtNestedEntity
+                stack.push(Type.INT)
+                return true
+            }
+
             // special case for `Entity.saveWithoutId`:
-            // we never want to re-enter that method as that would introduce a recursive structure,
-            // which we mark by setting `nestedEntity` to `true`
+            // Throw an exception to make sure all callers of this were handled specially.
             if (
                 className == "net.minecraft.world.entity.Entity"
                 && methodName == "saveWithoutId"
                 && signature == "(Lnet/minecraft/nbt/CompoundTag;)Lnet/minecraft/nbt/CompoundTag;"
             ) {
-                val args = (0..1).map { stack.pop() }.reversed()
-                (args[1] as TypedCompoundTag).nbt.nestedEntity = true
-                stack.push(args[1])
-                return true
+                throw RuntimeException("encountered `Entity.saveWithoutId` directly")
             }
 
             // enter every method that takes or returns any NBT type for further analysis
@@ -487,10 +570,13 @@ class Vm(private val jarFile: String) {
                 // pop the args
                 stack.pop(args.size)
                 // call it
-                val res = call(targetMethod, args)
+                // TODO: this should have `overrideOptional = pc < optionalUntil`, but that causes trouble with lists
+                //  of compounds which are added in loops. That's probably already an issue elsewhere, as it's not
+                //  directly related to this
+                val res = call(targetMethod, args).applyTo(args)?.asType() ?: returnType
                 // store the result
                 if (returnType != Type.VOID) {
-                    stack.push(res)
+                    stack.push(res.forLocalsOrStack())
                 }
                 return true
             }

@@ -9,41 +9,43 @@ macro_rules! entities {
         );+
         $(;)?
     ) => {
-        use std::{borrow::Cow, collections::HashMap, marker::PhantomData};
+        #[cfg(feature = "serde")]
+        use std::{collections::HashMap, marker::PhantomData};
         #[cfg(feature = "serde")]
         use serde::{Deserialize, de::Visitor, Serialize};
 
         #[doc = concat!("A typed entity for Minecraft ", $mc_version, ".")]
         #[derive(Debug, Clone)]
-        pub enum Entity<'a> {
+        pub enum Entity {
             $(
                 #[doc = concat!("`", $id, "`", $(" (", stringify!($experimental), ")")?)]
                 #[allow(missing_docs)]
                 $variant(types::$type),
             )+
             /// Any other unrecognized (possibly invalid) entity.
-            Other(super::super::GenericEntity<'a>),
+            Other(super::super::GenericEntity),
         }
 
-        impl super::super::Entity for Entity<'_> {}
+        impl super::super::Entity for Entity {}
 
-        impl Entity<'_> {
+        #[cfg(feature = "serde")]
+        impl Entity {
             /// Turn this entity into a
             /// [`GenericEntity`](super::super::GenericEntity).
             ///
             /// This internally allocates new strings. It is used for implementing equality, as the
             /// same entity can be represented by both a known variant and the [`Self::Other`]
             /// variant.
-            pub fn as_generic(&self) -> super::super::GenericEntity<'_> {
+            pub fn as_generic(&self) -> super::super::GenericEntity {
                 match self {
                     $(
                         Self::$variant(value) => {
-                            let mut props = $crate::util::flatten(value);
+                            let mut props = $crate::flatten::flatten(value);
                             let uuid: u128 = fastnbt::from_value(&props.remove("UUID").expect("every entity has a UUID")).expect("UUID from flattening should be valid");
                             super::super::GenericEntity {
-                                id: Cow::Borrowed($id),
+                                id: $id.to_string(),
                                 uuid,
-                                properties: props,
+                                properties: props.into_iter().map(|(k, v)| (k.to_string(), v)).collect(),
                             }
                         }
                     )+
@@ -52,14 +54,15 @@ macro_rules! entities {
             }
         }
 
-        impl PartialEq for Entity<'_> {
+        #[cfg(feature = "serde")]
+        impl PartialEq for Entity {
             fn eq(&self, other: &Self) -> bool {
                 self.as_generic() == other.as_generic()
             }
         }
 
         #[cfg(feature = "serde")]
-        impl Serialize for Entity<'_> {
+        impl Serialize for Entity {
             fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
             where
                 S: serde::Serializer,
@@ -69,17 +72,17 @@ macro_rules! entities {
         }
 
         #[cfg(feature = "serde")]
-        impl<'de: 'a, 'a> Deserialize<'de> for Entity<'a> {
+        impl<'de> Deserialize<'de> for Entity {
             fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
             where
                 D: serde::Deserializer<'de>,
             {
-                struct _Visitor<'de: 'a, 'a> {
-                    marker: PhantomData<Entity<'a>>,
+                struct _Visitor<'de> {
+                    marker: PhantomData<Entity>,
                     lifetime: PhantomData<&'de ()>,
                 }
-                impl<'de: 'a, 'a> Visitor<'de> for _Visitor<'de, 'a> {
-                    type Value = Entity<'a>;
+                impl<'de> Visitor<'de> for _Visitor<'de> {
+                    type Value = Entity;
 
                     fn expecting(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
                         formatter.write_str("Entity")
@@ -89,11 +92,11 @@ macro_rules! entities {
                     where
                         A: serde::de::MapAccess<'de>,
                     {
-                        let mut id: Option<Cow<'a, str>> = None;
+                        let mut id: Option<String> = None;
                         let mut uuid: Option<u128> = None;
-                        let mut properties: HashMap<Cow<'a, str>, fastnbt::Value> = HashMap::new();
-                        while let Some(key) = map.next_key::<Cow<'a, str>>()? {
-                            match key.as_ref() {
+                        let mut properties: HashMap<String, fastnbt::Value> = HashMap::new();
+                        while let Some(key) = map.next_key::<String>()? {
+                            match key.as_str() {
                                 "id" => {
                                     if id.is_some() {
                                         return Err(serde::de::Error::duplicate_field("id"));
@@ -116,13 +119,13 @@ macro_rules! entities {
                         Ok(match id.as_ref() {
                             $(
                                 $id => {
-                                    properties.insert(Cow::Borrowed("UUID"), fastnbt::to_value(uuid).expect("failed to serialize UUID"));
-                                    match fastnbt::from_value::<types::$type>(&fastnbt::to_value(&properties).expect("`HashMap<Cow<str>, Value>` can be turned into `Value::Compound`")) {
+                                    properties.insert("UUID".to_string(), fastnbt::to_value(uuid).expect("failed to serialize UUID"));
+                                    match fastnbt::from_value::<types::$type>(&fastnbt::Value::Compound(properties.clone())) {
                                         Ok(val) => Self::Value::$variant(val),
                                         Err(_) => {
                                             properties.remove("UUID");
                                             Self::Value::Other(super::super::GenericEntity {
-                                                id: Cow::Borrowed($id),
+                                                id: $id.to_string(),
                                                 uuid,
                                                 properties,
                                             })
@@ -136,7 +139,7 @@ macro_rules! entities {
                 }
 
                 deserializer.deserialize_map(_Visitor {
-                    marker: PhantomData::<Entity<'a>>,
+                    marker: PhantomData::<Entity>,
                     lifetime: PhantomData,
                 })
             }
@@ -150,6 +153,7 @@ macro_rules! entity_types {
         $(
             $name:ident
             $( > $parent:ident)?
+            $(, flattened [$( $flat_field:ident : $flat_type:ty ),*])?
             { $(
                 $($optional:ident)?
                 $entry_name:literal as $entry_field:ident
@@ -189,7 +193,7 @@ struct B { a: i32, b: f64 }
 ```
 "###
             ), types;
-            $( $name $(> $parent)? { $( $($optional)? $entry_name as $entry_field : $type ),* } )*
+            $( $name $(> $parent)?, [$($($flat_field: $flat_type),*)?] { $( $($optional)? $entry_name as $entry_field : $type ),* } )*
         );
     };
     (
@@ -198,7 +202,8 @@ struct B { a: i32, b: f64 }
         $(
             $name:ident
             $( > $parent:ident)?
-            $(extra $extras_type:ty)?
+            $(, extra $extras_type:ty)?,
+            [$( $flat_field:ident : $flat_type:ty ),*]
             { $(
                 $($optional:ident)?
                 $entry_name:literal as $entry_field:ident
@@ -209,28 +214,39 @@ struct B { a: i32, b: f64 }
         #[doc = $doc]
         #[allow(missing_docs, unused_imports, non_camel_case_types)]
         pub mod $mod_name {
-            use $crate::util::Flatten;
             use std::{borrow, collections::HashMap};
+
+            #[cfg(feature = "serde")]
+            use $crate::flatten::Flatten;
             #[cfg(feature = "serde")]
             use serde::{Deserialize, de::Visitor, Serialize};
             #[cfg(feature = "serde")]
             use std::{marker::PhantomData, fmt};
 
             $(
-            #[derive(Debug, Clone, PartialEq)]
+            #[derive(Debug, Clone)]
+            #[cfg_attr(feature = "serde", derive(PartialEq))]
             pub struct $name {
                 $(
                     #[doc = concat!("`\"", $entry_name, "\"`")]
                     pub $entry_field: entity_types!(@optional $type $(, $optional)?),
                 )*
                 $(
+                    #[doc = concat!("Inherited fields from [`", stringify!($parent), "`]")]
                     pub parent: $parent,
                 )?
                 $(
+                    /// Additional fields with unknown keys.
                     pub extra: HashMap<String, $extras_type>,
                 )?
+                $(
+                    // TODO: these doc links can be wrong for `Box<T>`
+                    #[doc = concat!("Inherited fields from [`", stringify!($flat_type), "`]")]
+                    pub $flat_field: $flat_type,
+                )*
             }
 
+            #[cfg(feature = "serde")]
             impl Flatten for $name {
                 fn flatten(&self, map: &mut HashMap<borrow::Cow<'static, str>, fastnbt::Value>) {
                     $(
@@ -245,6 +261,9 @@ struct B { a: i32, b: f64 }
                             map.insert(borrow::Cow::Owned(k.clone()), fastnbt::to_value(v).expect("structure is valid NBT"));
                         }
                     )?
+                    $(
+                        self.$flat_field.flatten(map);
+                    )*
                 }
             }
 
@@ -254,7 +273,7 @@ struct B { a: i32, b: f64 }
                 where
                     S: serde::Serializer,
                 {
-                    $crate::util::flatten(self).serialize(serializer)
+                    $crate::flatten::flatten(self).serialize(serializer)
                 }
             }
 
@@ -333,11 +352,14 @@ struct B { a: i32, b: f64 }
                             Ok($name {
                                 $($entry_field,)*
                                 $(
-                                    parent: <$parent as Deserialize>::deserialize($crate::util::FlatMapDeserializer(&mut __collect, PhantomData))?,
+                                    parent: <$parent as Deserialize>::deserialize($crate::flatten::FlatMapDeserializer(&mut __collect, PhantomData))?,
                                 )?
                                 $(
-                                    extra: <HashMap<String, $extras_type> as Deserialize>::deserialize($crate::util::FlatMapDeserializer(&mut __collect, PhantomData))?,
+                                    extra: <HashMap<String, $extras_type> as Deserialize>::deserialize($crate::flatten::FlatMapDeserializer(&mut __collect, PhantomData))?,
                                 )?
+                                $(
+                                    $flat_field: <$flat_type as Deserialize>::deserialize($crate::flatten::FlatMapDeserializer(&mut __collect, PhantomData))?,
+                                )*
                             })
                         }
                     }
@@ -361,7 +383,8 @@ macro_rules! entity_compound_types {
         $mc_version:literal;
         $(
             $name:ident
-            $(with extras as $extras_type:ty)?
+            $(, with extras as $extras_type:ty)?
+            $(, flattened [$( $flat_field:ident : $flat_type:ty ),*])?
             { $(
                 $($optional:ident)?
                 $entry_name:literal as $entry_field:ident
@@ -372,7 +395,7 @@ macro_rules! entity_compound_types {
         entity_types!(
             @impl
             concat!("Additional typed NBT compounds for entities in Minecraft ", $mc_version, "."), compounds;
-            $( $name $(extra $extras_type)? { $( $($optional)? $entry_name as $entry_field : $type ),* } )*
+            $( $name $(, extra $extras_type)?, [$($($flat_field: $flat_type),*)?] { $( $($optional)? $entry_name as $entry_field : $type ),* } )*
         );
     };
 }

@@ -9,3 +9,6 @@ pub mod block_entity;
 pub mod block_state;
 pub mod entity;
 pub mod util;
+
+#[cfg(feature = "serde")]
+pub(crate) mod flatten;

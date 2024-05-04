@@ -78,6 +78,9 @@ sealed class NbtElement {
             NbtBoolean -> if (other == NbtBoolean) this else NbtAny
             is NbtNamedCompound -> throw IllegalStateException("named compound before finished running")
             is NbtList -> if (other is NbtList) NbtList(inner.encompass(other.inner)) else NbtAny
+            // TODO: the next two could also be NbtAnyCompound, but I don't think that ever happens anyway
+            is NbtBoxed -> if (this == other) this else NbtAny
+            is NbtNestedEntity -> if (this == NbtNestedEntity) this else NbtAny
             is NbtEither -> when (other) {
                 left, right -> this
                 is NbtEither -> NbtEither(left.encompass(other.left), right.encompass(other.right))
@@ -112,6 +115,24 @@ sealed class NbtElement {
             }
         }
     }
+
+    fun clone(): NbtElement =
+        when (this) {
+            NbtAny, NbtByte, NbtShort, NbtInt, NbtLong, NbtFloat, NbtDouble, NbtString, NbtByteArray, NbtIntArray,
+            NbtLongArray, NbtUuid, NbtBoolean, NbtNestedEntity -> this
+
+            is NbtEither -> NbtEither(left.clone(), right.clone())
+            is NbtBoxed -> NbtBoxed(name)
+            is NbtList -> NbtList(inner.clone())
+            is NbtAnyCompound -> NbtAnyCompound(valueType.clone())
+            is NbtNamedCompound -> NbtNamedCompound(name)
+            is NbtCompound -> NbtCompound(
+                entries.map { (k, e) -> k to NbtCompoundEntry(e.value.clone(), e.optional) }.toMap(mutableMapOf()),
+                name,
+                unknownKeys?.clone(),
+                flattened.map { it.clone() }.toMutableList(),
+            )
+        }
 }
 
 @Serializable
@@ -147,6 +168,29 @@ data class NbtEither(
         return NbtEither(left.merge(other.left, mergeStrategy), right.merge(other.right, mergeStrategy))
     }
 }
+
+/**
+ * A `Box<T>` where `T` is another compound with the name [name].
+ * This is needed for recursive structures.
+ */
+@Serializable
+@SerialName("Boxed")
+// TODO: I think technically this should also store an `optional` bool for `overrideOptional`
+data class NbtBoxed(val name: String) : NbtElement() {
+    override fun merge(other: NbtElement, mergeStrategy: MergeStrategy): NbtElement {
+        if (other is NbtBoxed && other.name != name) {
+            throw IllegalArgumentException("cannot merge two NbtBoxed with different names")
+        }
+        return super.merge(other, mergeStrategy)
+    }
+}
+
+/**
+ * A `Box<Entity>` that can fully represent _any_ other entity including its id.
+ */
+@Serializable
+@SerialName("NestedEntity")
+data object NbtNestedEntity : NbtElement()
 
 @Serializable
 @SerialName("List")
@@ -188,9 +232,11 @@ data class NbtCompound(
     val entries: MutableMap<String, NbtCompoundEntry> = mutableMapOf(),
     /**
      * Can be used to give this compound a more descriptive name.
+     * The type is a [MethodCall], the actual name is derived from that by calling [MethodCall.toTypeName]
+     * before converting to an [NbtNamedCompound].
      */
     @Transient
-    var name: String? = null,
+    var name: MethodCall? = null,
     /**
      * If this compound may contain extra keys which aren't statically known, we record which type
      * they all have in common (similar to [NbtAnyCompound.valueType]). These keys are then stored
@@ -198,13 +244,11 @@ data class NbtCompound(
      */
     var unknownKeys: NbtElement? = null,
     /**
-     * If any type stores an Entity somewhere in its own structure, the structure is recursive.
-     * To represent that in Rust we must introduce a `Box<types::Entity>` alongside the rest of
-     * the keys in the compound. This field indicates whether this compound should contain a
-     * flattened Entity.
+     * A compound can also contain entries from other compounds as if they were in this one.
+     * This is mainly needed for recursive structures using [NbtBoxed].
+     * Elements in this list should only be [NbtCompound] or [NbtBoxed].
      */
-    // TODO: use this in the Rust world
-    var nestedEntity: Boolean = false,
+    val flattened: MutableList<NbtElement> = mutableListOf(),
 ) : NbtElement() {
     fun put(name: String, entry: NbtCompoundEntry, mergeStrategy: MergeStrategy = MergeStrategy.SameDataSet) {
         entries[name] = entries[name]?.merge(entry, mergeStrategy) ?: entry
@@ -216,40 +260,75 @@ data class NbtCompound(
         other.entries.forEach { (k, v) -> put(k, v, mergeStrategy) }
         name = name ?: other.name
         unknownKeys = unknownKeys?.encompass(other.unknownKeys) ?: other.unknownKeys
-        nestedEntity = nestedEntity || other.nestedEntity
+        flattened += other.flattened
         return this
     }
 
+    /**
+     * Flattens all contained [flattened] compounds unless they are needed for recursive structures.
+     */
+    fun flatten(boxedTypes: Set<MethodCall>) {
+        forEachChildCompound { compound, _ -> compound.flatten(boxedTypes) }
+        val oldFlattened = flattened.toList()
+        require(oldFlattened !== flattened)
+        flattened.clear()
+        for (elem in oldFlattened) {
+            when (elem) {
+                is NbtCompound -> if (boxedTypes.contains(elem.name)) {
+                    flattened.add(elem)
+                } else {
+                    merge(elem)
+                }
+
+                is NbtBoxed -> flattened.add(elem)
+                else -> throw IllegalStateException("flattened element which is neither NbtCompound nor NbtBoxed")
+            }
+        }
+    }
+
     fun nameCompounds(compoundTypes: MutableList<CompoundType>) {
+        forEachChildCompound { compound, replaceSelf -> compound.nameSelf(compoundTypes, replaceSelf) }
+    }
+
+    private fun forEachChildCompound(
+        consumer: (compound: NbtCompound, replaceSelf: (NbtElement) -> Unit) -> Unit,
+    ) {
         for (entry in entries.values) {
             val elem = entry.value
             if (elem is NbtCompound) {
-                elem.nameSelf(compoundTypes) { entry.value = it }
+                consumer(elem) { entry.value = it }
             } else if (elem is NbtList) {
                 val inner = elem.inner
                 if (inner is NbtCompound) {
-                    inner.nameSelf(compoundTypes) { elem.inner = it }
+                    consumer(inner) { elem.inner = it }
                 }
             } else if (elem is NbtEither) {
                 val left = elem.left
                 val right = elem.right
                 if (left is NbtCompound) {
-                    left.nameSelf(compoundTypes) { elem.left = it }
+                    consumer(left) { elem.left = it }
                 }
                 if (right is NbtCompound) {
-                    right.nameSelf(compoundTypes) { elem.right = it }
+                    consumer(right) { elem.right = it }
                 }
+            }
+        }
+        for ((idx, elem) in flattened.withIndex()) {
+            if (elem is NbtCompound) {
+                consumer(elem) { flattened[idx] = it }
             }
         }
     }
 
-    private fun nameSelf(compoundTypes: MutableList<CompoundType>, reAssign: (NbtElement) -> Unit) {
-        if (entries.isEmpty()) {
-            reAssign(NbtAnyCompound(unknownKeys ?: NbtAny))
+    private fun nameSelf(compoundTypes: MutableList<CompoundType>, replaceSelf: (NbtElement) -> Unit) {
+        nameCompounds(compoundTypes)
+        if (entries.isEmpty() && unknownKeys == null && flattened.size == 1) {
+            replaceSelf(flattened[0])
+        } else if (entries.isEmpty() && flattened.isEmpty()) {
+            replaceSelf(NbtAnyCompound(unknownKeys ?: NbtAny))
         } else {
-            nameCompounds(compoundTypes)
-            var name = name ?: "Compound${compoundTypes.size}"
-            val new = CompoundType(name, entries, unknownKeys, nestedEntity)
+            var name = name?.toTypeName() ?: "Compound${compoundTypes.size}"
+            val new = CompoundType(name, entries, unknownKeys, flattened)
             val sameName = compoundTypes.filter { new.sameNameAs(it) }
             if (sameName.isEmpty()) {
                 compoundTypes.add(new)
@@ -263,7 +342,7 @@ data class NbtCompound(
                     compoundTypes.add(new)
                 }
             }
-            reAssign(NbtNamedCompound(name))
+            replaceSelf(NbtNamedCompound(name))
         }
     }
 }
@@ -304,7 +383,7 @@ data class CompoundType(
     var name: String,
     val entries: Map<String, NbtCompoundEntry>,
     val unknownKeys: NbtElement? = null,
-    var nestedEntity: Boolean = false,
+    val flattened: List<NbtElement> = listOf(),
 ) {
     fun sameNameAs(other: CompoundType): Boolean = other.name.matches(Regex("$name(_\\d+)?"))
 
@@ -312,5 +391,5 @@ data class CompoundType(
         sameNameAs(other)
                 && entries == other.entries
                 && unknownKeys == other.unknownKeys
-                && nestedEntity == other.nestedEntity
+                && flattened == other.flattened
 }

@@ -1,6 +1,6 @@
 //! Types and traits describing Minecraft entities.
 
-use std::{borrow::Cow, collections::HashMap};
+use std::collections::HashMap;
 
 #[cfg(feature = "serde")]
 use std::{fmt, marker::PhantomData};
@@ -19,30 +19,31 @@ pub trait Entity: Clone {}
 
 /// A generic entity that can represent _any_ possible entity with state by storing its
 /// [id](Self::id), [UUID](Self::uuid), and [raw NBT](Self::properties).
+// TODO: try to make this use `Cow<'a, str>` again
 #[derive(Debug, Clone, PartialEq)]
-pub struct GenericEntity<'a> {
+pub struct GenericEntity {
     /// The id of this entity, e.g. `minecraft:cow`.
-    pub id: Cow<'a, str>,
+    pub id: String,
     /// The UUID of this entity, stored as a 128-bit integer.
     pub uuid: u128,
     /// The raw NBT properties of this entity.
-    pub properties: HashMap<Cow<'a, str>, fastnbt::Value>,
+    pub properties: HashMap<String, fastnbt::Value>,
 }
 
-impl Entity for GenericEntity<'_> {}
+impl Entity for GenericEntity {}
 
 #[cfg(feature = "serde")]
-impl<'de: 'a, 'a> serde::Deserialize<'de> for GenericEntity<'a> {
+impl<'de> serde::Deserialize<'de> for GenericEntity {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
         D: serde::Deserializer<'de>,
     {
-        struct _Visitor<'de: 'a, 'a> {
-            marker: PhantomData<GenericEntity<'a>>,
+        struct _Visitor<'de> {
+            marker: PhantomData<GenericEntity>,
             lifetime: PhantomData<&'de ()>,
         }
-        impl<'de: 'a, 'a> serde::de::Visitor<'de> for _Visitor<'de, 'a> {
-            type Value = GenericEntity<'a>;
+        impl<'de> serde::de::Visitor<'de> for _Visitor<'de> {
+            type Value = GenericEntity;
 
             fn expecting(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
                 fmt.write_str("Entity")
@@ -55,8 +56,8 @@ impl<'de: 'a, 'a> serde::Deserialize<'de> for GenericEntity<'a> {
                 let mut id = None;
                 let mut uuid = None;
                 let mut properties = HashMap::new();
-                while let Some(key) = map.next_key::<Cow<'a, str>>()? {
-                    match key.as_ref() {
+                while let Some(key) = map.next_key::<String>()? {
+                    match key.as_str() {
                         "id" => {
                             if id.is_some() {
                                 return Err(serde::de::Error::duplicate_field("id"));
@@ -85,14 +86,14 @@ impl<'de: 'a, 'a> serde::Deserialize<'de> for GenericEntity<'a> {
         }
 
         deserializer.deserialize_map(_Visitor {
-            marker: PhantomData::<GenericEntity<'a>>,
+            marker: PhantomData::<GenericEntity>,
             lifetime: PhantomData,
         })
     }
 }
 
 #[cfg(feature = "serde")]
-impl<'a> serde::Serialize for GenericEntity<'a> {
+impl serde::Serialize for GenericEntity {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: serde::Serializer,

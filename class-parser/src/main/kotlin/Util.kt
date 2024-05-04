@@ -8,6 +8,8 @@ import org.apache.bcel.verifier.structurals.LocalVariables
 import org.apache.bcel.verifier.structurals.OperandStack
 import org.apache.bcel.verifier.structurals.UninitializedObjectType
 
+fun printWarning(msg: String) = println("\u001b[1;33m>>> WARNING: $msg\u001b[0m")
+
 object UninitializedLocal : Type(Const.T_UNKNOWN, "<uninitialized local>")
 
 fun classToTypeName(className: String): String = className.split('.', '/').last().split('$').last()
@@ -22,6 +24,12 @@ data class MethodPointer(
 
 class StringTypeWithValue(val value: String) : ObjectType("java.lang.String") {
     override fun toString(): String = "java.lang.String = \"$value\""
+
+    override fun equals(other: Any?): Boolean {
+        return if (other is StringTypeWithValue) value == other.value else super.equals(other)
+    }
+
+    override fun hashCode(): Int = System.identityHashCode(this)
 }
 
 class TypeWithLambda(
@@ -32,15 +40,7 @@ class TypeWithLambda(
     override fun toString(): String = "$delegate with lambda: ( $method called with $args )"
 }
 
-class TypedCompoundTag(val nbt: NbtCompound = NbtCompound()) : ObjectType("net.minecraft.nbt.CompoundTag") {
-    override fun toString(): String = "net.minecraft.nbt.CompoundTag = $nbt"
-}
-
-class TypedListTag(val nbt: NbtList = NbtList()) : ObjectType("net.minecraft.nbt.ListTag") {
-    override fun toString(): String = "net.minecraft.nbt.ListTag = $nbt"
-}
-
-class TypedTag(val nbt: NbtElement = NbtAny, className: String = "net.minecraft.nbt.Tag") : ObjectType(className) {
+class TypedTag(var nbt: NbtElement = NbtAny, className: String = "net.minecraft.nbt.Tag") : ObjectType(className) {
     override fun toString(): String = "$className = $nbt"
 }
 
@@ -90,8 +90,6 @@ fun internalTypeNameToSignature(internalTypeName: String): String {
 
 fun Type.asNbt(): NbtElement? =
     when (this) {
-        is TypedCompoundTag -> nbt
-        is TypedListTag -> nbt
         is TypedTag -> nbt
         ObjectType("net.minecraft.nbt.Tag") -> NbtAny
         ObjectType("net.minecraft.nbt.ByteTag") -> NbtByte
@@ -124,10 +122,12 @@ fun NbtElement.asType(): Type =
         NbtByteArray -> ObjectType("net.minecraft.nbt.ByteArrayTag")
         NbtIntArray -> ObjectType("net.minecraft.nbt.IntArrayTag")
         NbtLongArray -> ObjectType("net.minecraft.nbt.LongArrayTag")
-        is NbtAnyCompound -> TypedCompoundTag(NbtCompound(unknownKeys = valueType))
+        is NbtAnyCompound -> TypedTag(NbtCompound(unknownKeys = valueType), "net.minecraft.nbt.CompoundTag")
         is NbtEither -> TypedTag(this)
-        is NbtList -> TypedListTag(this)
-        is NbtCompound -> TypedCompoundTag(this)
+        is NbtBoxed -> TypedTag(this, "net.minecraft.nbt.CompoundTag")
+        NbtNestedEntity -> TypedTag(this, "net.minecraft.nbt.CompoundTag")
+        is NbtList -> TypedTag(this, "net.minecraft.nbt.ListTag")
+        is NbtCompound -> TypedTag(this, "net.minecraft.nbt.CompoundTag")
         NbtBoolean -> TypedTag(this, "net.minecraft.nbt.ByteTag")
         NbtUuid -> TypedTag(this, "net.minecraft.nbt.IntArrayTag")
         is NbtNamedCompound -> throw IllegalStateException("named compound before finished running")
@@ -135,15 +135,25 @@ fun NbtElement.asType(): Type =
 
 fun Type.ensureTyped(): Type =
     when (this) {
-        is TypedCompoundTag -> this
-        is TypedListTag -> this
         is TypedTag -> this
-        ObjectType("net.minecraft.nbt.CompoundTag") -> TypedCompoundTag()
-        ObjectType("net.minecraft.nbt.ListTag") -> TypedListTag()
+        ObjectType("net.minecraft.nbt.CompoundTag") -> TypedTag(NbtCompound(), className)
+        ObjectType("net.minecraft.nbt.ListTag") -> TypedTag(NbtList(), className)
         ObjectType("net.minecraft.nbt.Tag") -> TypedTag()
+        else -> this
+    }
+
+fun Type.untyped(): Type =
+    when (this) {
+        is TypedTag -> ObjectType(className)
         else -> this
     }
 
 fun LocalVariables.toList(): List<Type> = (0..<maxLocals()).map { get(it) }
 
 fun OperandStack.toList(): List<Type> = (0..<size()).reversed().map { peek(it) }
+
+fun Type.forLocalsOrStack(): Type =
+    when (this) {
+        Type.BOOLEAN, Type.CHAR, Type.BYTE, Type.SHORT -> Type.INT
+        else -> this
+    }

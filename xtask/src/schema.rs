@@ -92,6 +92,8 @@ pub struct EntityType {
 pub struct NbtCompound {
     pub entries: BTreeMap<String, NbtCompoundEntry>,
     pub unknown_keys: Option<NbtElement>,
+    #[serde(default)]
+    pub flattened: Vec<NbtElement>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -138,6 +140,10 @@ pub enum NbtElement {
     Compound {
         name: String,
     },
+    Boxed {
+        name: String,
+    },
+    NestedEntity,
 }
 
 impl NbtElement {
@@ -169,6 +175,8 @@ impl NbtElement {
                 format!("HashMap<String, {}>", value_type.as_rust_type()).into()
             }
             NbtElement::Compound { name } => format!("super::compounds::{name}").into(),
+            NbtElement::Boxed { name } => format!("Box<super::compounds::{name}>").into(),
+            NbtElement::NestedEntity => "Box<super::Entity>".into(),
         }
     }
 }

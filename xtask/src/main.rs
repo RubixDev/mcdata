@@ -478,33 +478,64 @@ pub mod mc{mod_name} {{
 "###
         );
 
-        for EntityType { name, parent, nbt } in types {
-            if let Some(extras) = &nbt.unknown_keys {
-                println!("\x1b[1;33m>>> WARNING: version '{feature}': entity type '{name}' specifies unknown keys as '{}'\x1b[0m", extras.as_rust_type());
-            }
-
-            entity_list_rs += &format!("        {name} ");
+        fn write_type(
+            writer: &mut String,
+            feature: &str,
+            name: &str,
+            parent: Option<&str>,
+            supports_extras: bool,
+            compound: &NbtCompound,
+        ) {
+            *writer += &format!("        {name}");
             if let Some(parent) = parent {
-                entity_list_rs += &format!("> {parent} ");
+                *writer += &format!(" > {parent}");
             }
-            entity_list_rs += "{ ";
+            if let Some(extras) = &compound.unknown_keys {
+                if supports_extras {
+                    *writer += &format!(", with extras as {}", extras.as_rust_type());
+                } else {
+                    println!("\x1b[1;33m>>> WARNING: version '{feature}': entity type '{name}' specifies unknown keys as '{}'\x1b[0m", extras.as_rust_type());
+                }
+            }
+            if !compound.flattened.is_empty() {
+                *writer += ", flattened [";
+                let last_index = compound.flattened.len() - 1;
+                for (index, value) in compound.flattened.iter().enumerate() {
+                    *writer += &format!("flattened_{index}: {}", value.as_rust_type());
+                    if index != last_index {
+                        *writer += ", ";
+                    }
+                }
+                *writer += "]";
+            }
+            *writer += " { ";
 
-            let last_index = nbt.entries.len().saturating_sub(1);
-            for (index, (name, entry)) in nbt.entries.iter().enumerate() {
+            let last_index = compound.entries.len().saturating_sub(1);
+            for (index, (name, entry)) in compound.entries.iter().enumerate() {
                 if entry.optional {
-                    entity_list_rs += "optional ";
+                    *writer += "optional ";
                 }
                 let mut ident_name = name.to_snake_case();
                 if ident_name == "type" {
                     ident_name = "r#type".to_string();
                 }
-                entity_list_rs +=
-                    &format!("\"{name}\" as {ident_name}: {}", entry.value.as_rust_type());
+                *writer += &format!("\"{name}\" as {ident_name}: {}", entry.value.as_rust_type());
                 if index != last_index {
-                    entity_list_rs += ", ";
+                    *writer += ", ";
                 }
             }
-            entity_list_rs += " }\n";
+            *writer += " }\n";
+        }
+
+        for EntityType { name, parent, nbt } in types {
+            write_type(
+                &mut entity_list_rs,
+                feature,
+                name,
+                parent.as_deref(),
+                false,
+                nbt,
+            );
         }
 
         entity_list_rs += &format!(
@@ -516,28 +547,7 @@ pub mod mc{mod_name} {{
         );
 
         for CompoundType { name, compound } in compound_types {
-            entity_list_rs += &format!("        {name} ");
-            if let Some(extras) = &compound.unknown_keys {
-                entity_list_rs += &format!("with extras as {} ", extras.as_rust_type());
-            }
-            entity_list_rs += "{ ";
-
-            let last_index = compound.entries.len().saturating_sub(1);
-            for (index, (name, entry)) in compound.entries.iter().enumerate() {
-                if entry.optional {
-                    entity_list_rs += "optional ";
-                }
-                let mut ident_name = name.to_snake_case();
-                if ident_name == "type" {
-                    ident_name = "r#type".to_string();
-                }
-                entity_list_rs +=
-                    &format!("\"{name}\" as {ident_name}: {}", entry.value.as_rust_type());
-                if index != last_index {
-                    entity_list_rs += ", ";
-                }
-            }
-            entity_list_rs += " }\n";
+            write_type(&mut entity_list_rs, feature, name, None, true, compound);
         }
 
         entity_list_rs += "    }\n}\n";
