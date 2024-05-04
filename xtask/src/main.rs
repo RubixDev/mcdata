@@ -58,7 +58,7 @@ Usage: Run with `cargo xtask <task>`, eg. `cargo xtask codegen`.
                 codegen_block_states(&versions, &outputs.block_lists)?;
             }
 
-            let outputs = codegen_class_analysis(outputs)?;
+            let outputs = codegen_class_analysis(&versions, outputs)?;
 
             if arg.map_or(true, |arg| arg == "entities") {
                 codegen_entities(&versions, &outputs)?;
@@ -397,24 +397,33 @@ pub mod mc{mod_name} {{
     Ok(())
 }
 
-fn codegen_class_analysis(outputs: ExtractOutput) -> Result<Vec<EntitiesJson>> {
+fn codegen_class_analysis(
+    versions: &FeaturesJson,
+    outputs: ExtractOutput,
+) -> Result<Vec<EntitiesJson>> {
     let class_parser_dir = WORKSPACE_DIR.join("class-parser");
-    let mut entity_lists: Vec<EntitiesJson> = vec![];
+
+    println!("\x1b[1;36m>>> building class-parser\x1b[0m");
+    run_command(
+        Command::new(class_parser_dir.join("gradlew"))
+            .arg("installDist")
+            .current_dir(&class_parser_dir),
+    )?;
+    let class_parser_bin = class_parser_dir.join("build/install/class-parser/bin/class-parser");
 
     println!("\x1b[1;36m>>> running class-parser on extracted data\x1b[0m");
-    for (jar_path, entity_json_path) in outputs
-        .mc_jar_paths
-        .into_iter()
-        .zip(outputs.entity_list_paths)
-    {
+    let mut entity_lists: Vec<EntitiesJson> = vec![];
+    for (Feature { name: feature, .. }, (jar_path, entity_json_path)) in versions.iter().zip(
+        outputs
+            .mc_jar_paths
+            .into_iter()
+            .zip(outputs.entity_list_paths),
+    ) {
+        println!("\x1b[36m>> version '{feature}'\x1b[0m\n");
         run_command(
-            Command::new(class_parser_dir.join("gradlew"))
-                .args(["run", "--args"])
-                .arg(format!(
-                    "{} {}",
-                    jar_path.display(),
-                    entity_json_path.display()
-                ))
+            Command::new(&class_parser_bin)
+                .arg(jar_path)
+                .arg(entity_json_path)
                 .current_dir(&class_parser_dir),
         )?;
         entity_lists.push(serde_json::from_reader(BufReader::new(File::open(
