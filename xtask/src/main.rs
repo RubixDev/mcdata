@@ -299,11 +299,18 @@ fn codegen_block_states(versions: &FeaturesJson, block_lists: &[BlocksJson]) -> 
     //  even provides its own definitions which then change over time and are marked as
     //  non-exhaustive
     // TODO: make feature generation in Cargo.toml its own step
-    let mut cargo_features = format!("latest = [\"{}\"]\n", versions.last().unwrap().name);
-    for (BlocksJson { blocks, enums }, Feature { name: feature, .. }) in
-        block_lists.iter().zip(versions)
+    let mut cargo_features = format!(
+        "## Enable lists for the latest supported Minecraft version\nlatest = [\"{}\"]\n",
+        versions.last().unwrap().name
+    );
+    for (
+        BlocksJson { blocks, enums },
+        Feature {
+            name: feature, mc, ..
+        },
+    ) in block_lists.iter().zip(versions)
     {
-        cargo_features += &format!("\"{feature}\" = []\n");
+        cargo_features += &format!("## Enable lists for Minecraft {feature}, extracted from Minecraft {mc}\n\"{feature}\" = []\n");
 
         let mod_name = feature.replace('.', "_").replace('-', "_mc");
         block_state_list_rs += &format!(

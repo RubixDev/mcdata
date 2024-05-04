@@ -3,7 +3,7 @@ import * as path from 'https://deno.land/std@0.177.1/path/mod.ts'
 import { colors } from 'https://deno.land/x/cliffy@v0.25.7/ansi/mod.ts'
 import { parse as parseXml } from 'https://deno.land/x/xml@2.1.1/mod.ts'
 import * as generator from './tmp/fabricmc.net/scripts/dist/fabric-template-generator.js'
-import versions from './versions.json' with { type: "json" }
+import versions from './versions.json' with { type: 'json' }
 
 const error = colors.bold.red
 const progress = colors.bold.yellow
@@ -64,9 +64,7 @@ async function generate() {
     }
 }
 
-async function getAndPrepareOutputDir(
-    outputDirName: string | undefined,
-): Promise<string> {
+async function getAndPrepareOutputDir(outputDirName: string | undefined): Promise<string> {
     if (outputDirName == undefined) {
         await requestPermissions('.')
         return path.resolve(Deno.cwd())
@@ -97,11 +95,7 @@ async function writeFile(
         const data = new Uint8Array(content)
         await Deno.writeFile(output, data, writeOptions)
     } else {
-        await Deno.writeTextFile(
-            output,
-            content as string,
-            writeOptions,
-        )
+        await Deno.writeTextFile(output, content as string, writeOptions)
     }
 }
 

@@ -4,10 +4,15 @@ members = ["xtask"]
 [package]
 name = "mcdata"
 version = "0.1.0"
+authors = ["RubixDev <silas.groh@t-online.de>"]
 edition = "2021"
+keywords = ["minecraft", "nbt"]
+license = "GPL-3.0-only"
+repository = "https://github.com/RubixDev/mcdata"
+description = "(De)serializable NBT structures for Minecraft"
 
 [features]
-# ! ## Features
+#! ## Features
 default = []
 
 ## Provide implementations of serde's `Serialize` and `Deserialize` traits for the various types
@@ -24,17 +29,29 @@ block-entities = []
 docs = ["dep:document-features", "dep:rustc_version"]
 
 ### FEATURE AUTOGEN START ###
+## Enable lists for the latest supported Minecraft version
 latest = ["1.20.5"]
+## Enable lists for Minecraft 1.14, extracted from Minecraft 1.14.4
 "1.14" = []
+## Enable lists for Minecraft 1.15, extracted from Minecraft 1.15.2
 "1.15" = []
+## Enable lists for Minecraft 1.16, extracted from Minecraft 1.16.5
 "1.16" = []
+## Enable lists for Minecraft 1.17-1.18, extracted from Minecraft 1.18.2
 "1.17-1.18" = []
+## Enable lists for Minecraft 1.19, extracted from Minecraft 1.19.2
 "1.19" = []
+## Enable lists for Minecraft 1.19.3, extracted from Minecraft 1.19.3
 "1.19.3" = []
+## Enable lists for Minecraft 1.19.4, extracted from Minecraft 1.19.4
 "1.19.4" = []
+## Enable lists for Minecraft 1.20, extracted from Minecraft 1.20.1
 "1.20" = []
+## Enable lists for Minecraft 1.20.2, extracted from Minecraft 1.20.2
 "1.20.2" = []
+## Enable lists for Minecraft 1.20.3, extracted from Minecraft 1.20.4
 "1.20.3" = []
+## Enable lists for Minecraft 1.20.5, extracted from Minecraft 1.20.6
 "1.20.5" = []
 ### FEATURE AUTOGEN END ###
 

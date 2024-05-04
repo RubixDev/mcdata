@@ -1,3 +1,4 @@
+#![doc = include_str!("../README.md")]
 #![cfg_attr(
     feature = "docs",
     cfg_attr(doc, doc = ::document_features::document_features!(feature_label = r#"<span class="stab portability"><code>{feature}</code></span>"#))
@@ -12,3 +13,7 @@ pub mod util;
 
 #[cfg(feature = "serde")]
 pub(crate) mod flatten;
+
+pub use block_entity::BlockEntity;
+pub use block_state::BlockState;
+pub use entity::Entity;
