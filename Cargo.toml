@@ -29,7 +29,7 @@ block-entities = []
 docs = ["dep:document-features", "dep:rustc_version"]
 
 ### FEATURE AUTOGEN START ###
-## Enable lists for the latest supported Minecraft version
+## Enable lists for the latest supported Minecraft version. Currently 1.20.5
 latest = ["1.20.5"]
 ## Enable lists for Minecraft 1.14, extracted from Minecraft 1.14.4
 "1.14" = []

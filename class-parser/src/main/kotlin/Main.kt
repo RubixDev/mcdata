@@ -28,7 +28,7 @@ fun main(args: Array<String>) {
         nbt = baseNbt,
     ))
     for ((i, entry) in inputEntityInfo.classes.entries.withIndex()) {
-        println("\u001b[A\u001b[36m> ${i + 1}/${inputEntityInfo.classes.size}: ${entry.key}\u001b[0K\u001b[0m")
+        print("\u001b[34m> ${i + 1}/${inputEntityInfo.classes.size}: ${entry.key}\u001b[0K\u001b[0m\r")
         val nbt = vm.analyzeFrom(MethodPointer(entry.key, "addAdditionalSaveData", "(Lnet/minecraft/nbt/CompoundTag;)V"))
         // TODO: filter out "empty" types?
         //  e.g. PathfinderMob has no added NBT, so it could be omitted, but then all other types that have
