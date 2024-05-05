@@ -1,4 +1,30 @@
 //! Types and traits describing Minecraft block states.
+//!
+//! ## Example
+//!
+//! ```
+//! # #[cfg(all(feature = "latest", feature = "serde", feature = "block-states"))]
+//! # fn test() {
+//! use mcdata::block_state::latest::{self, props};
+//!
+//! let banjo = latest::BlockState::NoteBlock {
+//!     instrument: props::NoteBlockInstrument::Banjo,
+//!     note: bounded_integer::BoundedU8::new(10).unwrap(),
+//!     powered: false,
+//! };
+//! let banjo_nbt = fastnbt::nbt!({
+//!     "Name": "minecraft:note_block",
+//!     "Properties": {
+//!         "instrument": "banjo",
+//!         "note": "10",
+//!         "powered": "false",
+//!     },
+//! });
+//! assert_eq!(fastnbt::to_value(&banjo), Ok(banjo_nbt));
+//! # }
+//! # #[cfg(all(feature = "latest", feature = "serde", feature = "block-states"))]
+//! # test();
+//! ```
 
 use std::{borrow::Cow, collections::HashMap};
 
