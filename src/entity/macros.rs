@@ -250,7 +250,7 @@ struct B { a: i32, b: f64 }
             impl Flatten for $name {
                 fn flatten(&self, map: &mut HashMap<borrow::Cow<'static, str>, fastnbt::Value>) {
                     $(
-                        map.insert(borrow::Cow::Borrowed($entry_name), fastnbt::to_value(&self.$entry_field).expect("structure is valid NBT"));
+                        entity_types!(@optional_insert map, $entry_name, &self.$entry_field $(, $optional)?);
                     )*
                     $(
                         <$parent as Flatten>::flatten(&self.parent, map);
@@ -376,6 +376,14 @@ struct B { a: i32, b: f64 }
     (@optional $type:ty, $optional:ident) => { Option<$type> };
     (@missing $entry_field:ident, $entry_name:literal) => { $entry_field.ok_or_else(|| serde::de::Error::missing_field($entry_name))? };
     (@missing $entry_field:ident, $entry_name:literal, $optional:ident) => { $entry_field };
+    (@optional_insert $map:ident, $entry_name:literal, $entry_value:expr) => {
+        $map.insert(borrow::Cow::Borrowed($entry_name), fastnbt::to_value($entry_value).expect("structure is valid NBT"));
+    };
+    (@optional_insert $map:ident, $entry_name:literal, $entry_value:expr, $optional:ident) => {
+        if let Some(value) = $entry_value {
+            entity_types!(@optional_insert $map, $entry_name, value);
+        }
+    };
 }
 
 macro_rules! entity_compound_types {
