@@ -47,5 +47,5 @@ extracted from the Minecraft jars using a combination of two custom tools:
 
 If you want to contribute to `mcdata` in any way that involves changing the
 generated code, you can run these tools along with the actual code generation
-using `cargo xtask codegen`. Just make sure you have a working Java 21 JDK
-installed and on your PATH.
+using `cargo xtask codegen`. Just make sure you have a working Java 21 JDK,
+`git`, and [`deno`](https://deno.com/) installed and on your PATH.
