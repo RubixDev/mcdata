@@ -8,6 +8,7 @@
 
 pub mod block_entity;
 pub mod block_state;
+pub mod data_version;
 pub mod entity;
 pub mod util;
 
