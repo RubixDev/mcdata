@@ -1,6 +1,6 @@
 //! Types and traits describing Minecraft block entities, a.k.a. tile entities.
 
-use std::{borrow::Cow, collections::HashMap};
+use std::collections::HashMap;
 
 #[cfg(feature = "serde")]
 use std::{fmt, marker::PhantomData};
@@ -16,14 +16,14 @@ pub trait BlockEntity: Clone {
 /// A generic block entity that can represent _any_ block entity by storing its
 /// [position](Self::pos) and [raw NBT](Self::properties).
 #[derive(Clone, Debug, PartialEq)]
-pub struct GenericBlockEntity<'a> {
+pub struct GenericBlockEntity {
     /// The [`BlockPos`] of this block entity.
     pub pos: BlockPos,
     /// The raw NBT properties of this block entity.
-    pub properties: HashMap<Cow<'a, str>, fastnbt::Value>,
+    pub properties: HashMap<String, fastnbt::Value>,
 }
 
-impl BlockEntity for GenericBlockEntity<'_> {
+impl BlockEntity for GenericBlockEntity {
     fn position(&self) -> BlockPos {
         self.pos
     }
@@ -48,17 +48,17 @@ impl BlockEntity for fastnbt::Value {
 }
 
 #[cfg(feature = "serde")]
-impl<'de: 'a, 'a> serde::Deserialize<'de> for GenericBlockEntity<'a> {
+impl<'de> serde::Deserialize<'de> for GenericBlockEntity {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
         D: serde::Deserializer<'de>,
     {
-        struct _Visitor<'de: 'a, 'a> {
-            marker: PhantomData<GenericBlockEntity<'a>>,
+        struct _Visitor<'de> {
+            marker: PhantomData<GenericBlockEntity>,
             lifetime: PhantomData<&'de ()>,
         }
-        impl<'de: 'a, 'a> serde::de::Visitor<'de> for _Visitor<'de, 'a> {
-            type Value = GenericBlockEntity<'a>;
+        impl<'de> serde::de::Visitor<'de> for _Visitor<'de> {
+            type Value = GenericBlockEntity;
 
             fn expecting(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
                 fmt.write_str("BlockEntity")
@@ -72,7 +72,7 @@ impl<'de: 'a, 'a> serde::Deserialize<'de> for GenericBlockEntity<'a> {
                 let mut y = None;
                 let mut z = None;
                 let mut properties = HashMap::new();
-                while let Some(key) = map.next_key::<Cow<'a, str>>()? {
+                while let Some(key) = map.next_key::<String>()? {
                     match key.as_ref() {
                         "x" => {
                             if x.is_some() {
@@ -108,14 +108,14 @@ impl<'de: 'a, 'a> serde::Deserialize<'de> for GenericBlockEntity<'a> {
         }
 
         deserializer.deserialize_map(_Visitor {
-            marker: PhantomData::<GenericBlockEntity<'a>>,
+            marker: PhantomData::<GenericBlockEntity>,
             lifetime: PhantomData,
         })
     }
 }
 
 #[cfg(feature = "serde")]
-impl<'a> serde::Serialize for GenericBlockEntity<'a> {
+impl serde::Serialize for GenericBlockEntity {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: serde::Serializer,

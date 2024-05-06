@@ -26,13 +26,13 @@ macro_rules! blocks {
         );+
         $(;)?
     ) => {
-        use std::{borrow::Cow, collections::HashMap, fmt, marker::PhantomData, str::FromStr};
+        use std::{collections::HashMap, fmt, marker::PhantomData, str::FromStr};
         #[cfg(feature = "serde")]
         use serde::{Deserialize, de::Visitor, Serialize};
 
         #[doc = concat!("A typed block state for Minecraft ", $mc_version, ".")]
         #[derive(Debug, Clone)]
-        pub enum BlockState<'a> {
+        pub enum BlockState {
             $(
                 #[doc = concat!("`", $id, "`", $(" (", stringify!($experimental), ")")?)]
                 #[allow(missing_docs)]
@@ -40,23 +40,23 @@ macro_rules! blocks {
             )+
             /// Any other unrecognized (possibly invalid) block state with a name and properties as
             /// strings.
-            Other(super::super::GenericBlockState<'a>),
+            Other(super::super::GenericBlockState),
         }
 
-        impl super::super::BlockState for BlockState<'_> {
+        impl super::super::BlockState for BlockState {
             fn air() -> Self {
                 Self::Air
             }
         }
 
-        impl<'a> BlockState<'a> {
+        impl BlockState {
             /// Turn this block state into a
             /// [`GenericBlockState`](super::super::GenericBlockState).
             ///
             /// This internally allocates new strings. It is used for implementing equality, as the
             /// same block state can be represented by both a known variant and the [`Self::Other`]
             /// variant.
-            pub fn as_generic(&self) -> super::super::GenericBlockState<'_> {
+            pub fn as_generic(&self) -> super::super::GenericBlockState {
                 match self {
                     $(
                         Self::$variant $({ $($prop),+ })? => super::super::GenericBlockState {
@@ -69,15 +69,15 @@ macro_rules! blocks {
             }
         }
 
-        impl PartialEq for BlockState<'_> {
+        impl PartialEq for BlockState {
             fn eq(&self, other: &Self) -> bool {
                 self.as_generic() == other.as_generic()
             }
         }
-        impl Eq for BlockState<'_> {}
+        impl Eq for BlockState {}
 
         #[cfg(feature = "serde")]
-        impl Serialize for BlockState<'_> {
+        impl Serialize for BlockState {
             fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
             where
                 S: serde::Serializer,
@@ -87,7 +87,7 @@ macro_rules! blocks {
         }
 
         #[cfg(feature = "serde")]
-        impl<'de: 'a, 'a> Deserialize<'de> for BlockState<'a> {
+        impl<'de> Deserialize<'de> for BlockState {
             fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
             where D: serde::Deserializer<'de> {
                 const FIELDS: &[&str] = &["Name", "Properties"];
@@ -118,12 +118,12 @@ macro_rules! blocks {
                     }
                 }
 
-                struct _Visitor<'de: 'a, 'a> {
-                    marker: PhantomData<BlockState<'a>>,
+                struct _Visitor<'de> {
+                    marker: PhantomData<BlockState>,
                     lifetime: PhantomData<&'de ()>,
                 }
-                impl<'de: 'a, 'a> Visitor<'de> for _Visitor<'de, 'a> {
-                    type Value = BlockState<'a>;
+                impl<'de> Visitor<'de> for _Visitor<'de> {
+                    type Value = BlockState;
 
                     fn expecting(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
                         fmt.write_str("BlockState")
@@ -132,8 +132,8 @@ macro_rules! blocks {
                     fn visit_map<V>(self, mut map: V) -> Result<Self::Value, V::Error>
                     where V: serde::de::MapAccess<'de>
                     {
-                        let mut name: Option<Cow<'a, str>> = None;
-                        let mut properties: Option<HashMap<Cow<'a, str>, Cow<'a, str>>> = None;
+                        let mut name: Option<String> = None;
+                        let mut properties: Option<HashMap<String, String>> = None;
                         while let Some(key) = map.next_key()? {
                             match key {
                                 _Field::Name => {
@@ -162,7 +162,7 @@ macro_rules! blocks {
                 }
 
                 deserializer.deserialize_struct("BlockState", FIELDS, _Visitor {
-                    marker: PhantomData::<BlockState<'a>>,
+                    marker: PhantomData::<BlockState>,
                     lifetime: PhantomData,
                 })
             }
@@ -185,7 +185,7 @@ macro_rules! props {
     () => { HashMap::new() };
     ($($prop:ident $($prop_str:literal)?),+) => {
         HashMap::from([$(
-            (prop_str!($prop $($prop_str)?).into(), Cow::Owned($prop.to_string())),
+            (prop_str!($prop $($prop_str)?).to_string(), $prop.to_string()),
         )+])
     }
 }
