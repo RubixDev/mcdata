@@ -40,7 +40,11 @@ class TypeWithLambda(
     override fun toString(): String = "$delegate with lambda: ( $method called with $args )"
 }
 
-class TypedTag(var nbt: NbtElement = NbtAny, className: String = "net.minecraft.nbt.Tag") : ObjectType(className) {
+class TypedTag(
+    var nbt: NbtElement = NbtAny,
+    className: String = "net.minecraft.nbt.Tag",
+    var optionalUntil: Int = 0,
+) : ObjectType(className) {
     override fun toString(): String = "$className = $nbt"
 }
 

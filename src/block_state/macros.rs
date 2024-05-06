@@ -31,7 +31,6 @@ macro_rules! blocks {
         use serde::{Deserialize, de::Visitor, Serialize};
 
         #[doc = concat!("A typed block state for Minecraft ", $mc_version, ".")]
-        // TODO: PartialEq, Hash
         #[derive(Debug, Clone)]
         pub enum BlockState<'a> {
             $(

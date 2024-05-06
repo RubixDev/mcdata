@@ -122,14 +122,14 @@ pub mod mc1_14 {
         AbstractChestedHorse > AbstractHorse { "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<super::compounds::ItemStack_save_1> }
         AbstractFish > WaterAnimal { "FromBucket" as from_bucket: bool }
         AbstractGolem > PathfinderMob {  }
-        AbstractHorse > Animal { "Bred" as bred: bool, "EatingHaystack" as eating_haystack: bool, optional "OwnerUUID" as owner_uuid: String, optional "SaddleItem" as saddle_item: super::compounds::ItemStack_save, "Tame" as tame: bool, "Temper" as temper: i32 }
+        AbstractHorse > Animal { "Bred" as bred: bool, "EatingHaystack" as eating_haystack: bool, optional "OwnerUUID" as owner_uuid: String, optional "SaddleItem" as saddle_item: super::compounds::ItemStack_save_2, "Tame" as tame: bool, "Temper" as temper: i32 }
         AbstractHurtingProjectile > Entity { "direction" as direction: Vec<f64>, "life" as life: i32, "power" as power: Vec<f64> }
         AbstractIllager > Raider {  }
         AbstractMinecart > Entity { optional "CustomDisplayTile" as custom_display_tile: bool, optional "DisplayOffset" as display_offset: i32, optional "DisplayState" as display_state: super::compounds::NbtUtils_writeBlockState }
         AbstractMinecartContainer > AbstractMinecart { optional "Items" as items: Vec<super::compounds::ItemStack_save_1>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
         AbstractSchoolingFish > AbstractFish {  }
         AbstractSkeleton > Monster {  }
-        AbstractVillager > AgableMob { "Inventory" as inventory: Vec<super::compounds::ItemStack_save>, optional "Offers" as offers: super::compounds::MerchantOffers_createTag }
+        AbstractVillager > AgableMob { "Inventory" as inventory: Vec<super::compounds::ItemStack_save_2>, optional "Offers" as offers: super::compounds::MerchantOffers_createTag }
         AgableMob > PathfinderMob { "Age" as age: i32, "ForcedAge" as forced_age: i32 }
         AmbientCreature > Mob {  }
         Animal > AgableMob { "InLove" as in_love: i32, optional "LoveCause" as love_cause: u128 }
@@ -158,10 +158,10 @@ pub mod mc1_14 {
         Evoker > SpellcasterIllager {  }
         EvokerFangs > Entity { optional "OwnerUUID" as owner_uuid: u128, "Warmup" as warmup: i32 }
         ExperienceOrb > Entity { "Age" as age: i16, "Health" as health: i16, "Value" as value: i16 }
-        EyeOfEnder > Entity { optional "Item" as item: super::compounds::ItemStack_save }
+        EyeOfEnder > Entity { optional "Item" as item: super::compounds::ItemStack_save_2 }
         FallingBlockEntity > Entity { "BlockState" as block_state: super::compounds::NbtUtils_writeBlockState, "DropItem" as drop_item: bool, "FallHurtAmount" as fall_hurt_amount: f32, "FallHurtMax" as fall_hurt_max: i32, "HurtEntities" as hurt_entities: bool, optional "TileEntityData" as tile_entity_data: HashMap<String, fastnbt::Value>, "Time" as time: i32 }
-        Fireball > AbstractHurtingProjectile { optional "Item" as item: super::compounds::ItemStack_save }
-        FireworkRocketEntity > Entity { optional "FireworksItem" as fireworks_item: super::compounds::ItemStack_save, "Life" as life: i32, "LifeTime" as life_time: i32, "ShotAtAngle" as shot_at_angle: bool }
+        Fireball > AbstractHurtingProjectile { optional "Item" as item: super::compounds::ItemStack_save_2 }
+        FireworkRocketEntity > Entity { optional "FireworksItem" as fireworks_item: super::compounds::ItemStack_save_2, "Life" as life: i32, "LifeTime" as life_time: i32, "ShotAtAngle" as shot_at_angle: bool }
         FishingHook > Entity {  }
         FlyingMob > Mob {  }
         Fox > Animal { "Crouching" as crouching: bool, "Sitting" as sitting: bool, "Sleeping" as sleeping: bool, "TrustedUUIDs" as trusted_uui_ds: Vec<super::compounds::NbtUtils_createUUIDTag>, "Type" as r#type: String }
@@ -169,18 +169,18 @@ pub mod mc1_14 {
         Giant > Monster {  }
         Guardian > Monster {  }
         HangingEntity > Entity { "Facing" as facing: u8, "TileX" as tile_x: i32, "TileY" as tile_y: i32, "TileZ" as tile_z: i32 }
-        Horse > AbstractHorse { optional "ArmorItem" as armor_item: super::compounds::ItemStack_save, "Variant" as variant: i32 }
+        Horse > AbstractHorse { optional "ArmorItem" as armor_item: super::compounds::ItemStack_save_2, "Variant" as variant: i32 }
         Husk > Zombie {  }
         Illusioner > SpellcasterIllager {  }
         IronGolem > AbstractGolem { "PlayerCreated" as player_created: bool }
-        ItemEntity > Entity { "Age" as age: i16, "Health" as health: i16, optional "Item" as item: super::compounds::ItemStack_save, optional "Owner" as owner: super::compounds::NbtUtils_createUUIDTag, "PickupDelay" as pickup_delay: i16, optional "Thrower" as thrower: super::compounds::NbtUtils_createUUIDTag }
-        ItemFrame > HangingEntity { "Facing" as facing: u8, optional "Item" as item: super::compounds::ItemStack_save, optional "ItemDropChance" as item_drop_chance: f32, optional "ItemRotation" as item_rotation: u8 }
+        ItemEntity > Entity { "Age" as age: i16, "Health" as health: i16, optional "Item" as item: super::compounds::ItemStack_save_2, optional "Owner" as owner: super::compounds::NbtUtils_createUUIDTag, "PickupDelay" as pickup_delay: i16, optional "Thrower" as thrower: super::compounds::NbtUtils_createUUIDTag }
+        ItemFrame > HangingEntity { "Facing" as facing: u8, optional "Item" as item: super::compounds::ItemStack_save_2, optional "ItemDropChance" as item_drop_chance: f32, optional "ItemRotation" as item_rotation: u8 }
         LargeFireball > Fireball { "ExplosionPower" as explosion_power: i32 }
         LeashFenceKnotEntity > HangingEntity {  }
         LightningBolt > Entity {  }
         LivingEntity > Entity { "AbsorptionAmount" as absorption_amount: f32, optional "ActiveEffects" as active_effects: Vec<super::compounds::MobEffectInstance_save>, "Attributes" as attributes: Vec<super::compounds::SharedMonsterAttributes_saveAttribute>, "Brain" as brain: fastnbt::Value, "DeathTime" as death_time: i16, "FallFlying" as fall_flying: bool, "Health" as health: f32, "HurtByTimestamp" as hurt_by_timestamp: i32, "HurtTime" as hurt_time: i16, optional "SleepingX" as sleeping_x: i32, optional "SleepingY" as sleeping_y: i32, optional "SleepingZ" as sleeping_z: i32 }
-        Llama > AbstractChestedHorse { optional "DecorItem" as decor_item: super::compounds::ItemStack_save, "Strength" as strength: i32, "Variant" as variant: i32 }
-        LlamaSpit > Entity { optional "Owner" as owner: super::compounds::Compound10 }
+        Llama > AbstractChestedHorse { optional "DecorItem" as decor_item: super::compounds::ItemStack_save_2, "Strength" as strength: i32, "Variant" as variant: i32 }
+        LlamaSpit > Entity { optional "Owner" as owner: super::compounds::Compound11 }
         MagmaCube > Slime {  }
         Minecart > AbstractMinecart {  }
         MinecartChest > AbstractMinecartContainer {  }
@@ -202,7 +202,7 @@ pub mod mc1_14 {
         Phantom > FlyingMob { "AX" as ax: i32, "AY" as ay: i32, "AZ" as az: i32, "Size" as size: i32 }
         Pig > Animal { "Saddle" as saddle: bool }
         PigZombie > Zombie { "Anger" as anger: i16, "HurtBy" as hurt_by: String }
-        Pillager > AbstractIllager { "Inventory" as inventory: Vec<super::compounds::ItemStack_save> }
+        Pillager > AbstractIllager { "Inventory" as inventory: Vec<super::compounds::ItemStack_save_2> }
         PolarBear > Animal {  }
         PrimedTnt > Entity { "Fuse" as fuse: i16 }
         Pufferfish > AbstractFish { "PuffState" as puff_state: i32 }
@@ -227,13 +227,13 @@ pub mod mc1_14 {
         Squid > WaterAnimal {  }
         Stray > AbstractSkeleton {  }
         TamableAnimal > Animal { "OwnerUUID" as owner_uuid: String, "Sitting" as sitting: bool }
-        ThrowableItemProjectile > ThrowableProjectile { optional "Item" as item: super::compounds::ItemStack_save }
+        ThrowableItemProjectile > ThrowableProjectile { optional "Item" as item: super::compounds::ItemStack_save_2 }
         ThrowableProjectile > Entity { "inGround" as in_ground: u8, optional "owner" as owner: super::compounds::NbtUtils_createUUIDTag, "shake" as shake: u8, "xTile" as x_tile: i32, "yTile" as y_tile: i32, "zTile" as z_tile: i32 }
         ThrownEgg > ThrowableItemProjectile {  }
         ThrownEnderpearl > ThrowableItemProjectile {  }
         ThrownExperienceBottle > ThrowableItemProjectile {  }
-        ThrownPotion > ThrowableProjectile { optional "Potion" as potion: super::compounds::ItemStack_save }
-        ThrownTrident > AbstractArrow { "DealtDamage" as dealt_damage: bool, "Trident" as trident: super::compounds::ItemStack_save }
+        ThrownPotion > ThrowableProjectile { optional "Potion" as potion: super::compounds::ItemStack_save_2 }
+        ThrownTrident > AbstractArrow { "DealtDamage" as dealt_damage: bool, "Trident" as trident: super::compounds::ItemStack_save_2 }
         TraderLlama > Llama { "DespawnDelay" as despawn_delay: i32 }
         TropicalFish > AbstractSchoolingFish { "Variant" as variant: i32 }
         Turtle > Animal { "HasEgg" as has_egg: bool, "HomePosX" as home_pos_x: i32, "HomePosY" as home_pos_y: i32, "HomePosZ" as home_pos_z: i32, "TravelPosX" as travel_pos_x: i32, "TravelPosY" as travel_pos_y: i32, "TravelPosZ" as travel_pos_z: i32 }
@@ -255,15 +255,16 @@ pub mod mc1_14 {
     entity_compound_types! {
         "1.14";
         ArmorStand_writePose { optional "Body" as body: Vec<f32>, optional "Head" as head: Vec<f32>, optional "LeftArm" as left_arm: Vec<f32>, optional "LeftLeg" as left_leg: Vec<f32>, optional "RightArm" as right_arm: Vec<f32>, optional "RightLeg" as right_leg: Vec<f32> }
-        Compound10 { optional "OwnerUUID" as owner_uuid: u128 }
+        Compound11 { "OwnerUUID" as owner_uuid: u128 }
         Compound6 { optional "UUID" as uuid: u128, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32 }
-        ItemStack_save { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, optional "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
-        MerchantOffer_createTag { "buy" as buy: super::compounds::ItemStack_save, "buyB" as buy_b: super::compounds::ItemStack_save, "demand" as demand: i32, "maxUses" as max_uses: i32, "priceMultiplier" as price_multiplier: f32, "rewardExp" as reward_exp: bool, "sell" as sell: super::compounds::ItemStack_save, "specialPrice" as special_price: i32, "uses" as uses: i32, "xp" as xp: i32 }
+        ItemStack_save { optional "Count" as count: u8, optional "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        ItemStack_save_1 { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        ItemStack_save_2 { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        MerchantOffer_createTag { "buy" as buy: super::compounds::ItemStack_save_2, "buyB" as buy_b: super::compounds::ItemStack_save_2, "demand" as demand: i32, "maxUses" as max_uses: i32, "priceMultiplier" as price_multiplier: f32, "rewardExp" as reward_exp: bool, "sell" as sell: super::compounds::ItemStack_save_2, "specialPrice" as special_price: i32, "uses" as uses: i32, "xp" as xp: i32 }
         MerchantOffers_createTag { "Recipes" as recipes: Vec<super::compounds::MerchantOffer_createTag> }
         MobEffectInstance_save { "Ambient" as ambient: bool, "Amplifier" as amplifier: u8, "Duration" as duration: i32, "Id" as id: u8, "ShowIcon" as show_icon: bool, "ShowParticles" as show_particles: bool }
         NbtUtils_createUUIDTag { "L" as l: i64, "M" as m: i64 }
-        NbtUtils_createUUIDTag_1 { "L" as l: i64, "M" as m: i64, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32 }
+        NbtUtils_createUUIDTag_1 { "L" as l: i64, "M" as m: i64, "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
         NbtUtils_writeBlockState { "Name" as name: String, optional "Properties" as properties: HashMap<String, String> }
         SharedMonsterAttributes_saveAttribute { "Base" as base: f64, optional "Modifiers" as modifiers: Vec<super::compounds::SharedMonsterAttributes_saveAttributeModifier>, "Name" as name: String }
@@ -387,14 +388,14 @@ pub mod mc1_15 {
         AbstractChestedHorse > AbstractHorse { "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<super::compounds::ItemStack_save_1> }
         AbstractFish > WaterAnimal { "FromBucket" as from_bucket: bool }
         AbstractGolem > PathfinderMob {  }
-        AbstractHorse > Animal { "Bred" as bred: bool, "EatingHaystack" as eating_haystack: bool, optional "OwnerUUID" as owner_uuid: String, optional "SaddleItem" as saddle_item: super::compounds::ItemStack_save, "Tame" as tame: bool, "Temper" as temper: i32 }
+        AbstractHorse > Animal { "Bred" as bred: bool, "EatingHaystack" as eating_haystack: bool, optional "OwnerUUID" as owner_uuid: String, optional "SaddleItem" as saddle_item: super::compounds::ItemStack_save_2, "Tame" as tame: bool, "Temper" as temper: i32 }
         AbstractHurtingProjectile > Entity { "direction" as direction: Vec<f64>, "life" as life: i32, "power" as power: Vec<f64> }
         AbstractIllager > Raider {  }
         AbstractMinecart > Entity { optional "CustomDisplayTile" as custom_display_tile: bool, optional "DisplayOffset" as display_offset: i32, optional "DisplayState" as display_state: super::compounds::NbtUtils_writeBlockState }
         AbstractMinecartContainer > AbstractMinecart { optional "Items" as items: Vec<super::compounds::ItemStack_save_1>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
         AbstractSchoolingFish > AbstractFish {  }
         AbstractSkeleton > Monster {  }
-        AbstractVillager > AgableMob { "Inventory" as inventory: Vec<super::compounds::ItemStack_save>, optional "Offers" as offers: super::compounds::MerchantOffers_createTag }
+        AbstractVillager > AgableMob { "Inventory" as inventory: Vec<super::compounds::ItemStack_save_2>, optional "Offers" as offers: super::compounds::MerchantOffers_createTag }
         AgableMob > PathfinderMob { "Age" as age: i32, "ForcedAge" as forced_age: i32 }
         AmbientCreature > Mob {  }
         Animal > AgableMob { "InLove" as in_love: i32, optional "LoveCause" as love_cause: u128 }
@@ -424,10 +425,10 @@ pub mod mc1_15 {
         Evoker > SpellcasterIllager {  }
         EvokerFangs > Entity { optional "OwnerUUID" as owner_uuid: u128, "Warmup" as warmup: i32 }
         ExperienceOrb > Entity { "Age" as age: i16, "Health" as health: i16, "Value" as value: i16 }
-        EyeOfEnder > Entity { optional "Item" as item: super::compounds::ItemStack_save }
+        EyeOfEnder > Entity { optional "Item" as item: super::compounds::ItemStack_save_2 }
         FallingBlockEntity > Entity { "BlockState" as block_state: super::compounds::NbtUtils_writeBlockState, "DropItem" as drop_item: bool, "FallHurtAmount" as fall_hurt_amount: f32, "FallHurtMax" as fall_hurt_max: i32, "HurtEntities" as hurt_entities: bool, optional "TileEntityData" as tile_entity_data: HashMap<String, fastnbt::Value>, "Time" as time: i32 }
-        Fireball > AbstractHurtingProjectile { optional "Item" as item: super::compounds::ItemStack_save }
-        FireworkRocketEntity > Entity { optional "FireworksItem" as fireworks_item: super::compounds::ItemStack_save, "Life" as life: i32, "LifeTime" as life_time: i32, "ShotAtAngle" as shot_at_angle: bool }
+        Fireball > AbstractHurtingProjectile { optional "Item" as item: super::compounds::ItemStack_save_2 }
+        FireworkRocketEntity > Entity { optional "FireworksItem" as fireworks_item: super::compounds::ItemStack_save_2, "Life" as life: i32, "LifeTime" as life_time: i32, "ShotAtAngle" as shot_at_angle: bool }
         FishingHook > Entity {  }
         FlyingMob > Mob {  }
         Fox > Animal { "Crouching" as crouching: bool, "Sitting" as sitting: bool, "Sleeping" as sleeping: bool, "TrustedUUIDs" as trusted_uui_ds: Vec<super::compounds::NbtUtils_createUUIDTag>, "Type" as r#type: String }
@@ -435,18 +436,18 @@ pub mod mc1_15 {
         Giant > Monster {  }
         Guardian > Monster {  }
         HangingEntity > Entity { "Facing" as facing: u8, "TileX" as tile_x: i32, "TileY" as tile_y: i32, "TileZ" as tile_z: i32 }
-        Horse > AbstractHorse { optional "ArmorItem" as armor_item: super::compounds::ItemStack_save, "Variant" as variant: i32 }
+        Horse > AbstractHorse { optional "ArmorItem" as armor_item: super::compounds::ItemStack_save_2, "Variant" as variant: i32 }
         Husk > Zombie {  }
         Illusioner > SpellcasterIllager {  }
         IronGolem > AbstractGolem { "PlayerCreated" as player_created: bool }
-        ItemEntity > Entity { "Age" as age: i16, "Health" as health: i16, optional "Item" as item: super::compounds::ItemStack_save, optional "Owner" as owner: super::compounds::NbtUtils_createUUIDTag, "PickupDelay" as pickup_delay: i16, optional "Thrower" as thrower: super::compounds::NbtUtils_createUUIDTag }
-        ItemFrame > HangingEntity { "Facing" as facing: u8, optional "Item" as item: super::compounds::ItemStack_save, optional "ItemDropChance" as item_drop_chance: f32, optional "ItemRotation" as item_rotation: u8 }
+        ItemEntity > Entity { "Age" as age: i16, "Health" as health: i16, optional "Item" as item: super::compounds::ItemStack_save_2, optional "Owner" as owner: super::compounds::NbtUtils_createUUIDTag, "PickupDelay" as pickup_delay: i16, optional "Thrower" as thrower: super::compounds::NbtUtils_createUUIDTag }
+        ItemFrame > HangingEntity { "Facing" as facing: u8, optional "Item" as item: super::compounds::ItemStack_save_2, optional "ItemDropChance" as item_drop_chance: f32, optional "ItemRotation" as item_rotation: u8 }
         LargeFireball > Fireball { "ExplosionPower" as explosion_power: i32 }
         LeashFenceKnotEntity > HangingEntity {  }
         LightningBolt > Entity {  }
         LivingEntity > Entity { "AbsorptionAmount" as absorption_amount: f32, optional "ActiveEffects" as active_effects: Vec<super::compounds::MobEffectInstance_save>, "Attributes" as attributes: Vec<super::compounds::SharedMonsterAttributes_saveAttribute>, "Brain" as brain: fastnbt::Value, "DeathTime" as death_time: i16, "FallFlying" as fall_flying: bool, "Health" as health: f32, "HurtByTimestamp" as hurt_by_timestamp: i32, "HurtTime" as hurt_time: i16, optional "SleepingX" as sleeping_x: i32, optional "SleepingY" as sleeping_y: i32, optional "SleepingZ" as sleeping_z: i32 }
-        Llama > AbstractChestedHorse { optional "DecorItem" as decor_item: super::compounds::ItemStack_save, "Strength" as strength: i32, "Variant" as variant: i32 }
-        LlamaSpit > Entity { optional "Owner" as owner: super::compounds::Compound10 }
+        Llama > AbstractChestedHorse { optional "DecorItem" as decor_item: super::compounds::ItemStack_save_2, "Strength" as strength: i32, "Variant" as variant: i32 }
+        LlamaSpit > Entity { optional "Owner" as owner: super::compounds::Compound11 }
         MagmaCube > Slime {  }
         Minecart > AbstractMinecart {  }
         MinecartChest > AbstractMinecartContainer {  }
@@ -468,7 +469,7 @@ pub mod mc1_15 {
         Phantom > FlyingMob { "AX" as ax: i32, "AY" as ay: i32, "AZ" as az: i32, "Size" as size: i32 }
         Pig > Animal { "Saddle" as saddle: bool }
         PigZombie > Zombie { "Anger" as anger: i16, "HurtBy" as hurt_by: String }
-        Pillager > AbstractIllager { "Inventory" as inventory: Vec<super::compounds::ItemStack_save> }
+        Pillager > AbstractIllager { "Inventory" as inventory: Vec<super::compounds::ItemStack_save_2> }
         PolarBear > Animal {  }
         PrimedTnt > Entity { "Fuse" as fuse: i16 }
         Pufferfish > AbstractFish { "PuffState" as puff_state: i32 }
@@ -493,13 +494,13 @@ pub mod mc1_15 {
         Squid > WaterAnimal {  }
         Stray > AbstractSkeleton {  }
         TamableAnimal > Animal { "OwnerUUID" as owner_uuid: String, "Sitting" as sitting: bool }
-        ThrowableItemProjectile > ThrowableProjectile { optional "Item" as item: super::compounds::ItemStack_save }
+        ThrowableItemProjectile > ThrowableProjectile { optional "Item" as item: super::compounds::ItemStack_save_2 }
         ThrowableProjectile > Entity { "inGround" as in_ground: bool, optional "owner" as owner: super::compounds::NbtUtils_createUUIDTag, "shake" as shake: u8, "xTile" as x_tile: i32, "yTile" as y_tile: i32, "zTile" as z_tile: i32 }
         ThrownEgg > ThrowableItemProjectile {  }
         ThrownEnderpearl > ThrowableItemProjectile {  }
         ThrownExperienceBottle > ThrowableItemProjectile {  }
-        ThrownPotion > ThrowableProjectile { optional "Potion" as potion: super::compounds::ItemStack_save }
-        ThrownTrident > AbstractArrow { "DealtDamage" as dealt_damage: bool, "Trident" as trident: super::compounds::ItemStack_save }
+        ThrownPotion > ThrowableProjectile { optional "Potion" as potion: super::compounds::ItemStack_save_2 }
+        ThrownTrident > AbstractArrow { "DealtDamage" as dealt_damage: bool, "Trident" as trident: super::compounds::ItemStack_save_2 }
         TraderLlama > Llama { "DespawnDelay" as despawn_delay: i32 }
         TropicalFish > AbstractSchoolingFish { "Variant" as variant: i32 }
         Turtle > Animal { "HasEgg" as has_egg: bool, "HomePosX" as home_pos_x: i32, "HomePosY" as home_pos_y: i32, "HomePosZ" as home_pos_z: i32, "TravelPosX" as travel_pos_x: i32, "TravelPosY" as travel_pos_y: i32, "TravelPosZ" as travel_pos_z: i32 }
@@ -521,15 +522,16 @@ pub mod mc1_15 {
     entity_compound_types! {
         "1.15";
         ArmorStand_writePose { optional "Body" as body: Vec<f32>, optional "Head" as head: Vec<f32>, optional "LeftArm" as left_arm: Vec<f32>, optional "LeftLeg" as left_leg: Vec<f32>, optional "RightArm" as right_arm: Vec<f32>, optional "RightLeg" as right_leg: Vec<f32> }
-        Compound10 { optional "OwnerUUID" as owner_uuid: u128 }
+        Compound11 { "OwnerUUID" as owner_uuid: u128 }
         Compound6 { optional "UUID" as uuid: u128, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32 }
-        ItemStack_save { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, optional "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
-        MerchantOffer_createTag { "buy" as buy: super::compounds::ItemStack_save, "buyB" as buy_b: super::compounds::ItemStack_save, "demand" as demand: i32, "maxUses" as max_uses: i32, "priceMultiplier" as price_multiplier: f32, "rewardExp" as reward_exp: bool, "sell" as sell: super::compounds::ItemStack_save, "specialPrice" as special_price: i32, "uses" as uses: i32, "xp" as xp: i32 }
+        ItemStack_save { optional "Count" as count: u8, optional "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        ItemStack_save_1 { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        ItemStack_save_2 { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        MerchantOffer_createTag { "buy" as buy: super::compounds::ItemStack_save_2, "buyB" as buy_b: super::compounds::ItemStack_save_2, "demand" as demand: i32, "maxUses" as max_uses: i32, "priceMultiplier" as price_multiplier: f32, "rewardExp" as reward_exp: bool, "sell" as sell: super::compounds::ItemStack_save_2, "specialPrice" as special_price: i32, "uses" as uses: i32, "xp" as xp: i32 }
         MerchantOffers_createTag { "Recipes" as recipes: Vec<super::compounds::MerchantOffer_createTag> }
         MobEffectInstance_save { "Ambient" as ambient: bool, "Amplifier" as amplifier: u8, "Duration" as duration: i32, optional "HiddenEffect" as hidden_effect: Box<super::compounds::MobEffectInstance_save>, "Id" as id: u8, "ShowIcon" as show_icon: bool, "ShowParticles" as show_particles: bool }
         NbtUtils_createUUIDTag { "L" as l: i64, "M" as m: i64 }
-        NbtUtils_createUUIDTag_1 { "L" as l: i64, "M" as m: i64, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32 }
+        NbtUtils_createUUIDTag_1 { "L" as l: i64, "M" as m: i64, "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
         NbtUtils_writeBlockState { "Name" as name: String, optional "Properties" as properties: HashMap<String, String> }
         SharedMonsterAttributes_saveAttribute { "Base" as base: f64, optional "Modifiers" as modifiers: Vec<super::compounds::SharedMonsterAttributes_saveAttributeModifier>, "Name" as name: String }
@@ -658,7 +660,7 @@ pub mod mc1_16 {
         AbstractChestedHorse > AbstractHorse { "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<super::compounds::ItemStack_save_1> }
         AbstractFish > WaterAnimal { "FromBucket" as from_bucket: bool }
         AbstractGolem > PathfinderMob {  }
-        AbstractHorse > Animal { "Bred" as bred: bool, "EatingHaystack" as eating_haystack: bool, optional "Owner" as owner: u128, optional "SaddleItem" as saddle_item: super::compounds::ItemStack_save, "Tame" as tame: bool, "Temper" as temper: i32 }
+        AbstractHorse > Animal { "Bred" as bred: bool, "EatingHaystack" as eating_haystack: bool, optional "Owner" as owner: u128, optional "SaddleItem" as saddle_item: super::compounds::ItemStack_save_2, "Tame" as tame: bool, "Temper" as temper: i32 }
         AbstractHurtingProjectile > Projectile { "power" as power: Vec<f64> }
         AbstractIllager > Raider {  }
         AbstractMinecart > Entity { optional "CustomDisplayTile" as custom_display_tile: bool, optional "DisplayOffset" as display_offset: i32, optional "DisplayState" as display_state: super::compounds::NbtUtils_writeBlockState }
@@ -666,7 +668,7 @@ pub mod mc1_16 {
         AbstractPiglin > Monster { optional "IsImmuneToZombification" as is_immune_to_zombification: bool, "TimeInOverworld" as time_in_overworld: i32 }
         AbstractSchoolingFish > AbstractFish {  }
         AbstractSkeleton > Monster {  }
-        AbstractVillager > AgableMob { "Inventory" as inventory: Vec<super::compounds::ItemStack_save>, optional "Offers" as offers: super::compounds::MerchantOffers_createTag }
+        AbstractVillager > AgableMob { "Inventory" as inventory: Vec<super::compounds::ItemStack_save_2>, optional "Offers" as offers: super::compounds::MerchantOffers_createTag }
         AgableMob > PathfinderMob { "Age" as age: i32, "ForcedAge" as forced_age: i32 }
         AmbientCreature > Mob {  }
         Animal > AgableMob { "InLove" as in_love: i32, optional "LoveCause" as love_cause: u128 }
@@ -696,10 +698,10 @@ pub mod mc1_16 {
         Evoker > SpellcasterIllager {  }
         EvokerFangs > Entity { optional "Owner" as owner: u128, "Warmup" as warmup: i32 }
         ExperienceOrb > Entity { "Age" as age: i16, "Health" as health: i16, "Value" as value: i16 }
-        EyeOfEnder > Entity { optional "Item" as item: super::compounds::ItemStack_save }
+        EyeOfEnder > Entity { optional "Item" as item: super::compounds::ItemStack_save_2 }
         FallingBlockEntity > Entity { "BlockState" as block_state: super::compounds::NbtUtils_writeBlockState, "DropItem" as drop_item: bool, "FallHurtAmount" as fall_hurt_amount: f32, "FallHurtMax" as fall_hurt_max: i32, "HurtEntities" as hurt_entities: bool, optional "TileEntityData" as tile_entity_data: HashMap<String, fastnbt::Value>, "Time" as time: i32 }
-        Fireball > AbstractHurtingProjectile { optional "Item" as item: super::compounds::ItemStack_save }
-        FireworkRocketEntity > Projectile { optional "FireworksItem" as fireworks_item: super::compounds::ItemStack_save, "Life" as life: i32, "LifeTime" as life_time: i32, "ShotAtAngle" as shot_at_angle: bool }
+        Fireball > AbstractHurtingProjectile { optional "Item" as item: super::compounds::ItemStack_save_2 }
+        FireworkRocketEntity > Projectile { optional "FireworksItem" as fireworks_item: super::compounds::ItemStack_save_2, "Life" as life: i32, "LifeTime" as life_time: i32, "ShotAtAngle" as shot_at_angle: bool }
         FishingHook > Projectile {  }
         FlyingMob > Mob {  }
         Fox > Animal { "Crouching" as crouching: bool, "Sitting" as sitting: bool, "Sleeping" as sleeping: bool, "Trusted" as trusted: Vec<fastnbt::IntArray>, "Type" as r#type: String }
@@ -708,17 +710,17 @@ pub mod mc1_16 {
         Guardian > Monster {  }
         HangingEntity > Entity { "TileX" as tile_x: i32, "TileY" as tile_y: i32, "TileZ" as tile_z: i32 }
         Hoglin > Animal { optional "CannotBeHunted" as cannot_be_hunted: bool, optional "IsImmuneToZombification" as is_immune_to_zombification: bool, "TimeInOverworld" as time_in_overworld: i32 }
-        Horse > AbstractHorse { optional "ArmorItem" as armor_item: super::compounds::ItemStack_save, "Variant" as variant: i32 }
+        Horse > AbstractHorse { optional "ArmorItem" as armor_item: super::compounds::ItemStack_save_2, "Variant" as variant: i32 }
         Husk > Zombie {  }
         Illusioner > SpellcasterIllager {  }
         IronGolem > AbstractGolem { "AngerTime" as anger_time: i32, optional "AngryAt" as angry_at: u128, "PlayerCreated" as player_created: bool }
-        ItemEntity > Entity { "Age" as age: i16, "Health" as health: i16, optional "Item" as item: super::compounds::ItemStack_save, optional "Owner" as owner: u128, "PickupDelay" as pickup_delay: i16, optional "Thrower" as thrower: u128 }
-        ItemFrame > HangingEntity { "Facing" as facing: u8, "Fixed" as fixed: bool, "Invisible" as invisible: bool, optional "Item" as item: super::compounds::ItemStack_save, optional "ItemDropChance" as item_drop_chance: f32, optional "ItemRotation" as item_rotation: u8 }
+        ItemEntity > Entity { "Age" as age: i16, "Health" as health: i16, optional "Item" as item: super::compounds::ItemStack_save_2, optional "Owner" as owner: u128, "PickupDelay" as pickup_delay: i16, optional "Thrower" as thrower: u128 }
+        ItemFrame > HangingEntity { "Facing" as facing: u8, "Fixed" as fixed: bool, "Invisible" as invisible: bool, optional "Item" as item: super::compounds::ItemStack_save_2, optional "ItemDropChance" as item_drop_chance: f32, optional "ItemRotation" as item_rotation: u8 }
         LargeFireball > Fireball { "ExplosionPower" as explosion_power: i32 }
         LeashFenceKnotEntity > HangingEntity {  }
         LightningBolt > Entity {  }
         LivingEntity > Entity { "AbsorptionAmount" as absorption_amount: f32, optional "ActiveEffects" as active_effects: Vec<super::compounds::MobEffectInstance_save>, "Attributes" as attributes: Vec<super::compounds::AttributeInstance_save>, optional "Brain" as brain: fastnbt::Value, "DeathTime" as death_time: i16, "FallFlying" as fall_flying: bool, "Health" as health: f32, "HurtByTimestamp" as hurt_by_timestamp: i32, "HurtTime" as hurt_time: i16, optional "SleepingX" as sleeping_x: i32, optional "SleepingY" as sleeping_y: i32, optional "SleepingZ" as sleeping_z: i32 }
-        Llama > AbstractChestedHorse { optional "DecorItem" as decor_item: super::compounds::ItemStack_save, "Strength" as strength: i32, "Variant" as variant: i32 }
+        Llama > AbstractChestedHorse { optional "DecorItem" as decor_item: super::compounds::ItemStack_save_2, "Strength" as strength: i32, "Variant" as variant: i32 }
         LlamaSpit > Projectile {  }
         MagmaCube > Slime {  }
         Minecart > AbstractMinecart {  }
@@ -740,9 +742,9 @@ pub mod mc1_16 {
         PatrollingMonster > Monster { "PatrolLeader" as patrol_leader: bool, optional "PatrolTarget" as patrol_target: super::compounds::NbtUtils_writeBlockPos, "Patrolling" as patrolling: bool }
         Phantom > FlyingMob { "AX" as ax: i32, "AY" as ay: i32, "AZ" as az: i32, "Size" as size: i32 }
         Pig > Animal { "Saddle" as saddle: bool }
-        Piglin > AbstractPiglin { optional "CannotHunt" as cannot_hunt: bool, "Inventory" as inventory: Vec<super::compounds::ItemStack_save>, optional "IsBaby" as is_baby: bool }
+        Piglin > AbstractPiglin { optional "CannotHunt" as cannot_hunt: bool, "Inventory" as inventory: Vec<super::compounds::ItemStack_save_2>, optional "IsBaby" as is_baby: bool }
         PiglinBrute > AbstractPiglin {  }
-        Pillager > AbstractIllager { "Inventory" as inventory: Vec<super::compounds::ItemStack_save> }
+        Pillager > AbstractIllager { "Inventory" as inventory: Vec<super::compounds::ItemStack_save_2> }
         PolarBear > Animal { "AngerTime" as anger_time: i32, optional "AngryAt" as angry_at: u128 }
         PrimedTnt > Entity { "Fuse" as fuse: i16 }
         Projectile > Entity { optional "LeftOwner" as left_owner: bool, optional "Owner" as owner: u128 }
@@ -769,13 +771,13 @@ pub mod mc1_16 {
         Stray > AbstractSkeleton {  }
         Strider > Animal { "Saddle" as saddle: bool }
         TamableAnimal > Animal { optional "Owner" as owner: u128, "Sitting" as sitting: bool }
-        ThrowableItemProjectile > ThrowableProjectile { optional "Item" as item: super::compounds::ItemStack_save }
+        ThrowableItemProjectile > ThrowableProjectile { optional "Item" as item: super::compounds::ItemStack_save_2 }
         ThrowableProjectile > Projectile {  }
         ThrownEgg > ThrowableItemProjectile {  }
         ThrownEnderpearl > ThrowableItemProjectile {  }
         ThrownExperienceBottle > ThrowableItemProjectile {  }
         ThrownPotion > ThrowableItemProjectile {  }
-        ThrownTrident > AbstractArrow { "DealtDamage" as dealt_damage: bool, "Trident" as trident: super::compounds::ItemStack_save }
+        ThrownTrident > AbstractArrow { "DealtDamage" as dealt_damage: bool, "Trident" as trident: super::compounds::ItemStack_save_2 }
         TraderLlama > Llama { "DespawnDelay" as despawn_delay: i32 }
         TropicalFish > AbstractSchoolingFish { "Variant" as variant: i32 }
         Turtle > Animal { "HasEgg" as has_egg: bool, "HomePosX" as home_pos_x: i32, "HomePosY" as home_pos_y: i32, "HomePosZ" as home_pos_z: i32, "TravelPosX" as travel_pos_x: i32, "TravelPosY" as travel_pos_y: i32, "TravelPosZ" as travel_pos_z: i32 }
@@ -802,9 +804,10 @@ pub mod mc1_16 {
         AttributeInstance_save { "Base" as base: f64, optional "Modifiers" as modifiers: Vec<super::compounds::AttributeModifier_save>, "Name" as name: String }
         AttributeModifier_save { "Amount" as amount: f64, "Name" as name: String, "Operation" as operation: i32, "UUID" as uuid: u128 }
         Compound6 { optional "UUID" as uuid: u128, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32 }
-        ItemStack_save { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, optional "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
-        MerchantOffer_createTag { "buy" as buy: super::compounds::ItemStack_save, "buyB" as buy_b: super::compounds::ItemStack_save, "demand" as demand: i32, "maxUses" as max_uses: i32, "priceMultiplier" as price_multiplier: f32, "rewardExp" as reward_exp: bool, "sell" as sell: super::compounds::ItemStack_save, "specialPrice" as special_price: i32, "uses" as uses: i32, "xp" as xp: i32 }
+        ItemStack_save { optional "Count" as count: u8, optional "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        ItemStack_save_1 { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        ItemStack_save_2 { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        MerchantOffer_createTag { "buy" as buy: super::compounds::ItemStack_save_2, "buyB" as buy_b: super::compounds::ItemStack_save_2, "demand" as demand: i32, "maxUses" as max_uses: i32, "priceMultiplier" as price_multiplier: f32, "rewardExp" as reward_exp: bool, "sell" as sell: super::compounds::ItemStack_save_2, "specialPrice" as special_price: i32, "uses" as uses: i32, "xp" as xp: i32 }
         MerchantOffers_createTag { "Recipes" as recipes: Vec<super::compounds::MerchantOffer_createTag> }
         MobEffectInstance_save { "Ambient" as ambient: bool, "Amplifier" as amplifier: u8, "Duration" as duration: i32, optional "HiddenEffect" as hidden_effect: Box<super::compounds::MobEffectInstance_save>, "Id" as id: u8, "ShowIcon" as show_icon: bool, "ShowParticles" as show_particles: bool }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
@@ -938,7 +941,7 @@ pub mod mc1_17_mc1_18 {
         AbstractChestedHorse > AbstractHorse { "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<super::compounds::ItemStack_save_1> }
         AbstractFish > WaterAnimal { "FromBucket" as from_bucket: bool }
         AbstractGolem > PathfinderMob {  }
-        AbstractHorse > Animal { "Bred" as bred: bool, "EatingHaystack" as eating_haystack: bool, optional "Owner" as owner: u128, optional "SaddleItem" as saddle_item: super::compounds::ItemStack_save, "Tame" as tame: bool, "Temper" as temper: i32 }
+        AbstractHorse > Animal { "Bred" as bred: bool, "EatingHaystack" as eating_haystack: bool, optional "Owner" as owner: u128, optional "SaddleItem" as saddle_item: super::compounds::ItemStack_save_2, "Tame" as tame: bool, "Temper" as temper: i32 }
         AbstractHurtingProjectile > Projectile { "power" as power: Vec<f64> }
         AbstractIllager > Raider {  }
         AbstractMinecart > Entity { optional "CustomDisplayTile" as custom_display_tile: bool, optional "DisplayOffset" as display_offset: i32, optional "DisplayState" as display_state: super::compounds::NbtUtils_writeBlockState }
@@ -946,7 +949,7 @@ pub mod mc1_17_mc1_18 {
         AbstractPiglin > Monster { optional "IsImmuneToZombification" as is_immune_to_zombification: bool, "TimeInOverworld" as time_in_overworld: i32 }
         AbstractSchoolingFish > AbstractFish {  }
         AbstractSkeleton > Monster {  }
-        AbstractVillager > AgeableMob { "Inventory" as inventory: Vec<super::compounds::ItemStack_save>, optional "Offers" as offers: super::compounds::MerchantOffers_createTag }
+        AbstractVillager > AgeableMob { "Inventory" as inventory: Vec<super::compounds::ItemStack_save_2>, optional "Offers" as offers: super::compounds::MerchantOffers_createTag }
         AgeableMob > PathfinderMob { "Age" as age: i32, "ForcedAge" as forced_age: i32 }
         AmbientCreature > Mob {  }
         Animal > AgeableMob { "InLove" as in_love: i32, optional "LoveCause" as love_cause: u128 }
@@ -977,10 +980,10 @@ pub mod mc1_17_mc1_18 {
         Evoker > SpellcasterIllager {  }
         EvokerFangs > Entity { optional "Owner" as owner: u128, "Warmup" as warmup: i32 }
         ExperienceOrb > Entity { "Age" as age: i16, "Count" as count: i32, "Health" as health: i16, "Value" as value: i16 }
-        EyeOfEnder > Entity { optional "Item" as item: super::compounds::ItemStack_save }
+        EyeOfEnder > Entity { optional "Item" as item: super::compounds::ItemStack_save_2 }
         FallingBlockEntity > Entity { "BlockState" as block_state: super::compounds::NbtUtils_writeBlockState, "DropItem" as drop_item: bool, "FallHurtAmount" as fall_hurt_amount: f32, "FallHurtMax" as fall_hurt_max: i32, "HurtEntities" as hurt_entities: bool, optional "TileEntityData" as tile_entity_data: HashMap<String, fastnbt::Value>, "Time" as time: i32 }
-        Fireball > AbstractHurtingProjectile { optional "Item" as item: super::compounds::ItemStack_save }
-        FireworkRocketEntity > Projectile { optional "FireworksItem" as fireworks_item: super::compounds::ItemStack_save, "Life" as life: i32, "LifeTime" as life_time: i32, "ShotAtAngle" as shot_at_angle: bool }
+        Fireball > AbstractHurtingProjectile { optional "Item" as item: super::compounds::ItemStack_save_2 }
+        FireworkRocketEntity > Projectile { optional "FireworksItem" as fireworks_item: super::compounds::ItemStack_save_2, "Life" as life: i32, "LifeTime" as life_time: i32, "ShotAtAngle" as shot_at_angle: bool }
         FishingHook > Projectile {  }
         FlyingMob > Mob {  }
         Fox > Animal { "Crouching" as crouching: bool, "Sitting" as sitting: bool, "Sleeping" as sleeping: bool, "Trusted" as trusted: Vec<fastnbt::IntArray>, "Type" as r#type: String }
@@ -992,17 +995,17 @@ pub mod mc1_17_mc1_18 {
         Guardian > Monster {  }
         HangingEntity > Entity { "TileX" as tile_x: i32, "TileY" as tile_y: i32, "TileZ" as tile_z: i32 }
         Hoglin > Animal { optional "CannotBeHunted" as cannot_be_hunted: bool, optional "IsImmuneToZombification" as is_immune_to_zombification: bool, "TimeInOverworld" as time_in_overworld: i32 }
-        Horse > AbstractHorse { optional "ArmorItem" as armor_item: super::compounds::ItemStack_save, "Variant" as variant: i32 }
+        Horse > AbstractHorse { optional "ArmorItem" as armor_item: super::compounds::ItemStack_save_2, "Variant" as variant: i32 }
         Husk > Zombie {  }
         Illusioner > SpellcasterIllager {  }
         IronGolem > AbstractGolem { "AngerTime" as anger_time: i32, optional "AngryAt" as angry_at: u128, "PlayerCreated" as player_created: bool }
-        ItemEntity > Entity { "Age" as age: i16, "Health" as health: i16, optional "Item" as item: super::compounds::ItemStack_save, optional "Owner" as owner: u128, "PickupDelay" as pickup_delay: i16, optional "Thrower" as thrower: u128 }
-        ItemFrame > HangingEntity { "Facing" as facing: u8, "Fixed" as fixed: bool, "Invisible" as invisible: bool, optional "Item" as item: super::compounds::ItemStack_save, optional "ItemDropChance" as item_drop_chance: f32, optional "ItemRotation" as item_rotation: u8 }
+        ItemEntity > Entity { "Age" as age: i16, "Health" as health: i16, optional "Item" as item: super::compounds::ItemStack_save_2, optional "Owner" as owner: u128, "PickupDelay" as pickup_delay: i16, optional "Thrower" as thrower: u128 }
+        ItemFrame > HangingEntity { "Facing" as facing: u8, "Fixed" as fixed: bool, "Invisible" as invisible: bool, optional "Item" as item: super::compounds::ItemStack_save_2, optional "ItemDropChance" as item_drop_chance: f32, optional "ItemRotation" as item_rotation: u8 }
         LargeFireball > Fireball { "ExplosionPower" as explosion_power: u8 }
         LeashFenceKnotEntity > HangingEntity {  }
         LightningBolt > Entity {  }
         LivingEntity > Entity { "AbsorptionAmount" as absorption_amount: f32, optional "ActiveEffects" as active_effects: Vec<super::compounds::MobEffectInstance_save>, "Attributes" as attributes: Vec<super::compounds::AttributeInstance_save>, optional "Brain" as brain: fastnbt::Value, "DeathTime" as death_time: i16, "FallFlying" as fall_flying: bool, "Health" as health: f32, "HurtByTimestamp" as hurt_by_timestamp: i32, "HurtTime" as hurt_time: i16, optional "SleepingX" as sleeping_x: i32, optional "SleepingY" as sleeping_y: i32, optional "SleepingZ" as sleeping_z: i32 }
-        Llama > AbstractChestedHorse { optional "DecorItem" as decor_item: super::compounds::ItemStack_save, "Strength" as strength: i32, "Variant" as variant: i32 }
+        Llama > AbstractChestedHorse { optional "DecorItem" as decor_item: super::compounds::ItemStack_save_2, "Strength" as strength: i32, "Variant" as variant: i32 }
         LlamaSpit > Projectile {  }
         MagmaCube > Slime {  }
         Marker > Entity { "data" as data: HashMap<String, fastnbt::Value> }
@@ -1025,9 +1028,9 @@ pub mod mc1_17_mc1_18 {
         PatrollingMonster > Monster { "PatrolLeader" as patrol_leader: bool, optional "PatrolTarget" as patrol_target: super::compounds::NbtUtils_writeBlockPos, "Patrolling" as patrolling: bool }
         Phantom > FlyingMob { "AX" as ax: i32, "AY" as ay: i32, "AZ" as az: i32, "Size" as size: i32 }
         Pig > Animal { "Saddle" as saddle: bool }
-        Piglin > AbstractPiglin { optional "CannotHunt" as cannot_hunt: bool, "Inventory" as inventory: Vec<super::compounds::ItemStack_save>, optional "IsBaby" as is_baby: bool }
+        Piglin > AbstractPiglin { optional "CannotHunt" as cannot_hunt: bool, "Inventory" as inventory: Vec<super::compounds::ItemStack_save_2>, optional "IsBaby" as is_baby: bool }
         PiglinBrute > AbstractPiglin {  }
-        Pillager > AbstractIllager { "Inventory" as inventory: Vec<super::compounds::ItemStack_save> }
+        Pillager > AbstractIllager { "Inventory" as inventory: Vec<super::compounds::ItemStack_save_2> }
         PolarBear > Animal { "AngerTime" as anger_time: i32, optional "AngryAt" as angry_at: u128 }
         PrimedTnt > Entity { "Fuse" as fuse: i16 }
         Projectile > Entity { "HasBeenShot" as has_been_shot: bool, optional "LeftOwner" as left_owner: bool, optional "Owner" as owner: u128 }
@@ -1054,13 +1057,13 @@ pub mod mc1_17_mc1_18 {
         Stray > AbstractSkeleton {  }
         Strider > Animal { "Saddle" as saddle: bool }
         TamableAnimal > Animal { optional "Owner" as owner: u128, "Sitting" as sitting: bool }
-        ThrowableItemProjectile > ThrowableProjectile { optional "Item" as item: super::compounds::ItemStack_save }
+        ThrowableItemProjectile > ThrowableProjectile { optional "Item" as item: super::compounds::ItemStack_save_2 }
         ThrowableProjectile > Projectile {  }
         ThrownEgg > ThrowableItemProjectile {  }
         ThrownEnderpearl > ThrowableItemProjectile {  }
         ThrownExperienceBottle > ThrowableItemProjectile {  }
         ThrownPotion > ThrowableItemProjectile {  }
-        ThrownTrident > AbstractArrow { "DealtDamage" as dealt_damage: bool, "Trident" as trident: super::compounds::ItemStack_save }
+        ThrownTrident > AbstractArrow { "DealtDamage" as dealt_damage: bool, "Trident" as trident: super::compounds::ItemStack_save_2 }
         TraderLlama > Llama { "DespawnDelay" as despawn_delay: i32 }
         TropicalFish > AbstractSchoolingFish { "Variant" as variant: i32 }
         Turtle > Animal { "HasEgg" as has_egg: bool, "HomePosX" as home_pos_x: i32, "HomePosY" as home_pos_y: i32, "HomePosZ" as home_pos_z: i32, "TravelPosX" as travel_pos_x: i32, "TravelPosY" as travel_pos_y: i32, "TravelPosZ" as travel_pos_z: i32 }
@@ -1087,9 +1090,10 @@ pub mod mc1_17_mc1_18 {
         AttributeInstance_save { "Base" as base: f64, optional "Modifiers" as modifiers: Vec<super::compounds::AttributeModifier_save>, "Name" as name: String }
         AttributeModifier_save { "Amount" as amount: f64, "Name" as name: String, "Operation" as operation: i32, "UUID" as uuid: u128 }
         Compound6 { optional "UUID" as uuid: u128, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32 }
-        ItemStack_save { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, optional "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
-        MerchantOffer_createTag { "buy" as buy: super::compounds::ItemStack_save, "buyB" as buy_b: super::compounds::ItemStack_save, "demand" as demand: i32, "maxUses" as max_uses: i32, "priceMultiplier" as price_multiplier: f32, "rewardExp" as reward_exp: bool, "sell" as sell: super::compounds::ItemStack_save, "specialPrice" as special_price: i32, "uses" as uses: i32, "xp" as xp: i32 }
+        ItemStack_save { optional "Count" as count: u8, optional "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        ItemStack_save_1 { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        ItemStack_save_2 { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        MerchantOffer_createTag { "buy" as buy: super::compounds::ItemStack_save_2, "buyB" as buy_b: super::compounds::ItemStack_save_2, "demand" as demand: i32, "maxUses" as max_uses: i32, "priceMultiplier" as price_multiplier: f32, "rewardExp" as reward_exp: bool, "sell" as sell: super::compounds::ItemStack_save_2, "specialPrice" as special_price: i32, "uses" as uses: i32, "xp" as xp: i32 }
         MerchantOffers_createTag { "Recipes" as recipes: Vec<super::compounds::MerchantOffer_createTag> }
         MobEffectInstance_save { "Ambient" as ambient: bool, "Amplifier" as amplifier: u8, "Duration" as duration: i32, optional "HiddenEffect" as hidden_effect: Box<super::compounds::MobEffectInstance_save>, "Id" as id: u8, "ShowIcon" as show_icon: bool, "ShowParticles" as show_particles: bool }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
@@ -1224,14 +1228,14 @@ pub mod mc1_19 {
     entity_types! {
         "1.19";
         AbstractArrow > Projectile { "PierceLevel" as pierce_level: u8, "ShotFromCrossbow" as shot_from_crossbow: bool, "SoundEvent" as sound_event: String, "crit" as crit: bool, "damage" as damage: f64, optional "inBlockState" as in_block_state: super::compounds::NbtUtils_writeBlockState, "inGround" as in_ground: bool, "life" as life: i16, "pickup" as pickup: u8, "shake" as shake: u8 }
-        AbstractChestedHorse > AbstractHorse { "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<super::compounds::ItemStack_save_1> }
+        AbstractChestedHorse > AbstractHorse { "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<super::compounds::ItemStack_save_2> }
         AbstractFish > WaterAnimal { "FromBucket" as from_bucket: bool }
         AbstractGolem > PathfinderMob {  }
         AbstractHorse > Animal { "Bred" as bred: bool, "EatingHaystack" as eating_haystack: bool, optional "Owner" as owner: u128, optional "SaddleItem" as saddle_item: super::compounds::ItemStack_save, "Tame" as tame: bool, "Temper" as temper: i32 }
         AbstractHurtingProjectile > Projectile { "power" as power: Vec<f64> }
         AbstractIllager > Raider {  }
         AbstractMinecart > Entity { optional "CustomDisplayTile" as custom_display_tile: bool, optional "DisplayOffset" as display_offset: i32, optional "DisplayState" as display_state: super::compounds::NbtUtils_writeBlockState }
-        AbstractMinecartContainer > AbstractMinecart { optional "Items" as items: Vec<super::compounds::ItemStack_save_1>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
+        AbstractMinecartContainer > AbstractMinecart { optional "Items" as items: Vec<super::compounds::ItemStack_save_2>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
         AbstractPiglin > Monster { optional "IsImmuneToZombification" as is_immune_to_zombification: bool, "TimeInOverworld" as time_in_overworld: i32 }
         AbstractSchoolingFish > AbstractFish {  }
         AbstractSkeleton > Monster {  }
@@ -1241,7 +1245,7 @@ pub mod mc1_19 {
         AmbientCreature > Mob {  }
         Animal > AgeableMob { "InLove" as in_love: i32, optional "LoveCause" as love_cause: u128 }
         AreaEffectCloud > Entity { "Age" as age: i32, optional "Color" as color: i32, "Duration" as duration: i32, "DurationOnUse" as duration_on_use: i32, optional "Effects" as effects: Vec<super::compounds::MobEffectInstance_save>, optional "Owner" as owner: u128, "Particle" as particle: String, optional "Potion" as potion: String, "Radius" as radius: f32, "RadiusOnUse" as radius_on_use: f32, "RadiusPerTick" as radius_per_tick: f32, "ReapplicationDelay" as reapplication_delay: i32, "WaitTime" as wait_time: i32 }
-        ArmorStand > LivingEntity { "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save>, "DisabledSlots" as disabled_slots: i32, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save>, "Invisible" as invisible: bool, optional "Marker" as marker: bool, "NoBasePlate" as no_base_plate: bool, "Pose" as pose: super::compounds::ArmorStand_writePose, "ShowArms" as show_arms: bool, "Small" as small: bool }
+        ArmorStand > LivingEntity { "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save_1>, "DisabledSlots" as disabled_slots: i32, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save_1>, "Invisible" as invisible: bool, optional "Marker" as marker: bool, "NoBasePlate" as no_base_plate: bool, "Pose" as pose: super::compounds::ArmorStand_writePose, "ShowArms" as show_arms: bool, "Small" as small: bool }
         Arrow > AbstractArrow { optional "Color" as color: i32, optional "CustomPotionEffects" as custom_potion_effects: Vec<super::compounds::MobEffectInstance_save>, optional "Potion" as potion: String }
         Axolotl > Animal { "FromBucket" as from_bucket: bool, "Variant" as variant: i32 }
         Bat > AmbientCreature { "BatFlags" as bat_flags: u8 }
@@ -1250,7 +1254,7 @@ pub mod mc1_19 {
         Boat > Entity { "Type" as r#type: String }
         Cat > TamableAnimal { "CollarColor" as collar_color: u8, "variant" as variant: String }
         CaveSpider > Spider {  }
-        ChestBoat > Boat { optional "Items" as items: Vec<super::compounds::ItemStack_save_1>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
+        ChestBoat > Boat { optional "Items" as items: Vec<super::compounds::ItemStack_save_2>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
         Chicken > Animal { "EggLayTime" as egg_lay_time: i32, "IsChickenJockey" as is_chicken_jockey: bool }
         Cod > AbstractSchoolingFish {  }
         Cow > Animal {  }
@@ -1305,7 +1309,7 @@ pub mod mc1_19 {
         MinecartHopper > AbstractMinecartContainer { "Enabled" as enabled: bool, "TransferCooldown" as transfer_cooldown: i32 }
         MinecartSpawner > AbstractMinecart { "Delay" as delay: i16, "MaxNearbyEntities" as max_nearby_entities: i16, "MaxSpawnDelay" as max_spawn_delay: i16, "MinSpawnDelay" as min_spawn_delay: i16, "RequiredPlayerRange" as required_player_range: i16, "SpawnCount" as spawn_count: i16, "SpawnData" as spawn_data: fastnbt::Value, "SpawnPotentials" as spawn_potentials: fastnbt::Value, "SpawnRange" as spawn_range: i16 }
         MinecartTNT > AbstractMinecart { "TNTFuse" as tnt_fuse: i32 }
-        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: String, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save>, "Leash" as leash: super::compounds::Compound1, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
+        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save_1>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: String, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save_1>, "Leash" as leash: super::compounds::Compound2, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
         Monster > PathfinderMob {  }
         Mule > AbstractChestedHorse {  }
         MushroomCow > Cow { optional "EffectDuration" as effect_duration: i32, optional "EffectId" as effect_id: i32, "Type" as r#type: String }
@@ -1380,9 +1384,10 @@ pub mod mc1_19 {
         ArmorStand_writePose { optional "Body" as body: Vec<f32>, optional "Head" as head: Vec<f32>, optional "LeftArm" as left_arm: Vec<f32>, optional "LeftLeg" as left_leg: Vec<f32>, optional "RightArm" as right_arm: Vec<f32>, optional "RightLeg" as right_leg: Vec<f32> }
         AttributeInstance_save { "Base" as base: f64, optional "Modifiers" as modifiers: Vec<super::compounds::AttributeModifier_save>, "Name" as name: String }
         AttributeModifier_save { "Amount" as amount: f64, "Name" as name: String, "Operation" as operation: i32, "UUID" as uuid: u128 }
-        Compound1 { optional "UUID" as uuid: u128, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32 }
+        Compound2 { optional "UUID" as uuid: u128, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32 }
         ItemStack_save { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, optional "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        ItemStack_save_1 { optional "Count" as count: u8, optional "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        ItemStack_save_2 { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
         MerchantOffer_createTag { "buy" as buy: super::compounds::ItemStack_save, "buyB" as buy_b: super::compounds::ItemStack_save, "demand" as demand: i32, "maxUses" as max_uses: i32, "priceMultiplier" as price_multiplier: f32, "rewardExp" as reward_exp: bool, "sell" as sell: super::compounds::ItemStack_save, "specialPrice" as special_price: i32, "uses" as uses: i32, "xp" as xp: i32 }
         MerchantOffers_createTag { "Recipes" as recipes: Vec<super::compounds::MerchantOffer_createTag> }
         MobEffectInstance_save { "Ambient" as ambient: bool, "Amplifier" as amplifier: u8, "Duration" as duration: i32, optional "FactorCalculationData" as factor_calculation_data: fastnbt::Value, optional "HiddenEffect" as hidden_effect: Box<super::compounds::MobEffectInstance_save>, "Id" as id: i32, "ShowIcon" as show_icon: bool, "ShowParticles" as show_particles: bool }
@@ -1519,14 +1524,14 @@ pub mod mc1_19_3 {
     entity_types! {
         "1.19.3";
         AbstractArrow > Projectile { "PierceLevel" as pierce_level: u8, "ShotFromCrossbow" as shot_from_crossbow: bool, "SoundEvent" as sound_event: String, "crit" as crit: bool, "damage" as damage: f64, optional "inBlockState" as in_block_state: super::compounds::NbtUtils_writeBlockState, "inGround" as in_ground: bool, "life" as life: i16, "pickup" as pickup: u8, "shake" as shake: u8 }
-        AbstractChestedHorse > AbstractHorse { "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<super::compounds::ItemStack_save_1> }
+        AbstractChestedHorse > AbstractHorse { "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<super::compounds::ItemStack_save_2> }
         AbstractFish > WaterAnimal { "FromBucket" as from_bucket: bool }
         AbstractGolem > PathfinderMob {  }
         AbstractHorse > Animal { "Bred" as bred: bool, "EatingHaystack" as eating_haystack: bool, optional "Owner" as owner: u128, optional "SaddleItem" as saddle_item: super::compounds::ItemStack_save, "Tame" as tame: bool, "Temper" as temper: i32 }
         AbstractHurtingProjectile > Projectile { "power" as power: Vec<f64> }
         AbstractIllager > Raider {  }
         AbstractMinecart > Entity { optional "CustomDisplayTile" as custom_display_tile: bool, optional "DisplayOffset" as display_offset: i32, optional "DisplayState" as display_state: super::compounds::NbtUtils_writeBlockState }
-        AbstractMinecartContainer > AbstractMinecart { optional "Items" as items: Vec<super::compounds::ItemStack_save_1>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
+        AbstractMinecartContainer > AbstractMinecart { optional "Items" as items: Vec<super::compounds::ItemStack_save_2>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
         AbstractPiglin > Monster { optional "IsImmuneToZombification" as is_immune_to_zombification: bool, "TimeInOverworld" as time_in_overworld: i32 }
         AbstractSchoolingFish > AbstractFish {  }
         AbstractSkeleton > Monster {  }
@@ -1536,7 +1541,7 @@ pub mod mc1_19_3 {
         AmbientCreature > Mob {  }
         Animal > AgeableMob { "InLove" as in_love: i32, optional "LoveCause" as love_cause: u128 }
         AreaEffectCloud > Entity { "Age" as age: i32, optional "Color" as color: i32, "Duration" as duration: i32, "DurationOnUse" as duration_on_use: i32, optional "Effects" as effects: Vec<super::compounds::MobEffectInstance_save>, optional "Owner" as owner: u128, "Particle" as particle: String, optional "Potion" as potion: String, "Radius" as radius: f32, "RadiusOnUse" as radius_on_use: f32, "RadiusPerTick" as radius_per_tick: f32, "ReapplicationDelay" as reapplication_delay: i32, "WaitTime" as wait_time: i32 }
-        ArmorStand > LivingEntity { "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save>, "DisabledSlots" as disabled_slots: i32, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save>, "Invisible" as invisible: bool, optional "Marker" as marker: bool, "NoBasePlate" as no_base_plate: bool, "Pose" as pose: super::compounds::ArmorStand_writePose, "ShowArms" as show_arms: bool, "Small" as small: bool }
+        ArmorStand > LivingEntity { "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save_1>, "DisabledSlots" as disabled_slots: i32, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save_1>, "Invisible" as invisible: bool, optional "Marker" as marker: bool, "NoBasePlate" as no_base_plate: bool, "Pose" as pose: super::compounds::ArmorStand_writePose, "ShowArms" as show_arms: bool, "Small" as small: bool }
         Arrow > AbstractArrow { optional "Color" as color: i32, optional "CustomPotionEffects" as custom_potion_effects: Vec<super::compounds::MobEffectInstance_save>, optional "Potion" as potion: String }
         Axolotl > Animal { "FromBucket" as from_bucket: bool, "Variant" as variant: i32 }
         Bat > AmbientCreature { "BatFlags" as bat_flags: u8 }
@@ -1546,7 +1551,7 @@ pub mod mc1_19_3 {
         Camel > AbstractHorse { "IsSitting" as is_sitting: bool, "LastPoseTick" as last_pose_tick: i64 }
         Cat > TamableAnimal { "CollarColor" as collar_color: u8, "variant" as variant: String }
         CaveSpider > Spider {  }
-        ChestBoat > Boat { optional "Items" as items: Vec<super::compounds::ItemStack_save_1>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
+        ChestBoat > Boat { optional "Items" as items: Vec<super::compounds::ItemStack_save_2>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
         Chicken > Animal { "EggLayTime" as egg_lay_time: i32, "IsChickenJockey" as is_chicken_jockey: bool }
         Cod > AbstractSchoolingFish {  }
         Cow > Animal {  }
@@ -1601,7 +1606,7 @@ pub mod mc1_19_3 {
         MinecartHopper > AbstractMinecartContainer { "Enabled" as enabled: bool, "TransferCooldown" as transfer_cooldown: i32 }
         MinecartSpawner > AbstractMinecart { "Delay" as delay: i16, "MaxNearbyEntities" as max_nearby_entities: i16, "MaxSpawnDelay" as max_spawn_delay: i16, "MinSpawnDelay" as min_spawn_delay: i16, "RequiredPlayerRange" as required_player_range: i16, "SpawnCount" as spawn_count: i16, optional "SpawnData" as spawn_data: fastnbt::Value, "SpawnPotentials" as spawn_potentials: fastnbt::Value, "SpawnRange" as spawn_range: i16 }
         MinecartTNT > AbstractMinecart { "TNTFuse" as tnt_fuse: i32 }
-        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: String, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save>, "Leash" as leash: super::compounds::Compound1, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
+        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save_1>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: String, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save_1>, "Leash" as leash: super::compounds::Compound2, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
         Monster > PathfinderMob {  }
         Mule > AbstractChestedHorse {  }
         MushroomCow > Cow { optional "EffectDuration" as effect_duration: i32, optional "EffectId" as effect_id: i32, "Type" as r#type: String }
@@ -1676,9 +1681,10 @@ pub mod mc1_19_3 {
         ArmorStand_writePose { optional "Body" as body: Vec<f32>, optional "Head" as head: Vec<f32>, optional "LeftArm" as left_arm: Vec<f32>, optional "LeftLeg" as left_leg: Vec<f32>, optional "RightArm" as right_arm: Vec<f32>, optional "RightLeg" as right_leg: Vec<f32> }
         AttributeInstance_save { "Base" as base: f64, optional "Modifiers" as modifiers: Vec<super::compounds::AttributeModifier_save>, "Name" as name: String }
         AttributeModifier_save { "Amount" as amount: f64, "Name" as name: String, "Operation" as operation: i32, "UUID" as uuid: u128 }
-        Compound1 { optional "UUID" as uuid: u128, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32 }
+        Compound2 { optional "UUID" as uuid: u128, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32 }
         ItemStack_save { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, optional "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        ItemStack_save_1 { optional "Count" as count: u8, optional "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        ItemStack_save_2 { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
         MerchantOffer_createTag { "buy" as buy: super::compounds::ItemStack_save, "buyB" as buy_b: super::compounds::ItemStack_save, "demand" as demand: i32, "maxUses" as max_uses: i32, "priceMultiplier" as price_multiplier: f32, "rewardExp" as reward_exp: bool, "sell" as sell: super::compounds::ItemStack_save, "specialPrice" as special_price: i32, "uses" as uses: i32, "xp" as xp: i32 }
         MerchantOffers_createTag { "Recipes" as recipes: Vec<super::compounds::MerchantOffer_createTag> }
         MobEffectInstance_save { "Ambient" as ambient: bool, "Amplifier" as amplifier: u8, "Duration" as duration: i32, optional "FactorCalculationData" as factor_calculation_data: fastnbt::Value, optional "HiddenEffect" as hidden_effect: Box<super::compounds::MobEffectInstance_save>, "Id" as id: i32, "ShowIcon" as show_icon: bool, "ShowParticles" as show_particles: bool }
@@ -1820,14 +1826,14 @@ pub mod mc1_19_4 {
     entity_types! {
         "1.19.4";
         AbstractArrow > Projectile { "PierceLevel" as pierce_level: u8, "ShotFromCrossbow" as shot_from_crossbow: bool, "SoundEvent" as sound_event: String, "crit" as crit: bool, "damage" as damage: f64, optional "inBlockState" as in_block_state: super::compounds::NbtUtils_writeBlockState, "inGround" as in_ground: bool, "life" as life: i16, "pickup" as pickup: u8, "shake" as shake: u8 }
-        AbstractChestedHorse > AbstractHorse { "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<super::compounds::ItemStack_save_1> }
+        AbstractChestedHorse > AbstractHorse { "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<super::compounds::ItemStack_save_2> }
         AbstractFish > WaterAnimal { "FromBucket" as from_bucket: bool }
         AbstractGolem > PathfinderMob {  }
         AbstractHorse > Animal { "Bred" as bred: bool, "EatingHaystack" as eating_haystack: bool, optional "Owner" as owner: u128, optional "SaddleItem" as saddle_item: super::compounds::ItemStack_save, "Tame" as tame: bool, "Temper" as temper: i32 }
         AbstractHurtingProjectile > Projectile { "power" as power: Vec<f64> }
         AbstractIllager > Raider {  }
         AbstractMinecart > Entity { optional "CustomDisplayTile" as custom_display_tile: bool, optional "DisplayOffset" as display_offset: i32, optional "DisplayState" as display_state: super::compounds::NbtUtils_writeBlockState }
-        AbstractMinecartContainer > AbstractMinecart { optional "Items" as items: Vec<super::compounds::ItemStack_save_1>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
+        AbstractMinecartContainer > AbstractMinecart { optional "Items" as items: Vec<super::compounds::ItemStack_save_2>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
         AbstractPiglin > Monster { optional "IsImmuneToZombification" as is_immune_to_zombification: bool, "TimeInOverworld" as time_in_overworld: i32 }
         AbstractSchoolingFish > AbstractFish {  }
         AbstractSkeleton > Monster {  }
@@ -1837,7 +1843,7 @@ pub mod mc1_19_4 {
         AmbientCreature > Mob {  }
         Animal > AgeableMob { "InLove" as in_love: i32, optional "LoveCause" as love_cause: u128 }
         AreaEffectCloud > Entity { "Age" as age: i32, optional "Color" as color: i32, "Duration" as duration: i32, "DurationOnUse" as duration_on_use: i32, optional "Effects" as effects: Vec<super::compounds::MobEffectInstance_save>, optional "Owner" as owner: u128, "Particle" as particle: String, optional "Potion" as potion: String, "Radius" as radius: f32, "RadiusOnUse" as radius_on_use: f32, "RadiusPerTick" as radius_per_tick: f32, "ReapplicationDelay" as reapplication_delay: i32, "WaitTime" as wait_time: i32 }
-        ArmorStand > LivingEntity { "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save>, "DisabledSlots" as disabled_slots: i32, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save>, "Invisible" as invisible: bool, optional "Marker" as marker: bool, "NoBasePlate" as no_base_plate: bool, "Pose" as pose: super::compounds::ArmorStand_writePose, "ShowArms" as show_arms: bool, "Small" as small: bool }
+        ArmorStand > LivingEntity { "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save_1>, "DisabledSlots" as disabled_slots: i32, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save_1>, "Invisible" as invisible: bool, optional "Marker" as marker: bool, "NoBasePlate" as no_base_plate: bool, "Pose" as pose: super::compounds::ArmorStand_writePose, "ShowArms" as show_arms: bool, "Small" as small: bool }
         Arrow > AbstractArrow { optional "Color" as color: i32, optional "CustomPotionEffects" as custom_potion_effects: Vec<super::compounds::MobEffectInstance_save>, optional "Potion" as potion: String }
         Axolotl > Animal { "FromBucket" as from_bucket: bool, "Variant" as variant: i32 }
         Bat > AmbientCreature { "BatFlags" as bat_flags: u8 }
@@ -1848,7 +1854,7 @@ pub mod mc1_19_4 {
         Camel > AbstractHorse { "LastPoseTick" as last_pose_tick: i64 }
         Cat > TamableAnimal { "CollarColor" as collar_color: u8, "variant" as variant: String }
         CaveSpider > Spider {  }
-        ChestBoat > Boat { optional "Items" as items: Vec<super::compounds::ItemStack_save_1>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
+        ChestBoat > Boat { optional "Items" as items: Vec<super::compounds::ItemStack_save_2>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
         Chicken > Animal { "EggLayTime" as egg_lay_time: i32, "IsChickenJockey" as is_chicken_jockey: bool }
         Cod > AbstractSchoolingFish {  }
         Cow > Animal {  }
@@ -1906,7 +1912,7 @@ pub mod mc1_19_4 {
         MinecartHopper > AbstractMinecartContainer { "Enabled" as enabled: bool }
         MinecartSpawner > AbstractMinecart { "Delay" as delay: i16, "MaxNearbyEntities" as max_nearby_entities: i16, "MaxSpawnDelay" as max_spawn_delay: i16, "MinSpawnDelay" as min_spawn_delay: i16, "RequiredPlayerRange" as required_player_range: i16, "SpawnCount" as spawn_count: i16, optional "SpawnData" as spawn_data: fastnbt::Value, "SpawnPotentials" as spawn_potentials: fastnbt::Value, "SpawnRange" as spawn_range: i16 }
         MinecartTNT > AbstractMinecart { "TNTFuse" as tnt_fuse: i32 }
-        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: String, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save>, "Leash" as leash: super::compounds::Compound1, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
+        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save_1>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: String, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save_1>, "Leash" as leash: super::compounds::Compound2, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
         Monster > PathfinderMob {  }
         Mule > AbstractChestedHorse {  }
         MushroomCow > Cow { optional "EffectDuration" as effect_duration: i32, optional "EffectId" as effect_id: i32, "Type" as r#type: String }
@@ -1983,9 +1989,10 @@ pub mod mc1_19_4 {
         ArmorStand_writePose { optional "Body" as body: Vec<f32>, optional "Head" as head: Vec<f32>, optional "LeftArm" as left_arm: Vec<f32>, optional "LeftLeg" as left_leg: Vec<f32>, optional "RightArm" as right_arm: Vec<f32>, optional "RightLeg" as right_leg: Vec<f32> }
         AttributeInstance_save { "Base" as base: f64, optional "Modifiers" as modifiers: Vec<super::compounds::AttributeModifier_save>, "Name" as name: String }
         AttributeModifier_save { "Amount" as amount: f64, "Name" as name: String, "Operation" as operation: i32, "UUID" as uuid: u128 }
-        Compound1 { optional "UUID" as uuid: u128, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32 }
+        Compound2 { optional "UUID" as uuid: u128, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32 }
         ItemStack_save { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, optional "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        ItemStack_save_1 { optional "Count" as count: u8, optional "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        ItemStack_save_2 { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
         MerchantOffer_createTag { "buy" as buy: super::compounds::ItemStack_save, "buyB" as buy_b: super::compounds::ItemStack_save, "demand" as demand: i32, "maxUses" as max_uses: i32, "priceMultiplier" as price_multiplier: f32, "rewardExp" as reward_exp: bool, "sell" as sell: super::compounds::ItemStack_save, "specialPrice" as special_price: i32, "uses" as uses: i32, "xp" as xp: i32 }
         MerchantOffers_createTag { "Recipes" as recipes: Vec<super::compounds::MerchantOffer_createTag> }
         MobEffectInstance_save { "Ambient" as ambient: bool, "Amplifier" as amplifier: u8, "Duration" as duration: i32, optional "FactorCalculationData" as factor_calculation_data: fastnbt::Value, optional "HiddenEffect" as hidden_effect: Box<super::compounds::MobEffectInstance_save>, "Id" as id: i32, "ShowIcon" as show_icon: bool, "ShowParticles" as show_particles: bool }
@@ -2127,14 +2134,14 @@ pub mod mc1_20 {
     entity_types! {
         "1.20";
         AbstractArrow > Projectile { "PierceLevel" as pierce_level: u8, "ShotFromCrossbow" as shot_from_crossbow: bool, "SoundEvent" as sound_event: String, "crit" as crit: bool, "damage" as damage: f64, optional "inBlockState" as in_block_state: super::compounds::NbtUtils_writeBlockState, "inGround" as in_ground: bool, "life" as life: i16, "pickup" as pickup: u8, "shake" as shake: u8 }
-        AbstractChestedHorse > AbstractHorse { "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<super::compounds::ItemStack_save_1> }
+        AbstractChestedHorse > AbstractHorse { "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<super::compounds::ItemStack_save_2> }
         AbstractFish > WaterAnimal { "FromBucket" as from_bucket: bool }
         AbstractGolem > PathfinderMob {  }
         AbstractHorse > Animal { "Bred" as bred: bool, "EatingHaystack" as eating_haystack: bool, optional "Owner" as owner: u128, optional "SaddleItem" as saddle_item: super::compounds::ItemStack_save, "Tame" as tame: bool, "Temper" as temper: i32 }
         AbstractHurtingProjectile > Projectile { "power" as power: Vec<f64> }
         AbstractIllager > Raider {  }
         AbstractMinecart > Entity { optional "CustomDisplayTile" as custom_display_tile: bool, optional "DisplayOffset" as display_offset: i32, optional "DisplayState" as display_state: super::compounds::NbtUtils_writeBlockState }
-        AbstractMinecartContainer > AbstractMinecart { optional "Items" as items: Vec<super::compounds::ItemStack_save_1>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
+        AbstractMinecartContainer > AbstractMinecart { optional "Items" as items: Vec<super::compounds::ItemStack_save_2>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
         AbstractPiglin > Monster { optional "IsImmuneToZombification" as is_immune_to_zombification: bool, "TimeInOverworld" as time_in_overworld: i32 }
         AbstractSchoolingFish > AbstractFish {  }
         AbstractSkeleton > Monster {  }
@@ -2144,7 +2151,7 @@ pub mod mc1_20 {
         AmbientCreature > Mob {  }
         Animal > AgeableMob { "InLove" as in_love: i32, optional "LoveCause" as love_cause: u128 }
         AreaEffectCloud > Entity { "Age" as age: i32, optional "Color" as color: i32, "Duration" as duration: i32, "DurationOnUse" as duration_on_use: i32, optional "Effects" as effects: Vec<super::compounds::MobEffectInstance_save>, optional "Owner" as owner: u128, "Particle" as particle: String, optional "Potion" as potion: String, "Radius" as radius: f32, "RadiusOnUse" as radius_on_use: f32, "RadiusPerTick" as radius_per_tick: f32, "ReapplicationDelay" as reapplication_delay: i32, "WaitTime" as wait_time: i32 }
-        ArmorStand > LivingEntity { "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save>, "DisabledSlots" as disabled_slots: i32, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save>, "Invisible" as invisible: bool, optional "Marker" as marker: bool, "NoBasePlate" as no_base_plate: bool, "Pose" as pose: super::compounds::ArmorStand_writePose, "ShowArms" as show_arms: bool, "Small" as small: bool }
+        ArmorStand > LivingEntity { "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save_1>, "DisabledSlots" as disabled_slots: i32, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save_1>, "Invisible" as invisible: bool, optional "Marker" as marker: bool, "NoBasePlate" as no_base_plate: bool, "Pose" as pose: super::compounds::ArmorStand_writePose, "ShowArms" as show_arms: bool, "Small" as small: bool }
         Arrow > AbstractArrow { optional "Color" as color: i32, optional "CustomPotionEffects" as custom_potion_effects: Vec<super::compounds::MobEffectInstance_save>, optional "Potion" as potion: String }
         Axolotl > Animal { "FromBucket" as from_bucket: bool, "Variant" as variant: i32 }
         Bat > AmbientCreature { "BatFlags" as bat_flags: u8 }
@@ -2155,7 +2162,7 @@ pub mod mc1_20 {
         Camel > AbstractHorse { "LastPoseTick" as last_pose_tick: i64 }
         Cat > TamableAnimal { "CollarColor" as collar_color: u8, "variant" as variant: String }
         CaveSpider > Spider {  }
-        ChestBoat > Boat { optional "Items" as items: Vec<super::compounds::ItemStack_save_1>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
+        ChestBoat > Boat { optional "Items" as items: Vec<super::compounds::ItemStack_save_2>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
         Chicken > Animal { "EggLayTime" as egg_lay_time: i32, "IsChickenJockey" as is_chicken_jockey: bool }
         Cod > AbstractSchoolingFish {  }
         Cow > Animal {  }
@@ -2213,7 +2220,7 @@ pub mod mc1_20 {
         MinecartHopper > AbstractMinecartContainer { "Enabled" as enabled: bool }
         MinecartSpawner > AbstractMinecart { "Delay" as delay: i16, "MaxNearbyEntities" as max_nearby_entities: i16, "MaxSpawnDelay" as max_spawn_delay: i16, "MinSpawnDelay" as min_spawn_delay: i16, "RequiredPlayerRange" as required_player_range: i16, "SpawnCount" as spawn_count: i16, optional "SpawnData" as spawn_data: fastnbt::Value, "SpawnPotentials" as spawn_potentials: fastnbt::Value, "SpawnRange" as spawn_range: i16 }
         MinecartTNT > AbstractMinecart { "TNTFuse" as tnt_fuse: i32 }
-        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: String, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save>, "Leash" as leash: super::compounds::Compound1, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
+        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save_1>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: String, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save_1>, "Leash" as leash: super::compounds::Compound2, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
         Monster > PathfinderMob {  }
         Mule > AbstractChestedHorse {  }
         MushroomCow > Cow { optional "EffectDuration" as effect_duration: i32, optional "EffectId" as effect_id: i32, "Type" as r#type: String }
@@ -2290,9 +2297,10 @@ pub mod mc1_20 {
         ArmorStand_writePose { optional "Body" as body: Vec<f32>, optional "Head" as head: Vec<f32>, optional "LeftArm" as left_arm: Vec<f32>, optional "LeftLeg" as left_leg: Vec<f32>, optional "RightArm" as right_arm: Vec<f32>, optional "RightLeg" as right_leg: Vec<f32> }
         AttributeInstance_save { "Base" as base: f64, optional "Modifiers" as modifiers: Vec<super::compounds::AttributeModifier_save>, "Name" as name: String }
         AttributeModifier_save { "Amount" as amount: f64, "Name" as name: String, "Operation" as operation: i32, "UUID" as uuid: u128 }
-        Compound1 { optional "UUID" as uuid: u128, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32 }
+        Compound2 { optional "UUID" as uuid: u128, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32 }
         ItemStack_save { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, optional "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        ItemStack_save_1 { optional "Count" as count: u8, optional "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        ItemStack_save_2 { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
         MerchantOffer_createTag { "buy" as buy: super::compounds::ItemStack_save, "buyB" as buy_b: super::compounds::ItemStack_save, "demand" as demand: i32, "maxUses" as max_uses: i32, "priceMultiplier" as price_multiplier: f32, "rewardExp" as reward_exp: bool, "sell" as sell: super::compounds::ItemStack_save, "specialPrice" as special_price: i32, "uses" as uses: i32, "xp" as xp: i32 }
         MerchantOffers_createTag { "Recipes" as recipes: Vec<super::compounds::MerchantOffer_createTag> }
         MobEffectInstance_save { "Ambient" as ambient: bool, "Amplifier" as amplifier: u8, "Duration" as duration: i32, optional "FactorCalculationData" as factor_calculation_data: fastnbt::Value, optional "HiddenEffect" as hidden_effect: Box<super::compounds::MobEffectInstance_save>, "Id" as id: i32, "ShowIcon" as show_icon: bool, "ShowParticles" as show_particles: bool }
@@ -2434,14 +2442,14 @@ pub mod mc1_20_2 {
     entity_types! {
         "1.20.2";
         AbstractArrow > Projectile { "PierceLevel" as pierce_level: u8, "ShotFromCrossbow" as shot_from_crossbow: bool, "SoundEvent" as sound_event: String, "crit" as crit: bool, "damage" as damage: f64, optional "inBlockState" as in_block_state: super::compounds::NbtUtils_writeBlockState, "inGround" as in_ground: bool, "life" as life: i16, "pickup" as pickup: u8, "shake" as shake: u8 }
-        AbstractChestedHorse > AbstractHorse { "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<super::compounds::ItemStack_save_1> }
+        AbstractChestedHorse > AbstractHorse { "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<super::compounds::ItemStack_save_2> }
         AbstractFish > WaterAnimal { "FromBucket" as from_bucket: bool }
         AbstractGolem > PathfinderMob {  }
         AbstractHorse > Animal { "Bred" as bred: bool, "EatingHaystack" as eating_haystack: bool, optional "Owner" as owner: u128, optional "SaddleItem" as saddle_item: super::compounds::ItemStack_save, "Tame" as tame: bool, "Temper" as temper: i32 }
         AbstractHurtingProjectile > Projectile { "power" as power: Vec<f64> }
         AbstractIllager > Raider {  }
         AbstractMinecart > Entity { optional "CustomDisplayTile" as custom_display_tile: bool, optional "DisplayOffset" as display_offset: i32, optional "DisplayState" as display_state: super::compounds::NbtUtils_writeBlockState }
-        AbstractMinecartContainer > AbstractMinecart { optional "Items" as items: Vec<super::compounds::ItemStack_save_1>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
+        AbstractMinecartContainer > AbstractMinecart { optional "Items" as items: Vec<super::compounds::ItemStack_save_2>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
         AbstractPiglin > Monster { optional "IsImmuneToZombification" as is_immune_to_zombification: bool, "TimeInOverworld" as time_in_overworld: i32 }
         AbstractSchoolingFish > AbstractFish {  }
         AbstractSkeleton > Monster {  }
@@ -2451,7 +2459,7 @@ pub mod mc1_20_2 {
         AmbientCreature > Mob {  }
         Animal > AgeableMob { "InLove" as in_love: i32, optional "LoveCause" as love_cause: u128 }
         AreaEffectCloud > Entity { "Age" as age: i32, optional "Color" as color: i32, "Duration" as duration: i32, "DurationOnUse" as duration_on_use: i32, optional "Owner" as owner: u128, "Particle" as particle: String, optional "Potion" as potion: String, "Radius" as radius: f32, "RadiusOnUse" as radius_on_use: f32, "RadiusPerTick" as radius_per_tick: f32, "ReapplicationDelay" as reapplication_delay: i32, "WaitTime" as wait_time: i32, optional "effects" as effects: Vec<super::compounds::MobEffectInstance_save> }
-        ArmorStand > LivingEntity { "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save>, "DisabledSlots" as disabled_slots: i32, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save>, "Invisible" as invisible: bool, optional "Marker" as marker: bool, "NoBasePlate" as no_base_plate: bool, "Pose" as pose: super::compounds::ArmorStand_writePose, "ShowArms" as show_arms: bool, "Small" as small: bool }
+        ArmorStand > LivingEntity { "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save_1>, "DisabledSlots" as disabled_slots: i32, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save_1>, "Invisible" as invisible: bool, optional "Marker" as marker: bool, "NoBasePlate" as no_base_plate: bool, "Pose" as pose: super::compounds::ArmorStand_writePose, "ShowArms" as show_arms: bool, "Small" as small: bool }
         Arrow > AbstractArrow { optional "Color" as color: i32, optional "Potion" as potion: String, optional "custom_potion_effects" as custom_potion_effects: Vec<super::compounds::MobEffectInstance_save> }
         Axolotl > Animal { "FromBucket" as from_bucket: bool, "Variant" as variant: i32 }
         Bat > AmbientCreature { "BatFlags" as bat_flags: u8 }
@@ -2462,7 +2470,7 @@ pub mod mc1_20_2 {
         Camel > AbstractHorse { "LastPoseTick" as last_pose_tick: i64 }
         Cat > TamableAnimal { "CollarColor" as collar_color: u8, "variant" as variant: String }
         CaveSpider > Spider {  }
-        ChestBoat > Boat { optional "Items" as items: Vec<super::compounds::ItemStack_save_1>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
+        ChestBoat > Boat { optional "Items" as items: Vec<super::compounds::ItemStack_save_2>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
         Chicken > Animal { "EggLayTime" as egg_lay_time: i32, "IsChickenJockey" as is_chicken_jockey: bool }
         Cod > AbstractSchoolingFish {  }
         Cow > Animal {  }
@@ -2520,7 +2528,7 @@ pub mod mc1_20_2 {
         MinecartHopper > AbstractMinecartContainer { "Enabled" as enabled: bool }
         MinecartSpawner > AbstractMinecart { "Delay" as delay: i16, "MaxNearbyEntities" as max_nearby_entities: i16, "MaxSpawnDelay" as max_spawn_delay: i16, "MinSpawnDelay" as min_spawn_delay: i16, "RequiredPlayerRange" as required_player_range: i16, "SpawnCount" as spawn_count: i16, optional "SpawnData" as spawn_data: fastnbt::Value, "SpawnPotentials" as spawn_potentials: fastnbt::Value, "SpawnRange" as spawn_range: i16 }
         MinecartTNT > AbstractMinecart { "TNTFuse" as tnt_fuse: i32 }
-        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: String, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save>, "Leash" as leash: super::compounds::Compound1, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
+        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save_1>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: String, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save_1>, "Leash" as leash: super::compounds::Compound2, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
         Monster > PathfinderMob {  }
         Mule > AbstractChestedHorse {  }
         MushroomCow > Cow { "Type" as r#type: String, optional "stew_effects" as stew_effects: fastnbt::Value }
@@ -2597,9 +2605,10 @@ pub mod mc1_20_2 {
         ArmorStand_writePose { optional "Body" as body: Vec<f32>, optional "Head" as head: Vec<f32>, optional "LeftArm" as left_arm: Vec<f32>, optional "LeftLeg" as left_leg: Vec<f32>, optional "RightArm" as right_arm: Vec<f32>, optional "RightLeg" as right_leg: Vec<f32> }
         AttributeInstance_save { "Base" as base: f64, optional "Modifiers" as modifiers: Vec<super::compounds::AttributeModifier_save>, "Name" as name: String }
         AttributeModifier_save { "Amount" as amount: f64, "Name" as name: String, "Operation" as operation: i32, "UUID" as uuid: u128 }
-        Compound1 { optional "UUID" as uuid: u128, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32 }
+        Compound2 { optional "UUID" as uuid: u128, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32 }
         ItemStack_save { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, optional "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        ItemStack_save_1 { optional "Count" as count: u8, optional "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        ItemStack_save_2 { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
         MerchantOffer_createTag { "buy" as buy: super::compounds::ItemStack_save, "buyB" as buy_b: super::compounds::ItemStack_save, "demand" as demand: i32, "maxUses" as max_uses: i32, "priceMultiplier" as price_multiplier: f32, "rewardExp" as reward_exp: bool, "sell" as sell: super::compounds::ItemStack_save, "specialPrice" as special_price: i32, "uses" as uses: i32, "xp" as xp: i32 }
         MerchantOffers_createTag { "Recipes" as recipes: Vec<super::compounds::MerchantOffer_createTag> }
         MobEffectInstance_save { "ambient" as ambient: bool, "amplifier" as amplifier: u8, "duration" as duration: i32, optional "factor_calculation_data" as factor_calculation_data: fastnbt::Value, optional "hidden_effect" as hidden_effect: Box<super::compounds::MobEffectInstance_save>, "id" as id: String, "show_icon" as show_icon: bool, "show_particles" as show_particles: bool }
@@ -2743,14 +2752,14 @@ pub mod mc1_20_3 {
     entity_types! {
         "1.20.3";
         AbstractArrow > Projectile { "PierceLevel" as pierce_level: u8, "ShotFromCrossbow" as shot_from_crossbow: bool, "SoundEvent" as sound_event: String, "crit" as crit: bool, "damage" as damage: f64, optional "inBlockState" as in_block_state: super::compounds::NbtUtils_writeBlockState, "inGround" as in_ground: bool, "item" as item: super::compounds::ItemStack_save, "life" as life: i16, "pickup" as pickup: u8, "shake" as shake: u8 }
-        AbstractChestedHorse > AbstractHorse { "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<super::compounds::ItemStack_save_1> }
+        AbstractChestedHorse > AbstractHorse { "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<super::compounds::ItemStack_save_2> }
         AbstractFish > WaterAnimal { "FromBucket" as from_bucket: bool }
         AbstractGolem > PathfinderMob {  }
         AbstractHorse > Animal { "Bred" as bred: bool, "EatingHaystack" as eating_haystack: bool, optional "Owner" as owner: u128, optional "SaddleItem" as saddle_item: super::compounds::ItemStack_save, "Tame" as tame: bool, "Temper" as temper: i32 }
         AbstractHurtingProjectile > Projectile { "power" as power: Vec<f64> }
         AbstractIllager > Raider {  }
         AbstractMinecart > VehicleEntity { optional "CustomDisplayTile" as custom_display_tile: bool, optional "DisplayOffset" as display_offset: i32, optional "DisplayState" as display_state: super::compounds::NbtUtils_writeBlockState }
-        AbstractMinecartContainer > AbstractMinecart { optional "Items" as items: Vec<super::compounds::ItemStack_save_1>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
+        AbstractMinecartContainer > AbstractMinecart { optional "Items" as items: Vec<super::compounds::ItemStack_save_2>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
         AbstractPiglin > Monster { optional "IsImmuneToZombification" as is_immune_to_zombification: bool, "TimeInOverworld" as time_in_overworld: i32 }
         AbstractSchoolingFish > AbstractFish {  }
         AbstractSkeleton > Monster {  }
@@ -2760,7 +2769,7 @@ pub mod mc1_20_3 {
         AmbientCreature > Mob {  }
         Animal > AgeableMob { "InLove" as in_love: i32, optional "LoveCause" as love_cause: u128 }
         AreaEffectCloud > Entity { "Age" as age: i32, optional "Color" as color: i32, "Duration" as duration: i32, "DurationOnUse" as duration_on_use: i32, optional "Owner" as owner: u128, "Particle" as particle: String, optional "Potion" as potion: String, "Radius" as radius: f32, "RadiusOnUse" as radius_on_use: f32, "RadiusPerTick" as radius_per_tick: f32, "ReapplicationDelay" as reapplication_delay: i32, "WaitTime" as wait_time: i32, optional "effects" as effects: Vec<super::compounds::MobEffectInstance_save> }
-        ArmorStand > LivingEntity { "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save>, "DisabledSlots" as disabled_slots: i32, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save>, "Invisible" as invisible: bool, optional "Marker" as marker: bool, "NoBasePlate" as no_base_plate: bool, "Pose" as pose: super::compounds::ArmorStand_writePose, "ShowArms" as show_arms: bool, "Small" as small: bool }
+        ArmorStand > LivingEntity { "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save_1>, "DisabledSlots" as disabled_slots: i32, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save_1>, "Invisible" as invisible: bool, optional "Marker" as marker: bool, "NoBasePlate" as no_base_plate: bool, "Pose" as pose: super::compounds::ArmorStand_writePose, "ShowArms" as show_arms: bool, "Small" as small: bool }
         Arrow > AbstractArrow { optional "Color" as color: i32, optional "Potion" as potion: String, optional "custom_potion_effects" as custom_potion_effects: Vec<super::compounds::MobEffectInstance_save> }
         Axolotl > Animal { "FromBucket" as from_bucket: bool, "Variant" as variant: i32 }
         Bat > AmbientCreature { "BatFlags" as bat_flags: u8 }
@@ -2772,7 +2781,7 @@ pub mod mc1_20_3 {
         Camel > AbstractHorse { "LastPoseTick" as last_pose_tick: i64 }
         Cat > TamableAnimal { "CollarColor" as collar_color: u8, "variant" as variant: String }
         CaveSpider > Spider {  }
-        ChestBoat > Boat { optional "Items" as items: Vec<super::compounds::ItemStack_save_1>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
+        ChestBoat > Boat { optional "Items" as items: Vec<super::compounds::ItemStack_save_2>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
         Chicken > Animal { "EggLayTime" as egg_lay_time: i32, "IsChickenJockey" as is_chicken_jockey: bool }
         Cod > AbstractSchoolingFish {  }
         Cow > Animal {  }
@@ -2830,7 +2839,7 @@ pub mod mc1_20_3 {
         MinecartHopper > AbstractMinecartContainer { "Enabled" as enabled: bool }
         MinecartSpawner > AbstractMinecart { "Delay" as delay: i16, "MaxNearbyEntities" as max_nearby_entities: i16, "MaxSpawnDelay" as max_spawn_delay: i16, "MinSpawnDelay" as min_spawn_delay: i16, "RequiredPlayerRange" as required_player_range: i16, "SpawnCount" as spawn_count: i16, optional "SpawnData" as spawn_data: fastnbt::Value, "SpawnPotentials" as spawn_potentials: fastnbt::Value, "SpawnRange" as spawn_range: i16 }
         MinecartTNT > AbstractMinecart { "TNTFuse" as tnt_fuse: i32 }
-        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: String, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save>, "Leash" as leash: super::compounds::Compound1, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
+        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save_1>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: String, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save_1>, "Leash" as leash: super::compounds::Compound2, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
         Monster > PathfinderMob {  }
         Mule > AbstractChestedHorse {  }
         MushroomCow > Cow { "Type" as r#type: String, optional "stew_effects" as stew_effects: fastnbt::Value }
@@ -2909,9 +2918,10 @@ pub mod mc1_20_3 {
         ArmorStand_writePose { optional "Body" as body: Vec<f32>, optional "Head" as head: Vec<f32>, optional "LeftArm" as left_arm: Vec<f32>, optional "LeftLeg" as left_leg: Vec<f32>, optional "RightArm" as right_arm: Vec<f32>, optional "RightLeg" as right_leg: Vec<f32> }
         AttributeInstance_save { "Base" as base: f64, optional "Modifiers" as modifiers: Vec<super::compounds::AttributeModifier_save>, "Name" as name: String }
         AttributeModifier_save { "Amount" as amount: f64, "Name" as name: String, "Operation" as operation: i32, "UUID" as uuid: u128 }
-        Compound1 { optional "UUID" as uuid: u128, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32 }
+        Compound2 { optional "UUID" as uuid: u128, optional "X" as x: i32, optional "Y" as y: i32, optional "Z" as z: i32 }
         ItemStack_save { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, optional "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        ItemStack_save_1 { optional "Count" as count: u8, optional "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        ItemStack_save_2 { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
         MerchantOffer_createTag { "buy" as buy: super::compounds::ItemStack_save, "buyB" as buy_b: super::compounds::ItemStack_save, "demand" as demand: i32, "maxUses" as max_uses: i32, "priceMultiplier" as price_multiplier: f32, "rewardExp" as reward_exp: bool, "sell" as sell: super::compounds::ItemStack_save, "specialPrice" as special_price: i32, "uses" as uses: i32, "xp" as xp: i32 }
         MerchantOffers_createTag { "Recipes" as recipes: Vec<super::compounds::MerchantOffer_createTag> }
         MobEffectInstance_save { "ambient" as ambient: bool, "amplifier" as amplifier: u8, "duration" as duration: i32, optional "factor_calculation_data" as factor_calculation_data: fastnbt::Value, optional "hidden_effect" as hidden_effect: Box<super::compounds::MobEffectInstance_save>, "id" as id: String, "show_icon" as show_icon: bool, "show_particles" as show_particles: bool }

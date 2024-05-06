@@ -118,9 +118,6 @@ struct ExtractOutput {
 
 fn codegen_features_list(versions: &FeaturesJson) -> Result<()> {
     log!(task, "generating Cargo.toml features list");
-    // TODO: the "latest" feature should also provide a module that's either aliasing the latest or
-    //  even provides its own definitions which then change over time and are marked as
-    //  non-exhaustive
     log!(step, "building string");
     log!(trace, "`latest` feature");
     let mut cargo_features = format!(
@@ -525,9 +522,6 @@ pub mod latest {{
     )
     .trim_start()
     .to_owned();
-    // TODO: the "latest" feature should also provide a module that's either aliasing the latest or
-    //  even provides its own definitions which then change over time and are marked as
-    //  non-exhaustive
     for (
         EntitiesJson {
             entities,
