@@ -3,7 +3,7 @@ members = ["xtask"]
 
 [package]
 name = "mcdata"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["RubixDev <silas.groh@t-online.de>"]
 edition = "2021"
 keywords = ["minecraft", "nbt"]

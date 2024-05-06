@@ -29,6 +29,24 @@ impl BlockEntity for GenericBlockEntity<'_> {
     }
 }
 
+impl BlockEntity for fastnbt::Value {
+    fn position(&self) -> BlockPos {
+        let Self::Compound(map) = self else {
+            panic!("valid block entity should be a compound")
+        };
+        let Some(Self::Int(x)) = map.get("x") else {
+            panic!("valid block entity has 'x' key of type int")
+        };
+        let Some(Self::Int(y)) = map.get("y") else {
+            panic!("valid block entity has 'y' key of type int")
+        };
+        let Some(Self::Int(z)) = map.get("z") else {
+            panic!("valid block entity has 'z' key of type int")
+        };
+        BlockPos::new(*x, *y, *z)
+    }
+}
+
 #[cfg(feature = "serde")]
 impl<'de: 'a, 'a> serde::Deserialize<'de> for GenericBlockEntity<'a> {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>

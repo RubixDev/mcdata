@@ -150,6 +150,8 @@ pub struct GenericEntity {
 
 impl Entity for GenericEntity {}
 
+impl Entity for fastnbt::Value {}
+
 #[cfg(feature = "serde")]
 impl<'de> serde::Deserialize<'de> for GenericEntity {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>

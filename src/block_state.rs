@@ -38,7 +38,7 @@ mod macros;
 mod list;
 
 /// Any type that can represent a block state.
-pub trait BlockState: Clone + Eq + Sized {
+pub trait BlockState: Clone + PartialEq + Sized {
     /// Return this type's representation of `minecraft:air`.
     fn air() -> Self;
 }
@@ -64,5 +64,11 @@ impl BlockState for GenericBlockState<'_> {
             name: "minecraft:air".into(),
             properties: HashMap::new(),
         }
+    }
+}
+
+impl BlockState for fastnbt::Value {
+    fn air() -> Self {
+        fastnbt::nbt!({ "Name": "minecraft:air" })
     }
 }
