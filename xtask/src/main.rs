@@ -473,6 +473,9 @@ fn codegen_class_analysis(
             .arg("installDist")
             .current_dir(&class_parser_dir),
     )?;
+    #[cfg(windows)]
+    let class_parser_bin = class_parser_dir.join("build/install/class-parser/bin/class-parser.bat");
+    #[cfg(unix)]
     let class_parser_bin = class_parser_dir.join("build/install/class-parser/bin/class-parser");
 
     log!(step, "running class-parser on extracted data");
