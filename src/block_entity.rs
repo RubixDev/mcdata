@@ -1,4 +1,47 @@
 //! Types and traits describing Minecraft block entities, a.k.a. tile entities.
+//!
+//! ## Example
+//!
+//! ```
+//! # #[cfg(all(feature = "latest", feature = "serde", feature = "block-entities"))]
+//! # fn test() {
+//! use mcdata::block_entity::latest::{self, types};
+//!
+//! let command_block = latest::BlockEntity::CommandBlock(types::CommandBlockEntity {
+//!     command: "/say hi".to_string(),
+//!     custom_name: None,
+//!     last_execution: None,
+//!     last_output: None,
+//!     success_count: 2,
+//!     track_output: true,
+//!     update_last_execution: true,
+//!     auto: false,
+//!     condition_met: false,
+//!     powered: false,
+//!     parent: types::BlockEntity {
+//!         x: 0,
+//!         y: 10,
+//!         z: -5,
+//!     },
+//! });
+//! let command_block_nbt = fastnbt::nbt!({
+//!     "id": "minecraft:command_block",
+//!     "Command": "/say hi",
+//!     "SuccessCount": 2,
+//!     "TrackOutput": true,
+//!     "UpdateLastExecution": true,
+//!     "auto": false,
+//!     "conditionMet": false,
+//!     "powered": false,
+//!     "x": 0,
+//!     "y": 10,
+//!     "z": -5,
+//! });
+//! assert_eq!(fastnbt::to_value(&command_block), Ok(command_block_nbt));
+//! # }
+//! # #[cfg(all(feature = "latest", feature = "serde", feature = "block-entities"))]
+//! # test();
+//! ```
 
 use std::collections::HashMap;
 

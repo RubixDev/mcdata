@@ -123,6 +123,8 @@ use std::collections::HashMap;
 #[cfg(feature = "serde")]
 use std::{fmt, marker::PhantomData};
 
+// TODO: special cases for NbtUtils_writeBlockState to somehow use a type implementing the
+//  BlockState trait
 #[cfg(feature = "entities")]
 pub use self::list::*;
 
@@ -138,6 +140,7 @@ pub trait Entity: Clone {}
 /// A generic entity that can represent _any_ possible entity with state by storing its
 /// [id](Self::id), [UUID](Self::uuid), and [raw NBT](Self::properties).
 // TODO: try to make this use `Cow<'a, str>` again
+// TODO: at least replace `String`s with `Cow<'static, str>`s
 #[derive(Debug, Clone, PartialEq)]
 pub struct GenericEntity {
     /// The id of this entity, e.g. `minecraft:cow`.
