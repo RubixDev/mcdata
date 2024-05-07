@@ -6,6 +6,7 @@ macro_rules! block_entities {
             $variant:ident:
             $type:ident
             ($($parent:tt)+)
+            $(, $empty:ident)?
         );+
         $(;)?
     ) => {
@@ -180,14 +181,17 @@ macro_rules! block_entities {
                             }),
                             None => {
                                 // try untagged deserialization when id is missing
-                                // TODO: skip "empty" types like EnderChest here
                                 properties.insert("x".to_string(), fastnbt::Value::Int(x));
                                 properties.insert("y".to_string(), fastnbt::Value::Int(y));
                                 properties.insert("z".to_string(), fastnbt::Value::Int(z));
                                 $(
-                                    if let Ok(ok) = fastnbt::from_value::<types::$type>(&fastnbt::Value::Compound(properties.clone())) {
-                                        return Ok(Self::Value::$variant(ok));
-                                    }
+                                    // first try all variants which have at least one required field
+                                    block_entities!(@untagged_non_empty $type, properties, $variant $(, $empty)?);
+                                )+
+                                $(
+                                    // then try all variants which have at least one optional field
+                                    // TODO: somehow determine which one fits best, otherwise info might be lost
+                                    block_entities!(@untagged_optionals_only $type, properties, $variant $(, $empty)?);
                                 )+
                                 properties.remove("x");
                                 properties.remove("y");
@@ -211,6 +215,18 @@ macro_rules! block_entities {
     };
     (@parent_block_entity $self:ident > BlockEntity) => { $self.parent };
     (@parent_block_entity $self:ident > $($rest:tt)+) => { block_entities!(@parent_block_entity $self $($rest)+).parent };
+    (@untagged_non_empty $type:ident, $properties:ident, $variant:ident) => {
+        if let Ok(ok) = fastnbt::from_value::<types::$type>(&fastnbt::Value::Compound($properties.clone())) {
+            return Ok(Self::Value::$variant(ok));
+        }
+    };
+    (@untagged_non_empty $type:ident, $properties:ident, $variant:ident, $empty:ident) => {};
+    (@untagged_optionals_only $type:ident, $properties:ident, $variant:ident, optionals_only) => {
+        if let Ok(ok) = fastnbt::from_value::<types::$type>(&fastnbt::Value::Compound($properties.clone())) {
+            return Ok(Self::Value::$variant(ok));
+        }
+    };
+    (@untagged_optionals_only $type:ident, $properties:ident, $variant:ident $($tt:tt)*) => {};
 }
 
 macro_rules! block_entity_types {

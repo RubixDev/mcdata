@@ -768,6 +768,31 @@ pub mod mc{mod_name} {{
             }
             block_entity_list_rs += &format!("({}BlockEntity)", "> ".repeat(indirection));
 
+            let mut optionals_only = true;
+            let mut empty = true;
+            let mut curr = &entity.type_;
+            loop {
+                let c = types.iter().find(|t| &t.name == curr).unwrap();
+                if c.name != "BlockEntity"
+                    && (!c.nbt.entries.is_empty()
+                        || c.nbt.unknown_keys.is_some()
+                        || !c.nbt.flattened.is_empty())
+                {
+                    empty = false;
+                    if c.nbt.entries.values().any(|e| !e.optional) {
+                        optionals_only = false;
+                    }
+                }
+
+                let Some(parent) = &c.parent else { break };
+                curr = parent;
+            }
+            if empty {
+                block_entity_list_rs += ", empty";
+            } else if optionals_only {
+                block_entity_list_rs += ", optionals_only";
+            }
+
             block_entity_list_rs += ";\n";
         }
         println!();
