@@ -774,6 +774,8 @@ class Vm(private val jarFile: String, private val mcVersion: Int) {
         // @formatter:on
 
         override fun visitReturnInstruction(o: ReturnInstruction) {
+            locals.toList().filterIsInstance<TypedTag>().forEach { it.optionalUntil = Int.MAX_VALUE }
+            stack.toList().filterIsInstance<TypedTag>().forEach { it.optionalUntil = Int.MAX_VALUE }
             if (o is RETURN) {
                 returnValues.add(Type.VOID)
             } else {
