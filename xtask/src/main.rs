@@ -327,9 +327,11 @@ export default {
 
         // save the outputs
         log!(info, "saving the outputs");
-        block_lists.push(serde_json::from_reader(BufReader::new(File::open(
-            mod_dir.join("run/blocks.json"),
-        )?))?);
+        let mut blocks_json: BlocksJson =
+            serde_json::from_reader(BufReader::new(File::open(mod_dir.join("run/blocks.json"))?))?;
+        blocks_json.blocks.sort_unstable_by_key(|b| b.id.clone());
+        blocks_json.enums.sort_unstable_by_key(|e| e.name.clone());
+        block_lists.push(blocks_json);
         let gradle_user_home = PathBuf::from(
             fs::read_to_string(mod_dir.join("gradle_user_home"))
                 .with_context(|| format!("failed to locate Gradle user home for {mc}"))?,

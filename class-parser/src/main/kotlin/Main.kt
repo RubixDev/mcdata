@@ -68,7 +68,7 @@ fun main(args: Array<String>) {
                 type = classToTypeName(it.className),
                 experimental = it.experimental,
             )
-        },
+        }.sortedBy { it.id },
         types = entityTypes.sortedBy { it.name },
         compoundTypes = compoundTypes.sortedBy { it.name },
     )
@@ -110,7 +110,7 @@ fun main(args: Array<String>) {
                 id = it.id,
                 type = classToTypeName(it.className),
             )
-        },
+        }.sortedBy { it.id },
         types = beTypes.sortedBy { it.name },
         compoundTypes = compoundTypes.sortedBy { it.name },
     )
