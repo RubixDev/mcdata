@@ -8,7 +8,7 @@ pub mod latest {
     pub use super::mc1_20_5::*;
 }
 
-/// Block states and property types for Minecraft 1.14.
+/// Entities for Minecraft 1.14.
 #[cfg(feature = "1.14")]
 pub mod mc1_14 {
     entities! {
@@ -273,7 +273,7 @@ pub mod mc1_14 {
     }
 }
 
-/// Block states and property types for Minecraft 1.15.
+/// Entities for Minecraft 1.15.
 #[cfg(feature = "1.15")]
 pub mod mc1_15 {
     entities! {
@@ -540,7 +540,7 @@ pub mod mc1_15 {
     }
 }
 
-/// Block states and property types for Minecraft 1.16.
+/// Entities for Minecraft 1.16.
 #[cfg(feature = "1.16")]
 pub mod mc1_16 {
     entities! {
@@ -816,7 +816,7 @@ pub mod mc1_16 {
     }
 }
 
-/// Block states and property types for Minecraft 1.17-1.18.
+/// Entities for Minecraft 1.17-1.18.
 #[cfg(feature = "1.17-1.18")]
 pub mod mc1_17_mc1_18 {
     entities! {
@@ -1101,7 +1101,7 @@ pub mod mc1_17_mc1_18 {
     }
 }
 
-/// Block states and property types for Minecraft 1.19.
+/// Entities for Minecraft 1.19.
 #[cfg(feature = "1.19")]
 pub mod mc1_19 {
     entities! {
@@ -1396,7 +1396,7 @@ pub mod mc1_19 {
     }
 }
 
-/// Block states and property types for Minecraft 1.19.3.
+/// Entities for Minecraft 1.19.3.
 #[cfg(feature = "1.19.3")]
 pub mod mc1_19_3 {
     entities! {
@@ -1693,7 +1693,7 @@ pub mod mc1_19_3 {
     }
 }
 
-/// Block states and property types for Minecraft 1.19.4.
+/// Entities for Minecraft 1.19.4.
 #[cfg(feature = "1.19.4")]
 pub mod mc1_19_4 {
     entities! {
@@ -2001,7 +2001,7 @@ pub mod mc1_19_4 {
     }
 }
 
-/// Block states and property types for Minecraft 1.20.
+/// Entities for Minecraft 1.20.
 #[cfg(feature = "1.20")]
 pub mod mc1_20 {
     entities! {
@@ -2309,7 +2309,7 @@ pub mod mc1_20 {
     }
 }
 
-/// Block states and property types for Minecraft 1.20.2.
+/// Entities for Minecraft 1.20.2.
 #[cfg(feature = "1.20.2")]
 pub mod mc1_20_2 {
     entities! {
@@ -2617,7 +2617,7 @@ pub mod mc1_20_2 {
     }
 }
 
-/// Block states and property types for Minecraft 1.20.3.
+/// Entities for Minecraft 1.20.3.
 #[cfg(feature = "1.20.3")]
 pub mod mc1_20_3 {
     entities! {
@@ -2930,7 +2930,7 @@ pub mod mc1_20_3 {
     }
 }
 
-/// Block states and property types for Minecraft 1.20.5.
+/// Entities for Minecraft 1.20.5.
 #[cfg(feature = "1.20.5")]
 pub mod mc1_20_5 {
     entities! {

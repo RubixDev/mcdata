@@ -1,11 +1,11 @@
-macro_rules! entities {
+macro_rules! block_entities {
     (
         $mc_version:literal;
         $(
-            $($experimental:ident)?
             $id:literal,
             $variant:ident:
             $type:ident
+            ($($parent:tt)+)
         );+
         $(;)?
     ) => {
@@ -14,37 +14,58 @@ macro_rules! entities {
         #[cfg(feature = "serde")]
         use serde::{Deserialize, de::Visitor, Serialize};
 
-        #[doc = concat!("A typed entity for Minecraft ", $mc_version, ".")]
+        #[doc = concat!("A typed block entity for Minecraft ", $mc_version, ".")]
         #[derive(Debug, Clone)]
-        pub enum Entity {
+        pub enum BlockEntity {
             $(
-                #[doc = concat!("`", $id, "`", $(" (", stringify!($experimental), ")")?)]
+                #[doc = concat!("`", $id, "`")]
                 #[allow(missing_docs)]
                 $variant(types::$type),
             )+
-            /// Any other unrecognized (possibly invalid) entity.
-            Other(super::super::GenericEntity),
+            /// Any other unrecognized (possibly invalid) block entity.
+            Other(super::super::GenericBlockEntity),
         }
 
-        impl super::super::Entity for Entity {}
+        impl super::super::BlockEntity for BlockEntity {
+            fn position(&self) -> $crate::util::BlockPos {
+                match self {
+                    $(
+                        Self::$variant(t) => $crate::util::BlockPos::new(
+                            block_entities!(@parent_block_entity t $($parent)+).x,
+                            block_entities!(@parent_block_entity t $($parent)+).y,
+                            block_entities!(@parent_block_entity t $($parent)+).z,
+                        ),
+                    )+
+                    Self::Other(generic) => generic.pos,
+                }
+            }
+        }
 
         #[cfg(feature = "serde")]
-        impl Entity {
+        impl BlockEntity {
             /// Turn this entity into a
-            /// [`GenericEntity`](super::super::GenericEntity).
+            /// [`GenericBlockEntity`](super::super::GenericBlockEntity).
             ///
             /// This internally allocates new strings. It is used for implementing equality, as the
-            /// same entity can be represented by both a known variant and the [`Self::Other`]
+            /// same block entity can be represented by both a known variant and the [`Self::Other`]
             /// variant.
-            pub fn as_generic(&self) -> super::super::GenericEntity {
+            pub fn as_generic(&self) -> super::super::GenericBlockEntity {
                 match self {
                     $(
                         Self::$variant(value) => {
                             let mut props = $crate::flatten::flatten(value);
-                            let uuid: u128 = fastnbt::from_value(&props.remove("UUID").expect("every entity has a UUID")).expect("UUID from flattening should be valid");
-                            super::super::GenericEntity {
+                            let Some(fastnbt::Value::Int(x)) = props.remove("x") else {
+                                panic!("valid block entity has 'x' key of type int");
+                            };
+                            let Some(fastnbt::Value::Int(y)) = props.remove("y") else {
+                                panic!("valid block entity has 'y' key of type int");
+                            };
+                            let Some(fastnbt::Value::Int(z)) = props.remove("z") else {
+                                panic!("valid block entity has 'z' key of type int");
+                            };
+                            super::super::GenericBlockEntity {
                                 id: $id.to_string(),
-                                uuid,
+                                pos: $crate::util::BlockPos::new(x, y, z),
                                 properties: props.into_iter().map(|(k, v)| (k.to_string(), v)).collect(),
                             }
                         }
@@ -55,14 +76,14 @@ macro_rules! entities {
         }
 
         #[cfg(feature = "serde")]
-        impl PartialEq for Entity {
+        impl PartialEq for BlockEntity {
             fn eq(&self, other: &Self) -> bool {
                 self.as_generic() == other.as_generic()
             }
         }
 
         #[cfg(feature = "serde")]
-        impl Serialize for Entity {
+        impl Serialize for BlockEntity {
             fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
             where
                 S: serde::Serializer,
@@ -72,17 +93,17 @@ macro_rules! entities {
         }
 
         #[cfg(feature = "serde")]
-        impl<'de> Deserialize<'de> for Entity {
+        impl<'de> Deserialize<'de> for BlockEntity {
             fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
             where
                 D: serde::Deserializer<'de>,
             {
                 struct _Visitor<'de> {
-                    marker: PhantomData<Entity>,
+                    marker: PhantomData<BlockEntity>,
                     lifetime: PhantomData<&'de ()>,
                 }
                 impl<'de> Visitor<'de> for _Visitor<'de> {
-                    type Value = Entity;
+                    type Value = BlockEntity;
 
                     fn expecting(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
                         formatter.write_str("Entity")
@@ -93,7 +114,9 @@ macro_rules! entities {
                         A: serde::de::MapAccess<'de>,
                     {
                         let mut id: Option<String> = None;
-                        let mut uuid: Option<u128> = None;
+                        let mut x: Option<i32> = None;
+                        let mut y: Option<i32> = None;
+                        let mut z: Option<i32> = None;
                         let mut properties: HashMap<String, fastnbt::Value> = HashMap::new();
                         while let Some(key) = map.next_key::<String>()? {
                             match key.as_str() {
@@ -103,51 +126,93 @@ macro_rules! entities {
                                     }
                                     id = Some(map.next_value()?);
                                 },
-                                "UUID" => {
-                                    if uuid.is_some() {
-                                        return Err(serde::de::Error::duplicate_field("UUID"));
+                                "x" => {
+                                    if x.is_some() {
+                                        return Err(serde::de::Error::duplicate_field("x"));
                                     }
-                                    uuid = Some(map.next_value()?);
+                                    x = Some(map.next_value()?);
+                                },
+                                "y" => {
+                                    if y.is_some() {
+                                        return Err(serde::de::Error::duplicate_field("y"));
+                                    }
+                                    y = Some(map.next_value()?);
+                                },
+                                "z" => {
+                                    if z.is_some() {
+                                        return Err(serde::de::Error::duplicate_field("z"));
+                                    }
+                                    z = Some(map.next_value()?);
                                 },
                                 _ => {
                                     properties.insert(key, map.next_value()?);
                                 },
                             }
                         }
-                        let id = id.ok_or_else(|| serde::de::Error::missing_field("id"))?;
-                        let uuid = uuid.ok_or_else(|| serde::de::Error::missing_field("UUID"))?;
-                        Ok(match id.as_ref() {
+                        let x = x.ok_or_else(|| serde::de::Error::missing_field("x"))?;
+                        let y = y.ok_or_else(|| serde::de::Error::missing_field("y"))?;
+                        let z = z.ok_or_else(|| serde::de::Error::missing_field("z"))?;
+                        Ok(match id.as_deref() {
                             $(
-                                $id => {
-                                    properties.insert("UUID".to_string(), fastnbt::to_value(uuid).expect("failed to serialize UUID"));
+                                Some($id) => {
+                                    properties.insert("x".to_string(), fastnbt::Value::Int(x));
+                                    properties.insert("y".to_string(), fastnbt::Value::Int(y));
+                                    properties.insert("z".to_string(), fastnbt::Value::Int(z));
                                     match fastnbt::from_value::<types::$type>(&fastnbt::Value::Compound(properties.clone())) {
                                         Ok(val) => Self::Value::$variant(val),
                                         Err(_) => {
-                                            properties.remove("UUID");
-                                            Self::Value::Other(super::super::GenericEntity {
+                                            properties.remove("x");
+                                            properties.remove("y");
+                                            properties.remove("z");
+                                            Self::Value::Other(super::super::GenericBlockEntity {
                                                 id: $id.to_string(),
-                                                uuid,
+                                                pos: $crate::util::BlockPos::new(x, y, z),
                                                 properties,
                                             })
                                         }
                                     }
                                 }
                             )+
-                            _ => Self::Value::Other(super::super::GenericEntity { id, uuid, properties })
+                            Some(id) => Self::Value::Other(super::super::GenericBlockEntity {
+                                id: id.to_string(),
+                                pos: $crate::util::BlockPos::new(x, y, z),
+                                properties,
+                            }),
+                            None => {
+                                // try untagged deserialization when id is missing
+                                properties.insert("x".to_string(), fastnbt::Value::Int(x));
+                                properties.insert("y".to_string(), fastnbt::Value::Int(y));
+                                properties.insert("z".to_string(), fastnbt::Value::Int(z));
+                                $(
+                                    if let Ok(ok) = fastnbt::from_value::<types::$type>(&fastnbt::Value::Compound(properties.clone())) {
+                                        return Ok(Self::Value::$variant(ok));
+                                    }
+                                )+
+                                properties.remove("x");
+                                properties.remove("y");
+                                properties.remove("z");
+                                Self::Value::Other(super::super::GenericBlockEntity {
+                                    id: String::new(),
+                                    pos: $crate::util::BlockPos::new(x, y, z),
+                                    properties,
+                                })
+                            }
                         })
                     }
                 }
 
                 deserializer.deserialize_map(_Visitor {
-                    marker: PhantomData::<Entity>,
+                    marker: PhantomData::<BlockEntity>,
                     lifetime: PhantomData,
                 })
             }
         }
     };
+    (@parent_block_entity $self:ident > BlockEntity) => { $self.parent };
+    (@parent_block_entity $self:ident > $($rest:tt)+) => { block_entities!(@parent_block_entity $self $($rest)+).parent };
 }
 
-macro_rules! entity_types {
+macro_rules! block_entity_types {
     (
         $mc_version:literal;
         $(
@@ -162,16 +227,16 @@ macro_rules! entity_types {
             ),* }
         )*
     ) => {
-        entity_types!(
+        block_entity_types!(
             @impl
             concat!(
-                "Entity types for Minecraft ", $mc_version, ".", r###"
+                "Block entity types for Minecraft ", $mc_version, ".", r###"
 
-The structs in this module represent the various superclasses of `Entity`, including those that
-don't have a corresponding EntityType specified. Each of them can add additional data to the NBT
+The structs in this module represent the various superclasses of `BlockEntity`, including those that
+don't have a corresponding BlockEntityType specified. Each of them can add additional data to the NBT
 which all its subclasses will also have. In order to replicate this inheritance structure, every
 struct in this module has a `parent` field which holds an instance of the struct that represents
-the superclass. They all eventually go down to [`Entity`], which is the only struct wihout a
+the superclass. They all eventually go down to [`BlockEntity`], which is the only struct wihout a
 parent, as it is the base class of all the others. During (de)serialization this structure is
 flattened to one level. This is best described with an example. Consider the following structure:
 
@@ -230,7 +295,7 @@ struct B { a: i32, b: f64 }
             pub struct $name {
                 $(
                     #[doc = concat!("`\"", $entry_name, "\"`")]
-                    pub $entry_field: entity_types!(@optional $type $(, $optional)?),
+                    pub $entry_field: block_entity_types!(@optional $type $(, $optional)?),
                 )*
                 $(
                     #[doc = concat!("Inherited fields from [`", stringify!($parent), "`]")]
@@ -251,7 +316,7 @@ struct B { a: i32, b: f64 }
             impl Flatten for $name {
                 fn flatten(&self, map: &mut HashMap<borrow::Cow<'static, str>, fastnbt::Value>) {
                     $(
-                        entity_types!(@optional_insert map, $entry_name, &self.$entry_field $(, $optional)?);
+                        block_entity_types!(@optional_insert map, $entry_name, &self.$entry_field $(, $optional)?);
                     )*
                     $(
                         <$parent as Flatten>::flatten(&self.parent, map);
@@ -348,7 +413,7 @@ struct B { a: i32, b: f64 }
                                 }
                             }
                             $(
-                                let $entry_field = entity_types!(@missing $entry_field, $entry_name $(, $optional)?);
+                                let $entry_field = block_entity_types!(@missing $entry_field, $entry_name $(, $optional)?);
                             )*
                             Ok($name {
                                 $($entry_field,)*
@@ -382,12 +447,12 @@ struct B { a: i32, b: f64 }
     };
     (@optional_insert $map:ident, $entry_name:literal, $entry_value:expr, $optional:ident) => {
         if let Some(value) = $entry_value {
-            entity_types!(@optional_insert $map, $entry_name, value);
+            block_entity_types!(@optional_insert $map, $entry_name, value);
         }
     };
 }
 
-macro_rules! entity_compound_types {
+macro_rules! block_entity_compound_types {
     (
         $mc_version:literal;
         $(
@@ -401,9 +466,9 @@ macro_rules! entity_compound_types {
             ),* }
         )*
     ) => {
-        entity_types!(
+        block_entity_types!(
             @impl
-            concat!("Additional typed NBT compounds for entities in Minecraft ", $mc_version, "."), compounds;
+            concat!("Additional typed NBT compounds for block entities in Minecraft ", $mc_version, "."), compounds;
             $( $name, $(extra $extras_type)?, [$($($flat_field: $flat_type),*)?] { $( $($optional)? $entry_name as $entry_field : $type ),* } )*
         );
     };

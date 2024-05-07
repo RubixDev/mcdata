@@ -32,6 +32,36 @@ class StringTypeWithValue(val value: String) : ObjectType("java.lang.String") {
     override fun hashCode(): Int = System.identityHashCode(this)
 }
 
+class IntTypeWithValue(val value: Int) : Type(Const.T_INT, "I") {
+    override fun toString(): String = "int = $value"
+
+    override fun equals(other: Any?): Boolean {
+        return if (other is IntTypeWithValue) value == other.value else super.equals(other)
+    }
+
+    override fun hashCode(): Int = System.identityHashCode(this)
+}
+
+class StringArrayWithValues(val values: MutableList<String?>) : Type(Const.T_ARRAY, "[Ljava/lang/String") {
+    override fun toString(): String = "java.lang.String[] = $values"
+
+    override fun equals(other: Any?): Boolean {
+        return if (other is StringArrayWithValues) values == other.values else super.equals(other)
+    }
+
+    override fun hashCode(): Int = System.identityHashCode(this)
+}
+
+class StringFromArray(val array: List<String?>) : ObjectType("java.lang.String") {
+    override fun toString(): String = "java.lang.String = any of $array"
+
+    override fun equals(other: Any?): Boolean {
+        return if (other is StringFromArray) array == other.array else super.equals(other)
+    }
+
+    override fun hashCode(): Int = System.identityHashCode(this)
+}
+
 class TypeWithLambda(
     private val delegate: Type,
     val method: MethodPointer,

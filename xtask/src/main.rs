@@ -33,10 +33,10 @@ macro_rules! log {
         let msg_len = msg.chars().count();
         format!("\x1b[1;32m{0}\x1b[0m\n\x1b[1;32m>>> {msg} <<<\x1b[0m\n\x1b[1;32m{0}\x1b[0m", "-".repeat(msg_len + 8))
     }};
-    (raw, warn, $($arg:tt)*) => { format_args!("\x1b[1;33m>>> WARNING: {}\x1b[0m", format_args!($($arg)*)) };
-    (raw, step, $($arg:tt)*) => { format_args!("\x1b[1;36m>>> {}\x1b[0m", format_args!($($arg)*)) };
-    (raw, info, $($arg:tt)*) => { format_args!("\x1b[36m>> {}\x1b[0m", format_args!($($arg)*)) };
-    (raw, trace, $($arg:tt)*) => { format_args!("\x1b[34m> {}\x1b[0m", format_args!($($arg)*)) };
+    (raw, warn, $($arg:tt)*) => { format_args!("\x1b[1;33m>>>> WARNING: {}\x1b[0m", format_args!($($arg)*)) };
+    (raw, step, $($arg:tt)*) => { format_args!("\x1b[1;36m>>>> {}\x1b[0m", format_args!($($arg)*)) };
+    (raw, info, $($arg:tt)*) => { format_args!("\x1b[36m>>> {}\x1b[0m", format_args!($($arg)*)) };
+    (raw, trace, $($arg:tt)*) => { format_args!("\x1b[34m>> {}\x1b[0m", format_args!($($arg)*)) };
     ($level:ident, $($arg:tt)*) => { println!("{}", log!(raw, $level, $($arg)*)) };
 }
 
@@ -53,6 +53,7 @@ Usage: Run with `cargo xtask <task>`, eg. `cargo xtask codegen`.
         codegen features:                     Generate the features list in Cargo.toml
         codegen block-states:                 Generate the `list.rs` file for block states
         codegen entities:                     Generate the `list.rs` file for entities
+        codegen block-entities:               Generate the `list.rs` file for block entities
             "###
             .trim(),
         ),
@@ -70,16 +71,25 @@ Usage: Run with `cargo xtask <task>`, eg. `cargo xtask codegen`.
                 codegen_features_list(&versions)?;
             }
 
-            if arg.map_or(true, |arg| ["block-states", "entities"].contains(&arg)) {
+            if arg.map_or(true, |arg| {
+                ["block-states", "entities", "block-entities"].contains(&arg)
+            }) {
                 let outputs = codegen_extract(&versions).await?;
 
                 if arg.map_or(true, |arg| arg == "block-states") {
                     codegen_block_states(&versions, &outputs.block_lists)?;
                 }
 
-                if arg.map_or(true, |arg| arg == "entities") {
+                if arg.map_or(true, |arg| ["entities", "block-entities"].contains(&arg)) {
                     let outputs = codegen_class_analysis(&versions, outputs)?;
-                    codegen_entities(&versions, &outputs)?;
+
+                    if arg.map_or(true, |arg| arg == "entities") {
+                        codegen_entities(&versions, &outputs.0)?;
+                    }
+
+                    if arg.map_or(true, |arg| arg == "block-entities") {
+                        codegen_block_entities(&versions, &outputs.1)?;
+                    }
                 }
             }
         }
@@ -114,6 +124,7 @@ struct ExtractOutput {
     block_lists: Vec<BlocksJson>,
     mc_jar_paths: Vec<PathBuf>,
     entity_list_paths: Vec<PathBuf>,
+    be_list_paths: Vec<PathBuf>,
 }
 
 fn codegen_features_list(versions: &FeaturesJson) -> Result<()> {
@@ -219,6 +230,7 @@ export default {
     let mut block_lists: Vec<BlocksJson> = vec![];
     let mut mc_jar_paths: Vec<PathBuf> = vec![];
     let mut entity_list_paths: Vec<PathBuf> = vec![];
+    let mut be_list_paths: Vec<PathBuf> = vec![];
     for Feature {
         name: feature,
         mc,
@@ -228,7 +240,9 @@ export default {
         log!(step, "version '{feature}'");
         let mod_dir = mods_dir.join(feature);
 
-        if mod_dir.join("run/blocks.json").is_file() && mod_dir.join("run/entities.json").is_file()
+        if mod_dir.join("run/blocks.json").is_file()
+            && mod_dir.join("run/entities.json").is_file()
+            && mod_dir.join("run/block_entities.json").is_file()
         {
             log!(info, "output files already exist, skipping extraction");
         } else {
@@ -314,6 +328,7 @@ export default {
                 .with_context(|| format!("failed to find Minecraft jar for {mc}"))?,
         );
         entity_list_paths.push(mod_dir.join("run/entities.json"));
+        be_list_paths.push(mod_dir.join("run/block_entities.json"));
     }
 
     for (log, Feature { name: feature, .. }) in logs.into_iter().zip(versions) {
@@ -333,6 +348,7 @@ export default {
         block_lists,
         mc_jar_paths,
         entity_list_paths,
+        be_list_paths,
     })
 }
 
@@ -463,7 +479,7 @@ pub mod mc{mod_name} {{
 fn codegen_class_analysis(
     versions: &FeaturesJson,
     outputs: ExtractOutput,
-) -> Result<Vec<EntitiesJson>> {
+) -> Result<(Vec<EntitiesJson>, Vec<EntitiesJson>)> {
     log!(task, "extracting data from Minecraft jars");
     let class_parser_dir = WORKSPACE_DIR.join("class-parser");
 
@@ -480,26 +496,38 @@ fn codegen_class_analysis(
 
     log!(step, "running class-parser on extracted data");
     let mut entity_lists: Vec<EntitiesJson> = vec![];
-    for (Feature { name: feature, .. }, (jar_path, entity_json_path)) in versions.iter().zip(
+    let mut be_lists: Vec<EntitiesJson> = vec![];
+    for (
+        Feature {
+            name: feature, mc, ..
+        },
+        ((jar_path, entity_json_path), be_json_path),
+    ) in versions.iter().zip(
         outputs
             .mc_jar_paths
             .into_iter()
-            .zip(outputs.entity_list_paths),
+            .zip(outputs.entity_list_paths)
+            .zip(outputs.be_list_paths),
     ) {
         log!(info, "version '{feature}'");
+        // TODO: make sure the version compat (especially 1.17/1.18) is still correct with (block) entities
         run_command(
             Command::new(&class_parser_bin)
                 .arg(jar_path)
+                .arg(mc)
                 .arg(entity_json_path)
+                .arg(be_json_path)
                 .current_dir(&class_parser_dir),
         )?;
-        println!();
         entity_lists.push(serde_json::from_reader(BufReader::new(File::open(
-            class_parser_dir.join("out/entities.json"),
+            class_parser_dir.join(format!("out/{mc}/entities.json")),
+        )?))?);
+        be_lists.push(serde_json::from_reader(BufReader::new(File::open(
+            class_parser_dir.join(format!("out/{mc}/block_entities.json")),
         )?))?);
     }
 
-    Ok(entity_lists)
+    Ok((entity_lists, be_lists))
 }
 
 fn codegen_entities(versions: &FeaturesJson, entity_lists: &[EntitiesJson]) -> Result<()> {
@@ -538,7 +566,7 @@ pub mod latest {{
         let mod_name = feature.replace('.', "_").replace('-', "_mc");
         entity_list_rs += &format!(
             r###"
-/// Block states and property types for Minecraft {feature}.
+/// Entities for Minecraft {feature}.
 #[cfg(feature = "{feature}")]
 pub mod mc{mod_name} {{
     entities! {{
@@ -575,10 +603,8 @@ pub mod mc{mod_name} {{
 
         fn write_type(
             writer: &mut String,
-            feature: &str,
             name: &str,
             parent: Option<&str>,
-            supports_extras: bool,
             compound: &NbtCompound,
         ) {
             *writer += &format!("        {name}");
@@ -586,15 +612,7 @@ pub mod mc{mod_name} {{
                 *writer += &format!(" > {parent}");
             }
             if let Some(extras) = &compound.unknown_keys {
-                if supports_extras {
-                    *writer += &format!(", with extras as {}", extras.as_rust_type());
-                } else {
-                    log!(
-                        warn,
-                        "version '{feature}': entity type '{name}' specifies unknown keys as '{}'",
-                        extras.as_rust_type()
-                    );
-                }
+                *writer += &format!(", with extras as {}", extras.as_rust_type());
             }
             if !compound.flattened.is_empty() {
                 *writer += ", flattened [";
@@ -632,14 +650,7 @@ pub mod mc{mod_name} {{
                 "{}\x1b[0K\r",
                 log!(raw, trace, "{}/{}: {name}", i + 1, types.len())
             );
-            write_type(
-                &mut entity_list_rs,
-                feature,
-                name,
-                parent.as_deref(),
-                false,
-                nbt,
-            );
+            write_type(&mut entity_list_rs, name, parent.as_deref(), nbt);
         }
         println!();
 
@@ -657,7 +668,7 @@ pub mod mc{mod_name} {{
                 "{}\x1b[0K\r",
                 log!(raw, trace, "{}/{}: {name}", i + 1, compound_types.len())
             );
-            write_type(&mut entity_list_rs, feature, name, None, true, compound);
+            write_type(&mut entity_list_rs, name, None, compound);
         }
         println!();
 
@@ -665,6 +676,169 @@ pub mod mc{mod_name} {{
     }
     log!(step, "writing file");
     fs::write(WORKSPACE_DIR.join("src/entity/list.rs"), entity_list_rs)?;
+
+    Ok(())
+}
+
+fn codegen_block_entities(versions: &FeaturesJson, entity_lists: &[EntitiesJson]) -> Result<()> {
+    log!(
+        task,
+        "generating block entities list at `src/block_entity/list.rs`"
+    );
+    let latest_mod_name = versions
+        .last()
+        .unwrap()
+        .name
+        .replace('.', "_")
+        .replace('-', "_mc");
+    let mut block_entity_list_rs = format!(
+        r###"
+// IMPORTANT: DO NOT EDIT THIS FILE MANUALLY!
+// This file is automatically generated with `cargo xtask codegen`.
+// To make any changes, edit the xtask source instead.
+
+/// Re-exports for all items of the latest Minecraft version.
+#[cfg(feature = "latest")]
+pub mod latest {{
+    pub use super::mc{latest_mod_name}::*;
+}}
+"###
+    )
+    .trim_start()
+    .to_owned();
+    for (
+        EntitiesJson {
+            entities,
+            types,
+            compound_types,
+        },
+        Feature { name: feature, .. },
+    ) in entity_lists.iter().zip(versions)
+    {
+        log!(step, "version '{feature}'");
+        let mod_name = feature.replace('.', "_").replace('-', "_mc");
+        block_entity_list_rs += &format!(
+            r###"
+/// Block entities for Minecraft {feature}.
+#[cfg(feature = "{feature}")]
+pub mod mc{mod_name} {{
+    block_entities! {{
+        "{feature}";
+"###
+        );
+        log!(info, "entities");
+        for (i, entity) in entities.iter().enumerate() {
+            print!(
+                "{}\x1b[0K\r",
+                log!(raw, trace, "{}/{}: {}", i + 1, entities.len(), entity.id)
+            );
+            let Some(name) = entity.id.strip_prefix("minecraft:") else {
+                continue;
+            };
+            block_entity_list_rs += "        ";
+            block_entity_list_rs += &format!("\"{}\", ", entity.id);
+            block_entity_list_rs += &name.to_pascal_case();
+            block_entity_list_rs += ": ";
+            block_entity_list_rs += &entity.type_;
+            block_entity_list_rs += " ";
+
+            let mut indirection = 0;
+            let mut curr = &entity.type_;
+            while let Some(parent) = &types.iter().find(|t| &t.name == curr).unwrap().parent {
+                indirection += 1;
+                curr = parent;
+            }
+            block_entity_list_rs += &format!("({}BlockEntity)", "> ".repeat(indirection));
+
+            block_entity_list_rs += ";\n";
+        }
+        println!();
+        block_entity_list_rs += &format!(
+            r###"    }}
+
+    block_entity_types! {{
+        "{feature}";
+"###
+        );
+
+        fn write_type(
+            writer: &mut String,
+            name: &str,
+            parent: Option<&str>,
+            compound: &NbtCompound,
+        ) {
+            *writer += &format!("        {name}");
+            if let Some(parent) = parent {
+                *writer += &format!(" > {parent}");
+            }
+            if let Some(extras) = &compound.unknown_keys {
+                *writer += &format!(", with extras as {}", extras.as_rust_type());
+            }
+            if !compound.flattened.is_empty() {
+                *writer += ", flattened [";
+                let last_index = compound.flattened.len() - 1;
+                for (index, value) in compound.flattened.iter().enumerate() {
+                    *writer += &format!("flattened_{index}: {}", value.as_rust_type());
+                    if index != last_index {
+                        *writer += ", ";
+                    }
+                }
+                *writer += "]";
+            }
+            *writer += " { ";
+
+            let last_index = compound.entries.len().saturating_sub(1);
+            for (index, (name, entry)) in compound.entries.iter().enumerate() {
+                if entry.optional {
+                    *writer += "optional ";
+                }
+                let mut ident_name = name.to_snake_case();
+                if ident_name == "type" {
+                    ident_name = "r#type".to_string();
+                }
+                *writer += &format!("\"{name}\" as {ident_name}: {}", entry.value.as_rust_type());
+                if index != last_index {
+                    *writer += ", ";
+                }
+            }
+            *writer += " }\n";
+        }
+
+        log!(info, "class types");
+        for (i, EntityType { name, parent, nbt }) in types.iter().enumerate() {
+            print!(
+                "{}\x1b[0K\r",
+                log!(raw, trace, "{}/{}: {name}", i + 1, types.len())
+            );
+            write_type(&mut block_entity_list_rs, name, parent.as_deref(), nbt);
+        }
+        println!();
+
+        block_entity_list_rs += &format!(
+            r###"    }}
+
+    block_entity_compound_types! {{
+        "{feature}";
+"###
+        );
+
+        log!(info, "other compound types");
+        for (i, CompoundType { name, compound }) in compound_types.iter().enumerate() {
+            print!(
+                "{}\x1b[0K\r",
+                log!(raw, trace, "{}/{}: {name}", i + 1, compound_types.len())
+            );
+            write_type(&mut block_entity_list_rs, name, None, compound);
+        }
+        println!();
+
+        block_entity_list_rs += "    }\n}\n";
+    }
+    log!(step, "writing file");
+    fs::write(
+        WORKSPACE_DIR.join("src/block_entity/list.rs"),
+        block_entity_list_rs,
+    )?;
 
     Ok(())
 }

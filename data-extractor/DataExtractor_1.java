@@ -15,6 +15,8 @@ import net.minecraft.core.Registry;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.properties.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -158,7 +160,43 @@ public class DataExtractor implements ModInitializer {
             throw new RuntimeException(e);
         }
 
-        // TODO: block entities
+        LOGGER.info("Getting block entity info");
+        JsonArray blockEntities = new JsonArray();
+        JsonObject beSuperClassMap = new JsonObject();
+        for (Field field : BlockEntityType.class.getDeclaredFields()) {
+            if (!Modifier.isStatic(field.getModifiers())) continue;
+
+            BlockEntityType<?> beType;
+            try {
+                beType = (BlockEntityType<?>) field.get(null);
+            } catch (IllegalAccessException | ClassCastException ignored) {
+                // skip non-entity fields
+                continue;
+            }
+            Class<?> beClass = (Class<?>) ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
+
+            JsonObject beInfo = new JsonObject();
+            beInfo.addProperty("id", Objects.requireNonNull(BlockEntityType.getKey(beType)).toString());
+            beInfo.addProperty("class", beClass.getName());
+            blockEntities.add(beInfo);
+
+            Class<?> superclass = beClass.getSuperclass();
+            while (superclass != null && superclass != Object.class && !beSuperClassMap.has(beClass.getName())) {
+                beSuperClassMap.addProperty(beClass.getName(), superclass.getName());
+                beClass = superclass;
+                superclass = beClass.getSuperclass();
+            }
+        }
+
+        LOGGER.info("Writing block_entities.json");
+        JsonObject beJson = new JsonObject();
+        beJson.add("entities", blockEntities);
+        beJson.add("classes", beSuperClassMap);
+        try (FileWriter writer = new FileWriter("block_entities.json")) {
+            writer.write(gson.toJson(beJson));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         LOGGER.info("Done!");
         System.exit(0);

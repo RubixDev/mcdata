@@ -57,10 +57,11 @@ data class CallResult(
     }
 }
 
-class Vm(private val jarFile: String) {
+class Vm(private val jarFile: String, private val mcVersion: Int) {
     private val classes = mutableMapOf<String, JavaClass>()
     private val methods = mutableMapOf<MethodCall, CallResult>()
     private val callStack = mutableListOf<MethodCall>()
+    private val statics = mutableMapOf<String, Type>()
 
     /**
      * A set of method calls which were recursive _somewhere_.
@@ -68,12 +69,12 @@ class Vm(private val jarFile: String) {
     val boxedTypes = mutableSetOf<MethodCall>()
 
     fun analyzeFrom(method: MethodPointer): NbtCompound {
-        // assume a single argument of type CompoundTag
         val res = call(
             method,
-            listOf(ObjectType(method.className), TypedTag(NbtCompound(), "net.minecraft.nbt.CompoundTag")),
+            listOf(ObjectType(method.className)) + Type.getArgumentTypes(method.signature).map { it.ensureTyped() },
             ignoreSuper = true,
         )
+        // assume the first argument is the relevant compound tag
         return res.argsNbt[0] as NbtCompound
     }
 
@@ -148,15 +149,28 @@ class Vm(private val jarFile: String) {
     }
 
     private fun getClass(name: String) = classes.getOrPut(name) {
-        ClassParser(jarFile, "${name.replace('.', '/')}.class").parse()
+        ClassParser(jarFile, "${name.replace('.', '/')}.class").parse().also { initClass(it) }
     }
 
     private fun getClassOrNull(name: String): JavaClass? {
         return classes.getOrPut(name) {
             try {
-                ClassParser(jarFile, "${name.replace('.', '/')}.class").parse()
+                ClassParser(jarFile, "${name.replace('.', '/')}.class").parse().also { initClass(it) }
             } catch (_: IOException) {
                 return null
+            }
+        }
+    }
+
+    /**
+     * Calls the static initializer of the given class, if there is one, which will initialize static fields.
+     */
+    private fun initClass(clazz: JavaClass) {
+        clazz.methods.find { it.name == "<clinit>" && it.signature == "()V" }?.let { clinit ->
+            val insns = InstructionList(clinit.code.code)
+            val runner = MethodRunner(clazz, clinit, listOf(), true)
+            for (insn in insns) {
+                runner.visit(insn)
             }
         }
     }
@@ -171,8 +185,9 @@ class Vm(private val jarFile: String) {
      * These are for example [StringTypeWithValue] or [TypedTag].
      */
     inner class MethodRunner(
-        clazz: JavaClass,
-        private val method: Method, args: List<Type>,
+        private val clazz: JavaClass,
+        private val method: Method,
+        args: List<Type>,
         private val ignoreSuper: Boolean,
     ) : ExecutionVisitor() {
         private val cpg = ConstantPoolGen(clazz.constantPool)
@@ -364,15 +379,40 @@ class Vm(private val jarFile: String) {
                         printWarning("untyped CompoundTag on stack, cannot save entry")
                     } else {
                         (compound.nbt as NbtCompound).let { nbt ->
-                            when (val string = stack.peek(1) as? StringTypeWithValue) {
-                                null -> nbt.unknownKeys = type.encompass(nbt.unknownKeys)
-                                else -> nbt.put(
+                            when (val string = stack.peek(1)) {
+                                is StringTypeWithValue -> nbt.put(
                                     string.value,
                                     NbtCompoundEntry(
                                         type,
                                         optional = pc < compound.optionalUntil
                                     )
                                 )
+
+                                // this assumes that all strings in the array will be used as keys. That might not
+                                // always be true, but it seems to work fine.
+                                is StringFromArray -> string.array.filterNotNull().forEach {
+                                    nbt.put(it, NbtCompoundEntry(type, optional = pc < compound.optionalUntil))
+                                }
+
+                                else -> {
+                                    if (
+                                        mcVersion < 11700
+                                        && clazz.className == "net.minecraft.world.level.block.entity.SignBlockEntity"
+                                        && method.name == "save"
+                                        && method.signature == "(Lnet/minecraft/nbt/CompoundTag;)Lnet/minecraft/nbt/CompoundTag;"
+                                    ) {
+                                        // special case for SignBlockEntity before 1.17 which used `"Text" + (i + 1)` as
+                                        // keys in a loop with `i in 0..3`.
+                                        // That could technically also be handled automatically, but no thank you, this'll
+                                        // just be a special case.
+                                        // TODO: detect simple for-loops and record all possible values
+                                        for (i in 1..4) {
+                                            nbt.put("Text$i", NbtCompoundEntry(type, optional = false))
+                                        }
+                                    } else {
+                                        nbt.unknownKeys = type.encompass(nbt.unknownKeys)
+                                    }
+                                }
                             }
                         }
                     }
@@ -404,7 +444,10 @@ class Vm(private val jarFile: String) {
                         (list.nbt as NbtList).add(type)
                     }
                 }
-            } else if (className == "java.util.Optional" && methodName == "ifPresent") {
+            } else if (
+                (className == "java.util.Optional" && methodName == "ifPresent")
+                || (className == "it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap" && methodName == "forEach")
+            ) {
                 // lambda methods are resolved in `visitINVOKEDYNAMIC`, now actually call
                 // it but mark everything as optional because it's in `Optional.ifPresent`
                 val consumer = stack.peek()
@@ -645,7 +688,7 @@ class Vm(private val jarFile: String) {
             // ignore other kinds of dynamic invocation
             if (lambdaMethodHandle.referenceKind == Const.REF_invokeStatic.toInt()) {
                 // get the method reference
-                val lambdaMethod = cp.getConstant<ConstantMethodref>(lambdaMethodHandle.referenceIndex)
+                val lambdaMethod = cp.getConstant<Constant>(lambdaMethodHandle.referenceIndex) as? ConstantMethodref ?: return
                 // get the name of the class that contains the method
                 val lambdaMethodClass =
                     cp.getConstantUtf8(cp.getConstant<ConstantClass>(lambdaMethod.classIndex).nameIndex).bytes
@@ -691,7 +734,8 @@ class Vm(private val jarFile: String) {
         // `visitBranchInstruction` already exists, but it's called _before_ the individual
         // methods which manipulate the stack, but we need it _after_
         private fun visitBranchInstructionAfter(o: BranchInstruction) {
-            // TODO: does the optionalUntil stuff cause trouble with loops?
+            // TODO: maybe somehow detect loops that aren't optional
+            //  e.g. the Text1, Text2, Text3, and Text4 keys in SignBlockEntity in 1.19.4 shouldn't be optional
             locals.toList().filterIsInstance<TypedTag>()
                 .forEach { it.optionalUntil = max(o.target.position, it.optionalUntil) }
             stack.toList().filterIsInstance<TypedTag>()
@@ -753,6 +797,61 @@ class Vm(private val jarFile: String) {
         override fun visitCHECKCAST(o: CHECKCAST) {
             if (stack.peek().isNbt() && o.getType(cpg).isNbt()) return
             super.visitCHECKCAST(o)
+        }
+
+        override fun visitGETSTATIC(o: GETSTATIC) {
+            val cp = cpg.constantPool
+            val descriptor = cp.constantToString(cp.getConstant(o.index, Const.CONSTANT_Fieldref))
+            when (val static = statics[descriptor]) {
+                null -> super.visitGETSTATIC(o)
+                else -> stack.push(static)
+            }
+        }
+
+        override fun visitPUTSTATIC(o: PUTSTATIC) {
+            val cp = cpg.constantPool
+            val descriptor = cp.constantToString(cp.getConstant(o.index, Const.CONSTANT_Fieldref))
+            statics[descriptor] = stack.pop()
+        }
+
+        override fun visitICONST(o: ICONST) {
+            stack.push(IntTypeWithValue(o.value.toInt()))
+        }
+
+        override fun visitANEWARRAY(o: ANEWARRAY) {
+            val count = stack.peek()
+            if (o.getType(cpg).className == Type.STRING.className && count is IntTypeWithValue) {
+                stack.pop()
+                val list = (0..<count.value).map { null }.toMutableList<String?>()
+                stack.push(StringArrayWithValues(list))
+            } else {
+                super.visitANEWARRAY(o)
+            }
+        }
+
+        override fun visitAASTORE(o: AASTORE) {
+            val value = stack.pop()
+            val index = stack.pop()
+            val array = stack.pop()
+            if (array is StringArrayWithValues && index is IntTypeWithValue && value is StringTypeWithValue) {
+                array.values[index.value] = value.value
+            }
+        }
+
+        override fun visitAALOAD(o: AALOAD) {
+            val index = stack.peek()
+            val array = stack.peek(1)
+            if (array is StringArrayWithValues) {
+                stack.pop(2)
+                if (index is IntTypeWithValue) {
+                    stack.push(array.values[index.value]?.let { StringTypeWithValue(it) }
+                        ?: StringFromArray(array.values))
+                } else {
+                    stack.push(StringFromArray(array.values))
+                }
+            } else {
+                super.visitAALOAD(o)
+            }
         }
     }
 }

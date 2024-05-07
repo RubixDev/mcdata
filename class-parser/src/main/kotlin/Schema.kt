@@ -295,27 +295,36 @@ data class NbtCompound(
     ) {
         for (entry in entries.values) {
             val elem = entry.value
-            if (elem is NbtCompound) {
-                consumer(elem) { entry.value = it }
-            } else if (elem is NbtList) {
-                val inner = elem.inner
-                if (inner is NbtCompound) {
-                    consumer(inner) { elem.inner = it }
-                }
-            } else if (elem is NbtEither) {
-                val left = elem.left
-                val right = elem.right
-                if (left is NbtCompound) {
-                    consumer(left) { elem.left = it }
-                }
-                if (right is NbtCompound) {
-                    consumer(right) { elem.right = it }
-                }
-            }
+            onCompound(elem, consumer) { entry.value = it }
+        }
+        unknownKeys?.let { elem ->
+            onCompound(elem, consumer) { unknownKeys = it }
         }
         for ((idx, elem) in flattened.withIndex()) {
-            if (elem is NbtCompound) {
-                consumer(elem) { flattened[idx] = it }
+            onCompound(elem, consumer) { flattened[idx] = it }
+        }
+    }
+
+    private fun onCompound(
+        elem: NbtElement,
+        consumer: (compound: NbtCompound, replaceSelf: (NbtElement) -> Unit) -> Unit,
+        replaceSelf: (NbtElement) -> Unit,
+    ) {
+        if (elem is NbtCompound) {
+            consumer(elem, replaceSelf)
+        } else if (elem is NbtList) {
+            val inner = elem.inner
+            if (inner is NbtCompound) {
+                consumer(inner) { elem.inner = it }
+            }
+        } else if (elem is NbtEither) {
+            val left = elem.left
+            val right = elem.right
+            if (left is NbtCompound) {
+                consumer(left) { elem.left = it }
+            }
+            if (right is NbtCompound) {
+                consumer(right) { elem.right = it }
             }
         }
     }

@@ -7,6 +7,15 @@ use std::{fmt, marker::PhantomData};
 
 use crate::util::BlockPos;
 
+#[cfg(feature = "block-entities")]
+pub use self::list::*;
+
+#[cfg(feature = "block-entities")]
+#[macro_use]
+mod macros;
+#[cfg(feature = "block-entities")]
+mod list;
+
 /// Any type that can represent a block entity.
 pub trait BlockEntity: Clone {
     /// Get the [`BlockPos`] of this block entity.
@@ -17,8 +26,17 @@ pub trait BlockEntity: Clone {
 /// [position](Self::pos) and [raw NBT](Self::properties).
 #[derive(Clone, Debug, PartialEq)]
 pub struct GenericBlockEntity {
+    /// The ID of this block entity.
+    ///
+    /// Note that litematica had a bug [introduced in version `1.18.0-0.9.0`](https://github.com/maruohon/litematica/commit/8f58911524852b5c8edeb8b185ec5751201599a2#diff-334964871b9057033353e22bf7656fa45612087ccca6d59dee71cb8956e9a304)
+    /// which was only [fixed in `1.20.1-0.15.3`](https://github.com/maruohon/litematica/commit/a156bf6ba80f81196b62aaa069589c5c4010fabe)
+    /// that caused the block entity IDs to not be included in saved schematics. When deserializing
+    /// from one such schematic, this field will be an empty string.
+    pub id: String,
+
     /// The [`BlockPos`] of this block entity.
     pub pos: BlockPos,
+
     /// The raw NBT properties of this block entity.
     pub properties: HashMap<String, fastnbt::Value>,
 }
@@ -32,16 +50,16 @@ impl BlockEntity for GenericBlockEntity {
 impl BlockEntity for fastnbt::Value {
     fn position(&self) -> BlockPos {
         let Self::Compound(map) = self else {
-            panic!("valid block entity should be a compound")
+            panic!("valid block entity should be a compound");
         };
         let Some(Self::Int(x)) = map.get("x") else {
-            panic!("valid block entity has 'x' key of type int")
+            panic!("valid block entity has 'x' key of type int");
         };
         let Some(Self::Int(y)) = map.get("y") else {
-            panic!("valid block entity has 'y' key of type int")
+            panic!("valid block entity has 'y' key of type int");
         };
         let Some(Self::Int(z)) = map.get("z") else {
-            panic!("valid block entity has 'z' key of type int")
+            panic!("valid block entity has 'z' key of type int");
         };
         BlockPos::new(*x, *y, *z)
     }
@@ -68,12 +86,19 @@ impl<'de> serde::Deserialize<'de> for GenericBlockEntity {
             where
                 A: serde::de::MapAccess<'de>,
             {
+                let mut id = None;
                 let mut x = None;
                 let mut y = None;
                 let mut z = None;
                 let mut properties = HashMap::new();
                 while let Some(key) = map.next_key::<String>()? {
                     match key.as_ref() {
+                        "id" => {
+                            if id.is_some() {
+                                return Err(serde::de::Error::duplicate_field("id"));
+                            }
+                            id = Some(map.next_value()?);
+                        }
                         "x" => {
                             if x.is_some() {
                                 return Err(serde::de::Error::duplicate_field("x"));
@@ -97,10 +122,12 @@ impl<'de> serde::Deserialize<'de> for GenericBlockEntity {
                         }
                     }
                 }
+                let id = id.unwrap_or_default();
                 let x = x.ok_or_else(|| serde::de::Error::missing_field("x"))?;
                 let y = y.ok_or_else(|| serde::de::Error::missing_field("y"))?;
                 let z = z.ok_or_else(|| serde::de::Error::missing_field("z"))?;
                 Ok(Self::Value {
+                    id,
                     pos: BlockPos::new(x, y, z),
                     properties,
                 })
@@ -122,6 +149,9 @@ impl serde::Serialize for GenericBlockEntity {
     {
         use serde::ser::SerializeMap;
         let mut state = serializer.serialize_map(Some(self.properties.len() + 3))?;
+        if !self.id.is_empty() {
+            state.serialize_entry("id", &self.id)?;
+        }
         state.serialize_entry("x", &self.pos.x)?;
         state.serialize_entry("y", &self.pos.y)?;
         state.serialize_entry("z", &self.pos.z)?;
