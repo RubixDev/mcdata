@@ -12,7 +12,7 @@ pub mod latest {
 #[cfg(feature = "1.14")]
 pub mod mc1_14 {
     block_entities! {
-        "1.14";
+        "1.14", mc1_14;
         "minecraft:banner", Banner: BannerBlockEntity (> BlockEntity), optionals_only;
         "minecraft:barrel", Barrel: BarrelBlockEntity (> > > BlockEntity), optionals_only;
         "minecraft:beacon", Beacon: BeaconBlockEntity (> BlockEntity);
@@ -74,7 +74,7 @@ pub mod mc1_14 {
         JigsawBlockEntity > BlockEntity { "attachement_type" as attachement_type: String, "final_state" as final_state: String, "target_pool" as target_pool: String }
         JukeboxBlockEntity > BlockEntity { optional "RecordItem" as record_item: super::compounds::ItemStack_save_1 }
         LecternBlockEntity > BlockEntity { optional "Book" as book: super::compounds::ItemStack_save_1, optional "Page" as page: i32 }
-        PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::compounds::NbtUtils_writeBlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
+        PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::BlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
         RandomizableContainerBlockEntity > BaseContainerBlockEntity {  }
         ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
         SignBlockEntity > BlockEntity { "Color" as color: String, "Text1" as text1: String, "Text2" as text2: String, "Text3" as text3: String, "Text4" as text4: String }
@@ -89,13 +89,12 @@ pub mod mc1_14 {
 
     block_entity_compound_types! {
         "1.14";
-        Compound4 { optional "Signature" as signature: String, "Value" as value: String }
+        Compound3 { optional "Signature" as signature: String, "Value" as value: String }
         ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
         ItemStack_save_1 { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
         NbtUtils_createUUIDTag { "L" as l: i64, "M" as m: i64 }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
-        NbtUtils_writeBlockState { "Name" as name: String, optional "Properties" as properties: HashMap<String, String> }
-        NbtUtils_writeGameProfile { optional "Id" as id: String, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound4>> }
+        NbtUtils_writeGameProfile { optional "Id" as id: String, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound3>> }
         SpawnData_save { "Entity" as entity: HashMap<String, fastnbt::Value>, "Weight" as weight: i32 }
     }
 }
@@ -104,7 +103,7 @@ pub mod mc1_14 {
 #[cfg(feature = "1.15")]
 pub mod mc1_15 {
     block_entities! {
-        "1.15";
+        "1.15", mc1_15;
         "minecraft:banner", Banner: BannerBlockEntity (> BlockEntity), optionals_only;
         "minecraft:barrel", Barrel: BarrelBlockEntity (> > > BlockEntity), optionals_only;
         "minecraft:beacon", Beacon: BeaconBlockEntity (> BlockEntity);
@@ -148,7 +147,7 @@ pub mod mc1_15 {
         BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Lock" as lock: String }
         BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, "Levels" as levels: i32, optional "Lock" as lock: String, "Primary" as primary: i32, "Secondary" as secondary: i32 }
         BedBlockEntity > BlockEntity {  }
-        BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound8>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
+        BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound7>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
@@ -168,7 +167,7 @@ pub mod mc1_15 {
         JigsawBlockEntity > BlockEntity { "attachement_type" as attachement_type: String, "final_state" as final_state: String, "target_pool" as target_pool: String }
         JukeboxBlockEntity > BlockEntity { optional "RecordItem" as record_item: super::compounds::ItemStack_save_1 }
         LecternBlockEntity > BlockEntity { optional "Book" as book: super::compounds::ItemStack_save_1, optional "Page" as page: i32 }
-        PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::compounds::NbtUtils_writeBlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
+        PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::BlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
         RandomizableContainerBlockEntity > BaseContainerBlockEntity {  }
         ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
         SignBlockEntity > BlockEntity { "Color" as color: String, "Text1" as text1: String, "Text2" as text2: String, "Text3" as text3: String, "Text4" as text4: String }
@@ -183,14 +182,13 @@ pub mod mc1_15 {
 
     block_entity_compound_types! {
         "1.15";
-        Compound4 { optional "Signature" as signature: String, "Value" as value: String }
-        Compound8 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
+        Compound3 { optional "Signature" as signature: String, "Value" as value: String }
+        Compound7 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
         ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
         ItemStack_save_1 { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
         NbtUtils_createUUIDTag { "L" as l: i64, "M" as m: i64 }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
-        NbtUtils_writeBlockState { "Name" as name: String, optional "Properties" as properties: HashMap<String, String> }
-        NbtUtils_writeGameProfile { optional "Id" as id: String, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound4>> }
+        NbtUtils_writeGameProfile { optional "Id" as id: String, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound3>> }
         SpawnData_save { "Entity" as entity: HashMap<String, fastnbt::Value>, "Weight" as weight: i32 }
     }
 }
@@ -199,7 +197,7 @@ pub mod mc1_15 {
 #[cfg(feature = "1.15.2")]
 pub mod mc1_15_2 {
     block_entities! {
-        "1.15.2";
+        "1.15.2", mc1_15_2;
         "minecraft:banner", Banner: BannerBlockEntity (> BlockEntity), optionals_only;
         "minecraft:barrel", Barrel: BarrelBlockEntity (> > > BlockEntity), optionals_only;
         "minecraft:beacon", Beacon: BeaconBlockEntity (> BlockEntity);
@@ -243,7 +241,7 @@ pub mod mc1_15_2 {
         BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Lock" as lock: String }
         BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, "Levels" as levels: i32, optional "Lock" as lock: String, "Primary" as primary: i32, "Secondary" as secondary: i32 }
         BedBlockEntity > BlockEntity {  }
-        BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound8>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
+        BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound7>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
@@ -263,7 +261,7 @@ pub mod mc1_15_2 {
         JigsawBlockEntity > BlockEntity { "attachement_type" as attachement_type: String, "final_state" as final_state: String, "target_pool" as target_pool: String }
         JukeboxBlockEntity > BlockEntity { optional "RecordItem" as record_item: super::compounds::ItemStack_save_1 }
         LecternBlockEntity > BlockEntity { optional "Book" as book: super::compounds::ItemStack_save_1, optional "Page" as page: i32 }
-        PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::compounds::NbtUtils_writeBlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
+        PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::BlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
         RandomizableContainerBlockEntity > BaseContainerBlockEntity {  }
         ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
         SignBlockEntity > BlockEntity { "Color" as color: String, "Text1" as text1: String, "Text2" as text2: String, "Text3" as text3: String, "Text4" as text4: String }
@@ -278,14 +276,13 @@ pub mod mc1_15_2 {
 
     block_entity_compound_types! {
         "1.15.2";
-        Compound4 { optional "Signature" as signature: String, "Value" as value: String }
-        Compound8 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
+        Compound3 { optional "Signature" as signature: String, "Value" as value: String }
+        Compound7 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
         ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
         ItemStack_save_1 { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
         NbtUtils_createUUIDTag { "L" as l: i64, "M" as m: i64 }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
-        NbtUtils_writeBlockState { "Name" as name: String, optional "Properties" as properties: HashMap<String, String> }
-        NbtUtils_writeGameProfile { optional "Id" as id: String, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound4>> }
+        NbtUtils_writeGameProfile { optional "Id" as id: String, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound3>> }
         SpawnData_save { "Entity" as entity: HashMap<String, fastnbt::Value>, "Weight" as weight: i32 }
     }
 }
@@ -294,7 +291,7 @@ pub mod mc1_15_2 {
 #[cfg(feature = "1.16")]
 pub mod mc1_16 {
     block_entities! {
-        "1.16";
+        "1.16", mc1_16;
         "minecraft:banner", Banner: BannerBlockEntity (> BlockEntity), optionals_only;
         "minecraft:barrel", Barrel: BarrelBlockEntity (> > > BlockEntity), optionals_only;
         "minecraft:beacon", Beacon: BeaconBlockEntity (> BlockEntity);
@@ -338,7 +335,7 @@ pub mod mc1_16 {
         BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Lock" as lock: String }
         BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, "Levels" as levels: i32, optional "Lock" as lock: String, "Primary" as primary: i32, "Secondary" as secondary: i32 }
         BedBlockEntity > BlockEntity {  }
-        BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound7>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
+        BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound6>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
@@ -358,7 +355,7 @@ pub mod mc1_16 {
         JigsawBlockEntity > BlockEntity { "final_state" as final_state: String, "joint" as joint: String, "name" as name: String, "pool" as pool: String, "target" as target: String }
         JukeboxBlockEntity > BlockEntity { optional "RecordItem" as record_item: super::compounds::ItemStack_save_1 }
         LecternBlockEntity > BlockEntity { optional "Book" as book: super::compounds::ItemStack_save_1, optional "Page" as page: i32 }
-        PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::compounds::NbtUtils_writeBlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
+        PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::BlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
         RandomizableContainerBlockEntity > BaseContainerBlockEntity {  }
         ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
         SignBlockEntity > BlockEntity { "Color" as color: String, "Text1" as text1: String, "Text2" as text2: String, "Text3" as text3: String, "Text4" as text4: String }
@@ -373,13 +370,12 @@ pub mod mc1_16 {
 
     block_entity_compound_types! {
         "1.16";
-        Compound4 { optional "Signature" as signature: String, "Value" as value: String }
-        Compound7 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
+        Compound3 { optional "Signature" as signature: String, "Value" as value: String }
+        Compound6 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
         ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
         ItemStack_save_1 { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
-        NbtUtils_writeBlockState { "Name" as name: String, optional "Properties" as properties: HashMap<String, String> }
-        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound4>> }
+        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound3>> }
         SpawnData_save { "Entity" as entity: HashMap<String, fastnbt::Value>, "Weight" as weight: i32 }
     }
 }
@@ -388,7 +384,7 @@ pub mod mc1_16 {
 #[cfg(feature = "1.16.2")]
 pub mod mc1_16_2 {
     block_entities! {
-        "1.16.2";
+        "1.16.2", mc1_16_2;
         "minecraft:banner", Banner: BannerBlockEntity (> BlockEntity), optionals_only;
         "minecraft:barrel", Barrel: BarrelBlockEntity (> > > BlockEntity), optionals_only;
         "minecraft:beacon", Beacon: BeaconBlockEntity (> BlockEntity);
@@ -432,7 +428,7 @@ pub mod mc1_16_2 {
         BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Lock" as lock: String }
         BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, "Levels" as levels: i32, optional "Lock" as lock: String, "Primary" as primary: i32, "Secondary" as secondary: i32 }
         BedBlockEntity > BlockEntity {  }
-        BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound7>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
+        BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound6>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
@@ -452,7 +448,7 @@ pub mod mc1_16_2 {
         JigsawBlockEntity > BlockEntity { "final_state" as final_state: String, "joint" as joint: String, "name" as name: String, "pool" as pool: String, "target" as target: String }
         JukeboxBlockEntity > BlockEntity { optional "RecordItem" as record_item: super::compounds::ItemStack_save_1 }
         LecternBlockEntity > BlockEntity { optional "Book" as book: super::compounds::ItemStack_save_1, optional "Page" as page: i32 }
-        PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::compounds::NbtUtils_writeBlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
+        PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::BlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
         RandomizableContainerBlockEntity > BaseContainerBlockEntity {  }
         ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
         SignBlockEntity > BlockEntity { "Color" as color: String, "Text1" as text1: String, "Text2" as text2: String, "Text3" as text3: String, "Text4" as text4: String }
@@ -467,13 +463,12 @@ pub mod mc1_16_2 {
 
     block_entity_compound_types! {
         "1.16.2";
-        Compound4 { optional "Signature" as signature: String, "Value" as value: String }
-        Compound7 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
+        Compound3 { optional "Signature" as signature: String, "Value" as value: String }
+        Compound6 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
         ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
         ItemStack_save_1 { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
-        NbtUtils_writeBlockState { "Name" as name: String, optional "Properties" as properties: HashMap<String, String> }
-        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound4>> }
+        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound3>> }
         SpawnData_save { "Entity" as entity: HashMap<String, fastnbt::Value>, "Weight" as weight: i32 }
     }
 }
@@ -482,7 +477,7 @@ pub mod mc1_16_2 {
 #[cfg(feature = "1.17")]
 pub mod mc1_17 {
     block_entities! {
-        "1.17";
+        "1.17", mc1_17;
         "minecraft:banner", Banner: BannerBlockEntity (> BlockEntity), optionals_only;
         "minecraft:barrel", Barrel: BarrelBlockEntity (> > > BlockEntity), optionals_only;
         "minecraft:beacon", Beacon: BeaconBlockEntity (> BlockEntity);
@@ -527,7 +522,7 @@ pub mod mc1_17 {
         BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Lock" as lock: String }
         BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, "Levels" as levels: i32, optional "Lock" as lock: String, "Primary" as primary: i32, "Secondary" as secondary: i32 }
         BedBlockEntity > BlockEntity {  }
-        BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound7>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
+        BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound6>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
@@ -547,7 +542,7 @@ pub mod mc1_17 {
         JigsawBlockEntity > BlockEntity { "final_state" as final_state: String, "joint" as joint: String, "name" as name: String, "pool" as pool: String, "target" as target: String }
         JukeboxBlockEntity > BlockEntity { optional "RecordItem" as record_item: super::compounds::ItemStack_save_1 }
         LecternBlockEntity > BlockEntity { optional "Book" as book: super::compounds::ItemStack_save_1, optional "Page" as page: i32 }
-        PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::compounds::NbtUtils_writeBlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
+        PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::BlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
         RandomizableContainerBlockEntity > BaseContainerBlockEntity {  }
         SculkSensorBlockEntity > BlockEntity { "last_vibration_frequency" as last_vibration_frequency: i32 }
         ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
@@ -563,13 +558,12 @@ pub mod mc1_17 {
 
     block_entity_compound_types! {
         "1.17";
-        Compound4 { optional "Signature" as signature: String, "Value" as value: String }
-        Compound7 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
+        Compound3 { optional "Signature" as signature: String, "Value" as value: String }
+        Compound6 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
         ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
         ItemStack_save_1 { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
-        NbtUtils_writeBlockState { "Name" as name: String, optional "Properties" as properties: HashMap<String, String> }
-        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound4>> }
+        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound3>> }
         SpawnData_save { "Entity" as entity: HashMap<String, fastnbt::Value>, "Weight" as weight: i32 }
     }
 }
@@ -578,7 +572,7 @@ pub mod mc1_17 {
 #[cfg(feature = "1.18")]
 pub mod mc1_18 {
     block_entities! {
-        "1.18";
+        "1.18", mc1_18;
         "minecraft:banner", Banner: BannerBlockEntity (> BlockEntity), optionals_only;
         "minecraft:barrel", Barrel: BarrelBlockEntity (> > > BlockEntity), optionals_only;
         "minecraft:beacon", Beacon: BeaconBlockEntity (> BlockEntity);
@@ -623,7 +617,7 @@ pub mod mc1_18 {
         BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Lock" as lock: String }
         BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, "Levels" as levels: i32, optional "Lock" as lock: String, "Primary" as primary: i32, "Secondary" as secondary: i32 }
         BedBlockEntity > BlockEntity {  }
-        BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound6>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
+        BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound5>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
@@ -643,7 +637,7 @@ pub mod mc1_18 {
         JigsawBlockEntity > BlockEntity { "final_state" as final_state: String, "joint" as joint: String, "name" as name: String, "pool" as pool: String, "target" as target: String }
         JukeboxBlockEntity > BlockEntity { optional "RecordItem" as record_item: super::compounds::ItemStack_save_1 }
         LecternBlockEntity > BlockEntity { optional "Book" as book: super::compounds::ItemStack_save_1, optional "Page" as page: i32 }
-        PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::compounds::NbtUtils_writeBlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
+        PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::BlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
         RandomizableContainerBlockEntity > BaseContainerBlockEntity {  }
         SculkSensorBlockEntity > BlockEntity { "last_vibration_frequency" as last_vibration_frequency: i32 }
         ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
@@ -659,13 +653,12 @@ pub mod mc1_18 {
 
     block_entity_compound_types! {
         "1.18";
-        Compound3 { optional "Signature" as signature: String, "Value" as value: String }
-        Compound6 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
+        Compound2 { optional "Signature" as signature: String, "Value" as value: String }
+        Compound5 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
         ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
         ItemStack_save_1 { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
-        NbtUtils_writeBlockState { "Name" as name: String, optional "Properties" as properties: HashMap<String, String> }
-        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound3>> }
+        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound2>> }
     }
 }
 
@@ -673,7 +666,7 @@ pub mod mc1_18 {
 #[cfg(feature = "1.19")]
 pub mod mc1_19 {
     block_entities! {
-        "1.19";
+        "1.19", mc1_19;
         "minecraft:banner", Banner: BannerBlockEntity (> BlockEntity), optionals_only;
         "minecraft:barrel", Barrel: BarrelBlockEntity (> > > BlockEntity), optionals_only;
         "minecraft:beacon", Beacon: BeaconBlockEntity (> BlockEntity);
@@ -720,7 +713,7 @@ pub mod mc1_19 {
         BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Lock" as lock: String }
         BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, "Levels" as levels: i32, optional "Lock" as lock: String, "Primary" as primary: i32, "Secondary" as secondary: i32 }
         BedBlockEntity > BlockEntity {  }
-        BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound6>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
+        BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound5>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
@@ -740,7 +733,7 @@ pub mod mc1_19 {
         JigsawBlockEntity > BlockEntity { "final_state" as final_state: String, "joint" as joint: String, "name" as name: String, "pool" as pool: String, "target" as target: String }
         JukeboxBlockEntity > BlockEntity { optional "RecordItem" as record_item: super::compounds::ItemStack_save_1 }
         LecternBlockEntity > BlockEntity { optional "Book" as book: super::compounds::ItemStack_save_1, optional "Page" as page: i32 }
-        PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::compounds::NbtUtils_writeBlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
+        PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::BlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
         RandomizableContainerBlockEntity > BaseContainerBlockEntity {  }
         SculkCatalystBlockEntity > BlockEntity { optional "cursors" as cursors: fastnbt::Value }
         SculkSensorBlockEntity > BlockEntity { "last_vibration_frequency" as last_vibration_frequency: i32, optional "listener" as listener: fastnbt::Value }
@@ -758,13 +751,12 @@ pub mod mc1_19 {
 
     block_entity_compound_types! {
         "1.19";
-        Compound3 { optional "Signature" as signature: String, "Value" as value: String }
-        Compound6 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
+        Compound2 { optional "Signature" as signature: String, "Value" as value: String }
+        Compound5 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
         ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
         ItemStack_save_1 { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
-        NbtUtils_writeBlockState { "Name" as name: String, optional "Properties" as properties: HashMap<String, String> }
-        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound3>> }
+        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound2>> }
     }
 }
 
@@ -772,7 +764,7 @@ pub mod mc1_19 {
 #[cfg(feature = "1.19.1")]
 pub mod mc1_19_1 {
     block_entities! {
-        "1.19.1";
+        "1.19.1", mc1_19_1;
         "minecraft:banner", Banner: BannerBlockEntity (> BlockEntity), optionals_only;
         "minecraft:barrel", Barrel: BarrelBlockEntity (> > > BlockEntity), optionals_only;
         "minecraft:beacon", Beacon: BeaconBlockEntity (> BlockEntity);
@@ -819,7 +811,7 @@ pub mod mc1_19_1 {
         BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Lock" as lock: String }
         BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, "Levels" as levels: i32, optional "Lock" as lock: String, "Primary" as primary: i32, "Secondary" as secondary: i32 }
         BedBlockEntity > BlockEntity {  }
-        BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound6>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
+        BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound5>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
@@ -839,7 +831,7 @@ pub mod mc1_19_1 {
         JigsawBlockEntity > BlockEntity { "final_state" as final_state: String, "joint" as joint: String, "name" as name: String, "pool" as pool: String, "target" as target: String }
         JukeboxBlockEntity > BlockEntity { "IsPlaying" as is_playing: bool, optional "RecordItem" as record_item: super::compounds::ItemStack_save_1, "RecordStartTick" as record_start_tick: i64, "TickCount" as tick_count: i64 }
         LecternBlockEntity > BlockEntity { optional "Book" as book: super::compounds::ItemStack_save_1, optional "Page" as page: i32 }
-        PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::compounds::NbtUtils_writeBlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
+        PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::BlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
         RandomizableContainerBlockEntity > BaseContainerBlockEntity {  }
         SculkCatalystBlockEntity > BlockEntity { optional "cursors" as cursors: fastnbt::Value }
         SculkSensorBlockEntity > BlockEntity { "last_vibration_frequency" as last_vibration_frequency: i32, optional "listener" as listener: fastnbt::Value }
@@ -857,13 +849,12 @@ pub mod mc1_19_1 {
 
     block_entity_compound_types! {
         "1.19.1";
-        Compound3 { optional "Signature" as signature: String, "Value" as value: String }
-        Compound6 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
+        Compound2 { optional "Signature" as signature: String, "Value" as value: String }
+        Compound5 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
         ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
         ItemStack_save_1 { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
-        NbtUtils_writeBlockState { "Name" as name: String, optional "Properties" as properties: HashMap<String, String> }
-        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound3>> }
+        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound2>> }
     }
 }
 
@@ -871,7 +862,7 @@ pub mod mc1_19_1 {
 #[cfg(feature = "1.19.3")]
 pub mod mc1_19_3 {
     block_entities! {
-        "1.19.3";
+        "1.19.3", mc1_19_3;
         "minecraft:banner", Banner: BannerBlockEntity (> BlockEntity), optionals_only;
         "minecraft:barrel", Barrel: BarrelBlockEntity (> > > BlockEntity), optionals_only;
         "minecraft:beacon", Beacon: BeaconBlockEntity (> BlockEntity);
@@ -920,7 +911,7 @@ pub mod mc1_19_3 {
         BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Lock" as lock: String }
         BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, "Levels" as levels: i32, optional "Lock" as lock: String, "Primary" as primary: i32, "Secondary" as secondary: i32 }
         BedBlockEntity > BlockEntity {  }
-        BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound6>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
+        BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound5>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
@@ -942,7 +933,7 @@ pub mod mc1_19_3 {
         JigsawBlockEntity > BlockEntity { "final_state" as final_state: String, "joint" as joint: String, "name" as name: String, "pool" as pool: String, "target" as target: String }
         JukeboxBlockEntity > BlockEntity { "IsPlaying" as is_playing: bool, optional "RecordItem" as record_item: super::compounds::ItemStack_save_1, "RecordStartTick" as record_start_tick: i64, "TickCount" as tick_count: i64 }
         LecternBlockEntity > BlockEntity { optional "Book" as book: super::compounds::ItemStack_save_1, optional "Page" as page: i32 }
-        PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::compounds::NbtUtils_writeBlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
+        PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::BlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
         RandomizableContainerBlockEntity > BaseContainerBlockEntity {  }
         SculkCatalystBlockEntity > BlockEntity { optional "cursors" as cursors: fastnbt::Value }
         SculkSensorBlockEntity > BlockEntity { "last_vibration_frequency" as last_vibration_frequency: i32, optional "listener" as listener: fastnbt::Value }
@@ -960,13 +951,12 @@ pub mod mc1_19_3 {
 
     block_entity_compound_types! {
         "1.19.3";
-        Compound3 { optional "Signature" as signature: String, "Value" as value: String }
-        Compound6 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
+        Compound2 { optional "Signature" as signature: String, "Value" as value: String }
+        Compound5 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
         ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
         ItemStack_save_1 { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
-        NbtUtils_writeBlockState { "Name" as name: String, optional "Properties" as properties: HashMap<String, String> }
-        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound3>> }
+        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound2>> }
     }
 }
 
@@ -974,7 +964,7 @@ pub mod mc1_19_3 {
 #[cfg(feature = "1.19.4")]
 pub mod mc1_19_4 {
     block_entities! {
-        "1.19.4";
+        "1.19.4", mc1_19_4;
         "minecraft:banner", Banner: BannerBlockEntity (> BlockEntity), optionals_only;
         "minecraft:barrel", Barrel: BarrelBlockEntity (> > > BlockEntity), optionals_only;
         "minecraft:beacon", Beacon: BeaconBlockEntity (> BlockEntity);
@@ -1025,7 +1015,7 @@ pub mod mc1_19_4 {
         BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Lock" as lock: String }
         BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, "Levels" as levels: i32, optional "Lock" as lock: String, "Primary" as primary: i32, "Secondary" as secondary: i32 }
         BedBlockEntity > BlockEntity {  }
-        BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound6>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
+        BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound5>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
@@ -1048,7 +1038,7 @@ pub mod mc1_19_4 {
         JigsawBlockEntity > BlockEntity { "final_state" as final_state: String, "joint" as joint: String, "name" as name: String, "pool" as pool: String, "target" as target: String }
         JukeboxBlockEntity > BlockEntity { "IsPlaying" as is_playing: bool, optional "RecordItem" as record_item: super::compounds::ItemStack_save_1, "RecordStartTick" as record_start_tick: i64, "TickCount" as tick_count: i64 }
         LecternBlockEntity > BlockEntity { optional "Book" as book: super::compounds::ItemStack_save_1, optional "Page" as page: i32 }
-        PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::compounds::NbtUtils_writeBlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
+        PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::BlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
         RandomizableContainerBlockEntity > BaseContainerBlockEntity {  }
         SculkCatalystBlockEntity > BlockEntity { optional "cursors" as cursors: fastnbt::Value }
         SculkSensorBlockEntity > BlockEntity { "last_vibration_frequency" as last_vibration_frequency: i32, optional "listener" as listener: fastnbt::Value }
@@ -1067,13 +1057,12 @@ pub mod mc1_19_4 {
 
     block_entity_compound_types! {
         "1.19.4";
-        Compound3 { optional "Signature" as signature: String, "Value" as value: String }
-        Compound6 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
+        Compound2 { optional "Signature" as signature: String, "Value" as value: String }
+        Compound5 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
         ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
         ItemStack_save_1 { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
-        NbtUtils_writeBlockState { "Name" as name: String, optional "Properties" as properties: HashMap<String, String> }
-        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound3>> }
+        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound2>> }
     }
 }
 
@@ -1081,7 +1070,7 @@ pub mod mc1_19_4 {
 #[cfg(feature = "1.20")]
 pub mod mc1_20 {
     block_entities! {
-        "1.20";
+        "1.20", mc1_20;
         "minecraft:banner", Banner: BannerBlockEntity (> BlockEntity), optionals_only;
         "minecraft:barrel", Barrel: BarrelBlockEntity (> > > BlockEntity), optionals_only;
         "minecraft:beacon", Beacon: BeaconBlockEntity (> BlockEntity);
@@ -1133,7 +1122,7 @@ pub mod mc1_20 {
         BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Lock" as lock: String }
         BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, "Levels" as levels: i32, optional "Lock" as lock: String, "Primary" as primary: i32, "Secondary" as secondary: i32 }
         BedBlockEntity > BlockEntity {  }
-        BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound6>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
+        BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound5>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
@@ -1158,7 +1147,7 @@ pub mod mc1_20 {
         JigsawBlockEntity > BlockEntity { "final_state" as final_state: String, "joint" as joint: String, "name" as name: String, "pool" as pool: String, "target" as target: String }
         JukeboxBlockEntity > BlockEntity { "IsPlaying" as is_playing: bool, optional "RecordItem" as record_item: super::compounds::ItemStack_save_1, "RecordStartTick" as record_start_tick: i64, "TickCount" as tick_count: i64 }
         LecternBlockEntity > BlockEntity { optional "Book" as book: super::compounds::ItemStack_save_1, optional "Page" as page: i32 }
-        PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::compounds::NbtUtils_writeBlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
+        PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::BlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
         RandomizableContainerBlockEntity > BaseContainerBlockEntity {  }
         SculkCatalystBlockEntity > BlockEntity { optional "cursors" as cursors: fastnbt::Value }
         SculkSensorBlockEntity > BlockEntity { "last_vibration_frequency" as last_vibration_frequency: i32, optional "listener" as listener: fastnbt::Value }
@@ -1176,13 +1165,12 @@ pub mod mc1_20 {
 
     block_entity_compound_types! {
         "1.20";
-        Compound3 { optional "Signature" as signature: String, "Value" as value: String }
-        Compound6 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
+        Compound2 { optional "Signature" as signature: String, "Value" as value: String }
+        Compound5 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
         ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
         ItemStack_save_1 { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
-        NbtUtils_writeBlockState { "Name" as name: String, optional "Properties" as properties: HashMap<String, String> }
-        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound3>> }
+        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound2>> }
     }
 }
 
@@ -1190,7 +1178,7 @@ pub mod mc1_20 {
 #[cfg(feature = "1.20.2")]
 pub mod mc1_20_2 {
     block_entities! {
-        "1.20.2";
+        "1.20.2", mc1_20_2;
         "minecraft:banner", Banner: BannerBlockEntity (> BlockEntity), optionals_only;
         "minecraft:barrel", Barrel: BarrelBlockEntity (> > > BlockEntity), optionals_only;
         "minecraft:beacon", Beacon: BeaconBlockEntity (> BlockEntity);
@@ -1242,7 +1230,7 @@ pub mod mc1_20_2 {
         BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Lock" as lock: String }
         BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, "Levels" as levels: i32, optional "Lock" as lock: String, optional "primary_effect" as primary_effect: String, optional "secondary_effect" as secondary_effect: String }
         BedBlockEntity > BlockEntity {  }
-        BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound6>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
+        BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound5>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
@@ -1267,7 +1255,7 @@ pub mod mc1_20_2 {
         JigsawBlockEntity > BlockEntity { "final_state" as final_state: String, "joint" as joint: String, "name" as name: String, "pool" as pool: String, "target" as target: String }
         JukeboxBlockEntity > BlockEntity { "IsPlaying" as is_playing: bool, optional "RecordItem" as record_item: super::compounds::ItemStack_save_1, "RecordStartTick" as record_start_tick: i64, "TickCount" as tick_count: i64 }
         LecternBlockEntity > BlockEntity { optional "Book" as book: super::compounds::ItemStack_save_1, optional "Page" as page: i32 }
-        PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::compounds::NbtUtils_writeBlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
+        PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::BlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
         RandomizableContainerBlockEntity > BaseContainerBlockEntity {  }
         SculkCatalystBlockEntity > BlockEntity { optional "cursors" as cursors: fastnbt::Value }
         SculkSensorBlockEntity > BlockEntity { "last_vibration_frequency" as last_vibration_frequency: i32, optional "listener" as listener: fastnbt::Value }
@@ -1285,13 +1273,12 @@ pub mod mc1_20_2 {
 
     block_entity_compound_types! {
         "1.20.2";
-        Compound3 { optional "Signature" as signature: String, "Value" as value: String }
-        Compound6 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
+        Compound2 { optional "Signature" as signature: String, "Value" as value: String }
+        Compound5 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
         ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
         ItemStack_save_1 { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
-        NbtUtils_writeBlockState { "Name" as name: String, optional "Properties" as properties: HashMap<String, String> }
-        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound3>> }
+        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound2>> }
     }
 }
 
@@ -1299,7 +1286,7 @@ pub mod mc1_20_2 {
 #[cfg(feature = "1.20.3")]
 pub mod mc1_20_3 {
     block_entities! {
-        "1.20.3";
+        "1.20.3", mc1_20_3;
         "minecraft:banner", Banner: BannerBlockEntity (> BlockEntity), optionals_only;
         "minecraft:barrel", Barrel: BarrelBlockEntity (> > > BlockEntity), optionals_only;
         "minecraft:beacon", Beacon: BeaconBlockEntity (> BlockEntity);
@@ -1353,7 +1340,7 @@ pub mod mc1_20_3 {
         BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Lock" as lock: String }
         BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, "Levels" as levels: i32, optional "Lock" as lock: String, optional "primary_effect" as primary_effect: String, optional "secondary_effect" as secondary_effect: String }
         BedBlockEntity > BlockEntity {  }
-        BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound6>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
+        BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound5>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
@@ -1379,7 +1366,7 @@ pub mod mc1_20_3 {
         JigsawBlockEntity > BlockEntity { "final_state" as final_state: String, "joint" as joint: String, "name" as name: String, "placement_priority" as placement_priority: i32, "pool" as pool: String, "selection_priority" as selection_priority: i32, "target" as target: String }
         JukeboxBlockEntity > BlockEntity { "IsPlaying" as is_playing: bool, optional "RecordItem" as record_item: super::compounds::ItemStack_save_1, "RecordStartTick" as record_start_tick: i64, "TickCount" as tick_count: i64 }
         LecternBlockEntity > BlockEntity { optional "Book" as book: super::compounds::ItemStack_save_1, optional "Page" as page: i32 }
-        PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::compounds::NbtUtils_writeBlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
+        PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::BlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
         RandomizableContainerBlockEntity > BaseContainerBlockEntity {  }
         SculkCatalystBlockEntity > BlockEntity { optional "cursors" as cursors: fastnbt::Value }
         SculkSensorBlockEntity > BlockEntity { "last_vibration_frequency" as last_vibration_frequency: i32, optional "listener" as listener: fastnbt::Value }
@@ -1398,13 +1385,12 @@ pub mod mc1_20_3 {
 
     block_entity_compound_types! {
         "1.20.3";
-        Compound3 { optional "Signature" as signature: String, "Value" as value: String }
-        Compound6 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
+        Compound2 { optional "Signature" as signature: String, "Value" as value: String }
+        Compound5 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
         ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
         ItemStack_save_1 { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
-        NbtUtils_writeBlockState { "Name" as name: String, optional "Properties" as properties: HashMap<String, String> }
-        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound3>> }
+        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound2>> }
     }
 }
 
@@ -1412,7 +1398,7 @@ pub mod mc1_20_3 {
 #[cfg(feature = "1.20.5")]
 pub mod mc1_20_5 {
     block_entities! {
-        "1.20.5";
+        "1.20.5", mc1_20_5;
         "minecraft:banner", Banner: BannerBlockEntity (> BlockEntity), optionals_only;
         "minecraft:barrel", Barrel: BarrelBlockEntity (> > > BlockEntity), optionals_only;
         "minecraft:beacon", Beacon: BeaconBlockEntity (> BlockEntity);
@@ -1493,7 +1479,7 @@ pub mod mc1_20_5 {
         JigsawBlockEntity > BlockEntity { "final_state" as final_state: String, "joint" as joint: String, "name" as name: String, "placement_priority" as placement_priority: i32, "pool" as pool: String, "selection_priority" as selection_priority: i32, "target" as target: String }
         JukeboxBlockEntity > BlockEntity { "IsPlaying" as is_playing: bool, optional "RecordItem" as record_item: fastnbt::Value, "RecordStartTick" as record_start_tick: i64, "TickCount" as tick_count: i64 }
         LecternBlockEntity > BlockEntity { optional "Book" as book: fastnbt::Value, optional "Page" as page: i32 }
-        PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::compounds::NbtUtils_writeBlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
+        PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::BlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
         RandomizableContainerBlockEntity > BaseContainerBlockEntity {  }
         SculkCatalystBlockEntity > BlockEntity { optional "cursors" as cursors: fastnbt::Value }
         SculkSensorBlockEntity > BlockEntity { "last_vibration_frequency" as last_vibration_frequency: i32, optional "listener" as listener: fastnbt::Value }
@@ -1513,6 +1499,5 @@ pub mod mc1_20_5 {
 
     block_entity_compound_types! {
         "1.20.5";
-        NbtUtils_writeBlockState { "Name" as name: String, optional "Properties" as properties: HashMap<String, String> }
     }
 }

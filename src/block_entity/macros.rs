@@ -1,6 +1,6 @@
 macro_rules! block_entities {
     (
-        $mc_version:literal;
+        $mc_version:literal, $mc_mod:ident;
         $(
             $id:literal,
             $variant:ident:
@@ -14,6 +14,11 @@ macro_rules! block_entities {
         use std::{collections::HashMap, marker::PhantomData};
         #[cfg(feature = "serde")]
         use serde::{Deserialize, de::Visitor, Serialize};
+
+        #[cfg(feature = "block-states")]
+        pub(crate) type BlockState = $crate::block_state::$mc_mod::BlockState;
+        #[cfg(not(feature = "block-states"))]
+        pub(crate) type BlockState = $crate::block_state::GenericBlockState;
 
         #[doc = concat!("A typed block entity for Minecraft ", $mc_version, ".")]
         #[derive(Debug, Clone)]

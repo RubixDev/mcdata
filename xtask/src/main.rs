@@ -590,7 +590,7 @@ pub mod latest {{
 #[cfg(feature = "{feature}")]
 pub mod mc{mod_name} {{
     entities! {{
-        "{feature}";
+        "{feature}", mc{mod_name};
 "###
         );
         log!(info, "entities");
@@ -743,7 +743,7 @@ pub mod latest {{
 #[cfg(feature = "{feature}")]
 pub mod mc{mod_name} {{
     block_entities! {{
-        "{feature}";
+        "{feature}", mc{mod_name};
 "###
         );
         log!(info, "entities");

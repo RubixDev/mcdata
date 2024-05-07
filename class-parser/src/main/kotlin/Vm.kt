@@ -591,6 +591,19 @@ class Vm(private val jarFile: String, private val mcVersion: Int) {
                 throw RuntimeException("encountered `Entity.saveWithoutId` directly")
             }
 
+            // special case for `NbtUtils.writeBlockState`:
+            // We have existing Rust types for block states which are more specific than what this can infer,
+            // so we should make use of them instead.
+            if (
+                className == "net.minecraft.nbt.NbtUtils"
+                && methodName == "writeBlockState"
+                && signature == "(Lnet/minecraft/world/level/block/state/BlockState;)Lnet/minecraft/nbt/CompoundTag;"
+            ) {
+                stack.pop()
+                stack.push(NbtBlockState.asType())
+                return true
+            }
+
             // enter every method that takes or returns any NBT type for further analysis
             if (argTypes.any { it.isNbt() } || returnType.isNbt()) {
                 // get the args from the stack, including the instance if not static

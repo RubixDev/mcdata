@@ -80,7 +80,8 @@ sealed class NbtElement {
             is NbtList -> if (other is NbtList) NbtList(inner.encompass(other.inner)) else NbtAny
             // TODO: the next two could also be NbtAnyCompound, but I don't think that ever happens anyway
             is NbtBoxed -> if (this == other) this else NbtAny
-            is NbtNestedEntity -> if (this == NbtNestedEntity) this else NbtAny
+            NbtNestedEntity -> if (this == other) this else NbtAny
+            NbtBlockState -> if (this == other) this else NbtAny
             is NbtEither -> when (other) {
                 left, right -> this
                 is NbtEither -> NbtEither(left.encompass(other.left), right.encompass(other.right))
@@ -119,7 +120,7 @@ sealed class NbtElement {
     fun clone(): NbtElement =
         when (this) {
             NbtAny, NbtByte, NbtShort, NbtInt, NbtLong, NbtFloat, NbtDouble, NbtString, NbtByteArray, NbtIntArray,
-            NbtLongArray, NbtUuid, NbtBoolean, NbtNestedEntity -> this
+            NbtLongArray, NbtUuid, NbtBoolean, NbtNestedEntity, NbtBlockState -> this
 
             is NbtEither -> NbtEither(left.clone(), right.clone())
             is NbtBoxed -> NbtBoxed(name)
@@ -191,6 +192,13 @@ data class NbtBoxed(val name: String) : NbtElement() {
 @Serializable
 @SerialName("NestedEntity")
 data object NbtNestedEntity : NbtElement()
+
+/**
+ * Block states are also special-cased because we have existing types for them in Rust.
+ */
+@Serializable
+@SerialName("BlockState")
+data object NbtBlockState : NbtElement()
 
 @Serializable
 @SerialName("List")

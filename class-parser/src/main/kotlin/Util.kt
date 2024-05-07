@@ -160,6 +160,7 @@ fun NbtElement.asType(): Type =
         is NbtEither -> TypedTag(this)
         is NbtBoxed -> TypedTag(this, "net.minecraft.nbt.CompoundTag")
         NbtNestedEntity -> TypedTag(this, "net.minecraft.nbt.CompoundTag")
+        NbtBlockState -> TypedTag(this, "net.minecraft.nbt.CompoundTag")
         is NbtList -> TypedTag(this, "net.minecraft.nbt.ListTag")
         is NbtCompound -> TypedTag(this, "net.minecraft.nbt.CompoundTag")
         NbtBoolean -> TypedTag(this, "net.minecraft.nbt.ByteTag")

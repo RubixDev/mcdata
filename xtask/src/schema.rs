@@ -144,6 +144,7 @@ pub enum NbtElement {
         name: String,
     },
     NestedEntity,
+    BlockState,
 }
 
 impl NbtElement {
@@ -177,6 +178,7 @@ impl NbtElement {
             NbtElement::Compound { name } => format!("super::compounds::{name}").into(),
             NbtElement::Boxed { name } => format!("Box<super::compounds::{name}>").into(),
             NbtElement::NestedEntity => "Box<super::Entity>".into(),
+            NbtElement::BlockState => "super::BlockState".into(),
         }
     }
 }
