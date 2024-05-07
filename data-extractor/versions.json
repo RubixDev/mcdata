@@ -4,18 +4,34 @@
   "extractor": 0
 }, {
   "name": "1.15",
+  "mc": "1.15.1",
+  "extractor": 0
+}, {
+  "name": "1.15.2",
   "mc": "1.15.2",
   "extractor": 0
 }, {
   "name": "1.16",
+  "mc": "1.16.1",
+  "extractor": 0
+}, {
+  "name": "1.16.2",
   "mc": "1.16.5",
   "extractor": 0
 }, {
-  "name": "1.17-1.18",
+  "name": "1.17",
+  "mc": "1.17.1",
+  "extractor": 1
+}, {
+  "name": "1.18",
   "mc": "1.18.2",
   "extractor": 1
 }, {
   "name": "1.19",
+  "mc": "1.19",
+  "extractor": 1
+}, {
+  "name": "1.19.1",
   "mc": "1.19.2",
   "extractor": 1
 }, {

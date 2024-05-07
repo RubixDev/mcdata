@@ -251,6 +251,20 @@ export default {
             fs::create_dir_all(mod_dir.join("run"))?;
             fs::write(mod_dir.join("run/eula.txt"), "eula=true")?;
 
+            // remove Fabric API dependency and save gradle user home
+            log!(info, "removing dependency on Fabric API");
+            modify_file(mod_dir.join("build.gradle"), |str| {
+                let str = regex_replace_all!(
+                    r#"^([ \t]*)(modImplementation "net\.fabricmc\.fabric-api:.*")"#m,
+                    &str,
+                    |_, space, dep| format!("{space}// {dep}")
+                );
+                let str = regex_replace_all!(r#"^(dependencies \{)$"#m, &str, |_, deps| format!(
+                    r#"project.file("gradle_user_home").write(project.gradle.gradleUserHomeDir.toString()); {deps}"#
+                ));
+                Ok(str.into_owned())
+            })?;
+
             // disable all mixins and dependencies, and set the entrypoint
             log!(info, "setting up `fabric.mod.json`");
             modify_file(mod_dir.join("src/main/resources/fabric.mod.json"), |str| {
@@ -316,16 +330,20 @@ export default {
         block_lists.push(serde_json::from_reader(BufReader::new(File::open(
             mod_dir.join("run/blocks.json"),
         )?))?);
+        let gradle_user_home = PathBuf::from(
+            fs::read_to_string(mod_dir.join("gradle_user_home"))
+                .with_context(|| format!("failed to locate Gradle user home for {mc}"))?,
+        );
         mc_jar_paths.push(
             glob::glob(
-                mod_dir.join(".gradle/loom-cache/minecraftMaven/net/minecraft/minecraft-merged-*/*-loom.mappings.*/*.jar")
+                gradle_user_home.join(format!("caches/fabric-loom/minecraftMaven/net/minecraft/minecraft-merged/{mc}-loom.mappings.*/*.jar"))
                     .to_str()
-                    .with_context(|| format!("failed to find Minecraft jar for {mc}"))?,
+                    .with_context(|| format!("failed to locate Minecraft jar for {mc}"))?,
             )
-                .with_context(|| format!("failed to find Minecraft jar for {mc}"))?
+                .with_context(|| format!("failed to locate Minecraft jar for {mc}"))?
                 .next()
-                .with_context(|| format!("failed to find Minecraft jar for {mc}"))?
-                .with_context(|| format!("failed to find Minecraft jar for {mc}"))?,
+                .with_context(|| format!("failed to locate Minecraft jar for {mc}"))?
+                .with_context(|| format!("failed to locate Minecraft jar for {mc}"))?,
         );
         entity_list_paths.push(mod_dir.join("run/entities.json"));
         be_list_paths.push(mod_dir.join("run/block_entities.json"));

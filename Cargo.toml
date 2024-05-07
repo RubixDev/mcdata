@@ -33,14 +33,22 @@ docs = ["dep:document-features", "dep:rustc_version"]
 latest = ["1.20.5"]
 ## Enable lists for Minecraft 1.14, extracted from Minecraft 1.14.4
 "1.14" = []
-## Enable lists for Minecraft 1.15, extracted from Minecraft 1.15.2
+## Enable lists for Minecraft 1.15, extracted from Minecraft 1.15.1
 "1.15" = []
-## Enable lists for Minecraft 1.16, extracted from Minecraft 1.16.5
+## Enable lists for Minecraft 1.15.2, extracted from Minecraft 1.15.2
+"1.15.2" = []
+## Enable lists for Minecraft 1.16, extracted from Minecraft 1.16.1
 "1.16" = []
-## Enable lists for Minecraft 1.17-1.18, extracted from Minecraft 1.18.2
-"1.17-1.18" = []
-## Enable lists for Minecraft 1.19, extracted from Minecraft 1.19.2
+## Enable lists for Minecraft 1.16.2, extracted from Minecraft 1.16.5
+"1.16.2" = []
+## Enable lists for Minecraft 1.17, extracted from Minecraft 1.17.1
+"1.17" = []
+## Enable lists for Minecraft 1.18, extracted from Minecraft 1.18.2
+"1.18" = []
+## Enable lists for Minecraft 1.19, extracted from Minecraft 1.19
 "1.19" = []
+## Enable lists for Minecraft 1.19.1, extracted from Minecraft 1.19.2
+"1.19.1" = []
 ## Enable lists for Minecraft 1.19.3, extracted from Minecraft 1.19.3
 "1.19.3" = []
 ## Enable lists for Minecraft 1.19.4, extracted from Minecraft 1.19.4

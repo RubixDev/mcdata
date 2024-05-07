@@ -8,7 +8,7 @@ import org.apache.bcel.verifier.structurals.LocalVariables
 import org.apache.bcel.verifier.structurals.OperandStack
 import org.apache.bcel.verifier.structurals.UninitializedObjectType
 
-fun printWarning(msg: String) = println("\u001b[1;33m>>> WARNING: $msg\u001b[0m")
+fun printWarning(msg: String) = println("\u001b[1;33m>>>> WARNING: $msg\u001b[0m")
 
 object UninitializedLocal : Type(Const.T_UNKNOWN, "<uninitialized local>")
 

@@ -180,6 +180,7 @@ macro_rules! block_entities {
                             }),
                             None => {
                                 // try untagged deserialization when id is missing
+                                // TODO: skip "empty" types like EnderChest here
                                 properties.insert("x".to_string(), fastnbt::Value::Int(x));
                                 properties.insert("y".to_string(), fastnbt::Value::Int(y));
                                 properties.insert("z".to_string(), fastnbt::Value::Int(z));

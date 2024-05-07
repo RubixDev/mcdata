@@ -72,7 +72,7 @@ class Vm(private val jarFile: String, private val mcVersion: Int) {
         val res = call(
             method,
             listOf(ObjectType(method.className)) + Type.getArgumentTypes(method.signature).map { it.ensureTyped() },
-            ignoreSuper = true,
+            ignoreSuper = method,
         )
         // assume the first argument is the relevant compound tag
         return res.argsNbt[0] as NbtCompound
@@ -82,7 +82,7 @@ class Vm(private val jarFile: String, private val mcVersion: Int) {
         methodPointer: MethodPointer,
         args: List<Type>,
         overrideOptional: Boolean = false,
-        ignoreSuper: Boolean = false,
+        ignoreSuper: MethodPointer? = null,
     ): CallResult = MethodCall(methodPointer, args.map { it.untyped() }, overrideOptional).let { thisCall ->
         methods.getOrPut(thisCall) {
             // don't recurse the same method with the same arguments
@@ -168,7 +168,7 @@ class Vm(private val jarFile: String, private val mcVersion: Int) {
     private fun initClass(clazz: JavaClass) {
         clazz.methods.find { it.name == "<clinit>" && it.signature == "()V" }?.let { clinit ->
             val insns = InstructionList(clinit.code.code)
-            val runner = MethodRunner(clazz, clinit, listOf(), true)
+            val runner = MethodRunner(clazz, clinit, listOf(), null)
             for (insn in insns) {
                 runner.visit(insn)
             }
@@ -188,7 +188,7 @@ class Vm(private val jarFile: String, private val mcVersion: Int) {
         private val clazz: JavaClass,
         private val method: Method,
         args: List<Type>,
-        private val ignoreSuper: Boolean,
+        private val ignoreSuper: MethodPointer?,
     ) : ExecutionVisitor() {
         private val cpg = ConstantPoolGen(clazz.constantPool)
         private val bootstrapMethods =
@@ -519,7 +519,7 @@ class Vm(private val jarFile: String, private val mcVersion: Int) {
             val methodName = o.getMethodName(cpg)
             val signature = o.getSignature(cpg)
             if (
-                (ignoreSuper && methodName == method.name && signature == method.signature)
+                (methodName == ignoreSuper?.name && signature == ignoreSuper?.signature)
                 || !invoke(
                     o.getClassName(cpg),
                     methodName,
@@ -598,10 +598,7 @@ class Vm(private val jarFile: String, private val mcVersion: Int) {
                 // resolve the method to call
                 val targetClass = when (static || !virtual) {
                     true -> className
-                    false -> args.first().className.also {
-                        // TODO: is this guaranteed? which one do we use?
-                        require(it == className) { "$it != $className" }
-                    }
+                    false -> args.first().className
                 }
                 val targetMethod = when (virtual) {
                     true -> resolveVirtual(MethodPointer(targetClass, methodName, signature)) ?: return false
@@ -681,14 +678,20 @@ class Vm(private val jarFile: String, private val mcVersion: Int) {
             val bootstrapMethod =
                 bootstrapMethods[cp.getConstant<ConstantInvokeDynamic>(o.index).bootstrapMethodAttrIndex]
             // the handle to the backing method
-            val lambdaMethodHandle = cp.getConstant<ConstantMethodHandle>(bootstrapMethod.bootstrapArguments[1])
+            val lambdaMethodHandle =
+                cp.getConstant<ConstantMethodHandle>(bootstrapMethod.bootstrapArguments.getOrNull(1) ?: return)
             // the lambda's signature
             val lambdaSignature =
-                cp.getConstantUtf8(cp.getConstant<ConstantMethodType>(bootstrapMethod.bootstrapArguments[2]).descriptorIndex).bytes
+                cp.getConstantUtf8(
+                    cp.getConstant<ConstantMethodType>(
+                        bootstrapMethod.bootstrapArguments.getOrNull(2) ?: return
+                    ).descriptorIndex
+                ).bytes
             // ignore other kinds of dynamic invocation
             if (lambdaMethodHandle.referenceKind == Const.REF_invokeStatic.toInt()) {
                 // get the method reference
-                val lambdaMethod = cp.getConstant<Constant>(lambdaMethodHandle.referenceIndex) as? ConstantMethodref ?: return
+                val lambdaMethod =
+                    cp.getConstant<Constant>(lambdaMethodHandle.referenceIndex) as? ConstantMethodref ?: return
                 // get the name of the class that contains the method
                 val lambdaMethodClass =
                     cp.getConstantUtf8(cp.getConstant<ConstantClass>(lambdaMethod.classIndex).nameIndex).bytes

@@ -12,7 +12,10 @@ fun main(args: Array<String>) {
     val entitiesJsonPath = args.getOrElse(2) { "entities.json" }
     val blockEntitiesJsonPath = args.getOrElse(3) { "block_entities.json" }
 
-    val mcVersion = mc.split('.').joinToString("") { it.padStart(2, '0') }.toInt()
+    val mcVersion = (if (mc.count { it == '.' } == 1) "$mc.0" else mc)
+        .split('.')
+        .joinToString("") { it.padStart(2, '0') }
+        .toInt()
     val blockEntitiesMethodName = when {
         mcVersion >= 11800 -> "saveAdditional"
         else -> "save"
