@@ -1,5 +1,19 @@
 //! Types and traits describing Minecraft block entities, a.k.a. tile entities.
 //!
+//! ## Warning
+//!
+//! If you intend to use any version-specific `BlockEntity` type with litematica files, beware that
+//! there was a bug in litematica since version `1.18.0-0.9.0` that was only fixed in
+//! `1.20.1-0.15.3` which caused the block entity IDs to not be included in saved schematics.
+//! The block entity types _do_ support deserialization without an ID, but that can never be
+//! perfect. For instance, [barrels](mc1_18::types::BarrelBlockEntity) and
+//! [chests](mc1_18::types::ChestBlockEntity) in 1.18 have the same exact NBT structure, but
+//! barrels will always be tested first when deserializing, so chests will also be deserialized as
+//! barrels when there's no ID distinguishing the two. During serialization, the ID will always be
+//! included, so such a chest would become a barrel by just reading and writing the NBT. If that's
+//! a problem for you, consider using [`GenericBlockEntity`] instead which won't mess with missing
+//! IDs.
+//!
 //! ## Example
 //!
 //! ```

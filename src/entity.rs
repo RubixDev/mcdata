@@ -123,8 +123,6 @@ use std::collections::HashMap;
 #[cfg(feature = "serde")]
 use std::{fmt, marker::PhantomData};
 
-// TODO: special cases for NbtUtils_writeBlockState to somehow use a type implementing the
-//  BlockState trait
 #[cfg(feature = "entities")]
 pub use self::list::*;
 

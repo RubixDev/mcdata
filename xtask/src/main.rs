@@ -1,4 +1,5 @@
 use std::{
+    collections::VecDeque,
     env,
     fs::{self, File},
     io::BufReader,
@@ -770,30 +771,21 @@ pub mod mc{mod_name} {{
             }
             block_entity_list_rs += &format!("({}BlockEntity)", "> ".repeat(indirection));
 
-            let mut optionals_only = true;
-            let mut empty = true;
-            let mut curr = &entity.type_;
-            loop {
+            let mut all_fields = vec![];
+            let mut search = VecDeque::from([&entity.type_]);
+            while let Some(curr) = search.pop_front() {
                 let c = types.iter().find(|t| &t.name == curr).unwrap();
-                if c.name != "BlockEntity"
-                    && (!c.nbt.entries.is_empty()
-                        || c.nbt.unknown_keys.is_some()
-                        || !c.nbt.flattened.is_empty())
-                {
-                    empty = false;
-                    if c.nbt.entries.values().any(|e| !e.optional) {
-                        optionals_only = false;
-                    }
+                if c.name != "BlockEntity" {
+                    all_fields.extend(c.nbt.entries.keys().map(|k| format!("\"{k}\"")))
                 }
 
+                // TODO: this should also include `c.nbt.flattened` and `c.nbt.unknown_keys` somehow
                 let Some(parent) = &c.parent else { break };
-                curr = parent;
+                search.push_back(parent);
             }
-            if empty {
-                block_entity_list_rs += ", empty";
-            } else if optionals_only {
-                block_entity_list_rs += ", optionals_only";
-            }
+            block_entity_list_rs += ", [";
+            block_entity_list_rs += &all_fields.join(", ");
+            block_entity_list_rs += "]";
 
             block_entity_list_rs += ";\n";
         }

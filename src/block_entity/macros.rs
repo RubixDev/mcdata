@@ -5,8 +5,8 @@ macro_rules! block_entities {
             $id:literal,
             $variant:ident:
             $type:ident
-            ($($parent:tt)+)
-            $(, $empty:ident)?
+            ($($parent:tt)+),
+            $fields:expr
         );+
         $(;)?
     ) => {
@@ -189,15 +189,34 @@ macro_rules! block_entities {
                                 properties.insert("x".to_string(), fastnbt::Value::Int(x));
                                 properties.insert("y".to_string(), fastnbt::Value::Int(y));
                                 properties.insert("z".to_string(), fastnbt::Value::Int(z));
-                                $(
-                                    // first try all variants which have at least one required field
-                                    block_entities!(@untagged_non_empty $type, properties, $variant $(, $empty)?);
-                                )+
-                                $(
-                                    // then try all variants which have at least one optional field
-                                    // TODO: somehow determine which one fits best, otherwise info might be lost
-                                    block_entities!(@untagged_optionals_only $type, properties, $variant $(, $empty)?);
-                                )+
+                                // for untagged deserialization we never want to discard data in the
+                                // properties. We do that by first calculating how many keys in the
+                                // properties are not present in each variant and then trying to
+                                // deserialize each one where that count is 0, in order.
+                                // This still means that untagged chests will be deserialized as
+                                // barrels, but there's nothing we can do about that.
+                                let variants = [$(
+                                    (
+                                        // the number of keys in the properties that this variant
+                                        // doesn't contain. the `- 3` is for the x, y, and z keys.
+                                        properties.keys().filter(|k| !$fields.contains(&k.as_str())).count() - 3,
+                                        stringify!($variant),
+                                        // a closure to try to construct this variant
+                                        Box::new(
+                                            || fastnbt::from_value::<types::$type>(&fastnbt::Value::Compound(properties.clone())).ok().map(Self::Value::$variant)
+                                        ) as Box<dyn FnOnce() -> Option<Self::Value>>,
+                                    ),
+                                )+];
+                                for (unused_keys, _, closure) in variants {
+                                    // only accept variants which make use of all keys in the
+                                    // properties
+                                    if unused_keys > 0 {
+                                        continue;
+                                    }
+                                    if let Some(ok) = closure() {
+                                        return Ok(ok);
+                                    }
+                                }
                                 properties.remove("x");
                                 properties.remove("y");
                                 properties.remove("z");
@@ -220,18 +239,6 @@ macro_rules! block_entities {
     };
     (@parent_block_entity $self:ident > BlockEntity) => { $self.parent };
     (@parent_block_entity $self:ident > $($rest:tt)+) => { block_entities!(@parent_block_entity $self $($rest)+).parent };
-    (@untagged_non_empty $type:ident, $properties:ident, $variant:ident) => {
-        if let Ok(ok) = fastnbt::from_value::<types::$type>(&fastnbt::Value::Compound($properties.clone())) {
-            return Ok(Self::Value::$variant(ok));
-        }
-    };
-    (@untagged_non_empty $type:ident, $properties:ident, $variant:ident, $empty:ident) => {};
-    (@untagged_optionals_only $type:ident, $properties:ident, $variant:ident, optionals_only) => {
-        if let Ok(ok) = fastnbt::from_value::<types::$type>(&fastnbt::Value::Compound($properties.clone())) {
-            return Ok(Self::Value::$variant(ok));
-        }
-    };
-    (@untagged_optionals_only $type:ident, $properties:ident, $variant:ident $($tt:tt)*) => {};
 }
 
 macro_rules! block_entity_types {
