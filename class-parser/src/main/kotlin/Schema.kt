@@ -49,7 +49,7 @@ data class EntityType(
 
 @Serializable
 sealed class NbtElement {
-    open fun merge(other: NbtElement, mergeStrategy: MergeStrategy = MergeStrategy.SameDataSet): NbtElement {
+    open fun merge(other: NbtElement): NbtElement {
         require(other == NbtAny || this::class == other::class) {
             "cannot merge ${this::class.simpleName} with ${other::class.simpleName}"
         }
@@ -139,7 +139,7 @@ sealed class NbtElement {
 @Serializable
 @SerialName("Any")
 data object NbtAny : NbtElement() {
-    override fun merge(other: NbtElement, mergeStrategy: MergeStrategy): NbtElement = other
+    override fun merge(other: NbtElement): NbtElement = other
 }
 
 // @formatter:off
@@ -163,10 +163,10 @@ data class NbtEither(
     var left: NbtElement,
     var right: NbtElement,
 ) : NbtElement() {
-    override fun merge(other: NbtElement, mergeStrategy: MergeStrategy): NbtElement {
+    override fun merge(other: NbtElement): NbtElement {
         if (other == NbtAny || other == left || other == right) return this
         require(other is NbtEither) { "cannot merge NbtEither with ${other::class.simpleName}" }
-        return NbtEither(left.merge(other.left, mergeStrategy), right.merge(other.right, mergeStrategy))
+        return NbtEither(left.merge(other.left), right.merge(other.right))
     }
 }
 
@@ -178,11 +178,11 @@ data class NbtEither(
 @SerialName("Boxed")
 // TODO: I think technically this should also store an `optional` bool for `overrideOptional`
 data class NbtBoxed(val name: String) : NbtElement() {
-    override fun merge(other: NbtElement, mergeStrategy: MergeStrategy): NbtElement {
+    override fun merge(other: NbtElement): NbtElement {
         if (other is NbtBoxed && other.name != name) {
             throw IllegalArgumentException("cannot merge two NbtBoxed with different names")
         }
-        return super.merge(other, mergeStrategy)
+        return super.merge(other)
     }
 }
 
@@ -206,11 +206,11 @@ data class NbtList(
     @EncodeDefault
     var inner: NbtElement = NbtAny,
 ) : NbtElement() {
-    fun add(value: NbtElement, mergeStrategy: MergeStrategy = MergeStrategy.SameDataSet) {
-        inner = inner.merge(value, mergeStrategy)
+    fun add(value: NbtElement) {
+        inner = inner.merge(value)
     }
 
-    override fun merge(other: NbtElement, mergeStrategy: MergeStrategy): NbtElement {
+    override fun merge(other: NbtElement): NbtElement {
         if (other == NbtAny) return this
         require(other is NbtList) { "cannot merge NbtList with ${other::class.simpleName}" }
         add(other.inner)
@@ -228,9 +228,9 @@ data class NbtAnyCompound(
     @EncodeDefault
     val valueType: NbtElement = NbtAny,
 ) : NbtElement() {
-    override fun merge(other: NbtElement, mergeStrategy: MergeStrategy): NbtElement {
+    override fun merge(other: NbtElement): NbtElement {
         if (other is NbtCompound) return other
-        return super.merge(other, mergeStrategy)
+        return super.merge(other)
     }
 }
 
@@ -258,14 +258,14 @@ data class NbtCompound(
      */
     val flattened: MutableList<NbtElement> = mutableListOf(),
 ) : NbtElement() {
-    fun put(name: String, entry: NbtCompoundEntry, mergeStrategy: MergeStrategy = MergeStrategy.SameDataSet) {
-        entries[name] = entries[name]?.merge(entry, mergeStrategy) ?: entry
+    fun put(name: String, entry: NbtCompoundEntry) {
+        entries[name] = entries[name]?.merge(entry) ?: entry
     }
 
-    override fun merge(other: NbtElement, mergeStrategy: MergeStrategy): NbtElement {
+    override fun merge(other: NbtElement): NbtElement {
         if (other is NbtAny || other is NbtAnyCompound) return this
         require(other is NbtCompound) { "cannot merge NbtCompound with ${other::class.simpleName}" }
-        other.entries.forEach { (k, v) -> put(k, v, mergeStrategy) }
+        other.entries.forEach { (k, v) -> put(k, v) }
         name = name ?: other.name
         unknownKeys = unknownKeys?.encompass(other.unknownKeys) ?: other.unknownKeys
         flattened += other.flattened
@@ -369,20 +369,10 @@ data class NbtCompoundEntry(
     var value: NbtElement,
     var optional: Boolean = false,
 ) {
-    fun merge(other: NbtCompoundEntry, mergeStrategy: MergeStrategy = MergeStrategy.SameDataSet) = NbtCompoundEntry(
+    fun merge(other: NbtCompoundEntry) = NbtCompoundEntry(
         value = value.merge(other.value),
-        optional = when (mergeStrategy) {
-            // this XOR is to prevent code like `if (x) put("a", y) else put("a", z)` where "a" is added twice in the
-            // same method and both times marked as optional, but it isn't actually optional
-            MergeStrategy.SameDataSet -> optional xor other.optional
-            MergeStrategy.DifferentDataSet -> optional || other.optional
-        },
+        optional = optional || other.optional,
     )
-}
-
-enum class MergeStrategy {
-    SameDataSet,
-    DifferentDataSet,
 }
 
 @Serializable

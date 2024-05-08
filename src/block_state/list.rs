@@ -8,7 +8,7 @@ pub mod latest {
     pub use super::mc1_20_5::*;
 }
 
-/// Block states and property types for Minecraft 1.14.
+/// Accompanying types for block states in Minecraft 1.14.
 #[cfg(feature = "1.14")]
 pub mod mc1_14 {
     blocks! {
@@ -718,7 +718,7 @@ pub mod mc1_14 {
     }
 }
 
-/// Block states and property types for Minecraft 1.15.
+/// Accompanying types for block states in Minecraft 1.15.
 #[cfg(feature = "1.15")]
 pub mod mc1_15 {
     blocks! {
@@ -1432,7 +1432,7 @@ pub mod mc1_15 {
     }
 }
 
-/// Block states and property types for Minecraft 1.15.2.
+/// Accompanying types for block states in Minecraft 1.15.2.
 #[cfg(feature = "1.15.2")]
 pub mod mc1_15_2 {
     blocks! {
@@ -2146,7 +2146,7 @@ pub mod mc1_15_2 {
     }
 }
 
-/// Block states and property types for Minecraft 1.16.
+/// Accompanying types for block states in Minecraft 1.16.
 #[cfg(feature = "1.16")]
 pub mod mc1_16 {
     blocks! {
@@ -2945,7 +2945,7 @@ pub mod mc1_16 {
     }
 }
 
-/// Block states and property types for Minecraft 1.16.2.
+/// Accompanying types for block states in Minecraft 1.16.2.
 #[cfg(feature = "1.16.2")]
 pub mod mc1_16_2 {
     blocks! {
@@ -3744,7 +3744,7 @@ pub mod mc1_16_2 {
     }
 }
 
-/// Block states and property types for Minecraft 1.17.
+/// Accompanying types for block states in Minecraft 1.17.
 #[cfg(feature = "1.17")]
 pub mod mc1_17 {
     blocks! {
@@ -4682,7 +4682,7 @@ pub mod mc1_17 {
     }
 }
 
-/// Block states and property types for Minecraft 1.18.
+/// Accompanying types for block states in Minecraft 1.18.
 #[cfg(feature = "1.18")]
 pub mod mc1_18 {
     blocks! {
@@ -5620,7 +5620,7 @@ pub mod mc1_18 {
     }
 }
 
-/// Block states and property types for Minecraft 1.19.
+/// Accompanying types for block states in Minecraft 1.19.
 #[cfg(feature = "1.19")]
 pub mod mc1_19 {
     blocks! {
@@ -6593,7 +6593,7 @@ pub mod mc1_19 {
     }
 }
 
-/// Block states and property types for Minecraft 1.19.1.
+/// Accompanying types for block states in Minecraft 1.19.1.
 #[cfg(feature = "1.19.1")]
 pub mod mc1_19_1 {
     blocks! {
@@ -7566,7 +7566,7 @@ pub mod mc1_19_1 {
     }
 }
 
-/// Block states and property types for Minecraft 1.19.3.
+/// Accompanying types for block states in Minecraft 1.19.3.
 #[cfg(feature = "1.19.3")]
 pub mod mc1_19_3 {
     blocks! {
@@ -8578,7 +8578,7 @@ pub mod mc1_19_3 {
     }
 }
 
-/// Block states and property types for Minecraft 1.19.4.
+/// Accompanying types for block states in Minecraft 1.19.4.
 #[cfg(feature = "1.19.4")]
 pub mod mc1_19_4 {
     blocks! {
@@ -9616,7 +9616,7 @@ pub mod mc1_19_4 {
     }
 }
 
-/// Block states and property types for Minecraft 1.20.
+/// Accompanying types for block states in Minecraft 1.20.
 #[cfg(feature = "1.20")]
 pub mod mc1_20 {
     blocks! {
@@ -10659,7 +10659,7 @@ pub mod mc1_20 {
     }
 }
 
-/// Block states and property types for Minecraft 1.20.2.
+/// Accompanying types for block states in Minecraft 1.20.2.
 #[cfg(feature = "1.20.2")]
 pub mod mc1_20_2 {
     blocks! {
@@ -11702,7 +11702,7 @@ pub mod mc1_20_2 {
     }
 }
 
-/// Block states and property types for Minecraft 1.20.3.
+/// Accompanying types for block states in Minecraft 1.20.3.
 #[cfg(feature = "1.20.3")]
 pub mod mc1_20_3 {
     blocks! {
@@ -12801,7 +12801,7 @@ pub mod mc1_20_3 {
     }
 }
 
-/// Block states and property types for Minecraft 1.20.5.
+/// Accompanying types for block states in Minecraft 1.20.5.
 #[cfg(feature = "1.20.5")]
 pub mod mc1_20_5 {
     blocks! {

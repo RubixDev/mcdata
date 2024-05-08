@@ -134,7 +134,7 @@ class Vm(private val jarFile: String, private val mcVersion: Int) {
             val returnNbt = returnType.asNbt()?.let {
                 var nbt: NbtElement = NbtAny
                 for (value in runner.returnValues) {
-                    nbt = value.asNbt()?.merge(nbt, MergeStrategy.DifferentDataSet) ?: continue
+                    nbt = value.asNbt()?.merge(nbt) ?: continue
                 }
                 // if the return value is a CompoundTag, and it doesn't have a name yet, give it one based
                 // on the class and method names
@@ -752,6 +752,50 @@ class Vm(private val jarFile: String, private val mcVersion: Int) {
         private fun visitBranchInstructionAfter(o: BranchInstruction) {
             // TODO: maybe somehow detect loops that aren't optional
             //  e.g. the Text1, Text2, Text3, and Text4 keys in SignBlockEntity in 1.19.4 shouldn't be optional
+
+            // TODO: some common control flow structures to detect:
+
+            // normal ifs:
+            // 0: IFX 2
+            // 1: - optional a
+            // 2: ...
+
+            // if-else (keys in both a and b aren't optional):
+            // 0: IFX 3
+            // 1: - optional a
+            // 2: GOTO 4
+            // 3: - optional b
+            // 4: ...
+
+            // if-elif:
+            // 0: IFX 3
+            // 1: - optional a
+            // 2: GOTO 5
+            // 3: IFX 5
+            // 4: - optional b
+            // 5: ...
+
+            // if-elif-else (keys in all a, b, and c aren't optional):
+            // 0: IFX 3
+            // 1: - optional a
+            // 2: GOTO 7
+            // 3: IFX 7
+            // 4: - optional b
+            // 5: GOTO 7
+            // 6: - optional c
+            // 7: ...
+
+            // int for-loop (i has possible values `(n..<m) step o`):
+            // 0: ICONST_<n>
+            // 1: ISTORE i
+            // 2: ILOAD i
+            // 3: ICONST_<m>
+            // 4: IF_ICMPGE 8
+            // 5: - loop contents
+            // 6: IINC i <o>
+            // 7: GOTO 2
+            // 8: ...
+
             locals.toList().filterIsInstance<TypedTag>()
                 .forEach { it.optionalUntil = max(o.target.position, it.optionalUntil) }
             stack.toList().filterIsInstance<TypedTag>()

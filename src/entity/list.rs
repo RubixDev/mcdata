@@ -8,7 +8,7 @@ pub mod latest {
     pub use super::mc1_20_5::*;
 }
 
-/// Entities for Minecraft 1.14.
+/// Accompanying types for entities in Minecraft 1.14.
 #[cfg(feature = "1.14")]
 pub mod mc1_14 {
     entities! {
@@ -201,7 +201,7 @@ pub mod mc1_14 {
         PatrollingMonster > Monster { "PatrolLeader" as patrol_leader: bool, optional "PatrolTarget" as patrol_target: super::compounds::NbtUtils_writeBlockPos, "Patrolling" as patrolling: bool }
         Phantom > FlyingMob { "AX" as ax: i32, "AY" as ay: i32, "AZ" as az: i32, "Size" as size: i32 }
         Pig > Animal { "Saddle" as saddle: bool }
-        PigZombie > Zombie { "Anger" as anger: i16, "HurtBy" as hurt_by: CowStr }
+        PigZombie > Zombie { "Anger" as anger: i16, optional "HurtBy" as hurt_by: CowStr }
         Pillager > AbstractIllager { "Inventory" as inventory: Vec<super::compounds::ItemStack_save_2> }
         PolarBear > Animal {  }
         PrimedTnt > Entity { "Fuse" as fuse: i16 }
@@ -226,7 +226,7 @@ pub mod mc1_14 {
         Spider > Monster {  }
         Squid > WaterAnimal {  }
         Stray > AbstractSkeleton {  }
-        TamableAnimal > Animal { "OwnerUUID" as owner_uuid: CowStr, "Sitting" as sitting: bool }
+        TamableAnimal > Animal { optional "OwnerUUID" as owner_uuid: CowStr, "Sitting" as sitting: bool }
         ThrowableItemProjectile > ThrowableProjectile { optional "Item" as item: super::compounds::ItemStack_save_2 }
         ThrowableProjectile > Entity { "inGround" as in_ground: u8, optional "owner" as owner: super::compounds::NbtUtils_createUUIDTag, "shake" as shake: u8, "xTile" as x_tile: i32, "yTile" as y_tile: i32, "zTile" as z_tile: i32 }
         ThrownEgg > ThrowableItemProjectile {  }
@@ -272,7 +272,7 @@ pub mod mc1_14 {
     }
 }
 
-/// Entities for Minecraft 1.15.
+/// Accompanying types for entities in Minecraft 1.15.
 #[cfg(feature = "1.15")]
 pub mod mc1_15 {
     entities! {
@@ -402,7 +402,7 @@ pub mod mc1_15 {
         ArmorStand > LivingEntity { "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save>, "DisabledSlots" as disabled_slots: i32, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save>, "Invisible" as invisible: bool, optional "Marker" as marker: bool, "NoBasePlate" as no_base_plate: bool, "Pose" as pose: super::compounds::ArmorStand_writePose, "ShowArms" as show_arms: bool, "Small" as small: bool }
         Arrow > AbstractArrow { optional "Color" as color: i32, optional "CustomPotionEffects" as custom_potion_effects: Vec<super::compounds::MobEffectInstance_save>, optional "Potion" as potion: CowStr }
         Bat > AmbientCreature { "BatFlags" as bat_flags: u8 }
-        Bee > Animal { "Anger" as anger: i32, "CannotEnterHiveTicks" as cannot_enter_hive_ticks: i32, "CropsGrownSincePollination" as crops_grown_since_pollination: i32, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos, "HasNectar" as has_nectar: bool, "HasStung" as has_stung: bool, optional "HivePos" as hive_pos: super::compounds::NbtUtils_writeBlockPos, "HurtBy" as hurt_by: CowStr, "TicksSincePollination" as ticks_since_pollination: i32 }
+        Bee > Animal { "Anger" as anger: i32, "CannotEnterHiveTicks" as cannot_enter_hive_ticks: i32, "CropsGrownSincePollination" as crops_grown_since_pollination: i32, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos, "HasNectar" as has_nectar: bool, "HasStung" as has_stung: bool, optional "HivePos" as hive_pos: super::compounds::NbtUtils_writeBlockPos, optional "HurtBy" as hurt_by: CowStr, "TicksSincePollination" as ticks_since_pollination: i32 }
         Blaze > Monster {  }
         Boat > Entity { "Type" as r#type: CowStr }
         Cat > TamableAnimal { "CatType" as cat_type: i32, "CollarColor" as collar_color: u8 }
@@ -455,7 +455,7 @@ pub mod mc1_15 {
         MinecartHopper > AbstractMinecartContainer { "Enabled" as enabled: bool, "TransferCooldown" as transfer_cooldown: i32 }
         MinecartSpawner > AbstractMinecart { optional "Delay" as delay: i16, optional "MaxNearbyEntities" as max_nearby_entities: i16, optional "MaxSpawnDelay" as max_spawn_delay: i16, optional "MinSpawnDelay" as min_spawn_delay: i16, optional "RequiredPlayerRange" as required_player_range: i16, optional "SpawnCount" as spawn_count: i16, optional "SpawnData" as spawn_data: HashMap<CowStr, fastnbt::Value>, optional "SpawnPotentials" as spawn_potentials: Vec<super::compounds::SpawnData_save>, optional "SpawnRange" as spawn_range: i16 }
         MinecartTNT > AbstractMinecart { "TNTFuse" as tnt_fuse: i32 }
-        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: CowStr, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save>, "Leash" as leash: super::compounds::Compound5, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
+        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: CowStr, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save>, optional "Leash" as leash: super::compounds::Compound5, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
         Monster > PathfinderMob {  }
         Mule > AbstractChestedHorse {  }
         MushroomCow > Cow { optional "EffectDuration" as effect_duration: i32, optional "EffectId" as effect_id: u8, "Type" as r#type: CowStr }
@@ -467,7 +467,7 @@ pub mod mc1_15 {
         PatrollingMonster > Monster { "PatrolLeader" as patrol_leader: bool, optional "PatrolTarget" as patrol_target: super::compounds::NbtUtils_writeBlockPos, "Patrolling" as patrolling: bool }
         Phantom > FlyingMob { "AX" as ax: i32, "AY" as ay: i32, "AZ" as az: i32, "Size" as size: i32 }
         Pig > Animal { "Saddle" as saddle: bool }
-        PigZombie > Zombie { "Anger" as anger: i16, "HurtBy" as hurt_by: CowStr }
+        PigZombie > Zombie { "Anger" as anger: i16, optional "HurtBy" as hurt_by: CowStr }
         Pillager > AbstractIllager { "Inventory" as inventory: Vec<super::compounds::ItemStack_save_2> }
         PolarBear > Animal {  }
         PrimedTnt > Entity { "Fuse" as fuse: i16 }
@@ -492,7 +492,7 @@ pub mod mc1_15 {
         Spider > Monster {  }
         Squid > WaterAnimal {  }
         Stray > AbstractSkeleton {  }
-        TamableAnimal > Animal { "OwnerUUID" as owner_uuid: CowStr, "Sitting" as sitting: bool }
+        TamableAnimal > Animal { optional "OwnerUUID" as owner_uuid: CowStr, "Sitting" as sitting: bool }
         ThrowableItemProjectile > ThrowableProjectile { optional "Item" as item: super::compounds::ItemStack_save_2 }
         ThrowableProjectile > Entity { "inGround" as in_ground: bool, optional "owner" as owner: super::compounds::NbtUtils_createUUIDTag, "shake" as shake: u8, "xTile" as x_tile: i32, "yTile" as y_tile: i32, "zTile" as z_tile: i32 }
         ThrownEgg > ThrowableItemProjectile {  }
@@ -538,7 +538,7 @@ pub mod mc1_15 {
     }
 }
 
-/// Entities for Minecraft 1.15.2.
+/// Accompanying types for entities in Minecraft 1.15.2.
 #[cfg(feature = "1.15.2")]
 pub mod mc1_15_2 {
     entities! {
@@ -668,7 +668,7 @@ pub mod mc1_15_2 {
         ArmorStand > LivingEntity { "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save>, "DisabledSlots" as disabled_slots: i32, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save>, "Invisible" as invisible: bool, optional "Marker" as marker: bool, "NoBasePlate" as no_base_plate: bool, "Pose" as pose: super::compounds::ArmorStand_writePose, "ShowArms" as show_arms: bool, "Small" as small: bool }
         Arrow > AbstractArrow { optional "Color" as color: i32, optional "CustomPotionEffects" as custom_potion_effects: Vec<super::compounds::MobEffectInstance_save>, optional "Potion" as potion: CowStr }
         Bat > AmbientCreature { "BatFlags" as bat_flags: u8 }
-        Bee > Animal { "Anger" as anger: i32, "CannotEnterHiveTicks" as cannot_enter_hive_ticks: i32, "CropsGrownSincePollination" as crops_grown_since_pollination: i32, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos, "HasNectar" as has_nectar: bool, "HasStung" as has_stung: bool, optional "HivePos" as hive_pos: super::compounds::NbtUtils_writeBlockPos, "HurtBy" as hurt_by: CowStr, "TicksSincePollination" as ticks_since_pollination: i32 }
+        Bee > Animal { "Anger" as anger: i32, "CannotEnterHiveTicks" as cannot_enter_hive_ticks: i32, "CropsGrownSincePollination" as crops_grown_since_pollination: i32, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos, "HasNectar" as has_nectar: bool, "HasStung" as has_stung: bool, optional "HivePos" as hive_pos: super::compounds::NbtUtils_writeBlockPos, optional "HurtBy" as hurt_by: CowStr, "TicksSincePollination" as ticks_since_pollination: i32 }
         Blaze > Monster {  }
         Boat > Entity { "Type" as r#type: CowStr }
         Cat > TamableAnimal { "CatType" as cat_type: i32, "CollarColor" as collar_color: u8 }
@@ -721,7 +721,7 @@ pub mod mc1_15_2 {
         MinecartHopper > AbstractMinecartContainer { "Enabled" as enabled: bool, "TransferCooldown" as transfer_cooldown: i32 }
         MinecartSpawner > AbstractMinecart { optional "Delay" as delay: i16, optional "MaxNearbyEntities" as max_nearby_entities: i16, optional "MaxSpawnDelay" as max_spawn_delay: i16, optional "MinSpawnDelay" as min_spawn_delay: i16, optional "RequiredPlayerRange" as required_player_range: i16, optional "SpawnCount" as spawn_count: i16, optional "SpawnData" as spawn_data: HashMap<CowStr, fastnbt::Value>, optional "SpawnPotentials" as spawn_potentials: Vec<super::compounds::SpawnData_save>, optional "SpawnRange" as spawn_range: i16 }
         MinecartTNT > AbstractMinecart { "TNTFuse" as tnt_fuse: i32 }
-        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: CowStr, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save>, "Leash" as leash: super::compounds::Compound5, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
+        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: CowStr, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save>, optional "Leash" as leash: super::compounds::Compound5, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
         Monster > PathfinderMob {  }
         Mule > AbstractChestedHorse {  }
         MushroomCow > Cow { optional "EffectDuration" as effect_duration: i32, optional "EffectId" as effect_id: u8, "Type" as r#type: CowStr }
@@ -733,7 +733,7 @@ pub mod mc1_15_2 {
         PatrollingMonster > Monster { "PatrolLeader" as patrol_leader: bool, optional "PatrolTarget" as patrol_target: super::compounds::NbtUtils_writeBlockPos, "Patrolling" as patrolling: bool }
         Phantom > FlyingMob { "AX" as ax: i32, "AY" as ay: i32, "AZ" as az: i32, "Size" as size: i32 }
         Pig > Animal { "Saddle" as saddle: bool }
-        PigZombie > Zombie { "Anger" as anger: i16, "HurtBy" as hurt_by: CowStr }
+        PigZombie > Zombie { "Anger" as anger: i16, optional "HurtBy" as hurt_by: CowStr }
         Pillager > AbstractIllager { "Inventory" as inventory: Vec<super::compounds::ItemStack_save_2> }
         PolarBear > Animal {  }
         PrimedTnt > Entity { "Fuse" as fuse: i16 }
@@ -758,7 +758,7 @@ pub mod mc1_15_2 {
         Spider > Monster {  }
         Squid > WaterAnimal {  }
         Stray > AbstractSkeleton {  }
-        TamableAnimal > Animal { "OwnerUUID" as owner_uuid: CowStr, "Sitting" as sitting: bool }
+        TamableAnimal > Animal { optional "OwnerUUID" as owner_uuid: CowStr, "Sitting" as sitting: bool }
         ThrowableItemProjectile > ThrowableProjectile { optional "Item" as item: super::compounds::ItemStack_save_2 }
         ThrowableProjectile > Entity { "inGround" as in_ground: bool, optional "owner" as owner: super::compounds::NbtUtils_createUUIDTag, "shake" as shake: u8, "xTile" as x_tile: i32, "yTile" as y_tile: i32, "zTile" as z_tile: i32 }
         ThrownEgg > ThrowableItemProjectile {  }
@@ -804,7 +804,7 @@ pub mod mc1_15_2 {
     }
 }
 
-/// Entities for Minecraft 1.16.
+/// Accompanying types for entities in Minecraft 1.16.
 #[cfg(feature = "1.16")]
 pub mod mc1_16 {
     entities! {
@@ -956,7 +956,7 @@ pub mod mc1_16 {
         EnderDragon > Mob { "DragonPhase" as dragon_phase: i32 }
         EnderMan > Monster { "AngerTime" as anger_time: i32, optional "AngryAt" as angry_at: u128, optional "carriedBlockState" as carried_block_state: super::BlockState }
         Endermite > Monster { "Lifetime" as lifetime: i32, "PlayerSpawned" as player_spawned: bool }
-        Entity { "Air" as air: i16, optional "CustomName" as custom_name: CowStr, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<f64>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<Box<super::Entity>>, "PortalCooldown" as portal_cooldown: i32, "Pos" as pos: Vec<f64>, "Rotation" as rotation: Vec<f32>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<CowStr>, "UUID" as uuid: u128 }
+        Entity { "Air" as air: i16, optional "CustomName" as custom_name: CowStr, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<f64>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<Box<super::Entity>>, "PortalCooldown" as portal_cooldown: i32, optional "Pos" as pos: Vec<f64>, "Rotation" as rotation: Vec<f32>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<CowStr>, "UUID" as uuid: u128 }
         Evoker > SpellcasterIllager {  }
         EvokerFangs > Entity { optional "Owner" as owner: u128, "Warmup" as warmup: i32 }
         ExperienceOrb > Entity { "Age" as age: i16, "Health" as health: i16, "Value" as value: i16 }
@@ -992,7 +992,7 @@ pub mod mc1_16 {
         MinecartHopper > AbstractMinecartContainer { "Enabled" as enabled: bool, "TransferCooldown" as transfer_cooldown: i32 }
         MinecartSpawner > AbstractMinecart { optional "Delay" as delay: i16, optional "MaxNearbyEntities" as max_nearby_entities: i16, optional "MaxSpawnDelay" as max_spawn_delay: i16, optional "MinSpawnDelay" as min_spawn_delay: i16, optional "RequiredPlayerRange" as required_player_range: i16, optional "SpawnCount" as spawn_count: i16, optional "SpawnData" as spawn_data: HashMap<CowStr, fastnbt::Value>, optional "SpawnPotentials" as spawn_potentials: Vec<super::compounds::SpawnData_save>, optional "SpawnRange" as spawn_range: i16 }
         MinecartTNT > AbstractMinecart { "TNTFuse" as tnt_fuse: i32 }
-        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: CowStr, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save>, "Leash" as leash: super::compounds::Compound5, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
+        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: CowStr, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save>, optional "Leash" as leash: super::compounds::Compound5, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
         Monster > PathfinderMob {  }
         Mule > AbstractChestedHorse {  }
         MushroomCow > Cow { optional "EffectDuration" as effect_duration: i32, optional "EffectId" as effect_id: u8, "Type" as r#type: CowStr }
@@ -1076,7 +1076,7 @@ pub mod mc1_16 {
     }
 }
 
-/// Entities for Minecraft 1.16.2.
+/// Accompanying types for entities in Minecraft 1.16.2.
 #[cfg(feature = "1.16.2")]
 pub mod mc1_16_2 {
     entities! {
@@ -1230,7 +1230,7 @@ pub mod mc1_16_2 {
         EnderDragon > Mob { "DragonPhase" as dragon_phase: i32 }
         EnderMan > Monster { "AngerTime" as anger_time: i32, optional "AngryAt" as angry_at: u128, optional "carriedBlockState" as carried_block_state: super::BlockState }
         Endermite > Monster { "Lifetime" as lifetime: i32, "PlayerSpawned" as player_spawned: bool }
-        Entity { "Air" as air: i16, optional "CustomName" as custom_name: CowStr, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<f64>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<Box<super::Entity>>, "PortalCooldown" as portal_cooldown: i32, "Pos" as pos: Vec<f64>, "Rotation" as rotation: Vec<f32>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<CowStr>, "UUID" as uuid: u128 }
+        Entity { "Air" as air: i16, optional "CustomName" as custom_name: CowStr, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<f64>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<Box<super::Entity>>, "PortalCooldown" as portal_cooldown: i32, optional "Pos" as pos: Vec<f64>, "Rotation" as rotation: Vec<f32>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<CowStr>, "UUID" as uuid: u128 }
         Evoker > SpellcasterIllager {  }
         EvokerFangs > Entity { optional "Owner" as owner: u128, "Warmup" as warmup: i32 }
         ExperienceOrb > Entity { "Age" as age: i16, "Health" as health: i16, "Value" as value: i16 }
@@ -1266,7 +1266,7 @@ pub mod mc1_16_2 {
         MinecartHopper > AbstractMinecartContainer { "Enabled" as enabled: bool, "TransferCooldown" as transfer_cooldown: i32 }
         MinecartSpawner > AbstractMinecart { optional "Delay" as delay: i16, optional "MaxNearbyEntities" as max_nearby_entities: i16, optional "MaxSpawnDelay" as max_spawn_delay: i16, optional "MinSpawnDelay" as min_spawn_delay: i16, optional "RequiredPlayerRange" as required_player_range: i16, optional "SpawnCount" as spawn_count: i16, optional "SpawnData" as spawn_data: HashMap<CowStr, fastnbt::Value>, optional "SpawnPotentials" as spawn_potentials: Vec<super::compounds::SpawnData_save>, optional "SpawnRange" as spawn_range: i16 }
         MinecartTNT > AbstractMinecart { "TNTFuse" as tnt_fuse: i32 }
-        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: CowStr, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save>, "Leash" as leash: super::compounds::Compound5, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
+        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: CowStr, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save>, optional "Leash" as leash: super::compounds::Compound5, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
         Monster > PathfinderMob {  }
         Mule > AbstractChestedHorse {  }
         MushroomCow > Cow { optional "EffectDuration" as effect_duration: i32, optional "EffectId" as effect_id: u8, "Type" as r#type: CowStr }
@@ -1351,7 +1351,7 @@ pub mod mc1_16_2 {
     }
 }
 
-/// Entities for Minecraft 1.17.
+/// Accompanying types for entities in Minecraft 1.17.
 #[cfg(feature = "1.17")]
 pub mod mc1_17 {
     entities! {
@@ -1511,7 +1511,7 @@ pub mod mc1_17 {
         EnderDragon > Mob { "DragonDeathTime" as dragon_death_time: i32, "DragonPhase" as dragon_phase: i32 }
         EnderMan > Monster { "AngerTime" as anger_time: i32, optional "AngryAt" as angry_at: u128, optional "carriedBlockState" as carried_block_state: super::BlockState }
         Endermite > Monster { "Lifetime" as lifetime: i32 }
-        Entity { "Air" as air: i16, optional "CustomName" as custom_name: CowStr, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, optional "HasVisualFire" as has_visual_fire: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<f64>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<Box<super::Entity>>, "PortalCooldown" as portal_cooldown: i32, "Pos" as pos: Vec<f64>, "Rotation" as rotation: Vec<f32>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<CowStr>, optional "TicksFrozen" as ticks_frozen: i32, "UUID" as uuid: u128 }
+        Entity { "Air" as air: i16, optional "CustomName" as custom_name: CowStr, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, optional "HasVisualFire" as has_visual_fire: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<f64>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<Box<super::Entity>>, "PortalCooldown" as portal_cooldown: i32, optional "Pos" as pos: Vec<f64>, "Rotation" as rotation: Vec<f32>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<CowStr>, optional "TicksFrozen" as ticks_frozen: i32, "UUID" as uuid: u128 }
         Evoker > SpellcasterIllager {  }
         EvokerFangs > Entity { optional "Owner" as owner: u128, "Warmup" as warmup: i32 }
         ExperienceOrb > Entity { "Age" as age: i16, "Count" as count: i32, "Health" as health: i16, "Value" as value: i16 }
@@ -1551,7 +1551,7 @@ pub mod mc1_17 {
         MinecartHopper > AbstractMinecartContainer { "Enabled" as enabled: bool, "TransferCooldown" as transfer_cooldown: i32 }
         MinecartSpawner > AbstractMinecart { optional "Delay" as delay: i16, optional "MaxNearbyEntities" as max_nearby_entities: i16, optional "MaxSpawnDelay" as max_spawn_delay: i16, optional "MinSpawnDelay" as min_spawn_delay: i16, optional "RequiredPlayerRange" as required_player_range: i16, optional "SpawnCount" as spawn_count: i16, optional "SpawnData" as spawn_data: HashMap<CowStr, fastnbt::Value>, optional "SpawnPotentials" as spawn_potentials: Vec<super::compounds::SpawnData_save>, optional "SpawnRange" as spawn_range: i16 }
         MinecartTNT > AbstractMinecart { "TNTFuse" as tnt_fuse: i32 }
-        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: CowStr, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save>, "Leash" as leash: super::compounds::Compound5, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
+        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: CowStr, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save>, optional "Leash" as leash: super::compounds::Compound5, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
         Monster > PathfinderMob {  }
         Mule > AbstractChestedHorse {  }
         MushroomCow > Cow { optional "EffectDuration" as effect_duration: i32, optional "EffectId" as effect_id: u8, "Type" as r#type: CowStr }
@@ -1636,7 +1636,7 @@ pub mod mc1_17 {
     }
 }
 
-/// Entities for Minecraft 1.18.
+/// Accompanying types for entities in Minecraft 1.18.
 #[cfg(feature = "1.18")]
 pub mod mc1_18 {
     entities! {
@@ -1796,7 +1796,7 @@ pub mod mc1_18 {
         EnderDragon > Mob { "DragonDeathTime" as dragon_death_time: i32, "DragonPhase" as dragon_phase: i32 }
         EnderMan > Monster { "AngerTime" as anger_time: i32, optional "AngryAt" as angry_at: u128, optional "carriedBlockState" as carried_block_state: super::BlockState }
         Endermite > Monster { "Lifetime" as lifetime: i32 }
-        Entity { "Air" as air: i16, optional "CustomName" as custom_name: CowStr, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, optional "HasVisualFire" as has_visual_fire: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<f64>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<Box<super::Entity>>, "PortalCooldown" as portal_cooldown: i32, "Pos" as pos: Vec<f64>, "Rotation" as rotation: Vec<f32>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<CowStr>, optional "TicksFrozen" as ticks_frozen: i32, "UUID" as uuid: u128 }
+        Entity { "Air" as air: i16, optional "CustomName" as custom_name: CowStr, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, optional "HasVisualFire" as has_visual_fire: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<f64>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<Box<super::Entity>>, "PortalCooldown" as portal_cooldown: i32, optional "Pos" as pos: Vec<f64>, "Rotation" as rotation: Vec<f32>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<CowStr>, optional "TicksFrozen" as ticks_frozen: i32, "UUID" as uuid: u128 }
         Evoker > SpellcasterIllager {  }
         EvokerFangs > Entity { optional "Owner" as owner: u128, "Warmup" as warmup: i32 }
         ExperienceOrb > Entity { "Age" as age: i16, "Count" as count: i32, "Health" as health: i16, "Value" as value: i16 }
@@ -1836,7 +1836,7 @@ pub mod mc1_18 {
         MinecartHopper > AbstractMinecartContainer { "Enabled" as enabled: bool, "TransferCooldown" as transfer_cooldown: i32 }
         MinecartSpawner > AbstractMinecart { "Delay" as delay: i16, "MaxNearbyEntities" as max_nearby_entities: i16, "MaxSpawnDelay" as max_spawn_delay: i16, "MinSpawnDelay" as min_spawn_delay: i16, "RequiredPlayerRange" as required_player_range: i16, "SpawnCount" as spawn_count: i16, "SpawnData" as spawn_data: fastnbt::Value, "SpawnPotentials" as spawn_potentials: fastnbt::Value, "SpawnRange" as spawn_range: i16 }
         MinecartTNT > AbstractMinecart { "TNTFuse" as tnt_fuse: i32 }
-        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: CowStr, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save>, "Leash" as leash: super::compounds::Compound5, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
+        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: CowStr, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save>, optional "Leash" as leash: super::compounds::Compound5, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
         Monster > PathfinderMob {  }
         Mule > AbstractChestedHorse {  }
         MushroomCow > Cow { optional "EffectDuration" as effect_duration: i32, optional "EffectId" as effect_id: u8, "Type" as r#type: CowStr }
@@ -1920,7 +1920,7 @@ pub mod mc1_18 {
     }
 }
 
-/// Entities for Minecraft 1.19.
+/// Accompanying types for entities in Minecraft 1.19.
 #[cfg(feature = "1.19")]
 pub mod mc1_19 {
     entities! {
@@ -2087,7 +2087,7 @@ pub mod mc1_19 {
         EnderDragon > Mob { "DragonDeathTime" as dragon_death_time: i32, "DragonPhase" as dragon_phase: i32 }
         EnderMan > Monster { "AngerTime" as anger_time: i32, optional "AngryAt" as angry_at: u128, optional "carriedBlockState" as carried_block_state: super::BlockState }
         Endermite > Monster { "Lifetime" as lifetime: i32 }
-        Entity { "Air" as air: i16, optional "CustomName" as custom_name: CowStr, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, optional "HasVisualFire" as has_visual_fire: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<f64>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<Box<super::Entity>>, "PortalCooldown" as portal_cooldown: i32, "Pos" as pos: Vec<f64>, "Rotation" as rotation: Vec<f32>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<CowStr>, optional "TicksFrozen" as ticks_frozen: i32, "UUID" as uuid: u128 }
+        Entity { "Air" as air: i16, optional "CustomName" as custom_name: CowStr, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, optional "HasVisualFire" as has_visual_fire: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<f64>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<Box<super::Entity>>, "PortalCooldown" as portal_cooldown: i32, optional "Pos" as pos: Vec<f64>, "Rotation" as rotation: Vec<f32>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<CowStr>, optional "TicksFrozen" as ticks_frozen: i32, "UUID" as uuid: u128 }
         Evoker > SpellcasterIllager {  }
         EvokerFangs > Entity { optional "Owner" as owner: u128, "Warmup" as warmup: i32 }
         ExperienceOrb > Entity { "Age" as age: i16, "Count" as count: i32, "Health" as health: i16, "Value" as value: i16 }
@@ -2128,7 +2128,7 @@ pub mod mc1_19 {
         MinecartHopper > AbstractMinecartContainer { "Enabled" as enabled: bool, "TransferCooldown" as transfer_cooldown: i32 }
         MinecartSpawner > AbstractMinecart { "Delay" as delay: i16, "MaxNearbyEntities" as max_nearby_entities: i16, "MaxSpawnDelay" as max_spawn_delay: i16, "MinSpawnDelay" as min_spawn_delay: i16, "RequiredPlayerRange" as required_player_range: i16, "SpawnCount" as spawn_count: i16, "SpawnData" as spawn_data: fastnbt::Value, "SpawnPotentials" as spawn_potentials: fastnbt::Value, "SpawnRange" as spawn_range: i16 }
         MinecartTNT > AbstractMinecart { "TNTFuse" as tnt_fuse: i32 }
-        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save_1>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: CowStr, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save_1>, "Leash" as leash: super::compounds::Compound2, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
+        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save_1>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: CowStr, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save_1>, optional "Leash" as leash: super::compounds::Compound2, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
         Monster > PathfinderMob {  }
         Mule > AbstractChestedHorse {  }
         MushroomCow > Cow { optional "EffectDuration" as effect_duration: i32, optional "EffectId" as effect_id: i32, "Type" as r#type: CowStr }
@@ -2214,7 +2214,7 @@ pub mod mc1_19 {
     }
 }
 
-/// Entities for Minecraft 1.19.1.
+/// Accompanying types for entities in Minecraft 1.19.1.
 #[cfg(feature = "1.19.1")]
 pub mod mc1_19_1 {
     entities! {
@@ -2381,7 +2381,7 @@ pub mod mc1_19_1 {
         EnderDragon > Mob { "DragonDeathTime" as dragon_death_time: i32, "DragonPhase" as dragon_phase: i32 }
         EnderMan > Monster { "AngerTime" as anger_time: i32, optional "AngryAt" as angry_at: u128, optional "carriedBlockState" as carried_block_state: super::BlockState }
         Endermite > Monster { "Lifetime" as lifetime: i32 }
-        Entity { "Air" as air: i16, optional "CustomName" as custom_name: CowStr, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, optional "HasVisualFire" as has_visual_fire: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<f64>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<Box<super::Entity>>, "PortalCooldown" as portal_cooldown: i32, "Pos" as pos: Vec<f64>, "Rotation" as rotation: Vec<f32>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<CowStr>, optional "TicksFrozen" as ticks_frozen: i32, "UUID" as uuid: u128 }
+        Entity { "Air" as air: i16, optional "CustomName" as custom_name: CowStr, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, optional "HasVisualFire" as has_visual_fire: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<f64>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<Box<super::Entity>>, "PortalCooldown" as portal_cooldown: i32, optional "Pos" as pos: Vec<f64>, "Rotation" as rotation: Vec<f32>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<CowStr>, optional "TicksFrozen" as ticks_frozen: i32, "UUID" as uuid: u128 }
         Evoker > SpellcasterIllager {  }
         EvokerFangs > Entity { optional "Owner" as owner: u128, "Warmup" as warmup: i32 }
         ExperienceOrb > Entity { "Age" as age: i16, "Count" as count: i32, "Health" as health: i16, "Value" as value: i16 }
@@ -2422,7 +2422,7 @@ pub mod mc1_19_1 {
         MinecartHopper > AbstractMinecartContainer { "Enabled" as enabled: bool, "TransferCooldown" as transfer_cooldown: i32 }
         MinecartSpawner > AbstractMinecart { "Delay" as delay: i16, "MaxNearbyEntities" as max_nearby_entities: i16, "MaxSpawnDelay" as max_spawn_delay: i16, "MinSpawnDelay" as min_spawn_delay: i16, "RequiredPlayerRange" as required_player_range: i16, "SpawnCount" as spawn_count: i16, "SpawnData" as spawn_data: fastnbt::Value, "SpawnPotentials" as spawn_potentials: fastnbt::Value, "SpawnRange" as spawn_range: i16 }
         MinecartTNT > AbstractMinecart { "TNTFuse" as tnt_fuse: i32 }
-        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save_1>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: CowStr, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save_1>, "Leash" as leash: super::compounds::Compound2, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
+        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save_1>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: CowStr, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save_1>, optional "Leash" as leash: super::compounds::Compound2, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
         Monster > PathfinderMob {  }
         Mule > AbstractChestedHorse {  }
         MushroomCow > Cow { optional "EffectDuration" as effect_duration: i32, optional "EffectId" as effect_id: i32, "Type" as r#type: CowStr }
@@ -2508,7 +2508,7 @@ pub mod mc1_19_1 {
     }
 }
 
-/// Entities for Minecraft 1.19.3.
+/// Accompanying types for entities in Minecraft 1.19.3.
 #[cfg(feature = "1.19.3")]
 pub mod mc1_19_3 {
     entities! {
@@ -2677,7 +2677,7 @@ pub mod mc1_19_3 {
         EnderDragon > Mob { "DragonDeathTime" as dragon_death_time: i32, "DragonPhase" as dragon_phase: i32 }
         EnderMan > Monster { "AngerTime" as anger_time: i32, optional "AngryAt" as angry_at: u128, optional "carriedBlockState" as carried_block_state: super::BlockState }
         Endermite > Monster { "Lifetime" as lifetime: i32 }
-        Entity { "Air" as air: i16, optional "CustomName" as custom_name: CowStr, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, optional "HasVisualFire" as has_visual_fire: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<f64>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<Box<super::Entity>>, "PortalCooldown" as portal_cooldown: i32, "Pos" as pos: Vec<f64>, "Rotation" as rotation: Vec<f32>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<CowStr>, optional "TicksFrozen" as ticks_frozen: i32, "UUID" as uuid: u128 }
+        Entity { "Air" as air: i16, optional "CustomName" as custom_name: CowStr, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, optional "HasVisualFire" as has_visual_fire: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<f64>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<Box<super::Entity>>, "PortalCooldown" as portal_cooldown: i32, optional "Pos" as pos: Vec<f64>, "Rotation" as rotation: Vec<f32>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<CowStr>, optional "TicksFrozen" as ticks_frozen: i32, "UUID" as uuid: u128 }
         Evoker > SpellcasterIllager {  }
         EvokerFangs > Entity { optional "Owner" as owner: u128, "Warmup" as warmup: i32 }
         ExperienceOrb > Entity { "Age" as age: i16, "Count" as count: i32, "Health" as health: i16, "Value" as value: i16 }
@@ -2718,7 +2718,7 @@ pub mod mc1_19_3 {
         MinecartHopper > AbstractMinecartContainer { "Enabled" as enabled: bool, "TransferCooldown" as transfer_cooldown: i32 }
         MinecartSpawner > AbstractMinecart { "Delay" as delay: i16, "MaxNearbyEntities" as max_nearby_entities: i16, "MaxSpawnDelay" as max_spawn_delay: i16, "MinSpawnDelay" as min_spawn_delay: i16, "RequiredPlayerRange" as required_player_range: i16, "SpawnCount" as spawn_count: i16, optional "SpawnData" as spawn_data: fastnbt::Value, "SpawnPotentials" as spawn_potentials: fastnbt::Value, "SpawnRange" as spawn_range: i16 }
         MinecartTNT > AbstractMinecart { "TNTFuse" as tnt_fuse: i32 }
-        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save_1>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: CowStr, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save_1>, "Leash" as leash: super::compounds::Compound2, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
+        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save_1>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: CowStr, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save_1>, optional "Leash" as leash: super::compounds::Compound2, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
         Monster > PathfinderMob {  }
         Mule > AbstractChestedHorse {  }
         MushroomCow > Cow { optional "EffectDuration" as effect_duration: i32, optional "EffectId" as effect_id: i32, "Type" as r#type: CowStr }
@@ -2804,7 +2804,7 @@ pub mod mc1_19_3 {
     }
 }
 
-/// Entities for Minecraft 1.19.4.
+/// Accompanying types for entities in Minecraft 1.19.4.
 #[cfg(feature = "1.19.4")]
 pub mod mc1_19_4 {
     entities! {
@@ -2980,7 +2980,7 @@ pub mod mc1_19_4 {
         EnderDragon > Mob { "DragonDeathTime" as dragon_death_time: i32, "DragonPhase" as dragon_phase: i32 }
         EnderMan > Monster { "AngerTime" as anger_time: i32, optional "AngryAt" as angry_at: u128, optional "carriedBlockState" as carried_block_state: super::BlockState }
         Endermite > Monster { "Lifetime" as lifetime: i32 }
-        Entity { "Air" as air: i16, optional "CustomName" as custom_name: CowStr, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, optional "HasVisualFire" as has_visual_fire: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<f64>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<Box<super::Entity>>, "PortalCooldown" as portal_cooldown: i32, "Pos" as pos: Vec<f64>, "Rotation" as rotation: Vec<f32>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<CowStr>, optional "TicksFrozen" as ticks_frozen: i32, "UUID" as uuid: u128 }
+        Entity { "Air" as air: i16, optional "CustomName" as custom_name: CowStr, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, optional "HasVisualFire" as has_visual_fire: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<f64>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<Box<super::Entity>>, "PortalCooldown" as portal_cooldown: i32, optional "Pos" as pos: Vec<f64>, "Rotation" as rotation: Vec<f32>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<CowStr>, optional "TicksFrozen" as ticks_frozen: i32, "UUID" as uuid: u128 }
         Evoker > SpellcasterIllager {  }
         EvokerFangs > Entity { optional "Owner" as owner: u128, "Warmup" as warmup: i32 }
         ExperienceOrb > Entity { "Age" as age: i16, "Count" as count: i32, "Health" as health: i16, "Value" as value: i16 }
@@ -3023,7 +3023,7 @@ pub mod mc1_19_4 {
         MinecartHopper > AbstractMinecartContainer { "Enabled" as enabled: bool }
         MinecartSpawner > AbstractMinecart { "Delay" as delay: i16, "MaxNearbyEntities" as max_nearby_entities: i16, "MaxSpawnDelay" as max_spawn_delay: i16, "MinSpawnDelay" as min_spawn_delay: i16, "RequiredPlayerRange" as required_player_range: i16, "SpawnCount" as spawn_count: i16, optional "SpawnData" as spawn_data: fastnbt::Value, "SpawnPotentials" as spawn_potentials: fastnbt::Value, "SpawnRange" as spawn_range: i16 }
         MinecartTNT > AbstractMinecart { "TNTFuse" as tnt_fuse: i32 }
-        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save_1>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: CowStr, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save_1>, "Leash" as leash: super::compounds::Compound2, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
+        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save_1>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: CowStr, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save_1>, optional "Leash" as leash: super::compounds::Compound2, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
         Monster > PathfinderMob {  }
         Mule > AbstractChestedHorse {  }
         MushroomCow > Cow { optional "EffectDuration" as effect_duration: i32, optional "EffectId" as effect_id: i32, "Type" as r#type: CowStr }
@@ -3111,7 +3111,7 @@ pub mod mc1_19_4 {
     }
 }
 
-/// Entities for Minecraft 1.20.
+/// Accompanying types for entities in Minecraft 1.20.
 #[cfg(feature = "1.20")]
 pub mod mc1_20 {
     entities! {
@@ -3287,7 +3287,7 @@ pub mod mc1_20 {
         EnderDragon > Mob { "DragonDeathTime" as dragon_death_time: i32, "DragonPhase" as dragon_phase: i32 }
         EnderMan > Monster { "AngerTime" as anger_time: i32, optional "AngryAt" as angry_at: u128, optional "carriedBlockState" as carried_block_state: super::BlockState }
         Endermite > Monster { "Lifetime" as lifetime: i32 }
-        Entity { "Air" as air: i16, optional "CustomName" as custom_name: CowStr, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, optional "HasVisualFire" as has_visual_fire: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<f64>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<Box<super::Entity>>, "PortalCooldown" as portal_cooldown: i32, "Pos" as pos: Vec<f64>, "Rotation" as rotation: Vec<f32>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<CowStr>, optional "TicksFrozen" as ticks_frozen: i32, "UUID" as uuid: u128 }
+        Entity { "Air" as air: i16, optional "CustomName" as custom_name: CowStr, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, optional "HasVisualFire" as has_visual_fire: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<f64>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<Box<super::Entity>>, "PortalCooldown" as portal_cooldown: i32, optional "Pos" as pos: Vec<f64>, "Rotation" as rotation: Vec<f32>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<CowStr>, optional "TicksFrozen" as ticks_frozen: i32, "UUID" as uuid: u128 }
         Evoker > SpellcasterIllager {  }
         EvokerFangs > Entity { optional "Owner" as owner: u128, "Warmup" as warmup: i32 }
         ExperienceOrb > Entity { "Age" as age: i16, "Count" as count: i32, "Health" as health: i16, "Value" as value: i16 }
@@ -3330,7 +3330,7 @@ pub mod mc1_20 {
         MinecartHopper > AbstractMinecartContainer { "Enabled" as enabled: bool }
         MinecartSpawner > AbstractMinecart { "Delay" as delay: i16, "MaxNearbyEntities" as max_nearby_entities: i16, "MaxSpawnDelay" as max_spawn_delay: i16, "MinSpawnDelay" as min_spawn_delay: i16, "RequiredPlayerRange" as required_player_range: i16, "SpawnCount" as spawn_count: i16, optional "SpawnData" as spawn_data: fastnbt::Value, "SpawnPotentials" as spawn_potentials: fastnbt::Value, "SpawnRange" as spawn_range: i16 }
         MinecartTNT > AbstractMinecart { "TNTFuse" as tnt_fuse: i32 }
-        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save_1>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: CowStr, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save_1>, "Leash" as leash: super::compounds::Compound2, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
+        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save_1>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: CowStr, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save_1>, optional "Leash" as leash: super::compounds::Compound2, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
         Monster > PathfinderMob {  }
         Mule > AbstractChestedHorse {  }
         MushroomCow > Cow { optional "EffectDuration" as effect_duration: i32, optional "EffectId" as effect_id: i32, "Type" as r#type: CowStr }
@@ -3418,7 +3418,7 @@ pub mod mc1_20 {
     }
 }
 
-/// Entities for Minecraft 1.20.2.
+/// Accompanying types for entities in Minecraft 1.20.2.
 #[cfg(feature = "1.20.2")]
 pub mod mc1_20_2 {
     entities! {
@@ -3594,7 +3594,7 @@ pub mod mc1_20_2 {
         EnderDragon > Mob { "DragonDeathTime" as dragon_death_time: i32, "DragonPhase" as dragon_phase: i32 }
         EnderMan > Monster { "AngerTime" as anger_time: i32, optional "AngryAt" as angry_at: u128, optional "carriedBlockState" as carried_block_state: super::BlockState }
         Endermite > Monster { "Lifetime" as lifetime: i32 }
-        Entity { "Air" as air: i16, optional "CustomName" as custom_name: CowStr, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, optional "HasVisualFire" as has_visual_fire: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<f64>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<Box<super::Entity>>, "PortalCooldown" as portal_cooldown: i32, "Pos" as pos: Vec<f64>, "Rotation" as rotation: Vec<f32>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<CowStr>, optional "TicksFrozen" as ticks_frozen: i32, "UUID" as uuid: u128 }
+        Entity { "Air" as air: i16, optional "CustomName" as custom_name: CowStr, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, optional "HasVisualFire" as has_visual_fire: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<f64>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<Box<super::Entity>>, "PortalCooldown" as portal_cooldown: i32, optional "Pos" as pos: Vec<f64>, "Rotation" as rotation: Vec<f32>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<CowStr>, optional "TicksFrozen" as ticks_frozen: i32, "UUID" as uuid: u128 }
         Evoker > SpellcasterIllager {  }
         EvokerFangs > Entity { optional "Owner" as owner: u128, "Warmup" as warmup: i32 }
         ExperienceOrb > Entity { "Age" as age: i16, "Count" as count: i32, "Health" as health: i16, "Value" as value: i16 }
@@ -3637,7 +3637,7 @@ pub mod mc1_20_2 {
         MinecartHopper > AbstractMinecartContainer { "Enabled" as enabled: bool }
         MinecartSpawner > AbstractMinecart { "Delay" as delay: i16, "MaxNearbyEntities" as max_nearby_entities: i16, "MaxSpawnDelay" as max_spawn_delay: i16, "MinSpawnDelay" as min_spawn_delay: i16, "RequiredPlayerRange" as required_player_range: i16, "SpawnCount" as spawn_count: i16, optional "SpawnData" as spawn_data: fastnbt::Value, "SpawnPotentials" as spawn_potentials: fastnbt::Value, "SpawnRange" as spawn_range: i16 }
         MinecartTNT > AbstractMinecart { "TNTFuse" as tnt_fuse: i32 }
-        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save_1>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: CowStr, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save_1>, "Leash" as leash: super::compounds::Compound2, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
+        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save_1>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: CowStr, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save_1>, optional "Leash" as leash: super::compounds::Compound2, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
         Monster > PathfinderMob {  }
         Mule > AbstractChestedHorse {  }
         MushroomCow > Cow { "Type" as r#type: CowStr, optional "stew_effects" as stew_effects: fastnbt::Value }
@@ -3725,7 +3725,7 @@ pub mod mc1_20_2 {
     }
 }
 
-/// Entities for Minecraft 1.20.3.
+/// Accompanying types for entities in Minecraft 1.20.3.
 #[cfg(feature = "1.20.3")]
 pub mod mc1_20_3 {
     entities! {
@@ -3904,7 +3904,7 @@ pub mod mc1_20_3 {
         EnderDragon > Mob { "DragonDeathTime" as dragon_death_time: i32, "DragonPhase" as dragon_phase: i32 }
         EnderMan > Monster { "AngerTime" as anger_time: i32, optional "AngryAt" as angry_at: u128, optional "carriedBlockState" as carried_block_state: super::BlockState }
         Endermite > Monster { "Lifetime" as lifetime: i32 }
-        Entity { "Air" as air: i16, optional "CustomName" as custom_name: CowStr, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, optional "HasVisualFire" as has_visual_fire: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<f64>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<Box<super::Entity>>, "PortalCooldown" as portal_cooldown: i32, "Pos" as pos: Vec<f64>, "Rotation" as rotation: Vec<f32>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<CowStr>, optional "TicksFrozen" as ticks_frozen: i32, "UUID" as uuid: u128 }
+        Entity { "Air" as air: i16, optional "CustomName" as custom_name: CowStr, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, optional "HasVisualFire" as has_visual_fire: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<f64>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<Box<super::Entity>>, "PortalCooldown" as portal_cooldown: i32, optional "Pos" as pos: Vec<f64>, "Rotation" as rotation: Vec<f32>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<CowStr>, optional "TicksFrozen" as ticks_frozen: i32, "UUID" as uuid: u128 }
         Evoker > SpellcasterIllager {  }
         EvokerFangs > Entity { optional "Owner" as owner: u128, "Warmup" as warmup: i32 }
         ExperienceOrb > Entity { "Age" as age: i16, "Count" as count: i32, "Health" as health: i16, "Value" as value: i16 }
@@ -3947,7 +3947,7 @@ pub mod mc1_20_3 {
         MinecartHopper > AbstractMinecartContainer { "Enabled" as enabled: bool }
         MinecartSpawner > AbstractMinecart { "Delay" as delay: i16, "MaxNearbyEntities" as max_nearby_entities: i16, "MaxSpawnDelay" as max_spawn_delay: i16, "MinSpawnDelay" as min_spawn_delay: i16, "RequiredPlayerRange" as required_player_range: i16, "SpawnCount" as spawn_count: i16, optional "SpawnData" as spawn_data: fastnbt::Value, "SpawnPotentials" as spawn_potentials: fastnbt::Value, "SpawnRange" as spawn_range: i16 }
         MinecartTNT > AbstractMinecart { "TNTFuse" as tnt_fuse: i32 }
-        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save_1>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: CowStr, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save_1>, "Leash" as leash: super::compounds::Compound2, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
+        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<super::compounds::ItemStack_save_1>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: CowStr, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<super::compounds::ItemStack_save_1>, optional "Leash" as leash: super::compounds::Compound2, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool }
         Monster > PathfinderMob {  }
         Mule > AbstractChestedHorse {  }
         MushroomCow > Cow { "Type" as r#type: CowStr, optional "stew_effects" as stew_effects: fastnbt::Value }
@@ -4037,7 +4037,7 @@ pub mod mc1_20_3 {
     }
 }
 
-/// Entities for Minecraft 1.20.5.
+/// Accompanying types for entities in Minecraft 1.20.5.
 #[cfg(feature = "1.20.5")]
 pub mod mc1_20_5 {
     entities! {
@@ -4224,7 +4224,7 @@ pub mod mc1_20_5 {
         EnderDragon > Mob { "DragonDeathTime" as dragon_death_time: i32, "DragonPhase" as dragon_phase: i32 }
         EnderMan > Monster { "AngerTime" as anger_time: i32, optional "AngryAt" as angry_at: u128, optional "carriedBlockState" as carried_block_state: super::BlockState }
         Endermite > Monster { "Lifetime" as lifetime: i32 }
-        Entity { "Air" as air: i16, optional "CustomName" as custom_name: CowStr, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, optional "HasVisualFire" as has_visual_fire: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<f64>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<Box<super::Entity>>, "PortalCooldown" as portal_cooldown: i32, "Pos" as pos: Vec<f64>, "Rotation" as rotation: Vec<f32>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<CowStr>, optional "TicksFrozen" as ticks_frozen: i32, "UUID" as uuid: u128 }
+        Entity { "Air" as air: i16, optional "CustomName" as custom_name: CowStr, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, optional "HasVisualFire" as has_visual_fire: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<f64>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<Box<super::Entity>>, "PortalCooldown" as portal_cooldown: i32, optional "Pos" as pos: Vec<f64>, "Rotation" as rotation: Vec<f32>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<CowStr>, optional "TicksFrozen" as ticks_frozen: i32, "UUID" as uuid: u128 }
         Evoker > SpellcasterIllager {  }
         EvokerFangs > Entity { optional "Owner" as owner: u128, "Warmup" as warmup: i32 }
         ExperienceOrb > Entity { "Age" as age: i16, "Count" as count: i32, "Health" as health: i16, "Value" as value: i16 }
