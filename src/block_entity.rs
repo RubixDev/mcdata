@@ -22,7 +22,7 @@
 //! use mcdata::block_entity::latest::{self, types};
 //!
 //! let command_block = latest::BlockEntity::CommandBlock(types::CommandBlockEntity {
-//!     command: "/say hi".to_string(),
+//!     command: "/say hi".into(),
 //!     custom_name: None,
 //!     last_execution: None,
 //!     last_output: None,
@@ -57,7 +57,7 @@
 //! # test();
 //! ```
 
-use std::collections::HashMap;
+use std::{borrow::Cow, collections::HashMap};
 
 #[cfg(feature = "serde")]
 use std::{fmt, marker::PhantomData};
@@ -89,13 +89,13 @@ pub struct GenericBlockEntity {
     /// which was only [fixed in `1.20.1-0.15.3`](https://github.com/maruohon/litematica/commit/a156bf6ba80f81196b62aaa069589c5c4010fabe)
     /// that caused the block entity IDs to not be included in saved schematics. When deserializing
     /// from one such schematic, this field will be an empty string.
-    pub id: String,
+    pub id: Cow<'static, str>,
 
     /// The [`BlockPos`] of this block entity.
     pub pos: BlockPos,
 
     /// The raw NBT properties of this block entity.
-    pub properties: HashMap<String, fastnbt::Value>,
+    pub properties: HashMap<Cow<'static, str>, fastnbt::Value>,
 }
 
 impl BlockEntity for GenericBlockEntity {
@@ -148,7 +148,7 @@ impl<'de> serde::Deserialize<'de> for GenericBlockEntity {
                 let mut y = None;
                 let mut z = None;
                 let mut properties = HashMap::new();
-                while let Some(key) = map.next_key::<String>()? {
+                while let Some(key) = map.next_key::<Cow<'static, str>>()? {
                     match key.as_ref() {
                         "id" => {
                             if id.is_some() {

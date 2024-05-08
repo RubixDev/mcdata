@@ -50,38 +50,38 @@ pub mod mc1_14 {
     block_entity_types! {
         "1.14";
         AbstractFurnaceBlockEntity > BaseContainerBlockEntity, with extras as fastnbt::Value { "BurnTime" as burn_time: i16, "CookTime" as cook_time: i16, "CookTimeTotal" as cook_time_total: i16, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "RecipesUsedSize" as recipes_used_size: i16 }
-        BannerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Patterns" as patterns: Vec<fastnbt::Value> }
-        BarrelBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
-        BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Lock" as lock: String }
-        BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, "Levels" as levels: i32, optional "Lock" as lock: String, "Primary" as primary: i32, "Secondary" as secondary: i32 }
+        BannerBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, optional "Patterns" as patterns: Vec<fastnbt::Value> }
+        BarrelBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, optional "Lock" as lock: CowStr }
+        BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, "Levels" as levels: i32, optional "Lock" as lock: CowStr, "Primary" as primary: i32, "Secondary" as secondary: i32 }
         BedBlockEntity > BlockEntity {  }
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
         BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: u8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
-        CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "id" as id: String, "x" as x: i32, "y" as y: i32, "z" as z: i32 }
-        ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
-        CommandBlockEntity > BlockEntity { "Command" as command: String, "CustomName" as custom_name: String, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: String, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
+        CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "id" as id: CowStr, "x" as x: i32, "y" as y: i32, "z" as z: i32 }
+        ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        CommandBlockEntity > BlockEntity { "Command" as command: CowStr, "CustomName" as custom_name: CowStr, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: CowStr, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
         ComparatorBlockEntity > BlockEntity { "OutputSignal" as output_signal: i32 }
         ConduitBlockEntity > BlockEntity { optional "target_uuid" as target_uuid: super::compounds::NbtUtils_createUUIDTag }
         DaylightDetectorBlockEntity > BlockEntity {  }
-        DispenserBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
+        DispenserBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         DropperBlockEntity > DispenserBlockEntity {  }
-        EnchantmentTableBlockEntity > BlockEntity { optional "CustomName" as custom_name: String }
+        EnchantmentTableBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr }
         EnderChestBlockEntity > BlockEntity {  }
         FurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
-        HopperBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64, "TransferCooldown" as transfer_cooldown: i32 }
-        JigsawBlockEntity > BlockEntity { "attachement_type" as attachement_type: String, "final_state" as final_state: String, "target_pool" as target_pool: String }
+        HopperBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64, "TransferCooldown" as transfer_cooldown: i32 }
+        JigsawBlockEntity > BlockEntity { "attachement_type" as attachement_type: CowStr, "final_state" as final_state: CowStr, "target_pool" as target_pool: CowStr }
         JukeboxBlockEntity > BlockEntity { optional "RecordItem" as record_item: super::compounds::ItemStack_save_1 }
         LecternBlockEntity > BlockEntity { optional "Book" as book: super::compounds::ItemStack_save_1, optional "Page" as page: i32 }
         PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::BlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
         RandomizableContainerBlockEntity > BaseContainerBlockEntity {  }
-        ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
-        SignBlockEntity > BlockEntity { "Color" as color: String, "Text1" as text1: String, "Text2" as text2: String, "Text3" as text3: String, "Text4" as text4: String }
+        ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        SignBlockEntity > BlockEntity { "Color" as color: CowStr, "Text1" as text1: CowStr, "Text2" as text2: CowStr, "Text3" as text3: CowStr, "Text4" as text4: CowStr }
         SkullBlockEntity > BlockEntity { optional "Owner" as owner: super::compounds::NbtUtils_writeGameProfile }
         SmokerBlockEntity > AbstractFurnaceBlockEntity {  }
-        SpawnerBlockEntity > BlockEntity { optional "Delay" as delay: i16, optional "MaxNearbyEntities" as max_nearby_entities: i16, optional "MaxSpawnDelay" as max_spawn_delay: i16, optional "MinSpawnDelay" as min_spawn_delay: i16, optional "RequiredPlayerRange" as required_player_range: i16, optional "SpawnCount" as spawn_count: i16, optional "SpawnData" as spawn_data: HashMap<String, fastnbt::Value>, optional "SpawnPotentials" as spawn_potentials: Vec<super::compounds::SpawnData_save>, optional "SpawnRange" as spawn_range: i16 }
-        StructureBlockEntity > BlockEntity { "author" as author: String, "ignoreEntities" as ignore_entities: bool, "integrity" as integrity: f32, "metadata" as metadata: String, "mirror" as mirror: String, "mode" as mode: String, "name" as name: String, "posX" as pos_x: i32, "posY" as pos_y: i32, "posZ" as pos_z: i32, "powered" as powered: bool, "rotation" as rotation: String, "seed" as seed: i64, "showair" as showair: bool, "showboundingbox" as showboundingbox: bool, "sizeX" as size_x: i32, "sizeY" as size_y: i32, "sizeZ" as size_z: i32 }
+        SpawnerBlockEntity > BlockEntity { optional "Delay" as delay: i16, optional "MaxNearbyEntities" as max_nearby_entities: i16, optional "MaxSpawnDelay" as max_spawn_delay: i16, optional "MinSpawnDelay" as min_spawn_delay: i16, optional "RequiredPlayerRange" as required_player_range: i16, optional "SpawnCount" as spawn_count: i16, optional "SpawnData" as spawn_data: HashMap<CowStr, fastnbt::Value>, optional "SpawnPotentials" as spawn_potentials: Vec<super::compounds::SpawnData_save>, optional "SpawnRange" as spawn_range: i16 }
+        StructureBlockEntity > BlockEntity { "author" as author: CowStr, "ignoreEntities" as ignore_entities: bool, "integrity" as integrity: f32, "metadata" as metadata: CowStr, "mirror" as mirror: CowStr, "mode" as mode: CowStr, "name" as name: CowStr, "posX" as pos_x: i32, "posY" as pos_y: i32, "posZ" as pos_z: i32, "powered" as powered: bool, "rotation" as rotation: CowStr, "seed" as seed: i64, "showair" as showair: bool, "showboundingbox" as showboundingbox: bool, "sizeX" as size_x: i32, "sizeY" as size_y: i32, "sizeZ" as size_z: i32 }
         TheEndGatewayBlockEntity > TheEndPortalBlockEntity { "Age" as age: i64, optional "ExactTeleport" as exact_teleport: bool, optional "ExitPortal" as exit_portal: super::compounds::NbtUtils_writeBlockPos }
         TheEndPortalBlockEntity > BlockEntity {  }
         TrappedChestBlockEntity > ChestBlockEntity {  }
@@ -89,13 +89,13 @@ pub mod mc1_14 {
 
     block_entity_compound_types! {
         "1.14";
-        Compound3 { optional "Signature" as signature: String, "Value" as value: String }
-        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        Compound3 { optional "Signature" as signature: CowStr, "Value" as value: CowStr }
+        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save_1 { "Count" as count: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
         NbtUtils_createUUIDTag { "L" as l: i64, "M" as m: i64 }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
-        NbtUtils_writeGameProfile { optional "Id" as id: String, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound3>> }
-        SpawnData_save { "Entity" as entity: HashMap<String, fastnbt::Value>, "Weight" as weight: i32 }
+        NbtUtils_writeGameProfile { optional "Id" as id: CowStr, optional "Name" as name: CowStr, optional "Properties" as properties: HashMap<CowStr, Vec<super::compounds::Compound3>> }
+        SpawnData_save { "Entity" as entity: HashMap<CowStr, fastnbt::Value>, "Weight" as weight: i32 }
     }
 }
 
@@ -142,39 +142,39 @@ pub mod mc1_15 {
     block_entity_types! {
         "1.15";
         AbstractFurnaceBlockEntity > BaseContainerBlockEntity, with extras as fastnbt::Value { "BurnTime" as burn_time: i16, "CookTime" as cook_time: i16, "CookTimeTotal" as cook_time_total: i16, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "RecipesUsedSize" as recipes_used_size: i16 }
-        BannerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Patterns" as patterns: Vec<fastnbt::Value> }
-        BarrelBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
-        BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Lock" as lock: String }
-        BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, "Levels" as levels: i32, optional "Lock" as lock: String, "Primary" as primary: i32, "Secondary" as secondary: i32 }
+        BannerBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, optional "Patterns" as patterns: Vec<fastnbt::Value> }
+        BarrelBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, optional "Lock" as lock: CowStr }
+        BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, "Levels" as levels: i32, optional "Lock" as lock: CowStr, "Primary" as primary: i32, "Secondary" as secondary: i32 }
         BedBlockEntity > BlockEntity {  }
         BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound7>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
         BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: u8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
-        CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "id" as id: String, "x" as x: i32, "y" as y: i32, "z" as z: i32 }
-        ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
-        CommandBlockEntity > BlockEntity { "Command" as command: String, "CustomName" as custom_name: String, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: String, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
+        CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "id" as id: CowStr, "x" as x: i32, "y" as y: i32, "z" as z: i32 }
+        ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        CommandBlockEntity > BlockEntity { "Command" as command: CowStr, "CustomName" as custom_name: CowStr, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: CowStr, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
         ComparatorBlockEntity > BlockEntity { "OutputSignal" as output_signal: i32 }
         ConduitBlockEntity > BlockEntity { optional "target_uuid" as target_uuid: super::compounds::NbtUtils_createUUIDTag }
         DaylightDetectorBlockEntity > BlockEntity {  }
-        DispenserBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
+        DispenserBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         DropperBlockEntity > DispenserBlockEntity {  }
-        EnchantmentTableBlockEntity > BlockEntity { optional "CustomName" as custom_name: String }
+        EnchantmentTableBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr }
         EnderChestBlockEntity > BlockEntity {  }
         FurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
-        HopperBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64, "TransferCooldown" as transfer_cooldown: i32 }
-        JigsawBlockEntity > BlockEntity { "attachement_type" as attachement_type: String, "final_state" as final_state: String, "target_pool" as target_pool: String }
+        HopperBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64, "TransferCooldown" as transfer_cooldown: i32 }
+        JigsawBlockEntity > BlockEntity { "attachement_type" as attachement_type: CowStr, "final_state" as final_state: CowStr, "target_pool" as target_pool: CowStr }
         JukeboxBlockEntity > BlockEntity { optional "RecordItem" as record_item: super::compounds::ItemStack_save_1 }
         LecternBlockEntity > BlockEntity { optional "Book" as book: super::compounds::ItemStack_save_1, optional "Page" as page: i32 }
         PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::BlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
         RandomizableContainerBlockEntity > BaseContainerBlockEntity {  }
-        ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
-        SignBlockEntity > BlockEntity { "Color" as color: String, "Text1" as text1: String, "Text2" as text2: String, "Text3" as text3: String, "Text4" as text4: String }
+        ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        SignBlockEntity > BlockEntity { "Color" as color: CowStr, "Text1" as text1: CowStr, "Text2" as text2: CowStr, "Text3" as text3: CowStr, "Text4" as text4: CowStr }
         SkullBlockEntity > BlockEntity { optional "Owner" as owner: super::compounds::NbtUtils_writeGameProfile }
         SmokerBlockEntity > AbstractFurnaceBlockEntity {  }
-        SpawnerBlockEntity > BlockEntity { optional "Delay" as delay: i16, optional "MaxNearbyEntities" as max_nearby_entities: i16, optional "MaxSpawnDelay" as max_spawn_delay: i16, optional "MinSpawnDelay" as min_spawn_delay: i16, optional "RequiredPlayerRange" as required_player_range: i16, optional "SpawnCount" as spawn_count: i16, optional "SpawnData" as spawn_data: HashMap<String, fastnbt::Value>, optional "SpawnPotentials" as spawn_potentials: Vec<super::compounds::SpawnData_save>, optional "SpawnRange" as spawn_range: i16 }
-        StructureBlockEntity > BlockEntity { "author" as author: String, "ignoreEntities" as ignore_entities: bool, "integrity" as integrity: f32, "metadata" as metadata: String, "mirror" as mirror: String, "mode" as mode: String, "name" as name: String, "posX" as pos_x: i32, "posY" as pos_y: i32, "posZ" as pos_z: i32, "powered" as powered: bool, "rotation" as rotation: String, "seed" as seed: i64, "showair" as showair: bool, "showboundingbox" as showboundingbox: bool, "sizeX" as size_x: i32, "sizeY" as size_y: i32, "sizeZ" as size_z: i32 }
+        SpawnerBlockEntity > BlockEntity { optional "Delay" as delay: i16, optional "MaxNearbyEntities" as max_nearby_entities: i16, optional "MaxSpawnDelay" as max_spawn_delay: i16, optional "MinSpawnDelay" as min_spawn_delay: i16, optional "RequiredPlayerRange" as required_player_range: i16, optional "SpawnCount" as spawn_count: i16, optional "SpawnData" as spawn_data: HashMap<CowStr, fastnbt::Value>, optional "SpawnPotentials" as spawn_potentials: Vec<super::compounds::SpawnData_save>, optional "SpawnRange" as spawn_range: i16 }
+        StructureBlockEntity > BlockEntity { "author" as author: CowStr, "ignoreEntities" as ignore_entities: bool, "integrity" as integrity: f32, "metadata" as metadata: CowStr, "mirror" as mirror: CowStr, "mode" as mode: CowStr, "name" as name: CowStr, "posX" as pos_x: i32, "posY" as pos_y: i32, "posZ" as pos_z: i32, "powered" as powered: bool, "rotation" as rotation: CowStr, "seed" as seed: i64, "showair" as showair: bool, "showboundingbox" as showboundingbox: bool, "sizeX" as size_x: i32, "sizeY" as size_y: i32, "sizeZ" as size_z: i32 }
         TheEndGatewayBlockEntity > TheEndPortalBlockEntity { "Age" as age: i64, optional "ExactTeleport" as exact_teleport: bool, optional "ExitPortal" as exit_portal: super::compounds::NbtUtils_writeBlockPos }
         TheEndPortalBlockEntity > BlockEntity {  }
         TrappedChestBlockEntity > ChestBlockEntity {  }
@@ -182,14 +182,14 @@ pub mod mc1_15 {
 
     block_entity_compound_types! {
         "1.15";
-        Compound3 { optional "Signature" as signature: String, "Value" as value: String }
-        Compound7 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
-        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        Compound3 { optional "Signature" as signature: CowStr, "Value" as value: CowStr }
+        Compound7 { "EntityData" as entity_data: HashMap<CowStr, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
+        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save_1 { "Count" as count: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
         NbtUtils_createUUIDTag { "L" as l: i64, "M" as m: i64 }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
-        NbtUtils_writeGameProfile { optional "Id" as id: String, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound3>> }
-        SpawnData_save { "Entity" as entity: HashMap<String, fastnbt::Value>, "Weight" as weight: i32 }
+        NbtUtils_writeGameProfile { optional "Id" as id: CowStr, optional "Name" as name: CowStr, optional "Properties" as properties: HashMap<CowStr, Vec<super::compounds::Compound3>> }
+        SpawnData_save { "Entity" as entity: HashMap<CowStr, fastnbt::Value>, "Weight" as weight: i32 }
     }
 }
 
@@ -236,39 +236,39 @@ pub mod mc1_15_2 {
     block_entity_types! {
         "1.15.2";
         AbstractFurnaceBlockEntity > BaseContainerBlockEntity, with extras as fastnbt::Value { "BurnTime" as burn_time: i16, "CookTime" as cook_time: i16, "CookTimeTotal" as cook_time_total: i16, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "RecipesUsedSize" as recipes_used_size: i16 }
-        BannerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Patterns" as patterns: Vec<fastnbt::Value> }
-        BarrelBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
-        BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Lock" as lock: String }
-        BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, "Levels" as levels: i32, optional "Lock" as lock: String, "Primary" as primary: i32, "Secondary" as secondary: i32 }
+        BannerBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, optional "Patterns" as patterns: Vec<fastnbt::Value> }
+        BarrelBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, optional "Lock" as lock: CowStr }
+        BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, "Levels" as levels: i32, optional "Lock" as lock: CowStr, "Primary" as primary: i32, "Secondary" as secondary: i32 }
         BedBlockEntity > BlockEntity {  }
         BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound7>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
         BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: u8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
-        CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "id" as id: String, "x" as x: i32, "y" as y: i32, "z" as z: i32 }
-        ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
-        CommandBlockEntity > BlockEntity { "Command" as command: String, "CustomName" as custom_name: String, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: String, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
+        CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "id" as id: CowStr, "x" as x: i32, "y" as y: i32, "z" as z: i32 }
+        ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        CommandBlockEntity > BlockEntity { "Command" as command: CowStr, "CustomName" as custom_name: CowStr, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: CowStr, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
         ComparatorBlockEntity > BlockEntity { "OutputSignal" as output_signal: i32 }
         ConduitBlockEntity > BlockEntity { optional "target_uuid" as target_uuid: super::compounds::NbtUtils_createUUIDTag }
         DaylightDetectorBlockEntity > BlockEntity {  }
-        DispenserBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
+        DispenserBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         DropperBlockEntity > DispenserBlockEntity {  }
-        EnchantmentTableBlockEntity > BlockEntity { optional "CustomName" as custom_name: String }
+        EnchantmentTableBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr }
         EnderChestBlockEntity > BlockEntity {  }
         FurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
-        HopperBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64, "TransferCooldown" as transfer_cooldown: i32 }
-        JigsawBlockEntity > BlockEntity { "attachement_type" as attachement_type: String, "final_state" as final_state: String, "target_pool" as target_pool: String }
+        HopperBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64, "TransferCooldown" as transfer_cooldown: i32 }
+        JigsawBlockEntity > BlockEntity { "attachement_type" as attachement_type: CowStr, "final_state" as final_state: CowStr, "target_pool" as target_pool: CowStr }
         JukeboxBlockEntity > BlockEntity { optional "RecordItem" as record_item: super::compounds::ItemStack_save_1 }
         LecternBlockEntity > BlockEntity { optional "Book" as book: super::compounds::ItemStack_save_1, optional "Page" as page: i32 }
         PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::BlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
         RandomizableContainerBlockEntity > BaseContainerBlockEntity {  }
-        ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
-        SignBlockEntity > BlockEntity { "Color" as color: String, "Text1" as text1: String, "Text2" as text2: String, "Text3" as text3: String, "Text4" as text4: String }
+        ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        SignBlockEntity > BlockEntity { "Color" as color: CowStr, "Text1" as text1: CowStr, "Text2" as text2: CowStr, "Text3" as text3: CowStr, "Text4" as text4: CowStr }
         SkullBlockEntity > BlockEntity { optional "Owner" as owner: super::compounds::NbtUtils_writeGameProfile }
         SmokerBlockEntity > AbstractFurnaceBlockEntity {  }
-        SpawnerBlockEntity > BlockEntity { optional "Delay" as delay: i16, optional "MaxNearbyEntities" as max_nearby_entities: i16, optional "MaxSpawnDelay" as max_spawn_delay: i16, optional "MinSpawnDelay" as min_spawn_delay: i16, optional "RequiredPlayerRange" as required_player_range: i16, optional "SpawnCount" as spawn_count: i16, optional "SpawnData" as spawn_data: HashMap<String, fastnbt::Value>, optional "SpawnPotentials" as spawn_potentials: Vec<super::compounds::SpawnData_save>, optional "SpawnRange" as spawn_range: i16 }
-        StructureBlockEntity > BlockEntity { "author" as author: String, "ignoreEntities" as ignore_entities: bool, "integrity" as integrity: f32, "metadata" as metadata: String, "mirror" as mirror: String, "mode" as mode: String, "name" as name: String, "posX" as pos_x: i32, "posY" as pos_y: i32, "posZ" as pos_z: i32, "powered" as powered: bool, "rotation" as rotation: String, "seed" as seed: i64, "showair" as showair: bool, "showboundingbox" as showboundingbox: bool, "sizeX" as size_x: i32, "sizeY" as size_y: i32, "sizeZ" as size_z: i32 }
+        SpawnerBlockEntity > BlockEntity { optional "Delay" as delay: i16, optional "MaxNearbyEntities" as max_nearby_entities: i16, optional "MaxSpawnDelay" as max_spawn_delay: i16, optional "MinSpawnDelay" as min_spawn_delay: i16, optional "RequiredPlayerRange" as required_player_range: i16, optional "SpawnCount" as spawn_count: i16, optional "SpawnData" as spawn_data: HashMap<CowStr, fastnbt::Value>, optional "SpawnPotentials" as spawn_potentials: Vec<super::compounds::SpawnData_save>, optional "SpawnRange" as spawn_range: i16 }
+        StructureBlockEntity > BlockEntity { "author" as author: CowStr, "ignoreEntities" as ignore_entities: bool, "integrity" as integrity: f32, "metadata" as metadata: CowStr, "mirror" as mirror: CowStr, "mode" as mode: CowStr, "name" as name: CowStr, "posX" as pos_x: i32, "posY" as pos_y: i32, "posZ" as pos_z: i32, "powered" as powered: bool, "rotation" as rotation: CowStr, "seed" as seed: i64, "showair" as showair: bool, "showboundingbox" as showboundingbox: bool, "sizeX" as size_x: i32, "sizeY" as size_y: i32, "sizeZ" as size_z: i32 }
         TheEndGatewayBlockEntity > TheEndPortalBlockEntity { "Age" as age: i64, optional "ExactTeleport" as exact_teleport: bool, optional "ExitPortal" as exit_portal: super::compounds::NbtUtils_writeBlockPos }
         TheEndPortalBlockEntity > BlockEntity {  }
         TrappedChestBlockEntity > ChestBlockEntity {  }
@@ -276,14 +276,14 @@ pub mod mc1_15_2 {
 
     block_entity_compound_types! {
         "1.15.2";
-        Compound3 { optional "Signature" as signature: String, "Value" as value: String }
-        Compound7 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
-        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        Compound3 { optional "Signature" as signature: CowStr, "Value" as value: CowStr }
+        Compound7 { "EntityData" as entity_data: HashMap<CowStr, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
+        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save_1 { "Count" as count: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
         NbtUtils_createUUIDTag { "L" as l: i64, "M" as m: i64 }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
-        NbtUtils_writeGameProfile { optional "Id" as id: String, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound3>> }
-        SpawnData_save { "Entity" as entity: HashMap<String, fastnbt::Value>, "Weight" as weight: i32 }
+        NbtUtils_writeGameProfile { optional "Id" as id: CowStr, optional "Name" as name: CowStr, optional "Properties" as properties: HashMap<CowStr, Vec<super::compounds::Compound3>> }
+        SpawnData_save { "Entity" as entity: HashMap<CowStr, fastnbt::Value>, "Weight" as weight: i32 }
     }
 }
 
@@ -329,40 +329,40 @@ pub mod mc1_16 {
 
     block_entity_types! {
         "1.16";
-        AbstractFurnaceBlockEntity > BaseContainerBlockEntity { "BurnTime" as burn_time: i16, "CookTime" as cook_time: i16, "CookTimeTotal" as cook_time_total: i16, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "RecipesUsed" as recipes_used: HashMap<String, i32> }
-        BannerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Patterns" as patterns: Vec<fastnbt::Value> }
-        BarrelBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
-        BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Lock" as lock: String }
-        BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, "Levels" as levels: i32, optional "Lock" as lock: String, "Primary" as primary: i32, "Secondary" as secondary: i32 }
+        AbstractFurnaceBlockEntity > BaseContainerBlockEntity { "BurnTime" as burn_time: i16, "CookTime" as cook_time: i16, "CookTimeTotal" as cook_time_total: i16, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "RecipesUsed" as recipes_used: HashMap<CowStr, i32> }
+        BannerBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, optional "Patterns" as patterns: Vec<fastnbt::Value> }
+        BarrelBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, optional "Lock" as lock: CowStr }
+        BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, "Levels" as levels: i32, optional "Lock" as lock: CowStr, "Primary" as primary: i32, "Secondary" as secondary: i32 }
         BedBlockEntity > BlockEntity {  }
         BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound6>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
         BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: u8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
-        CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "id" as id: String, "x" as x: i32, "y" as y: i32, "z" as z: i32 }
-        ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
-        CommandBlockEntity > BlockEntity { "Command" as command: String, "CustomName" as custom_name: String, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: String, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
+        CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "id" as id: CowStr, "x" as x: i32, "y" as y: i32, "z" as z: i32 }
+        ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        CommandBlockEntity > BlockEntity { "Command" as command: CowStr, "CustomName" as custom_name: CowStr, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: CowStr, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
         ComparatorBlockEntity > BlockEntity { "OutputSignal" as output_signal: i32 }
         ConduitBlockEntity > BlockEntity { optional "Target" as target: u128 }
         DaylightDetectorBlockEntity > BlockEntity {  }
-        DispenserBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
+        DispenserBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         DropperBlockEntity > DispenserBlockEntity {  }
-        EnchantmentTableBlockEntity > BlockEntity { optional "CustomName" as custom_name: String }
+        EnchantmentTableBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr }
         EnderChestBlockEntity > BlockEntity {  }
         FurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
-        HopperBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64, "TransferCooldown" as transfer_cooldown: i32 }
-        JigsawBlockEntity > BlockEntity { "final_state" as final_state: String, "joint" as joint: String, "name" as name: String, "pool" as pool: String, "target" as target: String }
+        HopperBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64, "TransferCooldown" as transfer_cooldown: i32 }
+        JigsawBlockEntity > BlockEntity { "final_state" as final_state: CowStr, "joint" as joint: CowStr, "name" as name: CowStr, "pool" as pool: CowStr, "target" as target: CowStr }
         JukeboxBlockEntity > BlockEntity { optional "RecordItem" as record_item: super::compounds::ItemStack_save_1 }
         LecternBlockEntity > BlockEntity { optional "Book" as book: super::compounds::ItemStack_save_1, optional "Page" as page: i32 }
         PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::BlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
         RandomizableContainerBlockEntity > BaseContainerBlockEntity {  }
-        ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
-        SignBlockEntity > BlockEntity { "Color" as color: String, "Text1" as text1: String, "Text2" as text2: String, "Text3" as text3: String, "Text4" as text4: String }
+        ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        SignBlockEntity > BlockEntity { "Color" as color: CowStr, "Text1" as text1: CowStr, "Text2" as text2: CowStr, "Text3" as text3: CowStr, "Text4" as text4: CowStr }
         SkullBlockEntity > BlockEntity { optional "SkullOwner" as skull_owner: super::compounds::NbtUtils_writeGameProfile }
         SmokerBlockEntity > AbstractFurnaceBlockEntity {  }
-        SpawnerBlockEntity > BlockEntity { optional "Delay" as delay: i16, optional "MaxNearbyEntities" as max_nearby_entities: i16, optional "MaxSpawnDelay" as max_spawn_delay: i16, optional "MinSpawnDelay" as min_spawn_delay: i16, optional "RequiredPlayerRange" as required_player_range: i16, optional "SpawnCount" as spawn_count: i16, optional "SpawnData" as spawn_data: HashMap<String, fastnbt::Value>, optional "SpawnPotentials" as spawn_potentials: Vec<super::compounds::SpawnData_save>, optional "SpawnRange" as spawn_range: i16 }
-        StructureBlockEntity > BlockEntity { "author" as author: String, "ignoreEntities" as ignore_entities: bool, "integrity" as integrity: f32, "metadata" as metadata: String, "mirror" as mirror: String, "mode" as mode: String, "name" as name: String, "posX" as pos_x: i32, "posY" as pos_y: i32, "posZ" as pos_z: i32, "powered" as powered: bool, "rotation" as rotation: String, "seed" as seed: i64, "showair" as showair: bool, "showboundingbox" as showboundingbox: bool, "sizeX" as size_x: i32, "sizeY" as size_y: i32, "sizeZ" as size_z: i32 }
+        SpawnerBlockEntity > BlockEntity { optional "Delay" as delay: i16, optional "MaxNearbyEntities" as max_nearby_entities: i16, optional "MaxSpawnDelay" as max_spawn_delay: i16, optional "MinSpawnDelay" as min_spawn_delay: i16, optional "RequiredPlayerRange" as required_player_range: i16, optional "SpawnCount" as spawn_count: i16, optional "SpawnData" as spawn_data: HashMap<CowStr, fastnbt::Value>, optional "SpawnPotentials" as spawn_potentials: Vec<super::compounds::SpawnData_save>, optional "SpawnRange" as spawn_range: i16 }
+        StructureBlockEntity > BlockEntity { "author" as author: CowStr, "ignoreEntities" as ignore_entities: bool, "integrity" as integrity: f32, "metadata" as metadata: CowStr, "mirror" as mirror: CowStr, "mode" as mode: CowStr, "name" as name: CowStr, "posX" as pos_x: i32, "posY" as pos_y: i32, "posZ" as pos_z: i32, "powered" as powered: bool, "rotation" as rotation: CowStr, "seed" as seed: i64, "showair" as showair: bool, "showboundingbox" as showboundingbox: bool, "sizeX" as size_x: i32, "sizeY" as size_y: i32, "sizeZ" as size_z: i32 }
         TheEndGatewayBlockEntity > TheEndPortalBlockEntity { "Age" as age: i64, optional "ExactTeleport" as exact_teleport: bool, optional "ExitPortal" as exit_portal: super::compounds::NbtUtils_writeBlockPos }
         TheEndPortalBlockEntity > BlockEntity {  }
         TrappedChestBlockEntity > ChestBlockEntity {  }
@@ -370,13 +370,13 @@ pub mod mc1_16 {
 
     block_entity_compound_types! {
         "1.16";
-        Compound3 { optional "Signature" as signature: String, "Value" as value: String }
-        Compound6 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
-        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        Compound3 { optional "Signature" as signature: CowStr, "Value" as value: CowStr }
+        Compound6 { "EntityData" as entity_data: HashMap<CowStr, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
+        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save_1 { "Count" as count: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
-        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound3>> }
-        SpawnData_save { "Entity" as entity: HashMap<String, fastnbt::Value>, "Weight" as weight: i32 }
+        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: CowStr, optional "Properties" as properties: HashMap<CowStr, Vec<super::compounds::Compound3>> }
+        SpawnData_save { "Entity" as entity: HashMap<CowStr, fastnbt::Value>, "Weight" as weight: i32 }
     }
 }
 
@@ -422,40 +422,40 @@ pub mod mc1_16_2 {
 
     block_entity_types! {
         "1.16.2";
-        AbstractFurnaceBlockEntity > BaseContainerBlockEntity { "BurnTime" as burn_time: i16, "CookTime" as cook_time: i16, "CookTimeTotal" as cook_time_total: i16, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "RecipesUsed" as recipes_used: HashMap<String, i32> }
-        BannerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Patterns" as patterns: Vec<fastnbt::Value> }
-        BarrelBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
-        BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Lock" as lock: String }
-        BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, "Levels" as levels: i32, optional "Lock" as lock: String, "Primary" as primary: i32, "Secondary" as secondary: i32 }
+        AbstractFurnaceBlockEntity > BaseContainerBlockEntity { "BurnTime" as burn_time: i16, "CookTime" as cook_time: i16, "CookTimeTotal" as cook_time_total: i16, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "RecipesUsed" as recipes_used: HashMap<CowStr, i32> }
+        BannerBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, optional "Patterns" as patterns: Vec<fastnbt::Value> }
+        BarrelBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, optional "Lock" as lock: CowStr }
+        BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, "Levels" as levels: i32, optional "Lock" as lock: CowStr, "Primary" as primary: i32, "Secondary" as secondary: i32 }
         BedBlockEntity > BlockEntity {  }
         BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound6>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
         BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: u8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
-        CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "id" as id: String, "x" as x: i32, "y" as y: i32, "z" as z: i32 }
-        ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
-        CommandBlockEntity > BlockEntity { "Command" as command: String, "CustomName" as custom_name: String, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: String, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
+        CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "id" as id: CowStr, "x" as x: i32, "y" as y: i32, "z" as z: i32 }
+        ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        CommandBlockEntity > BlockEntity { "Command" as command: CowStr, "CustomName" as custom_name: CowStr, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: CowStr, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
         ComparatorBlockEntity > BlockEntity { "OutputSignal" as output_signal: i32 }
         ConduitBlockEntity > BlockEntity { optional "Target" as target: u128 }
         DaylightDetectorBlockEntity > BlockEntity {  }
-        DispenserBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
+        DispenserBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         DropperBlockEntity > DispenserBlockEntity {  }
-        EnchantmentTableBlockEntity > BlockEntity { optional "CustomName" as custom_name: String }
+        EnchantmentTableBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr }
         EnderChestBlockEntity > BlockEntity {  }
         FurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
-        HopperBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64, "TransferCooldown" as transfer_cooldown: i32 }
-        JigsawBlockEntity > BlockEntity { "final_state" as final_state: String, "joint" as joint: String, "name" as name: String, "pool" as pool: String, "target" as target: String }
+        HopperBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64, "TransferCooldown" as transfer_cooldown: i32 }
+        JigsawBlockEntity > BlockEntity { "final_state" as final_state: CowStr, "joint" as joint: CowStr, "name" as name: CowStr, "pool" as pool: CowStr, "target" as target: CowStr }
         JukeboxBlockEntity > BlockEntity { optional "RecordItem" as record_item: super::compounds::ItemStack_save_1 }
         LecternBlockEntity > BlockEntity { optional "Book" as book: super::compounds::ItemStack_save_1, optional "Page" as page: i32 }
         PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::BlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
         RandomizableContainerBlockEntity > BaseContainerBlockEntity {  }
-        ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
-        SignBlockEntity > BlockEntity { "Color" as color: String, "Text1" as text1: String, "Text2" as text2: String, "Text3" as text3: String, "Text4" as text4: String }
+        ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        SignBlockEntity > BlockEntity { "Color" as color: CowStr, "Text1" as text1: CowStr, "Text2" as text2: CowStr, "Text3" as text3: CowStr, "Text4" as text4: CowStr }
         SkullBlockEntity > BlockEntity { optional "SkullOwner" as skull_owner: super::compounds::NbtUtils_writeGameProfile }
         SmokerBlockEntity > AbstractFurnaceBlockEntity {  }
-        SpawnerBlockEntity > BlockEntity { optional "Delay" as delay: i16, optional "MaxNearbyEntities" as max_nearby_entities: i16, optional "MaxSpawnDelay" as max_spawn_delay: i16, optional "MinSpawnDelay" as min_spawn_delay: i16, optional "RequiredPlayerRange" as required_player_range: i16, optional "SpawnCount" as spawn_count: i16, optional "SpawnData" as spawn_data: HashMap<String, fastnbt::Value>, optional "SpawnPotentials" as spawn_potentials: Vec<super::compounds::SpawnData_save>, optional "SpawnRange" as spawn_range: i16 }
-        StructureBlockEntity > BlockEntity { "author" as author: String, "ignoreEntities" as ignore_entities: bool, "integrity" as integrity: f32, "metadata" as metadata: String, "mirror" as mirror: String, "mode" as mode: String, "name" as name: String, "posX" as pos_x: i32, "posY" as pos_y: i32, "posZ" as pos_z: i32, "powered" as powered: bool, "rotation" as rotation: String, "seed" as seed: i64, "showair" as showair: bool, "showboundingbox" as showboundingbox: bool, "sizeX" as size_x: i32, "sizeY" as size_y: i32, "sizeZ" as size_z: i32 }
+        SpawnerBlockEntity > BlockEntity { optional "Delay" as delay: i16, optional "MaxNearbyEntities" as max_nearby_entities: i16, optional "MaxSpawnDelay" as max_spawn_delay: i16, optional "MinSpawnDelay" as min_spawn_delay: i16, optional "RequiredPlayerRange" as required_player_range: i16, optional "SpawnCount" as spawn_count: i16, optional "SpawnData" as spawn_data: HashMap<CowStr, fastnbt::Value>, optional "SpawnPotentials" as spawn_potentials: Vec<super::compounds::SpawnData_save>, optional "SpawnRange" as spawn_range: i16 }
+        StructureBlockEntity > BlockEntity { "author" as author: CowStr, "ignoreEntities" as ignore_entities: bool, "integrity" as integrity: f32, "metadata" as metadata: CowStr, "mirror" as mirror: CowStr, "mode" as mode: CowStr, "name" as name: CowStr, "posX" as pos_x: i32, "posY" as pos_y: i32, "posZ" as pos_z: i32, "powered" as powered: bool, "rotation" as rotation: CowStr, "seed" as seed: i64, "showair" as showair: bool, "showboundingbox" as showboundingbox: bool, "sizeX" as size_x: i32, "sizeY" as size_y: i32, "sizeZ" as size_z: i32 }
         TheEndGatewayBlockEntity > TheEndPortalBlockEntity { "Age" as age: i64, optional "ExactTeleport" as exact_teleport: bool, optional "ExitPortal" as exit_portal: super::compounds::NbtUtils_writeBlockPos }
         TheEndPortalBlockEntity > BlockEntity {  }
         TrappedChestBlockEntity > ChestBlockEntity {  }
@@ -463,13 +463,13 @@ pub mod mc1_16_2 {
 
     block_entity_compound_types! {
         "1.16.2";
-        Compound3 { optional "Signature" as signature: String, "Value" as value: String }
-        Compound6 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
-        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        Compound3 { optional "Signature" as signature: CowStr, "Value" as value: CowStr }
+        Compound6 { "EntityData" as entity_data: HashMap<CowStr, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
+        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save_1 { "Count" as count: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
-        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound3>> }
-        SpawnData_save { "Entity" as entity: HashMap<String, fastnbt::Value>, "Weight" as weight: i32 }
+        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: CowStr, optional "Properties" as properties: HashMap<CowStr, Vec<super::compounds::Compound3>> }
+        SpawnData_save { "Entity" as entity: HashMap<CowStr, fastnbt::Value>, "Weight" as weight: i32 }
     }
 }
 
@@ -516,41 +516,41 @@ pub mod mc1_17 {
 
     block_entity_types! {
         "1.17";
-        AbstractFurnaceBlockEntity > BaseContainerBlockEntity { "BurnTime" as burn_time: i16, "CookTime" as cook_time: i16, "CookTimeTotal" as cook_time_total: i16, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "RecipesUsed" as recipes_used: HashMap<String, i32> }
-        BannerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Patterns" as patterns: Vec<fastnbt::Value> }
-        BarrelBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
-        BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Lock" as lock: String }
-        BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, "Levels" as levels: i32, optional "Lock" as lock: String, "Primary" as primary: i32, "Secondary" as secondary: i32 }
+        AbstractFurnaceBlockEntity > BaseContainerBlockEntity { "BurnTime" as burn_time: i16, "CookTime" as cook_time: i16, "CookTimeTotal" as cook_time_total: i16, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "RecipesUsed" as recipes_used: HashMap<CowStr, i32> }
+        BannerBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, optional "Patterns" as patterns: Vec<fastnbt::Value> }
+        BarrelBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, optional "Lock" as lock: CowStr }
+        BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, "Levels" as levels: i32, optional "Lock" as lock: CowStr, "Primary" as primary: i32, "Secondary" as secondary: i32 }
         BedBlockEntity > BlockEntity {  }
         BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound6>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
         BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: u8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
-        CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "id" as id: String, "x" as x: i32, "y" as y: i32, "z" as z: i32 }
-        ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
-        CommandBlockEntity > BlockEntity { "Command" as command: String, "CustomName" as custom_name: String, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: String, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
+        CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "id" as id: CowStr, "x" as x: i32, "y" as y: i32, "z" as z: i32 }
+        ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        CommandBlockEntity > BlockEntity { "Command" as command: CowStr, "CustomName" as custom_name: CowStr, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: CowStr, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
         ComparatorBlockEntity > BlockEntity { "OutputSignal" as output_signal: i32 }
         ConduitBlockEntity > BlockEntity { optional "Target" as target: u128 }
         DaylightDetectorBlockEntity > BlockEntity {  }
-        DispenserBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
+        DispenserBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         DropperBlockEntity > DispenserBlockEntity {  }
-        EnchantmentTableBlockEntity > BlockEntity { optional "CustomName" as custom_name: String }
+        EnchantmentTableBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr }
         EnderChestBlockEntity > BlockEntity {  }
         FurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
-        HopperBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64, "TransferCooldown" as transfer_cooldown: i32 }
-        JigsawBlockEntity > BlockEntity { "final_state" as final_state: String, "joint" as joint: String, "name" as name: String, "pool" as pool: String, "target" as target: String }
+        HopperBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64, "TransferCooldown" as transfer_cooldown: i32 }
+        JigsawBlockEntity > BlockEntity { "final_state" as final_state: CowStr, "joint" as joint: CowStr, "name" as name: CowStr, "pool" as pool: CowStr, "target" as target: CowStr }
         JukeboxBlockEntity > BlockEntity { optional "RecordItem" as record_item: super::compounds::ItemStack_save_1 }
         LecternBlockEntity > BlockEntity { optional "Book" as book: super::compounds::ItemStack_save_1, optional "Page" as page: i32 }
         PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::BlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
         RandomizableContainerBlockEntity > BaseContainerBlockEntity {  }
         SculkSensorBlockEntity > BlockEntity { "last_vibration_frequency" as last_vibration_frequency: i32 }
-        ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
-        SignBlockEntity > BlockEntity { "Color" as color: String, optional "FilteredText1" as filtered_text1: String, optional "FilteredText2" as filtered_text2: String, optional "FilteredText3" as filtered_text3: String, optional "FilteredText4" as filtered_text4: String, "GlowingText" as glowing_text: bool, optional "Text1" as text1: String, optional "Text2" as text2: String, optional "Text3" as text3: String, optional "Text4" as text4: String }
+        ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        SignBlockEntity > BlockEntity { "Color" as color: CowStr, optional "FilteredText1" as filtered_text1: CowStr, optional "FilteredText2" as filtered_text2: CowStr, optional "FilteredText3" as filtered_text3: CowStr, optional "FilteredText4" as filtered_text4: CowStr, "GlowingText" as glowing_text: bool, optional "Text1" as text1: CowStr, optional "Text2" as text2: CowStr, optional "Text3" as text3: CowStr, optional "Text4" as text4: CowStr }
         SkullBlockEntity > BlockEntity { optional "SkullOwner" as skull_owner: super::compounds::NbtUtils_writeGameProfile }
         SmokerBlockEntity > AbstractFurnaceBlockEntity {  }
-        SpawnerBlockEntity > BlockEntity { optional "Delay" as delay: i16, optional "MaxNearbyEntities" as max_nearby_entities: i16, optional "MaxSpawnDelay" as max_spawn_delay: i16, optional "MinSpawnDelay" as min_spawn_delay: i16, optional "RequiredPlayerRange" as required_player_range: i16, optional "SpawnCount" as spawn_count: i16, optional "SpawnData" as spawn_data: HashMap<String, fastnbt::Value>, optional "SpawnPotentials" as spawn_potentials: Vec<super::compounds::SpawnData_save>, optional "SpawnRange" as spawn_range: i16 }
-        StructureBlockEntity > BlockEntity { "author" as author: String, "ignoreEntities" as ignore_entities: bool, "integrity" as integrity: f32, "metadata" as metadata: String, "mirror" as mirror: String, "mode" as mode: String, "name" as name: String, "posX" as pos_x: i32, "posY" as pos_y: i32, "posZ" as pos_z: i32, "powered" as powered: bool, "rotation" as rotation: String, "seed" as seed: i64, "showair" as showair: bool, "showboundingbox" as showboundingbox: bool, "sizeX" as size_x: i32, "sizeY" as size_y: i32, "sizeZ" as size_z: i32 }
+        SpawnerBlockEntity > BlockEntity { optional "Delay" as delay: i16, optional "MaxNearbyEntities" as max_nearby_entities: i16, optional "MaxSpawnDelay" as max_spawn_delay: i16, optional "MinSpawnDelay" as min_spawn_delay: i16, optional "RequiredPlayerRange" as required_player_range: i16, optional "SpawnCount" as spawn_count: i16, optional "SpawnData" as spawn_data: HashMap<CowStr, fastnbt::Value>, optional "SpawnPotentials" as spawn_potentials: Vec<super::compounds::SpawnData_save>, optional "SpawnRange" as spawn_range: i16 }
+        StructureBlockEntity > BlockEntity { "author" as author: CowStr, "ignoreEntities" as ignore_entities: bool, "integrity" as integrity: f32, "metadata" as metadata: CowStr, "mirror" as mirror: CowStr, "mode" as mode: CowStr, "name" as name: CowStr, "posX" as pos_x: i32, "posY" as pos_y: i32, "posZ" as pos_z: i32, "powered" as powered: bool, "rotation" as rotation: CowStr, "seed" as seed: i64, "showair" as showair: bool, "showboundingbox" as showboundingbox: bool, "sizeX" as size_x: i32, "sizeY" as size_y: i32, "sizeZ" as size_z: i32 }
         TheEndGatewayBlockEntity > TheEndPortalBlockEntity { "Age" as age: i64, optional "ExactTeleport" as exact_teleport: bool, optional "ExitPortal" as exit_portal: super::compounds::NbtUtils_writeBlockPos }
         TheEndPortalBlockEntity > BlockEntity {  }
         TrappedChestBlockEntity > ChestBlockEntity {  }
@@ -558,13 +558,13 @@ pub mod mc1_17 {
 
     block_entity_compound_types! {
         "1.17";
-        Compound3 { optional "Signature" as signature: String, "Value" as value: String }
-        Compound6 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
-        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        Compound3 { optional "Signature" as signature: CowStr, "Value" as value: CowStr }
+        Compound6 { "EntityData" as entity_data: HashMap<CowStr, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
+        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save_1 { "Count" as count: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
-        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound3>> }
-        SpawnData_save { "Entity" as entity: HashMap<String, fastnbt::Value>, "Weight" as weight: i32 }
+        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: CowStr, optional "Properties" as properties: HashMap<CowStr, Vec<super::compounds::Compound3>> }
+        SpawnData_save { "Entity" as entity: HashMap<CowStr, fastnbt::Value>, "Weight" as weight: i32 }
     }
 }
 
@@ -611,11 +611,11 @@ pub mod mc1_18 {
 
     block_entity_types! {
         "1.18";
-        AbstractFurnaceBlockEntity > BaseContainerBlockEntity { "BurnTime" as burn_time: i16, "CookTime" as cook_time: i16, "CookTimeTotal" as cook_time_total: i16, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "RecipesUsed" as recipes_used: HashMap<String, i32> }
-        BannerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Patterns" as patterns: Vec<fastnbt::Value> }
-        BarrelBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
-        BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Lock" as lock: String }
-        BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, "Levels" as levels: i32, optional "Lock" as lock: String, "Primary" as primary: i32, "Secondary" as secondary: i32 }
+        AbstractFurnaceBlockEntity > BaseContainerBlockEntity { "BurnTime" as burn_time: i16, "CookTime" as cook_time: i16, "CookTimeTotal" as cook_time_total: i16, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "RecipesUsed" as recipes_used: HashMap<CowStr, i32> }
+        BannerBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, optional "Patterns" as patterns: Vec<fastnbt::Value> }
+        BarrelBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, optional "Lock" as lock: CowStr }
+        BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, "Levels" as levels: i32, optional "Lock" as lock: CowStr, "Primary" as primary: i32, "Secondary" as secondary: i32 }
         BedBlockEntity > BlockEntity {  }
         BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound5>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
         BellBlockEntity > BlockEntity {  }
@@ -623,29 +623,29 @@ pub mod mc1_18 {
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
         BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: u8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
         CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
-        ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
-        CommandBlockEntity > BlockEntity { "Command" as command: String, "CustomName" as custom_name: String, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: String, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
+        ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        CommandBlockEntity > BlockEntity { "Command" as command: CowStr, "CustomName" as custom_name: CowStr, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: CowStr, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
         ComparatorBlockEntity > BlockEntity { "OutputSignal" as output_signal: i32 }
         ConduitBlockEntity > BlockEntity { optional "Target" as target: u128 }
         DaylightDetectorBlockEntity > BlockEntity {  }
-        DispenserBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
+        DispenserBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         DropperBlockEntity > DispenserBlockEntity {  }
-        EnchantmentTableBlockEntity > BlockEntity { optional "CustomName" as custom_name: String }
+        EnchantmentTableBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr }
         EnderChestBlockEntity > BlockEntity {  }
         FurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
-        HopperBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64, "TransferCooldown" as transfer_cooldown: i32 }
-        JigsawBlockEntity > BlockEntity { "final_state" as final_state: String, "joint" as joint: String, "name" as name: String, "pool" as pool: String, "target" as target: String }
+        HopperBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64, "TransferCooldown" as transfer_cooldown: i32 }
+        JigsawBlockEntity > BlockEntity { "final_state" as final_state: CowStr, "joint" as joint: CowStr, "name" as name: CowStr, "pool" as pool: CowStr, "target" as target: CowStr }
         JukeboxBlockEntity > BlockEntity { optional "RecordItem" as record_item: super::compounds::ItemStack_save_1 }
         LecternBlockEntity > BlockEntity { optional "Book" as book: super::compounds::ItemStack_save_1, optional "Page" as page: i32 }
         PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::BlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
         RandomizableContainerBlockEntity > BaseContainerBlockEntity {  }
         SculkSensorBlockEntity > BlockEntity { "last_vibration_frequency" as last_vibration_frequency: i32 }
-        ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
-        SignBlockEntity > BlockEntity { "Color" as color: String, optional "FilteredText1" as filtered_text1: String, optional "FilteredText2" as filtered_text2: String, optional "FilteredText3" as filtered_text3: String, optional "FilteredText4" as filtered_text4: String, "GlowingText" as glowing_text: bool, optional "Text1" as text1: String, optional "Text2" as text2: String, optional "Text3" as text3: String, optional "Text4" as text4: String }
+        ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        SignBlockEntity > BlockEntity { "Color" as color: CowStr, optional "FilteredText1" as filtered_text1: CowStr, optional "FilteredText2" as filtered_text2: CowStr, optional "FilteredText3" as filtered_text3: CowStr, optional "FilteredText4" as filtered_text4: CowStr, "GlowingText" as glowing_text: bool, optional "Text1" as text1: CowStr, optional "Text2" as text2: CowStr, optional "Text3" as text3: CowStr, optional "Text4" as text4: CowStr }
         SkullBlockEntity > BlockEntity { optional "SkullOwner" as skull_owner: super::compounds::NbtUtils_writeGameProfile }
         SmokerBlockEntity > AbstractFurnaceBlockEntity {  }
         SpawnerBlockEntity > BlockEntity { "Delay" as delay: i16, "MaxNearbyEntities" as max_nearby_entities: i16, "MaxSpawnDelay" as max_spawn_delay: i16, "MinSpawnDelay" as min_spawn_delay: i16, "RequiredPlayerRange" as required_player_range: i16, "SpawnCount" as spawn_count: i16, "SpawnData" as spawn_data: fastnbt::Value, "SpawnPotentials" as spawn_potentials: fastnbt::Value, "SpawnRange" as spawn_range: i16 }
-        StructureBlockEntity > BlockEntity { "author" as author: String, "ignoreEntities" as ignore_entities: bool, "integrity" as integrity: f32, "metadata" as metadata: String, "mirror" as mirror: String, "mode" as mode: String, "name" as name: String, "posX" as pos_x: i32, "posY" as pos_y: i32, "posZ" as pos_z: i32, "powered" as powered: bool, "rotation" as rotation: String, "seed" as seed: i64, "showair" as showair: bool, "showboundingbox" as showboundingbox: bool, "sizeX" as size_x: i32, "sizeY" as size_y: i32, "sizeZ" as size_z: i32 }
+        StructureBlockEntity > BlockEntity { "author" as author: CowStr, "ignoreEntities" as ignore_entities: bool, "integrity" as integrity: f32, "metadata" as metadata: CowStr, "mirror" as mirror: CowStr, "mode" as mode: CowStr, "name" as name: CowStr, "posX" as pos_x: i32, "posY" as pos_y: i32, "posZ" as pos_z: i32, "powered" as powered: bool, "rotation" as rotation: CowStr, "seed" as seed: i64, "showair" as showair: bool, "showboundingbox" as showboundingbox: bool, "sizeX" as size_x: i32, "sizeY" as size_y: i32, "sizeZ" as size_z: i32 }
         TheEndGatewayBlockEntity > TheEndPortalBlockEntity { "Age" as age: i64, optional "ExactTeleport" as exact_teleport: bool, optional "ExitPortal" as exit_portal: super::compounds::NbtUtils_writeBlockPos }
         TheEndPortalBlockEntity > BlockEntity {  }
         TrappedChestBlockEntity > ChestBlockEntity {  }
@@ -653,12 +653,12 @@ pub mod mc1_18 {
 
     block_entity_compound_types! {
         "1.18";
-        Compound2 { optional "Signature" as signature: String, "Value" as value: String }
-        Compound5 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
-        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        Compound2 { optional "Signature" as signature: CowStr, "Value" as value: CowStr }
+        Compound5 { "EntityData" as entity_data: HashMap<CowStr, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
+        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save_1 { "Count" as count: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
-        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound2>> }
+        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: CowStr, optional "Properties" as properties: HashMap<CowStr, Vec<super::compounds::Compound2>> }
     }
 }
 
@@ -707,11 +707,11 @@ pub mod mc1_19 {
 
     block_entity_types! {
         "1.19";
-        AbstractFurnaceBlockEntity > BaseContainerBlockEntity { "BurnTime" as burn_time: i16, "CookTime" as cook_time: i16, "CookTimeTotal" as cook_time_total: i16, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "RecipesUsed" as recipes_used: HashMap<String, i32> }
-        BannerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Patterns" as patterns: Vec<fastnbt::Value> }
-        BarrelBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
-        BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Lock" as lock: String }
-        BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, "Levels" as levels: i32, optional "Lock" as lock: String, "Primary" as primary: i32, "Secondary" as secondary: i32 }
+        AbstractFurnaceBlockEntity > BaseContainerBlockEntity { "BurnTime" as burn_time: i16, "CookTime" as cook_time: i16, "CookTimeTotal" as cook_time_total: i16, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "RecipesUsed" as recipes_used: HashMap<CowStr, i32> }
+        BannerBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, optional "Patterns" as patterns: Vec<fastnbt::Value> }
+        BarrelBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, optional "Lock" as lock: CowStr }
+        BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, "Levels" as levels: i32, optional "Lock" as lock: CowStr, "Primary" as primary: i32, "Secondary" as secondary: i32 }
         BedBlockEntity > BlockEntity {  }
         BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound5>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
         BellBlockEntity > BlockEntity {  }
@@ -719,18 +719,18 @@ pub mod mc1_19 {
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
         BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: u8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
         CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
-        ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
-        CommandBlockEntity > BlockEntity { "Command" as command: String, "CustomName" as custom_name: String, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: String, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
+        ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        CommandBlockEntity > BlockEntity { "Command" as command: CowStr, "CustomName" as custom_name: CowStr, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: CowStr, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
         ComparatorBlockEntity > BlockEntity { "OutputSignal" as output_signal: i32 }
         ConduitBlockEntity > BlockEntity { optional "Target" as target: u128 }
         DaylightDetectorBlockEntity > BlockEntity {  }
-        DispenserBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
+        DispenserBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         DropperBlockEntity > DispenserBlockEntity {  }
-        EnchantmentTableBlockEntity > BlockEntity { optional "CustomName" as custom_name: String }
+        EnchantmentTableBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr }
         EnderChestBlockEntity > BlockEntity {  }
         FurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
-        HopperBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64, "TransferCooldown" as transfer_cooldown: i32 }
-        JigsawBlockEntity > BlockEntity { "final_state" as final_state: String, "joint" as joint: String, "name" as name: String, "pool" as pool: String, "target" as target: String }
+        HopperBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64, "TransferCooldown" as transfer_cooldown: i32 }
+        JigsawBlockEntity > BlockEntity { "final_state" as final_state: CowStr, "joint" as joint: CowStr, "name" as name: CowStr, "pool" as pool: CowStr, "target" as target: CowStr }
         JukeboxBlockEntity > BlockEntity { optional "RecordItem" as record_item: super::compounds::ItemStack_save_1 }
         LecternBlockEntity > BlockEntity { optional "Book" as book: super::compounds::ItemStack_save_1, optional "Page" as page: i32 }
         PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::BlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
@@ -738,12 +738,12 @@ pub mod mc1_19 {
         SculkCatalystBlockEntity > BlockEntity { optional "cursors" as cursors: fastnbt::Value }
         SculkSensorBlockEntity > BlockEntity { "last_vibration_frequency" as last_vibration_frequency: i32, optional "listener" as listener: fastnbt::Value }
         SculkShriekerBlockEntity > BlockEntity { optional "listener" as listener: fastnbt::Value, "warning_level" as warning_level: i32 }
-        ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
-        SignBlockEntity > BlockEntity { "Color" as color: String, optional "FilteredText1" as filtered_text1: String, optional "FilteredText2" as filtered_text2: String, optional "FilteredText3" as filtered_text3: String, optional "FilteredText4" as filtered_text4: String, "GlowingText" as glowing_text: bool, optional "Text1" as text1: String, optional "Text2" as text2: String, optional "Text3" as text3: String, optional "Text4" as text4: String }
+        ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        SignBlockEntity > BlockEntity { "Color" as color: CowStr, optional "FilteredText1" as filtered_text1: CowStr, optional "FilteredText2" as filtered_text2: CowStr, optional "FilteredText3" as filtered_text3: CowStr, optional "FilteredText4" as filtered_text4: CowStr, "GlowingText" as glowing_text: bool, optional "Text1" as text1: CowStr, optional "Text2" as text2: CowStr, optional "Text3" as text3: CowStr, optional "Text4" as text4: CowStr }
         SkullBlockEntity > BlockEntity { optional "SkullOwner" as skull_owner: super::compounds::NbtUtils_writeGameProfile }
         SmokerBlockEntity > AbstractFurnaceBlockEntity {  }
         SpawnerBlockEntity > BlockEntity { "Delay" as delay: i16, "MaxNearbyEntities" as max_nearby_entities: i16, "MaxSpawnDelay" as max_spawn_delay: i16, "MinSpawnDelay" as min_spawn_delay: i16, "RequiredPlayerRange" as required_player_range: i16, "SpawnCount" as spawn_count: i16, "SpawnData" as spawn_data: fastnbt::Value, "SpawnPotentials" as spawn_potentials: fastnbt::Value, "SpawnRange" as spawn_range: i16 }
-        StructureBlockEntity > BlockEntity { "author" as author: String, "ignoreEntities" as ignore_entities: bool, "integrity" as integrity: f32, "metadata" as metadata: String, "mirror" as mirror: String, "mode" as mode: String, "name" as name: String, "posX" as pos_x: i32, "posY" as pos_y: i32, "posZ" as pos_z: i32, "powered" as powered: bool, "rotation" as rotation: String, "seed" as seed: i64, "showair" as showair: bool, "showboundingbox" as showboundingbox: bool, "sizeX" as size_x: i32, "sizeY" as size_y: i32, "sizeZ" as size_z: i32 }
+        StructureBlockEntity > BlockEntity { "author" as author: CowStr, "ignoreEntities" as ignore_entities: bool, "integrity" as integrity: f32, "metadata" as metadata: CowStr, "mirror" as mirror: CowStr, "mode" as mode: CowStr, "name" as name: CowStr, "posX" as pos_x: i32, "posY" as pos_y: i32, "posZ" as pos_z: i32, "powered" as powered: bool, "rotation" as rotation: CowStr, "seed" as seed: i64, "showair" as showair: bool, "showboundingbox" as showboundingbox: bool, "sizeX" as size_x: i32, "sizeY" as size_y: i32, "sizeZ" as size_z: i32 }
         TheEndGatewayBlockEntity > TheEndPortalBlockEntity { "Age" as age: i64, optional "ExactTeleport" as exact_teleport: bool, optional "ExitPortal" as exit_portal: super::compounds::NbtUtils_writeBlockPos }
         TheEndPortalBlockEntity > BlockEntity {  }
         TrappedChestBlockEntity > ChestBlockEntity {  }
@@ -751,12 +751,12 @@ pub mod mc1_19 {
 
     block_entity_compound_types! {
         "1.19";
-        Compound2 { optional "Signature" as signature: String, "Value" as value: String }
-        Compound5 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
-        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        Compound2 { optional "Signature" as signature: CowStr, "Value" as value: CowStr }
+        Compound5 { "EntityData" as entity_data: HashMap<CowStr, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
+        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save_1 { "Count" as count: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
-        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound2>> }
+        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: CowStr, optional "Properties" as properties: HashMap<CowStr, Vec<super::compounds::Compound2>> }
     }
 }
 
@@ -805,11 +805,11 @@ pub mod mc1_19_1 {
 
     block_entity_types! {
         "1.19.1";
-        AbstractFurnaceBlockEntity > BaseContainerBlockEntity { "BurnTime" as burn_time: i16, "CookTime" as cook_time: i16, "CookTimeTotal" as cook_time_total: i16, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "RecipesUsed" as recipes_used: HashMap<String, i32> }
-        BannerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Patterns" as patterns: Vec<fastnbt::Value> }
-        BarrelBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
-        BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Lock" as lock: String }
-        BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, "Levels" as levels: i32, optional "Lock" as lock: String, "Primary" as primary: i32, "Secondary" as secondary: i32 }
+        AbstractFurnaceBlockEntity > BaseContainerBlockEntity { "BurnTime" as burn_time: i16, "CookTime" as cook_time: i16, "CookTimeTotal" as cook_time_total: i16, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "RecipesUsed" as recipes_used: HashMap<CowStr, i32> }
+        BannerBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, optional "Patterns" as patterns: Vec<fastnbt::Value> }
+        BarrelBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, optional "Lock" as lock: CowStr }
+        BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, "Levels" as levels: i32, optional "Lock" as lock: CowStr, "Primary" as primary: i32, "Secondary" as secondary: i32 }
         BedBlockEntity > BlockEntity {  }
         BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound5>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
         BellBlockEntity > BlockEntity {  }
@@ -817,18 +817,18 @@ pub mod mc1_19_1 {
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
         BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: u8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
         CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
-        ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
-        CommandBlockEntity > BlockEntity { "Command" as command: String, "CustomName" as custom_name: String, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: String, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
+        ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        CommandBlockEntity > BlockEntity { "Command" as command: CowStr, "CustomName" as custom_name: CowStr, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: CowStr, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
         ComparatorBlockEntity > BlockEntity { "OutputSignal" as output_signal: i32 }
         ConduitBlockEntity > BlockEntity { optional "Target" as target: u128 }
         DaylightDetectorBlockEntity > BlockEntity {  }
-        DispenserBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
+        DispenserBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         DropperBlockEntity > DispenserBlockEntity {  }
-        EnchantmentTableBlockEntity > BlockEntity { optional "CustomName" as custom_name: String }
+        EnchantmentTableBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr }
         EnderChestBlockEntity > BlockEntity {  }
         FurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
-        HopperBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64, "TransferCooldown" as transfer_cooldown: i32 }
-        JigsawBlockEntity > BlockEntity { "final_state" as final_state: String, "joint" as joint: String, "name" as name: String, "pool" as pool: String, "target" as target: String }
+        HopperBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64, "TransferCooldown" as transfer_cooldown: i32 }
+        JigsawBlockEntity > BlockEntity { "final_state" as final_state: CowStr, "joint" as joint: CowStr, "name" as name: CowStr, "pool" as pool: CowStr, "target" as target: CowStr }
         JukeboxBlockEntity > BlockEntity { "IsPlaying" as is_playing: bool, optional "RecordItem" as record_item: super::compounds::ItemStack_save_1, "RecordStartTick" as record_start_tick: i64, "TickCount" as tick_count: i64 }
         LecternBlockEntity > BlockEntity { optional "Book" as book: super::compounds::ItemStack_save_1, optional "Page" as page: i32 }
         PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::BlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
@@ -836,12 +836,12 @@ pub mod mc1_19_1 {
         SculkCatalystBlockEntity > BlockEntity { optional "cursors" as cursors: fastnbt::Value }
         SculkSensorBlockEntity > BlockEntity { "last_vibration_frequency" as last_vibration_frequency: i32, optional "listener" as listener: fastnbt::Value }
         SculkShriekerBlockEntity > BlockEntity { optional "listener" as listener: fastnbt::Value, "warning_level" as warning_level: i32 }
-        ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
-        SignBlockEntity > BlockEntity { "Color" as color: String, optional "FilteredText1" as filtered_text1: String, optional "FilteredText2" as filtered_text2: String, optional "FilteredText3" as filtered_text3: String, optional "FilteredText4" as filtered_text4: String, "GlowingText" as glowing_text: bool, optional "Text1" as text1: String, optional "Text2" as text2: String, optional "Text3" as text3: String, optional "Text4" as text4: String }
+        ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        SignBlockEntity > BlockEntity { "Color" as color: CowStr, optional "FilteredText1" as filtered_text1: CowStr, optional "FilteredText2" as filtered_text2: CowStr, optional "FilteredText3" as filtered_text3: CowStr, optional "FilteredText4" as filtered_text4: CowStr, "GlowingText" as glowing_text: bool, optional "Text1" as text1: CowStr, optional "Text2" as text2: CowStr, optional "Text3" as text3: CowStr, optional "Text4" as text4: CowStr }
         SkullBlockEntity > BlockEntity { optional "SkullOwner" as skull_owner: super::compounds::NbtUtils_writeGameProfile }
         SmokerBlockEntity > AbstractFurnaceBlockEntity {  }
         SpawnerBlockEntity > BlockEntity { "Delay" as delay: i16, "MaxNearbyEntities" as max_nearby_entities: i16, "MaxSpawnDelay" as max_spawn_delay: i16, "MinSpawnDelay" as min_spawn_delay: i16, "RequiredPlayerRange" as required_player_range: i16, "SpawnCount" as spawn_count: i16, "SpawnData" as spawn_data: fastnbt::Value, "SpawnPotentials" as spawn_potentials: fastnbt::Value, "SpawnRange" as spawn_range: i16 }
-        StructureBlockEntity > BlockEntity { "author" as author: String, "ignoreEntities" as ignore_entities: bool, "integrity" as integrity: f32, "metadata" as metadata: String, "mirror" as mirror: String, "mode" as mode: String, "name" as name: String, "posX" as pos_x: i32, "posY" as pos_y: i32, "posZ" as pos_z: i32, "powered" as powered: bool, "rotation" as rotation: String, "seed" as seed: i64, "showair" as showair: bool, "showboundingbox" as showboundingbox: bool, "sizeX" as size_x: i32, "sizeY" as size_y: i32, "sizeZ" as size_z: i32 }
+        StructureBlockEntity > BlockEntity { "author" as author: CowStr, "ignoreEntities" as ignore_entities: bool, "integrity" as integrity: f32, "metadata" as metadata: CowStr, "mirror" as mirror: CowStr, "mode" as mode: CowStr, "name" as name: CowStr, "posX" as pos_x: i32, "posY" as pos_y: i32, "posZ" as pos_z: i32, "powered" as powered: bool, "rotation" as rotation: CowStr, "seed" as seed: i64, "showair" as showair: bool, "showboundingbox" as showboundingbox: bool, "sizeX" as size_x: i32, "sizeY" as size_y: i32, "sizeZ" as size_z: i32 }
         TheEndGatewayBlockEntity > TheEndPortalBlockEntity { "Age" as age: i64, optional "ExactTeleport" as exact_teleport: bool, optional "ExitPortal" as exit_portal: super::compounds::NbtUtils_writeBlockPos }
         TheEndPortalBlockEntity > BlockEntity {  }
         TrappedChestBlockEntity > ChestBlockEntity {  }
@@ -849,12 +849,12 @@ pub mod mc1_19_1 {
 
     block_entity_compound_types! {
         "1.19.1";
-        Compound2 { optional "Signature" as signature: String, "Value" as value: String }
-        Compound5 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
-        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        Compound2 { optional "Signature" as signature: CowStr, "Value" as value: CowStr }
+        Compound5 { "EntityData" as entity_data: HashMap<CowStr, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
+        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save_1 { "Count" as count: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
-        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound2>> }
+        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: CowStr, optional "Properties" as properties: HashMap<CowStr, Vec<super::compounds::Compound2>> }
     }
 }
 
@@ -905,11 +905,11 @@ pub mod mc1_19_3 {
 
     block_entity_types! {
         "1.19.3";
-        AbstractFurnaceBlockEntity > BaseContainerBlockEntity { "BurnTime" as burn_time: i16, "CookTime" as cook_time: i16, "CookTimeTotal" as cook_time_total: i16, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "RecipesUsed" as recipes_used: HashMap<String, i32> }
-        BannerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Patterns" as patterns: Vec<fastnbt::Value> }
-        BarrelBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
-        BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Lock" as lock: String }
-        BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, "Levels" as levels: i32, optional "Lock" as lock: String, "Primary" as primary: i32, "Secondary" as secondary: i32 }
+        AbstractFurnaceBlockEntity > BaseContainerBlockEntity { "BurnTime" as burn_time: i16, "CookTime" as cook_time: i16, "CookTimeTotal" as cook_time_total: i16, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "RecipesUsed" as recipes_used: HashMap<CowStr, i32> }
+        BannerBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, optional "Patterns" as patterns: Vec<fastnbt::Value> }
+        BarrelBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, optional "Lock" as lock: CowStr }
+        BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, "Levels" as levels: i32, optional "Lock" as lock: CowStr, "Primary" as primary: i32, "Secondary" as secondary: i32 }
         BedBlockEntity > BlockEntity {  }
         BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound5>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
         BellBlockEntity > BlockEntity {  }
@@ -917,20 +917,20 @@ pub mod mc1_19_3 {
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
         BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: u8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
         CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
-        ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
+        ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         ChiseledBookShelfBlockEntity > BlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, "last_interacted_slot" as last_interacted_slot: i32 }
-        CommandBlockEntity > BlockEntity { "Command" as command: String, "CustomName" as custom_name: String, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: String, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
+        CommandBlockEntity > BlockEntity { "Command" as command: CowStr, "CustomName" as custom_name: CowStr, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: CowStr, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
         ComparatorBlockEntity > BlockEntity { "OutputSignal" as output_signal: i32 }
         ConduitBlockEntity > BlockEntity { optional "Target" as target: u128 }
         DaylightDetectorBlockEntity > BlockEntity {  }
-        DispenserBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
+        DispenserBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         DropperBlockEntity > DispenserBlockEntity {  }
-        EnchantmentTableBlockEntity > BlockEntity { optional "CustomName" as custom_name: String }
+        EnchantmentTableBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr }
         EnderChestBlockEntity > BlockEntity {  }
         FurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         HangingSignBlockEntity > SignBlockEntity {  }
-        HopperBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64, "TransferCooldown" as transfer_cooldown: i32 }
-        JigsawBlockEntity > BlockEntity { "final_state" as final_state: String, "joint" as joint: String, "name" as name: String, "pool" as pool: String, "target" as target: String }
+        HopperBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64, "TransferCooldown" as transfer_cooldown: i32 }
+        JigsawBlockEntity > BlockEntity { "final_state" as final_state: CowStr, "joint" as joint: CowStr, "name" as name: CowStr, "pool" as pool: CowStr, "target" as target: CowStr }
         JukeboxBlockEntity > BlockEntity { "IsPlaying" as is_playing: bool, optional "RecordItem" as record_item: super::compounds::ItemStack_save_1, "RecordStartTick" as record_start_tick: i64, "TickCount" as tick_count: i64 }
         LecternBlockEntity > BlockEntity { optional "Book" as book: super::compounds::ItemStack_save_1, optional "Page" as page: i32 }
         PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::BlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
@@ -938,12 +938,12 @@ pub mod mc1_19_3 {
         SculkCatalystBlockEntity > BlockEntity { optional "cursors" as cursors: fastnbt::Value }
         SculkSensorBlockEntity > BlockEntity { "last_vibration_frequency" as last_vibration_frequency: i32, optional "listener" as listener: fastnbt::Value }
         SculkShriekerBlockEntity > BlockEntity { optional "listener" as listener: fastnbt::Value, "warning_level" as warning_level: i32 }
-        ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
-        SignBlockEntity > BlockEntity { "Color" as color: String, optional "FilteredText1" as filtered_text1: String, optional "FilteredText2" as filtered_text2: String, optional "FilteredText3" as filtered_text3: String, optional "FilteredText4" as filtered_text4: String, "GlowingText" as glowing_text: bool, optional "Text1" as text1: String, optional "Text2" as text2: String, optional "Text3" as text3: String, optional "Text4" as text4: String }
-        SkullBlockEntity > BlockEntity { optional "SkullOwner" as skull_owner: super::compounds::NbtUtils_writeGameProfile, optional "note_block_sound" as note_block_sound: String }
+        ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        SignBlockEntity > BlockEntity { "Color" as color: CowStr, optional "FilteredText1" as filtered_text1: CowStr, optional "FilteredText2" as filtered_text2: CowStr, optional "FilteredText3" as filtered_text3: CowStr, optional "FilteredText4" as filtered_text4: CowStr, "GlowingText" as glowing_text: bool, optional "Text1" as text1: CowStr, optional "Text2" as text2: CowStr, optional "Text3" as text3: CowStr, optional "Text4" as text4: CowStr }
+        SkullBlockEntity > BlockEntity { optional "SkullOwner" as skull_owner: super::compounds::NbtUtils_writeGameProfile, optional "note_block_sound" as note_block_sound: CowStr }
         SmokerBlockEntity > AbstractFurnaceBlockEntity {  }
         SpawnerBlockEntity > BlockEntity { "Delay" as delay: i16, "MaxNearbyEntities" as max_nearby_entities: i16, "MaxSpawnDelay" as max_spawn_delay: i16, "MinSpawnDelay" as min_spawn_delay: i16, "RequiredPlayerRange" as required_player_range: i16, "SpawnCount" as spawn_count: i16, optional "SpawnData" as spawn_data: fastnbt::Value, "SpawnPotentials" as spawn_potentials: fastnbt::Value, "SpawnRange" as spawn_range: i16 }
-        StructureBlockEntity > BlockEntity { "author" as author: String, "ignoreEntities" as ignore_entities: bool, "integrity" as integrity: f32, "metadata" as metadata: String, "mirror" as mirror: String, "mode" as mode: String, "name" as name: String, "posX" as pos_x: i32, "posY" as pos_y: i32, "posZ" as pos_z: i32, "powered" as powered: bool, "rotation" as rotation: String, "seed" as seed: i64, "showair" as showair: bool, "showboundingbox" as showboundingbox: bool, "sizeX" as size_x: i32, "sizeY" as size_y: i32, "sizeZ" as size_z: i32 }
+        StructureBlockEntity > BlockEntity { "author" as author: CowStr, "ignoreEntities" as ignore_entities: bool, "integrity" as integrity: f32, "metadata" as metadata: CowStr, "mirror" as mirror: CowStr, "mode" as mode: CowStr, "name" as name: CowStr, "posX" as pos_x: i32, "posY" as pos_y: i32, "posZ" as pos_z: i32, "powered" as powered: bool, "rotation" as rotation: CowStr, "seed" as seed: i64, "showair" as showair: bool, "showboundingbox" as showboundingbox: bool, "sizeX" as size_x: i32, "sizeY" as size_y: i32, "sizeZ" as size_z: i32 }
         TheEndGatewayBlockEntity > TheEndPortalBlockEntity { "Age" as age: i64, optional "ExactTeleport" as exact_teleport: bool, optional "ExitPortal" as exit_portal: super::compounds::NbtUtils_writeBlockPos }
         TheEndPortalBlockEntity > BlockEntity {  }
         TrappedChestBlockEntity > ChestBlockEntity {  }
@@ -951,12 +951,12 @@ pub mod mc1_19_3 {
 
     block_entity_compound_types! {
         "1.19.3";
-        Compound2 { optional "Signature" as signature: String, "Value" as value: String }
-        Compound5 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
-        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        Compound2 { optional "Signature" as signature: CowStr, "Value" as value: CowStr }
+        Compound5 { "EntityData" as entity_data: HashMap<CowStr, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
+        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save_1 { "Count" as count: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
-        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound2>> }
+        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: CowStr, optional "Properties" as properties: HashMap<CowStr, Vec<super::compounds::Compound2>> }
     }
 }
 
@@ -1009,11 +1009,11 @@ pub mod mc1_19_4 {
 
     block_entity_types! {
         "1.19.4";
-        AbstractFurnaceBlockEntity > BaseContainerBlockEntity { "BurnTime" as burn_time: i16, "CookTime" as cook_time: i16, "CookTimeTotal" as cook_time_total: i16, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "RecipesUsed" as recipes_used: HashMap<String, i32> }
-        BannerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Patterns" as patterns: Vec<fastnbt::Value> }
-        BarrelBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
-        BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Lock" as lock: String }
-        BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, "Levels" as levels: i32, optional "Lock" as lock: String, "Primary" as primary: i32, "Secondary" as secondary: i32 }
+        AbstractFurnaceBlockEntity > BaseContainerBlockEntity { "BurnTime" as burn_time: i16, "CookTime" as cook_time: i16, "CookTimeTotal" as cook_time_total: i16, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "RecipesUsed" as recipes_used: HashMap<CowStr, i32> }
+        BannerBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, optional "Patterns" as patterns: Vec<fastnbt::Value> }
+        BarrelBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, optional "Lock" as lock: CowStr }
+        BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, "Levels" as levels: i32, optional "Lock" as lock: CowStr, "Primary" as primary: i32, "Secondary" as secondary: i32 }
         BedBlockEntity > BlockEntity {  }
         BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound5>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
         BellBlockEntity > BlockEntity {  }
@@ -1021,21 +1021,21 @@ pub mod mc1_19_4 {
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
         BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: u8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
         CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
-        ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
+        ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         ChiseledBookShelfBlockEntity > BlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, "last_interacted_slot" as last_interacted_slot: i32 }
-        CommandBlockEntity > BlockEntity { "Command" as command: String, "CustomName" as custom_name: String, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: String, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
+        CommandBlockEntity > BlockEntity { "Command" as command: CowStr, "CustomName" as custom_name: CowStr, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: CowStr, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
         ComparatorBlockEntity > BlockEntity { "OutputSignal" as output_signal: i32 }
         ConduitBlockEntity > BlockEntity { optional "Target" as target: u128 }
         DaylightDetectorBlockEntity > BlockEntity {  }
-        DecoratedPotBlockEntity > BlockEntity { "shards" as shards: Vec<String> }
-        DispenserBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
+        DecoratedPotBlockEntity > BlockEntity { "shards" as shards: Vec<CowStr> }
+        DispenserBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         DropperBlockEntity > DispenserBlockEntity {  }
-        EnchantmentTableBlockEntity > BlockEntity { optional "CustomName" as custom_name: String }
+        EnchantmentTableBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr }
         EnderChestBlockEntity > BlockEntity {  }
         FurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         HangingSignBlockEntity > SignBlockEntity {  }
-        HopperBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64, "TransferCooldown" as transfer_cooldown: i32 }
-        JigsawBlockEntity > BlockEntity { "final_state" as final_state: String, "joint" as joint: String, "name" as name: String, "pool" as pool: String, "target" as target: String }
+        HopperBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64, "TransferCooldown" as transfer_cooldown: i32 }
+        JigsawBlockEntity > BlockEntity { "final_state" as final_state: CowStr, "joint" as joint: CowStr, "name" as name: CowStr, "pool" as pool: CowStr, "target" as target: CowStr }
         JukeboxBlockEntity > BlockEntity { "IsPlaying" as is_playing: bool, optional "RecordItem" as record_item: super::compounds::ItemStack_save_1, "RecordStartTick" as record_start_tick: i64, "TickCount" as tick_count: i64 }
         LecternBlockEntity > BlockEntity { optional "Book" as book: super::compounds::ItemStack_save_1, optional "Page" as page: i32 }
         PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::BlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
@@ -1043,13 +1043,13 @@ pub mod mc1_19_4 {
         SculkCatalystBlockEntity > BlockEntity { optional "cursors" as cursors: fastnbt::Value }
         SculkSensorBlockEntity > BlockEntity { "last_vibration_frequency" as last_vibration_frequency: i32, optional "listener" as listener: fastnbt::Value }
         SculkShriekerBlockEntity > BlockEntity { optional "listener" as listener: fastnbt::Value, "warning_level" as warning_level: i32 }
-        ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
-        SignBlockEntity > BlockEntity { "Color" as color: String, optional "FilteredText1" as filtered_text1: String, optional "FilteredText2" as filtered_text2: String, optional "FilteredText3" as filtered_text3: String, optional "FilteredText4" as filtered_text4: String, "GlowingText" as glowing_text: bool, optional "Text1" as text1: String, optional "Text2" as text2: String, optional "Text3" as text3: String, optional "Text4" as text4: String }
-        SkullBlockEntity > BlockEntity { optional "SkullOwner" as skull_owner: super::compounds::NbtUtils_writeGameProfile, optional "note_block_sound" as note_block_sound: String }
+        ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        SignBlockEntity > BlockEntity { "Color" as color: CowStr, optional "FilteredText1" as filtered_text1: CowStr, optional "FilteredText2" as filtered_text2: CowStr, optional "FilteredText3" as filtered_text3: CowStr, optional "FilteredText4" as filtered_text4: CowStr, "GlowingText" as glowing_text: bool, optional "Text1" as text1: CowStr, optional "Text2" as text2: CowStr, optional "Text3" as text3: CowStr, optional "Text4" as text4: CowStr }
+        SkullBlockEntity > BlockEntity { optional "SkullOwner" as skull_owner: super::compounds::NbtUtils_writeGameProfile, optional "note_block_sound" as note_block_sound: CowStr }
         SmokerBlockEntity > AbstractFurnaceBlockEntity {  }
         SpawnerBlockEntity > BlockEntity { "Delay" as delay: i16, "MaxNearbyEntities" as max_nearby_entities: i16, "MaxSpawnDelay" as max_spawn_delay: i16, "MinSpawnDelay" as min_spawn_delay: i16, "RequiredPlayerRange" as required_player_range: i16, "SpawnCount" as spawn_count: i16, optional "SpawnData" as spawn_data: fastnbt::Value, "SpawnPotentials" as spawn_potentials: fastnbt::Value, "SpawnRange" as spawn_range: i16 }
-        StructureBlockEntity > BlockEntity { "author" as author: String, "ignoreEntities" as ignore_entities: bool, "integrity" as integrity: f32, "metadata" as metadata: String, "mirror" as mirror: String, "mode" as mode: String, "name" as name: String, "posX" as pos_x: i32, "posY" as pos_y: i32, "posZ" as pos_z: i32, "powered" as powered: bool, "rotation" as rotation: String, "seed" as seed: i64, "showair" as showair: bool, "showboundingbox" as showboundingbox: bool, "sizeX" as size_x: i32, "sizeY" as size_y: i32, "sizeZ" as size_z: i32 }
-        SuspiciousSandBlockEntity > BlockEntity { optional "item" as item: super::compounds::ItemStack_save_1, optional "loot_table" as loot_table: String, optional "loot_table_seed" as loot_table_seed: i64 }
+        StructureBlockEntity > BlockEntity { "author" as author: CowStr, "ignoreEntities" as ignore_entities: bool, "integrity" as integrity: f32, "metadata" as metadata: CowStr, "mirror" as mirror: CowStr, "mode" as mode: CowStr, "name" as name: CowStr, "posX" as pos_x: i32, "posY" as pos_y: i32, "posZ" as pos_z: i32, "powered" as powered: bool, "rotation" as rotation: CowStr, "seed" as seed: i64, "showair" as showair: bool, "showboundingbox" as showboundingbox: bool, "sizeX" as size_x: i32, "sizeY" as size_y: i32, "sizeZ" as size_z: i32 }
+        SuspiciousSandBlockEntity > BlockEntity { optional "item" as item: super::compounds::ItemStack_save_1, optional "loot_table" as loot_table: CowStr, optional "loot_table_seed" as loot_table_seed: i64 }
         TheEndGatewayBlockEntity > TheEndPortalBlockEntity { "Age" as age: i64, optional "ExactTeleport" as exact_teleport: bool, optional "ExitPortal" as exit_portal: super::compounds::NbtUtils_writeBlockPos }
         TheEndPortalBlockEntity > BlockEntity {  }
         TrappedChestBlockEntity > ChestBlockEntity {  }
@@ -1057,12 +1057,12 @@ pub mod mc1_19_4 {
 
     block_entity_compound_types! {
         "1.19.4";
-        Compound2 { optional "Signature" as signature: String, "Value" as value: String }
-        Compound5 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
-        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        Compound2 { optional "Signature" as signature: CowStr, "Value" as value: CowStr }
+        Compound5 { "EntityData" as entity_data: HashMap<CowStr, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
+        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save_1 { "Count" as count: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
-        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound2>> }
+        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: CowStr, optional "Properties" as properties: HashMap<CowStr, Vec<super::compounds::Compound2>> }
     }
 }
 
@@ -1116,35 +1116,35 @@ pub mod mc1_20 {
 
     block_entity_types! {
         "1.20";
-        AbstractFurnaceBlockEntity > BaseContainerBlockEntity { "BurnTime" as burn_time: i16, "CookTime" as cook_time: i16, "CookTimeTotal" as cook_time_total: i16, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "RecipesUsed" as recipes_used: HashMap<String, i32> }
-        BannerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Patterns" as patterns: Vec<fastnbt::Value> }
-        BarrelBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
-        BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Lock" as lock: String }
-        BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, "Levels" as levels: i32, optional "Lock" as lock: String, "Primary" as primary: i32, "Secondary" as secondary: i32 }
+        AbstractFurnaceBlockEntity > BaseContainerBlockEntity { "BurnTime" as burn_time: i16, "CookTime" as cook_time: i16, "CookTimeTotal" as cook_time_total: i16, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "RecipesUsed" as recipes_used: HashMap<CowStr, i32> }
+        BannerBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, optional "Patterns" as patterns: Vec<fastnbt::Value> }
+        BarrelBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, optional "Lock" as lock: CowStr }
+        BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, "Levels" as levels: i32, optional "Lock" as lock: CowStr, "Primary" as primary: i32, "Secondary" as secondary: i32 }
         BedBlockEntity > BlockEntity {  }
         BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound5>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
         BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: u8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
-        BrushableBlockEntity > BlockEntity { optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64, optional "item" as item: super::compounds::ItemStack_save_1 }
+        BrushableBlockEntity > BlockEntity { optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64, optional "item" as item: super::compounds::ItemStack_save_1 }
         CalibratedSculkSensorBlockEntity > SculkSensorBlockEntity {  }
         CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
-        ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
+        ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         ChiseledBookShelfBlockEntity > BlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, "last_interacted_slot" as last_interacted_slot: i32 }
-        CommandBlockEntity > BlockEntity { "Command" as command: String, "CustomName" as custom_name: String, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: String, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
+        CommandBlockEntity > BlockEntity { "Command" as command: CowStr, "CustomName" as custom_name: CowStr, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: CowStr, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
         ComparatorBlockEntity > BlockEntity { "OutputSignal" as output_signal: i32 }
         ConduitBlockEntity > BlockEntity { optional "Target" as target: u128 }
         DaylightDetectorBlockEntity > BlockEntity {  }
         DecoratedPotBlockEntity > BlockEntity { "sherds" as sherds: Vec<fastnbt::Value> }
-        DispenserBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
+        DispenserBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         DropperBlockEntity > DispenserBlockEntity {  }
-        EnchantmentTableBlockEntity > BlockEntity { optional "CustomName" as custom_name: String }
+        EnchantmentTableBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr }
         EnderChestBlockEntity > BlockEntity {  }
         FurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         HangingSignBlockEntity > SignBlockEntity {  }
-        HopperBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64, "TransferCooldown" as transfer_cooldown: i32 }
-        JigsawBlockEntity > BlockEntity { "final_state" as final_state: String, "joint" as joint: String, "name" as name: String, "pool" as pool: String, "target" as target: String }
+        HopperBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64, "TransferCooldown" as transfer_cooldown: i32 }
+        JigsawBlockEntity > BlockEntity { "final_state" as final_state: CowStr, "joint" as joint: CowStr, "name" as name: CowStr, "pool" as pool: CowStr, "target" as target: CowStr }
         JukeboxBlockEntity > BlockEntity { "IsPlaying" as is_playing: bool, optional "RecordItem" as record_item: super::compounds::ItemStack_save_1, "RecordStartTick" as record_start_tick: i64, "TickCount" as tick_count: i64 }
         LecternBlockEntity > BlockEntity { optional "Book" as book: super::compounds::ItemStack_save_1, optional "Page" as page: i32 }
         PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::BlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
@@ -1152,12 +1152,12 @@ pub mod mc1_20 {
         SculkCatalystBlockEntity > BlockEntity { optional "cursors" as cursors: fastnbt::Value }
         SculkSensorBlockEntity > BlockEntity { "last_vibration_frequency" as last_vibration_frequency: i32, optional "listener" as listener: fastnbt::Value }
         SculkShriekerBlockEntity > BlockEntity { optional "listener" as listener: fastnbt::Value, "warning_level" as warning_level: i32 }
-        ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
+        ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         SignBlockEntity > BlockEntity { optional "back_text" as back_text: fastnbt::Value, optional "front_text" as front_text: fastnbt::Value, "is_waxed" as is_waxed: bool }
-        SkullBlockEntity > BlockEntity { optional "SkullOwner" as skull_owner: super::compounds::NbtUtils_writeGameProfile, optional "note_block_sound" as note_block_sound: String }
+        SkullBlockEntity > BlockEntity { optional "SkullOwner" as skull_owner: super::compounds::NbtUtils_writeGameProfile, optional "note_block_sound" as note_block_sound: CowStr }
         SmokerBlockEntity > AbstractFurnaceBlockEntity {  }
         SpawnerBlockEntity > BlockEntity { "Delay" as delay: i16, "MaxNearbyEntities" as max_nearby_entities: i16, "MaxSpawnDelay" as max_spawn_delay: i16, "MinSpawnDelay" as min_spawn_delay: i16, "RequiredPlayerRange" as required_player_range: i16, "SpawnCount" as spawn_count: i16, optional "SpawnData" as spawn_data: fastnbt::Value, "SpawnPotentials" as spawn_potentials: fastnbt::Value, "SpawnRange" as spawn_range: i16 }
-        StructureBlockEntity > BlockEntity { "author" as author: String, "ignoreEntities" as ignore_entities: bool, "integrity" as integrity: f32, "metadata" as metadata: String, "mirror" as mirror: String, "mode" as mode: String, "name" as name: String, "posX" as pos_x: i32, "posY" as pos_y: i32, "posZ" as pos_z: i32, "powered" as powered: bool, "rotation" as rotation: String, "seed" as seed: i64, "showair" as showair: bool, "showboundingbox" as showboundingbox: bool, "sizeX" as size_x: i32, "sizeY" as size_y: i32, "sizeZ" as size_z: i32 }
+        StructureBlockEntity > BlockEntity { "author" as author: CowStr, "ignoreEntities" as ignore_entities: bool, "integrity" as integrity: f32, "metadata" as metadata: CowStr, "mirror" as mirror: CowStr, "mode" as mode: CowStr, "name" as name: CowStr, "posX" as pos_x: i32, "posY" as pos_y: i32, "posZ" as pos_z: i32, "powered" as powered: bool, "rotation" as rotation: CowStr, "seed" as seed: i64, "showair" as showair: bool, "showboundingbox" as showboundingbox: bool, "sizeX" as size_x: i32, "sizeY" as size_y: i32, "sizeZ" as size_z: i32 }
         TheEndGatewayBlockEntity > TheEndPortalBlockEntity { "Age" as age: i64, optional "ExactTeleport" as exact_teleport: bool, optional "ExitPortal" as exit_portal: super::compounds::NbtUtils_writeBlockPos }
         TheEndPortalBlockEntity > BlockEntity {  }
         TrappedChestBlockEntity > ChestBlockEntity {  }
@@ -1165,12 +1165,12 @@ pub mod mc1_20 {
 
     block_entity_compound_types! {
         "1.20";
-        Compound2 { optional "Signature" as signature: String, "Value" as value: String }
-        Compound5 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
-        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        Compound2 { optional "Signature" as signature: CowStr, "Value" as value: CowStr }
+        Compound5 { "EntityData" as entity_data: HashMap<CowStr, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
+        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save_1 { "Count" as count: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
-        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound2>> }
+        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: CowStr, optional "Properties" as properties: HashMap<CowStr, Vec<super::compounds::Compound2>> }
     }
 }
 
@@ -1224,35 +1224,35 @@ pub mod mc1_20_2 {
 
     block_entity_types! {
         "1.20.2";
-        AbstractFurnaceBlockEntity > BaseContainerBlockEntity { "BurnTime" as burn_time: i16, "CookTime" as cook_time: i16, "CookTimeTotal" as cook_time_total: i16, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "RecipesUsed" as recipes_used: HashMap<String, i32> }
-        BannerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Patterns" as patterns: Vec<fastnbt::Value> }
-        BarrelBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
-        BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Lock" as lock: String }
-        BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, "Levels" as levels: i32, optional "Lock" as lock: String, optional "primary_effect" as primary_effect: String, optional "secondary_effect" as secondary_effect: String }
+        AbstractFurnaceBlockEntity > BaseContainerBlockEntity { "BurnTime" as burn_time: i16, "CookTime" as cook_time: i16, "CookTimeTotal" as cook_time_total: i16, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "RecipesUsed" as recipes_used: HashMap<CowStr, i32> }
+        BannerBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, optional "Patterns" as patterns: Vec<fastnbt::Value> }
+        BarrelBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, optional "Lock" as lock: CowStr }
+        BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, "Levels" as levels: i32, optional "Lock" as lock: CowStr, optional "primary_effect" as primary_effect: CowStr, optional "secondary_effect" as secondary_effect: CowStr }
         BedBlockEntity > BlockEntity {  }
         BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound5>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
         BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: u8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
-        BrushableBlockEntity > BlockEntity { optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64, optional "item" as item: super::compounds::ItemStack_save_1 }
+        BrushableBlockEntity > BlockEntity { optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64, optional "item" as item: super::compounds::ItemStack_save_1 }
         CalibratedSculkSensorBlockEntity > SculkSensorBlockEntity {  }
         CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
-        ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
+        ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         ChiseledBookShelfBlockEntity > BlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, "last_interacted_slot" as last_interacted_slot: i32 }
-        CommandBlockEntity > BlockEntity { "Command" as command: String, "CustomName" as custom_name: String, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: String, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
+        CommandBlockEntity > BlockEntity { "Command" as command: CowStr, "CustomName" as custom_name: CowStr, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: CowStr, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
         ComparatorBlockEntity > BlockEntity { "OutputSignal" as output_signal: i32 }
         ConduitBlockEntity > BlockEntity { optional "Target" as target: u128 }
         DaylightDetectorBlockEntity > BlockEntity {  }
         DecoratedPotBlockEntity > BlockEntity { optional "sherds" as sherds: Vec<fastnbt::Value> }
-        DispenserBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
+        DispenserBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         DropperBlockEntity > DispenserBlockEntity {  }
-        EnchantmentTableBlockEntity > BlockEntity { optional "CustomName" as custom_name: String }
+        EnchantmentTableBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr }
         EnderChestBlockEntity > BlockEntity {  }
         FurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         HangingSignBlockEntity > SignBlockEntity {  }
-        HopperBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64, "TransferCooldown" as transfer_cooldown: i32 }
-        JigsawBlockEntity > BlockEntity { "final_state" as final_state: String, "joint" as joint: String, "name" as name: String, "pool" as pool: String, "target" as target: String }
+        HopperBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64, "TransferCooldown" as transfer_cooldown: i32 }
+        JigsawBlockEntity > BlockEntity { "final_state" as final_state: CowStr, "joint" as joint: CowStr, "name" as name: CowStr, "pool" as pool: CowStr, "target" as target: CowStr }
         JukeboxBlockEntity > BlockEntity { "IsPlaying" as is_playing: bool, optional "RecordItem" as record_item: super::compounds::ItemStack_save_1, "RecordStartTick" as record_start_tick: i64, "TickCount" as tick_count: i64 }
         LecternBlockEntity > BlockEntity { optional "Book" as book: super::compounds::ItemStack_save_1, optional "Page" as page: i32 }
         PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::BlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
@@ -1260,12 +1260,12 @@ pub mod mc1_20_2 {
         SculkCatalystBlockEntity > BlockEntity { optional "cursors" as cursors: fastnbt::Value }
         SculkSensorBlockEntity > BlockEntity { "last_vibration_frequency" as last_vibration_frequency: i32, optional "listener" as listener: fastnbt::Value }
         SculkShriekerBlockEntity > BlockEntity { optional "listener" as listener: fastnbt::Value, "warning_level" as warning_level: i32 }
-        ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
+        ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         SignBlockEntity > BlockEntity { optional "back_text" as back_text: fastnbt::Value, optional "front_text" as front_text: fastnbt::Value, "is_waxed" as is_waxed: bool }
-        SkullBlockEntity > BlockEntity { optional "SkullOwner" as skull_owner: super::compounds::NbtUtils_writeGameProfile, optional "note_block_sound" as note_block_sound: String }
+        SkullBlockEntity > BlockEntity { optional "SkullOwner" as skull_owner: super::compounds::NbtUtils_writeGameProfile, optional "note_block_sound" as note_block_sound: CowStr }
         SmokerBlockEntity > AbstractFurnaceBlockEntity {  }
         SpawnerBlockEntity > BlockEntity { "Delay" as delay: i16, "MaxNearbyEntities" as max_nearby_entities: i16, "MaxSpawnDelay" as max_spawn_delay: i16, "MinSpawnDelay" as min_spawn_delay: i16, "RequiredPlayerRange" as required_player_range: i16, "SpawnCount" as spawn_count: i16, optional "SpawnData" as spawn_data: fastnbt::Value, "SpawnPotentials" as spawn_potentials: fastnbt::Value, "SpawnRange" as spawn_range: i16 }
-        StructureBlockEntity > BlockEntity { "author" as author: String, "ignoreEntities" as ignore_entities: bool, "integrity" as integrity: f32, "metadata" as metadata: String, "mirror" as mirror: String, "mode" as mode: String, "name" as name: String, "posX" as pos_x: i32, "posY" as pos_y: i32, "posZ" as pos_z: i32, "powered" as powered: bool, "rotation" as rotation: String, "seed" as seed: i64, "showair" as showair: bool, "showboundingbox" as showboundingbox: bool, "sizeX" as size_x: i32, "sizeY" as size_y: i32, "sizeZ" as size_z: i32 }
+        StructureBlockEntity > BlockEntity { "author" as author: CowStr, "ignoreEntities" as ignore_entities: bool, "integrity" as integrity: f32, "metadata" as metadata: CowStr, "mirror" as mirror: CowStr, "mode" as mode: CowStr, "name" as name: CowStr, "posX" as pos_x: i32, "posY" as pos_y: i32, "posZ" as pos_z: i32, "powered" as powered: bool, "rotation" as rotation: CowStr, "seed" as seed: i64, "showair" as showair: bool, "showboundingbox" as showboundingbox: bool, "sizeX" as size_x: i32, "sizeY" as size_y: i32, "sizeZ" as size_z: i32 }
         TheEndGatewayBlockEntity > TheEndPortalBlockEntity { "Age" as age: i64, optional "ExactTeleport" as exact_teleport: bool, optional "ExitPortal" as exit_portal: super::compounds::NbtUtils_writeBlockPos }
         TheEndPortalBlockEntity > BlockEntity {  }
         TrappedChestBlockEntity > ChestBlockEntity {  }
@@ -1273,12 +1273,12 @@ pub mod mc1_20_2 {
 
     block_entity_compound_types! {
         "1.20.2";
-        Compound2 { optional "Signature" as signature: String, "Value" as value: String }
-        Compound5 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
-        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        Compound2 { optional "Signature" as signature: CowStr, "Value" as value: CowStr }
+        Compound5 { "EntityData" as entity_data: HashMap<CowStr, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
+        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save_1 { "Count" as count: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
-        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound2>> }
+        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: CowStr, optional "Properties" as properties: HashMap<CowStr, Vec<super::compounds::Compound2>> }
     }
 }
 
@@ -1334,36 +1334,36 @@ pub mod mc1_20_3 {
 
     block_entity_types! {
         "1.20.3";
-        AbstractFurnaceBlockEntity > BaseContainerBlockEntity { "BurnTime" as burn_time: i16, "CookTime" as cook_time: i16, "CookTimeTotal" as cook_time_total: i16, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "RecipesUsed" as recipes_used: HashMap<String, i32> }
-        BannerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Patterns" as patterns: Vec<fastnbt::Value> }
-        BarrelBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
-        BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Lock" as lock: String }
-        BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, "Levels" as levels: i32, optional "Lock" as lock: String, optional "primary_effect" as primary_effect: String, optional "secondary_effect" as secondary_effect: String }
+        AbstractFurnaceBlockEntity > BaseContainerBlockEntity { "BurnTime" as burn_time: i16, "CookTime" as cook_time: i16, "CookTimeTotal" as cook_time_total: i16, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "RecipesUsed" as recipes_used: HashMap<CowStr, i32> }
+        BannerBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, optional "Patterns" as patterns: Vec<fastnbt::Value> }
+        BarrelBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, optional "Lock" as lock: CowStr }
+        BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, "Levels" as levels: i32, optional "Lock" as lock: CowStr, optional "primary_effect" as primary_effect: CowStr, optional "secondary_effect" as secondary_effect: CowStr }
         BedBlockEntity > BlockEntity {  }
         BeehiveBlockEntity > BlockEntity { "Bees" as bees: Vec<super::compounds::Compound5>, optional "FlowerPos" as flower_pos: super::compounds::NbtUtils_writeBlockPos }
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
         BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: u8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
-        BrushableBlockEntity > BlockEntity { optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64, optional "item" as item: super::compounds::ItemStack_save_1 }
+        BrushableBlockEntity > BlockEntity { optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64, optional "item" as item: super::compounds::ItemStack_save_1 }
         CalibratedSculkSensorBlockEntity > SculkSensorBlockEntity {  }
         CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
-        ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
+        ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         ChiseledBookShelfBlockEntity > BlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, "last_interacted_slot" as last_interacted_slot: i32 }
-        CommandBlockEntity > BlockEntity { "Command" as command: String, "CustomName" as custom_name: String, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: String, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
+        CommandBlockEntity > BlockEntity { "Command" as command: CowStr, "CustomName" as custom_name: CowStr, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: CowStr, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
         ComparatorBlockEntity > BlockEntity { "OutputSignal" as output_signal: i32 }
         ConduitBlockEntity > BlockEntity { optional "Target" as target: u128 }
-        CrafterBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64, "crafting_ticks_remaining" as crafting_ticks_remaining: i32, "disabled_slots" as disabled_slots: fastnbt::IntArray, "triggered" as triggered: i32 }
+        CrafterBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64, "crafting_ticks_remaining" as crafting_ticks_remaining: i32, "disabled_slots" as disabled_slots: fastnbt::IntArray, "triggered" as triggered: i32 }
         DaylightDetectorBlockEntity > BlockEntity {  }
-        DecoratedPotBlockEntity > BlockEntity { optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64, optional "item" as item: super::compounds::ItemStack_save_1, optional "sherds" as sherds: Vec<fastnbt::Value> }
-        DispenserBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
+        DecoratedPotBlockEntity > BlockEntity { optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64, optional "item" as item: super::compounds::ItemStack_save_1, optional "sherds" as sherds: Vec<fastnbt::Value> }
+        DispenserBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         DropperBlockEntity > DispenserBlockEntity {  }
-        EnchantmentTableBlockEntity > BlockEntity { optional "CustomName" as custom_name: String }
+        EnchantmentTableBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr }
         EnderChestBlockEntity > BlockEntity {  }
         FurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         HangingSignBlockEntity > SignBlockEntity {  }
-        HopperBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64, "TransferCooldown" as transfer_cooldown: i32 }
-        JigsawBlockEntity > BlockEntity { "final_state" as final_state: String, "joint" as joint: String, "name" as name: String, "placement_priority" as placement_priority: i32, "pool" as pool: String, "selection_priority" as selection_priority: i32, "target" as target: String }
+        HopperBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64, "TransferCooldown" as transfer_cooldown: i32 }
+        JigsawBlockEntity > BlockEntity { "final_state" as final_state: CowStr, "joint" as joint: CowStr, "name" as name: CowStr, "placement_priority" as placement_priority: i32, "pool" as pool: CowStr, "selection_priority" as selection_priority: i32, "target" as target: CowStr }
         JukeboxBlockEntity > BlockEntity { "IsPlaying" as is_playing: bool, optional "RecordItem" as record_item: super::compounds::ItemStack_save_1, "RecordStartTick" as record_start_tick: i64, "TickCount" as tick_count: i64 }
         LecternBlockEntity > BlockEntity { optional "Book" as book: super::compounds::ItemStack_save_1, optional "Page" as page: i32 }
         PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::BlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
@@ -1371,12 +1371,12 @@ pub mod mc1_20_3 {
         SculkCatalystBlockEntity > BlockEntity { optional "cursors" as cursors: fastnbt::Value }
         SculkSensorBlockEntity > BlockEntity { "last_vibration_frequency" as last_vibration_frequency: i32, optional "listener" as listener: fastnbt::Value }
         SculkShriekerBlockEntity > BlockEntity { optional "listener" as listener: fastnbt::Value, "warning_level" as warning_level: i32 }
-        ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
+        ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         SignBlockEntity > BlockEntity { optional "back_text" as back_text: fastnbt::Value, optional "front_text" as front_text: fastnbt::Value, "is_waxed" as is_waxed: bool }
-        SkullBlockEntity > BlockEntity { optional "SkullOwner" as skull_owner: super::compounds::NbtUtils_writeGameProfile, optional "note_block_sound" as note_block_sound: String }
+        SkullBlockEntity > BlockEntity { optional "SkullOwner" as skull_owner: super::compounds::NbtUtils_writeGameProfile, optional "note_block_sound" as note_block_sound: CowStr }
         SmokerBlockEntity > AbstractFurnaceBlockEntity {  }
         SpawnerBlockEntity > BlockEntity { "Delay" as delay: i16, "MaxNearbyEntities" as max_nearby_entities: i16, "MaxSpawnDelay" as max_spawn_delay: i16, "MinSpawnDelay" as min_spawn_delay: i16, "RequiredPlayerRange" as required_player_range: i16, "SpawnCount" as spawn_count: i16, optional "SpawnData" as spawn_data: fastnbt::Value, "SpawnPotentials" as spawn_potentials: fastnbt::Value, "SpawnRange" as spawn_range: i16 }
-        StructureBlockEntity > BlockEntity { "author" as author: String, "ignoreEntities" as ignore_entities: bool, "integrity" as integrity: f32, "metadata" as metadata: String, "mirror" as mirror: String, "mode" as mode: String, "name" as name: String, "posX" as pos_x: i32, "posY" as pos_y: i32, "posZ" as pos_z: i32, "powered" as powered: bool, "rotation" as rotation: String, "seed" as seed: i64, "showair" as showair: bool, "showboundingbox" as showboundingbox: bool, "sizeX" as size_x: i32, "sizeY" as size_y: i32, "sizeZ" as size_z: i32 }
+        StructureBlockEntity > BlockEntity { "author" as author: CowStr, "ignoreEntities" as ignore_entities: bool, "integrity" as integrity: f32, "metadata" as metadata: CowStr, "mirror" as mirror: CowStr, "mode" as mode: CowStr, "name" as name: CowStr, "posX" as pos_x: i32, "posY" as pos_y: i32, "posZ" as pos_z: i32, "powered" as powered: bool, "rotation" as rotation: CowStr, "seed" as seed: i64, "showair" as showair: bool, "showboundingbox" as showboundingbox: bool, "sizeX" as size_x: i32, "sizeY" as size_y: i32, "sizeZ" as size_z: i32 }
         TheEndGatewayBlockEntity > TheEndPortalBlockEntity { "Age" as age: i64, optional "ExactTeleport" as exact_teleport: bool, optional "ExitPortal" as exit_portal: super::compounds::NbtUtils_writeBlockPos }
         TheEndPortalBlockEntity > BlockEntity {  }
         TrappedChestBlockEntity > ChestBlockEntity {  }
@@ -1385,12 +1385,12 @@ pub mod mc1_20_3 {
 
     block_entity_compound_types! {
         "1.20.3";
-        Compound2 { optional "Signature" as signature: String, "Value" as value: String }
-        Compound5 { "EntityData" as entity_data: HashMap<String, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
-        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, "id" as id: String, optional "tag" as tag: HashMap<String, fastnbt::Value> }
+        Compound2 { optional "Signature" as signature: CowStr, "Value" as value: CowStr }
+        Compound5 { "EntityData" as entity_data: HashMap<CowStr, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
+        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save_1 { "Count" as count: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
-        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: String, optional "Properties" as properties: HashMap<String, Vec<super::compounds::Compound2>> }
+        NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: CowStr, optional "Properties" as properties: HashMap<CowStr, Vec<super::compounds::Compound2>> }
     }
 }
 
@@ -1447,36 +1447,36 @@ pub mod mc1_20_5 {
 
     block_entity_types! {
         "1.20.5";
-        AbstractFurnaceBlockEntity > BaseContainerBlockEntity { "BurnTime" as burn_time: i16, "CookTime" as cook_time: i16, "CookTimeTotal" as cook_time_total: i16, optional "Items" as items: Vec<fastnbt::Value>, "RecipesUsed" as recipes_used: HashMap<String, i32> }
-        BannerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "patterns" as patterns: fastnbt::Value }
-        BarrelBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<fastnbt::Value>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
-        BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, optional "Lock" as lock: String }
-        BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: String, "Levels" as levels: i32, optional "Lock" as lock: String, optional "primary_effect" as primary_effect: String, optional "secondary_effect" as secondary_effect: String }
+        AbstractFurnaceBlockEntity > BaseContainerBlockEntity { "BurnTime" as burn_time: i16, "CookTime" as cook_time: i16, "CookTimeTotal" as cook_time_total: i16, optional "Items" as items: Vec<fastnbt::Value>, "RecipesUsed" as recipes_used: HashMap<CowStr, i32> }
+        BannerBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, optional "patterns" as patterns: fastnbt::Value }
+        BarrelBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<fastnbt::Value>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, optional "Lock" as lock: CowStr }
+        BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, "Levels" as levels: i32, optional "Lock" as lock: CowStr, optional "primary_effect" as primary_effect: CowStr, optional "secondary_effect" as secondary_effect: CowStr }
         BedBlockEntity > BlockEntity {  }
         BeehiveBlockEntity > BlockEntity { "bees" as bees: fastnbt::Value, optional "flower_pos" as flower_pos: fastnbt::IntArray }
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
         BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: u8, optional "Items" as items: Vec<fastnbt::Value> }
-        BrushableBlockEntity > BlockEntity { optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64, optional "item" as item: fastnbt::Value }
+        BrushableBlockEntity > BlockEntity { optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64, optional "item" as item: fastnbt::Value }
         CalibratedSculkSensorBlockEntity > SculkSensorBlockEntity {  }
         CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<fastnbt::Value> }
-        ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<fastnbt::Value>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
+        ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<fastnbt::Value>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         ChiseledBookShelfBlockEntity > BlockEntity { optional "Items" as items: Vec<fastnbt::Value>, "last_interacted_slot" as last_interacted_slot: i32 }
-        CommandBlockEntity > BlockEntity { "Command" as command: String, optional "CustomName" as custom_name: String, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: String, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
+        CommandBlockEntity > BlockEntity { "Command" as command: CowStr, optional "CustomName" as custom_name: CowStr, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: CowStr, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
         ComparatorBlockEntity > BlockEntity { "OutputSignal" as output_signal: i32 }
         ConduitBlockEntity > BlockEntity { optional "Target" as target: u128 }
-        CrafterBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<fastnbt::Value>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64, "crafting_ticks_remaining" as crafting_ticks_remaining: i32, "disabled_slots" as disabled_slots: fastnbt::IntArray, "triggered" as triggered: i32 }
+        CrafterBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<fastnbt::Value>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64, "crafting_ticks_remaining" as crafting_ticks_remaining: i32, "disabled_slots" as disabled_slots: fastnbt::IntArray, "triggered" as triggered: i32 }
         DaylightDetectorBlockEntity > BlockEntity {  }
-        DecoratedPotBlockEntity > BlockEntity { optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64, optional "item" as item: fastnbt::Value, optional "sherds" as sherds: fastnbt::Value }
-        DispenserBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<fastnbt::Value>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
+        DecoratedPotBlockEntity > BlockEntity { optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64, optional "item" as item: fastnbt::Value, optional "sherds" as sherds: fastnbt::Value }
+        DispenserBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<fastnbt::Value>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         DropperBlockEntity > DispenserBlockEntity {  }
-        EnchantingTableBlockEntity > BlockEntity { optional "CustomName" as custom_name: String }
+        EnchantingTableBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr }
         EnderChestBlockEntity > BlockEntity {  }
         FurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         HangingSignBlockEntity > SignBlockEntity {  }
-        HopperBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<fastnbt::Value>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64, "TransferCooldown" as transfer_cooldown: i32 }
-        JigsawBlockEntity > BlockEntity { "final_state" as final_state: String, "joint" as joint: String, "name" as name: String, "placement_priority" as placement_priority: i32, "pool" as pool: String, "selection_priority" as selection_priority: i32, "target" as target: String }
+        HopperBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<fastnbt::Value>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64, "TransferCooldown" as transfer_cooldown: i32 }
+        JigsawBlockEntity > BlockEntity { "final_state" as final_state: CowStr, "joint" as joint: CowStr, "name" as name: CowStr, "placement_priority" as placement_priority: i32, "pool" as pool: CowStr, "selection_priority" as selection_priority: i32, "target" as target: CowStr }
         JukeboxBlockEntity > BlockEntity { "IsPlaying" as is_playing: bool, optional "RecordItem" as record_item: fastnbt::Value, "RecordStartTick" as record_start_tick: i64, "TickCount" as tick_count: i64 }
         LecternBlockEntity > BlockEntity { optional "Book" as book: fastnbt::Value, optional "Page" as page: i32 }
         PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::BlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
@@ -1484,12 +1484,12 @@ pub mod mc1_20_5 {
         SculkCatalystBlockEntity > BlockEntity { optional "cursors" as cursors: fastnbt::Value }
         SculkSensorBlockEntity > BlockEntity { "last_vibration_frequency" as last_vibration_frequency: i32, optional "listener" as listener: fastnbt::Value }
         SculkShriekerBlockEntity > BlockEntity { optional "listener" as listener: fastnbt::Value, "warning_level" as warning_level: i32 }
-        ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<fastnbt::Value>, optional "LootTable" as loot_table: String, optional "LootTableSeed" as loot_table_seed: i64 }
+        ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<fastnbt::Value>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         SignBlockEntity > BlockEntity { optional "back_text" as back_text: fastnbt::Value, optional "front_text" as front_text: fastnbt::Value, "is_waxed" as is_waxed: bool }
-        SkullBlockEntity > BlockEntity { optional "custom_name" as custom_name: String, optional "note_block_sound" as note_block_sound: String, optional "profile" as profile: fastnbt::Value }
+        SkullBlockEntity > BlockEntity { optional "custom_name" as custom_name: CowStr, optional "note_block_sound" as note_block_sound: CowStr, optional "profile" as profile: fastnbt::Value }
         SmokerBlockEntity > AbstractFurnaceBlockEntity {  }
         SpawnerBlockEntity > BlockEntity { "Delay" as delay: i16, "MaxNearbyEntities" as max_nearby_entities: i16, "MaxSpawnDelay" as max_spawn_delay: i16, "MinSpawnDelay" as min_spawn_delay: i16, "RequiredPlayerRange" as required_player_range: i16, "SpawnCount" as spawn_count: i16, optional "SpawnData" as spawn_data: fastnbt::Value, "SpawnPotentials" as spawn_potentials: fastnbt::Value, "SpawnRange" as spawn_range: i16 }
-        StructureBlockEntity > BlockEntity { "author" as author: String, "ignoreEntities" as ignore_entities: bool, "integrity" as integrity: f32, "metadata" as metadata: String, "mirror" as mirror: String, "mode" as mode: String, "name" as name: String, "posX" as pos_x: i32, "posY" as pos_y: i32, "posZ" as pos_z: i32, "powered" as powered: bool, "rotation" as rotation: String, "seed" as seed: i64, "showair" as showair: bool, "showboundingbox" as showboundingbox: bool, "sizeX" as size_x: i32, "sizeY" as size_y: i32, "sizeZ" as size_z: i32 }
+        StructureBlockEntity > BlockEntity { "author" as author: CowStr, "ignoreEntities" as ignore_entities: bool, "integrity" as integrity: f32, "metadata" as metadata: CowStr, "mirror" as mirror: CowStr, "mode" as mode: CowStr, "name" as name: CowStr, "posX" as pos_x: i32, "posY" as pos_y: i32, "posZ" as pos_z: i32, "powered" as powered: bool, "rotation" as rotation: CowStr, "seed" as seed: i64, "showair" as showair: bool, "showboundingbox" as showboundingbox: bool, "sizeX" as size_x: i32, "sizeY" as size_y: i32, "sizeZ" as size_z: i32 }
         TheEndGatewayBlockEntity > TheEndPortalBlockEntity { "Age" as age: i64, optional "ExactTeleport" as exact_teleport: bool, optional "exit_portal" as exit_portal: fastnbt::IntArray }
         TheEndPortalBlockEntity > BlockEntity {  }
         TrappedChestBlockEntity > ChestBlockEntity {  }

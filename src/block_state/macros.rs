@@ -30,6 +30,8 @@ macro_rules! blocks {
         #[cfg(feature = "serde")]
         use serde::{Deserialize, de::Visitor, Serialize};
 
+        type CowStr = std::borrow::Cow<'static, str>;
+
         #[doc = concat!("A typed block state for Minecraft ", $mc_version, ".")]
         #[derive(Debug, Clone)]
         pub enum BlockState {
@@ -132,8 +134,8 @@ macro_rules! blocks {
                     fn visit_map<V>(self, mut map: V) -> Result<Self::Value, V::Error>
                     where V: serde::de::MapAccess<'de>
                     {
-                        let mut name: Option<String> = None;
-                        let mut properties: Option<HashMap<String, String>> = None;
+                        let mut name: Option<CowStr> = None;
+                        let mut properties: Option<HashMap<CowStr, CowStr>> = None;
                         while let Some(key) = map.next_key()? {
                             match key {
                                 _Field::Name => {
@@ -185,7 +187,7 @@ macro_rules! props {
     () => { HashMap::new() };
     ($($prop:ident $($prop_str:literal)?),+) => {
         HashMap::from([$(
-            (prop_str!($prop $($prop_str)?).to_string(), $prop.to_string()),
+            (prop_str!($prop $($prop_str)?).into(), $prop.to_string().into()),
         )+])
     }
 }

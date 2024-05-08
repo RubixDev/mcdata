@@ -26,7 +26,7 @@
 //! # test();
 //! ```
 
-use std::collections::HashMap;
+use std::{borrow::Cow, collections::HashMap};
 
 #[cfg(feature = "block-states")]
 pub use self::list::*;
@@ -50,11 +50,11 @@ pub trait BlockState: Clone + PartialEq + Sized {
 #[cfg_attr(feature = "serde", serde(rename_all = "PascalCase"))]
 pub struct GenericBlockState {
     /// The id of this block, e.g. `minecraft:air`.
-    pub name: String,
+    pub name: Cow<'static, str>,
 
     /// The properties of this block state as a map from names to values.
     #[cfg_attr(feature = "serde", serde(default))]
-    pub properties: HashMap<String, String>,
+    pub properties: HashMap<Cow<'static, str>, Cow<'static, str>>,
 }
 
 impl BlockState for GenericBlockState {

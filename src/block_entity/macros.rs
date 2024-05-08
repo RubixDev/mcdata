@@ -20,6 +20,9 @@ macro_rules! block_entities {
         #[cfg(not(feature = "block-states"))]
         pub(crate) type BlockState = $crate::block_state::GenericBlockState;
 
+        #[allow(dead_code)]
+        type CowStr = std::borrow::Cow<'static, str>;
+
         #[doc = concat!("A typed block entity for Minecraft ", $mc_version, ".")]
         #[derive(Debug, Clone)]
         pub enum BlockEntity {
@@ -70,9 +73,9 @@ macro_rules! block_entities {
                                 panic!("valid block entity has 'z' key of type int");
                             };
                             super::super::GenericBlockEntity {
-                                id: $id.to_string(),
+                                id: $id.into(),
                                 pos: $crate::util::BlockPos::new(x, y, z),
-                                properties: props.into_iter().map(|(k, v)| (k.to_string(), v)).collect(),
+                                properties: props,
                             }
                         }
                     )+
@@ -171,18 +174,18 @@ macro_rules! block_entities {
                                             properties.remove("y");
                                             properties.remove("z");
                                             Self::Value::Other(super::super::GenericBlockEntity {
-                                                id: $id.to_string(),
+                                                id: $id.into(),
                                                 pos: $crate::util::BlockPos::new(x, y, z),
-                                                properties,
+                                                properties: properties.into_iter().map(|(k, v)| (k.into(), v)).collect(),
                                             })
                                         }
                                     }
                                 }
                             )+
                             Some(id) => Self::Value::Other(super::super::GenericBlockEntity {
-                                id: id.to_string(),
+                                id: id.to_string().into(),
                                 pos: $crate::util::BlockPos::new(x, y, z),
-                                properties,
+                                properties: properties.into_iter().map(|(k, v)| (k.into(), v)).collect(),
                             }),
                             None => {
                                 // try untagged deserialization when id is missing
@@ -203,7 +206,9 @@ macro_rules! block_entities {
                                         stringify!($variant),
                                         // a closure to try to construct this variant
                                         Box::new(
-                                            || fastnbt::from_value::<types::$type>(&fastnbt::Value::Compound(properties.clone())).ok().map(Self::Value::$variant)
+                                            || fastnbt::from_value::<types::$type>(
+                                                &fastnbt::Value::Compound(properties.clone())
+                                            ).ok().map(Self::Value::$variant)
                                         ) as Box<dyn FnOnce() -> Option<Self::Value>>,
                                     ),
                                 )+];
@@ -221,9 +226,9 @@ macro_rules! block_entities {
                                 properties.remove("y");
                                 properties.remove("z");
                                 Self::Value::Other(super::super::GenericBlockEntity {
-                                    id: String::new(),
+                                    id: "".into(),
                                     pos: $crate::util::BlockPos::new(x, y, z),
-                                    properties,
+                                    properties: properties.into_iter().map(|(k, v)| (k.into(), v)).collect(),
                                 })
                             }
                         })
@@ -309,7 +314,7 @@ struct B { a: i32, b: f64 }
         #[doc = $doc]
         #[allow(missing_docs, unused_imports, non_camel_case_types)]
         pub mod $mod_name {
-            use std::{borrow, collections::HashMap};
+            use std::collections::HashMap;
 
             #[cfg(feature = "serde")]
             use $crate::flatten::Flatten;
@@ -317,6 +322,9 @@ struct B { a: i32, b: f64 }
             use serde::{Deserialize, de::Visitor, Serialize};
             #[cfg(feature = "serde")]
             use std::{marker::PhantomData, fmt};
+
+            #[allow(dead_code)]
+            type CowStr = std::borrow::Cow<'static, str>;
 
             $(
             #[derive(Debug, Clone)]
@@ -332,7 +340,7 @@ struct B { a: i32, b: f64 }
                 )?
                 $(
                     /// Additional fields with unknown keys.
-                    pub extra: HashMap<String, $extras_type>,
+                    pub extra: HashMap<CowStr, $extras_type>,
                 )?
                 $(
                     // TODO: these doc links can be wrong for `Box<T>`
@@ -343,7 +351,7 @@ struct B { a: i32, b: f64 }
 
             #[cfg(feature = "serde")]
             impl Flatten for $name {
-                fn flatten(&self, map: &mut HashMap<borrow::Cow<'static, str>, fastnbt::Value>) {
+                fn flatten(&self, map: &mut HashMap<CowStr, fastnbt::Value>) {
                     $(
                         block_entity_types!(@optional_insert map, $entry_name, &self.$entry_field $(, $optional)?);
                     )*
@@ -353,7 +361,7 @@ struct B { a: i32, b: f64 }
                     $(
                         stringify!($extras_type); // just to have the correct macro variable in here somewhere
                         for (k, v) in &self.extra {
-                            map.insert(borrow::Cow::Owned(k.clone()), fastnbt::to_value(v).expect("structure is valid NBT"));
+                            map.insert(CowStr::Owned(k.clone()), fastnbt::to_value(v).expect("structure is valid NBT"));
                         }
                     )?
                     $(
@@ -450,7 +458,7 @@ struct B { a: i32, b: f64 }
                                     parent: <$parent as Deserialize>::deserialize($crate::flatten::FlatMapDeserializer(&mut __collect, PhantomData))?,
                                 )?
                                 $(
-                                    extra: <HashMap<String, $extras_type> as Deserialize>::deserialize($crate::flatten::FlatMapDeserializer(&mut __collect, PhantomData))?,
+                                    extra: <HashMap<CowStr, $extras_type> as Deserialize>::deserialize($crate::flatten::FlatMapDeserializer(&mut __collect, PhantomData))?,
                                 )?
                                 $(
                                     $flat_field: <$flat_type as Deserialize>::deserialize($crate::flatten::FlatMapDeserializer(&mut __collect, PhantomData))?,
@@ -472,7 +480,7 @@ struct B { a: i32, b: f64 }
     (@missing $entry_field:ident, $entry_name:literal) => { $entry_field.ok_or_else(|| serde::de::Error::missing_field($entry_name))? };
     (@missing $entry_field:ident, $entry_name:literal, $optional:ident) => { $entry_field };
     (@optional_insert $map:ident, $entry_name:literal, $entry_value:expr) => {
-        $map.insert(borrow::Cow::Borrowed($entry_name), fastnbt::to_value($entry_value).expect("structure is valid NBT"));
+        $map.insert(CowStr::Borrowed($entry_name), fastnbt::to_value($entry_value).expect("structure is valid NBT"));
     };
     (@optional_insert $map:ident, $entry_name:literal, $entry_value:expr, $optional:ident) => {
         if let Some(value) = $entry_value {

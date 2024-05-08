@@ -159,7 +159,7 @@ impl NbtElement {
             NbtElement::Float => "f32".into(),
             NbtElement::Double => "f64".into(),
             // TODO: try to use Cow<'a, str>?
-            NbtElement::String => "String".into(),
+            NbtElement::String => "CowStr".into(),
             NbtElement::ByteArray => "fastnbt::ByteArray".into(),
             NbtElement::IntArray => "fastnbt::IntArray".into(),
             NbtElement::LongArray => "fastnbt::LongArray".into(),
@@ -173,7 +173,7 @@ impl NbtElement {
             .into(),
             NbtElement::List { inner } => format!("Vec<{}>", inner.as_rust_type()).into(),
             NbtElement::AnyCompound { value_type } => {
-                format!("HashMap<String, {}>", value_type.as_rust_type()).into()
+                format!("HashMap<CowStr, {}>", value_type.as_rust_type()).into()
             }
             NbtElement::Compound { name } => format!("super::compounds::{name}").into(),
             NbtElement::Boxed { name } => format!("Box<super::compounds::{name}>").into(),

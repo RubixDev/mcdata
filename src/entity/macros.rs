@@ -19,6 +19,9 @@ macro_rules! entities {
         #[cfg(not(feature = "block-states"))]
         pub(crate) type BlockState = $crate::block_state::GenericBlockState;
 
+        #[allow(dead_code)]
+        type CowStr = std::borrow::Cow<'static, str>;
+
         #[doc = concat!("A typed entity for Minecraft ", $mc_version, ".")]
         #[derive(Debug, Clone)]
         pub enum Entity {
@@ -48,9 +51,9 @@ macro_rules! entities {
                             let mut props = $crate::flatten::flatten(value);
                             let uuid: u128 = fastnbt::from_value(&props.remove("UUID").expect("every entity has a UUID")).expect("UUID from flattening should be valid");
                             super::super::GenericEntity {
-                                id: $id.to_string(),
+                                id: $id.into(),
                                 uuid,
-                                properties: props.into_iter().map(|(k, v)| (k.to_string(), v)).collect(),
+                                properties: props,
                             }
                         }
                     )+
@@ -130,15 +133,19 @@ macro_rules! entities {
                                         Err(_) => {
                                             properties.remove("UUID");
                                             Self::Value::Other(super::super::GenericEntity {
-                                                id: $id.to_string(),
+                                                id: $id.into(),
                                                 uuid,
-                                                properties,
+                                                properties: properties.into_iter().map(|(k, v)| (k.into(), v)).collect(),
                                             })
                                         }
                                     }
                                 }
                             )+
-                            _ => Self::Value::Other(super::super::GenericEntity { id, uuid, properties })
+                            _ => Self::Value::Other(super::super::GenericEntity {
+                                id: id.into(),
+                                uuid,
+                                properties: properties.into_iter().map(|(k, v)| (k.into(), v)).collect(),
+                            })
                         })
                     }
                 }
@@ -220,7 +227,7 @@ struct B { a: i32, b: f64 }
         #[doc = $doc]
         #[allow(missing_docs, unused_imports, non_camel_case_types)]
         pub mod $mod_name {
-            use std::{borrow, collections::HashMap};
+            use std::collections::HashMap;
 
             #[cfg(feature = "serde")]
             use $crate::flatten::Flatten;
@@ -228,6 +235,9 @@ struct B { a: i32, b: f64 }
             use serde::{Deserialize, de::Visitor, Serialize};
             #[cfg(feature = "serde")]
             use std::{marker::PhantomData, fmt};
+
+            #[allow(dead_code)]
+            type CowStr = std::borrow::Cow<'static, str>;
 
             $(
             #[derive(Debug, Clone)]
@@ -243,7 +253,7 @@ struct B { a: i32, b: f64 }
                 )?
                 $(
                     /// Additional fields with unknown keys.
-                    pub extra: HashMap<String, $extras_type>,
+                    pub extra: HashMap<CowStr, $extras_type>,
                 )?
                 $(
                     // TODO: these doc links can be wrong for `Box<T>`
@@ -254,7 +264,7 @@ struct B { a: i32, b: f64 }
 
             #[cfg(feature = "serde")]
             impl Flatten for $name {
-                fn flatten(&self, map: &mut HashMap<borrow::Cow<'static, str>, fastnbt::Value>) {
+                fn flatten(&self, map: &mut HashMap<CowStr, fastnbt::Value>) {
                     $(
                         entity_types!(@optional_insert map, $entry_name, &self.$entry_field $(, $optional)?);
                     )*
@@ -264,7 +274,7 @@ struct B { a: i32, b: f64 }
                     $(
                         stringify!($extras_type); // just to have the correct macro variable in here somewhere
                         for (k, v) in &self.extra {
-                            map.insert(borrow::Cow::Owned(k.clone()), fastnbt::to_value(v).expect("structure is valid NBT"));
+                            map.insert(CowStr::Owned(k.clone()), fastnbt::to_value(v).expect("structure is valid NBT"));
                         }
                     )?
                     $(
@@ -361,7 +371,7 @@ struct B { a: i32, b: f64 }
                                     parent: <$parent as Deserialize>::deserialize($crate::flatten::FlatMapDeserializer(&mut __collect, PhantomData))?,
                                 )?
                                 $(
-                                    extra: <HashMap<String, $extras_type> as Deserialize>::deserialize($crate::flatten::FlatMapDeserializer(&mut __collect, PhantomData))?,
+                                    extra: <HashMap<CowStr, $extras_type> as Deserialize>::deserialize($crate::flatten::FlatMapDeserializer(&mut __collect, PhantomData))?,
                                 )?
                                 $(
                                     $flat_field: <$flat_type as Deserialize>::deserialize($crate::flatten::FlatMapDeserializer(&mut __collect, PhantomData))?,
@@ -383,7 +393,7 @@ struct B { a: i32, b: f64 }
     (@missing $entry_field:ident, $entry_name:literal) => { $entry_field.ok_or_else(|| serde::de::Error::missing_field($entry_name))? };
     (@missing $entry_field:ident, $entry_name:literal, $optional:ident) => { $entry_field };
     (@optional_insert $map:ident, $entry_name:literal, $entry_value:expr) => {
-        $map.insert(borrow::Cow::Borrowed($entry_name), fastnbt::to_value($entry_value).expect("structure is valid NBT"));
+        $map.insert(CowStr::Borrowed($entry_name), fastnbt::to_value($entry_value).expect("structure is valid NBT"));
     };
     (@optional_insert $map:ident, $entry_name:literal, $entry_value:expr, $optional:ident) => {
         if let Some(value) = $entry_value {

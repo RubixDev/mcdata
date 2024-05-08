@@ -37,7 +37,7 @@
 //!                         attributes: vec![compounds::AttributeInstance_save {
 //!                             base: 1.,
 //!                             modifiers: None,
-//!                             name: "minecraft:generic.movement_speed".to_string(),
+//!                             name: "minecraft:generic.movement_speed".into(),
 //!                         }],
 //!                         brain: Some(fastnbt::nbt!({ "memories": {} })),
 //!                         death_time: 0,
@@ -118,7 +118,7 @@
 //! # test();
 //! ```
 
-use std::collections::HashMap;
+use std::{borrow::Cow, collections::HashMap};
 
 #[cfg(feature = "serde")]
 use std::{fmt, marker::PhantomData};
@@ -142,11 +142,11 @@ pub trait Entity: Clone {}
 #[derive(Debug, Clone, PartialEq)]
 pub struct GenericEntity {
     /// The id of this entity, e.g. `minecraft:cow`.
-    pub id: String,
+    pub id: Cow<'static, str>,
     /// The UUID of this entity, stored as a 128-bit integer.
     pub uuid: u128,
     /// The raw NBT properties of this entity.
-    pub properties: HashMap<String, fastnbt::Value>,
+    pub properties: HashMap<Cow<'static, str>, fastnbt::Value>,
 }
 
 impl Entity for GenericEntity {}
@@ -177,8 +177,8 @@ impl<'de> serde::Deserialize<'de> for GenericEntity {
                 let mut id = None;
                 let mut uuid = None;
                 let mut properties = HashMap::new();
-                while let Some(key) = map.next_key::<String>()? {
-                    match key.as_str() {
+                while let Some(key) = map.next_key::<Cow<'static, str>>()? {
+                    match key.as_ref() {
                         "id" => {
                             if id.is_some() {
                                 return Err(serde::de::Error::duplicate_field("id"));
