@@ -16,9 +16,9 @@ macro_rules! block_entities {
         use serde::{Deserialize, de::Visitor, Serialize};
 
         #[cfg(feature = "block-states")]
-        pub(crate) type BlockState = $crate::block_state::$mc_mod::BlockState;
+        pub(crate) type BlockState = $crate::$mc_mod::BlockState;
         #[cfg(not(feature = "block-states"))]
-        pub(crate) type BlockState = $crate::block_state::GenericBlockState;
+        pub(crate) type BlockState = $crate::GenericBlockState;
 
         #[allow(dead_code)]
         type CowStr = std::borrow::Cow<'static, str>;

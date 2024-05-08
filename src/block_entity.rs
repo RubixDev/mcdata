@@ -1,61 +1,4 @@
 //! Types and traits describing Minecraft block entities, a.k.a. tile entities.
-//!
-//! ## Warning
-//!
-//! If you intend to use any version-specific `BlockEntity` type with litematica files, beware that
-//! there was a bug in litematica since version `1.18.0-0.9.0` that was only fixed in
-//! `1.20.1-0.15.3` which caused the block entity IDs to not be included in saved schematics.
-//! The block entity types _do_ support deserialization without an ID, but that can never be
-//! perfect. For instance, [barrels](mc1_18::types::BarrelBlockEntity) and
-//! [chests](mc1_18::types::ChestBlockEntity) in 1.18 have the same exact NBT structure, but
-//! barrels will always be tested first when deserializing, so chests will also be deserialized as
-//! barrels when there's no ID distinguishing the two. During serialization, the ID will always be
-//! included, so such a chest would become a barrel by just reading and writing the NBT. If that's
-//! a problem for you, consider using [`GenericBlockEntity`] instead which won't mess with missing
-//! IDs.
-//!
-//! ## Example
-//!
-//! ```
-//! # #[cfg(all(feature = "latest", feature = "serde", feature = "block-entities"))]
-//! # fn test() {
-//! use mcdata::block_entity::latest::{self, types};
-//!
-//! let command_block = latest::BlockEntity::CommandBlock(types::CommandBlockEntity {
-//!     command: "/say hi".into(),
-//!     custom_name: None,
-//!     last_execution: None,
-//!     last_output: None,
-//!     success_count: 2,
-//!     track_output: true,
-//!     update_last_execution: true,
-//!     auto: false,
-//!     condition_met: false,
-//!     powered: false,
-//!     parent: types::BlockEntity {
-//!         x: 0,
-//!         y: 10,
-//!         z: -5,
-//!     },
-//! });
-//! let command_block_nbt = fastnbt::nbt!({
-//!     "id": "minecraft:command_block",
-//!     "Command": "/say hi",
-//!     "SuccessCount": 2,
-//!     "TrackOutput": true,
-//!     "UpdateLastExecution": true,
-//!     "auto": false,
-//!     "conditionMet": false,
-//!     "powered": false,
-//!     "x": 0,
-//!     "y": 10,
-//!     "z": -5,
-//! });
-//! assert_eq!(fastnbt::to_value(&command_block), Ok(command_block_nbt));
-//! # }
-//! # #[cfg(all(feature = "latest", feature = "serde", feature = "block-entities"))]
-//! # test();
-//! ```
 
 use std::{borrow::Cow, collections::HashMap};
 
@@ -65,13 +8,10 @@ use std::{fmt, marker::PhantomData};
 use crate::util::BlockPos;
 
 #[cfg(feature = "block-entities")]
-pub use self::list::*;
-
-#[cfg(feature = "block-entities")]
 #[macro_use]
 mod macros;
 #[cfg(feature = "block-entities")]
-mod list;
+pub(crate) mod list;
 
 /// Any type that can represent a block entity.
 pub trait BlockEntity: Clone {

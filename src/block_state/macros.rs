@@ -4,9 +4,9 @@ macro_rules! prop_enums {
         #[doc = concat!("Property types for Minecraft ", $mc_version, ".")]
         #[allow(missing_docs)]
         pub mod props {$(
-            #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-            #[cfg_attr(feature = "serde", derive(strum::Display, strum::EnumString, serde::Serialize, serde::Deserialize))]
-            #[cfg_attr(feature = "serde", strum(serialize_all = "snake_case"))]
+            #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, strum::Display, strum::EnumString)]
+            #[strum(serialize_all = "snake_case")]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             #[cfg_attr(feature = "serde", serde(rename_all = "snake_case"))]
             pub enum $name { $($variant),+ }
         )+}
@@ -26,10 +26,14 @@ macro_rules! blocks {
         );+
         $(;)?
     ) => {
-        use std::{collections::HashMap, fmt, marker::PhantomData, str::FromStr};
+        use std::collections::HashMap;
+
+        #[cfg(feature = "serde")]
+        use std::{fmt, marker::PhantomData, str::FromStr};
         #[cfg(feature = "serde")]
         use serde::{Deserialize, de::Visitor, Serialize};
 
+        #[cfg(feature = "serde")]
         type CowStr = std::borrow::Cow<'static, str>;
 
         #[doc = concat!("A typed block state for Minecraft ", $mc_version, ".")]

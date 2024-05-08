@@ -16,7 +16,7 @@ description = "(De)serializable NBT structures for Minecraft"
 default = []
 
 ## Provide implementations of serde's `Serialize` and `Deserialize` traits for the various types
-serde = ["dep:serde", "dep:strum", "bounded-integer/serde1", "either/serde"]
+serde = ["dep:serde", "bounded-integer/serde1", "either/serde"]
 
 ## Include lists for known, typed block states
 block-states = ["dep:bounded-integer"]
@@ -25,8 +25,14 @@ entities = ["dep:either"]
 ## Include lists for known, typed block entities
 block-entities = []
 
+#! ### Other Features
+
 ## Enable this when building the docs
 docs = ["dep:document-features", "dep:rustc_version"]
+## Enables all features required for running the tests
+test = ["serde", "latest", "block-states", "entities", "block-entities"]
+
+#! ### Minecraft Version Features
 
 ### FEATURE AUTOGEN START ###
 ## Enable lists for the latest supported Minecraft version. Currently 1.20.5
@@ -71,7 +77,7 @@ document-features = { version = "0.2.8", optional = true }
 either = { version = "1.11.0", optional = true }
 fastnbt = "2.5.0"
 serde = { version = "1.0.198", features = ["derive"], optional = true }
-strum = { version = "0.26.2", features = ["derive"], optional = true }
+strum = { version = "0.26.2", features = ["derive"] }
 
 [build-dependencies]
 rustc_version = { version = "0.4.0", optional = true }
