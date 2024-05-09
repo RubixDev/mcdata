@@ -361,7 +361,7 @@ struct B { a: i32, b: f64 }
                     $(
                         stringify!($extras_type); // just to have the correct macro variable in here somewhere
                         for (k, v) in &self.extra {
-                            map.insert(CowStr::Owned(k.clone()), fastnbt::to_value(v).expect("structure is valid NBT"));
+                            map.insert(k.clone(), fastnbt::to_value(v).expect("structure is valid NBT"));
                         }
                     )?
                     $(
