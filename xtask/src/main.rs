@@ -136,11 +136,23 @@ struct ExtractOutput {
 fn codegen_features_list(versions: &FeaturesJson) -> Result<()> {
     log!(task, "generating Cargo.toml features list");
     log!(step, "building string");
-    log!(trace, "`latest` feature");
+    log!(trace, "`all` and `latest` features");
     let mut cargo_features = format!(
-        "## Enable lists for the latest supported Minecraft version. Currently {0}\nlatest = [\"{0}\"]\n",
-        versions.last().unwrap().name
-    );
+        r###"
+## Enable all Minecraft version features
+mc-all = ["{all}"]
+## Enable lists for the latest supported Minecraft version. Currently {latest}
+latest = ["{latest}"]
+"###,
+        all = versions
+            .iter()
+            .map(|v| v.name.clone())
+            .collect::<Vec<_>>()
+            .join("\", \""),
+        latest = versions.last().unwrap().name,
+    )
+    .trim_start()
+    .to_owned();
     for Feature { name, mc, .. } in versions {
         log!(trace, "`{name}` with Minecraft `{mc}`");
         cargo_features += &format!("## Enable lists for Minecraft {name}, extracted from Minecraft {mc}\n\"{name}\" = []\n");
