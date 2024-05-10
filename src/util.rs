@@ -38,8 +38,8 @@ impl BlockPos {
     pub const fn abs(&self) -> UVec3 {
         UVec3 {
             x: self.x.unsigned_abs(),
-            y: self.x.unsigned_abs(),
-            z: self.x.unsigned_abs(),
+            y: self.y.unsigned_abs(),
+            z: self.z.unsigned_abs(),
         }
     }
 }
