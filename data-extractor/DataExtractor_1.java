@@ -15,9 +15,9 @@ import net.minecraft.core.Registry;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.properties.*;
+import net.minecraft.world.level.material.MaterialColor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,6 +28,23 @@ public class DataExtractor implements ModInitializer {
     public void onInitialize() {
         Gson gson = new Gson();
 
+        LOGGER.info("Getting map colors info");
+        Map<Integer, String> mapColorIds = new HashMap<>();
+        JsonObject mapColors = new JsonObject();
+        for (Field field : MaterialColor.class.getDeclaredFields()) {
+            if (!Modifier.isStatic(field.getModifiers())) continue;
+            MaterialColor color;
+            try {
+                color = (MaterialColor) field.get(null);
+            } catch (IllegalAccessException | ClassCastException ignored) {
+                // skip other fields
+                continue;
+            }
+
+            mapColorIds.put(color.id, field.getName());
+            mapColors.addProperty(field.getName(), color.col);
+        }
+
         LOGGER.info("Getting block info");
         Map<String, List<String>> enums = new HashMap<>();
         JsonArray blocks = new JsonArray();
@@ -35,6 +52,7 @@ public class DataExtractor implements ModInitializer {
             JsonObject blockInfo = new JsonObject();
             String blockId = Registry.BLOCK.getKey(block).toString();
             blockInfo.addProperty("id", blockId);
+            blockInfo.addProperty("map_color", mapColorIds.get(block.defaultMaterialColor().id));
 
             JsonArray properties = new JsonArray();
             for (Property<?> property : block.defaultBlockState().getProperties()) {
@@ -111,6 +129,7 @@ public class DataExtractor implements ModInitializer {
         JsonObject blocksJson = new JsonObject();
         blocksJson.add("blocks", blocks);
         blocksJson.add("enums", enumList);
+        blocksJson.add("map_colors", mapColors);
         try (FileWriter writer = new FileWriter("blocks.json")) {
             writer.write(gson.toJson(blocksJson));
         } catch (IOException e) {

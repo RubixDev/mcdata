@@ -19,7 +19,8 @@ macro_rules! blocks {
         $(
             $($experimental:ident)?
             $id:literal,
-            $variant:ident
+            $variant:ident,
+            $map_color:ident
             $(-
                 $($prop:ident : $type:ty $(as $prop_str:literal)?),+
             )?
@@ -71,6 +72,19 @@ macro_rules! blocks {
                         },
                     )+
                     Self::Other(generic) => generic.clone(),
+                }
+            }
+
+            /// Get the color this block's default state has on maps.
+            ///
+            /// Note: Every block state represented by the [`Self::Other`] variant will use
+            /// [`MapColor::None`].
+            pub fn map_color(&self) -> MapColor {
+                match self {
+                    $(
+                        Self::$variant $({ $($prop: _),+ })? => MapColor::$map_color,
+                    )+
+                    Self::Other(_) => MapColor::None,
                 }
             }
         }
@@ -202,5 +216,49 @@ macro_rules! prop_str {
     };
     ($prop:ident) => {
         stringify!($prop)
+    };
+}
+
+macro_rules! map_colors {
+    ($mc_version:literal; $( $name:ident => $color:literal $rgb:tt ),+ $(,)?) => {
+        /// The possible colors on Minecraft maps.
+        #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
+        #[repr(u32)]
+        pub enum MapColor {$(
+            #[doc = concat!(r#"<div style="display: inline-block; width: 3em; height: 1em; border: 1px solid black; background: rgb"#, stringify!($rgb), r#";"></div>"#)]
+            $name = $color,
+        )+}
+
+        impl MapColor {
+            /// Returns a packed ARGB representation of this color as a [`u32`].
+            ///
+            /// The alpha channel will always be `0xff`.
+            pub const fn packed_argb(&self) -> u32 {
+                match self {
+                    Self::None => 0,
+                    _ => 0xff000000 | *self as u32,
+                }
+            }
+
+            /// Returns an RGB tuple of this color.
+            pub const fn rgb(&self) -> (u8, u8, u8) {
+                (
+                    (*self as u32 >> 16) as u8,
+                    (*self as u32 >> 8) as u8,
+                    *self as u8,
+                )
+            }
+
+            /// Calculate the RGB color for this map color with the given brightness.
+            pub const fn calc_rgb(&self, brightness: u8) -> (u8, u8, u8) {
+                let (r, g, b) = self.rgb();
+                let brightness = brightness as u32;
+                (
+                    ((r as u32) * brightness / 255) as u8,
+                    ((g as u32) * brightness / 255) as u8,
+                    ((b as u32) * brightness / 255) as u8,
+                )
+            }
+        }
     };
 }

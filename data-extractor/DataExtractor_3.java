@@ -18,7 +18,7 @@ import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.properties.*;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.MapColor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,11 +32,11 @@ public class DataExtractor implements ModInitializer {
         LOGGER.info("Getting map colors info");
         Map<Integer, String> mapColorIds = new HashMap<>();
         JsonObject mapColors = new JsonObject();
-        for (Field field : MaterialColor.class.getDeclaredFields()) {
+        for (Field field : MapColor.class.getDeclaredFields()) {
             if (!Modifier.isStatic(field.getModifiers())) continue;
-            MaterialColor color;
+            MapColor color;
             try {
-                color = (MaterialColor) field.get(null);
+                color = (MapColor) field.get(null);
             } catch (IllegalAccessException | ClassCastException ignored) {
                 // skip other fields
                 continue;
@@ -53,7 +53,7 @@ public class DataExtractor implements ModInitializer {
             JsonObject blockInfo = new JsonObject();
             String blockId = BuiltInRegistries.BLOCK.getKey(block).toString();
             blockInfo.addProperty("id", blockId);
-            blockInfo.addProperty("map_color", mapColorIds.get(block.defaultMaterialColor().id));
+            blockInfo.addProperty("map_color", mapColorIds.get(block.defaultMapColor().id));
 
             // check whether the block is experimental
             if (FeatureFlags.isExperimental(block.requiredFeatures())) {

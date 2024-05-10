@@ -45,17 +45,17 @@
 }, {
   "name": "1.20",
   "mc": "1.20.1",
-  "extractor": 2
+  "extractor": 3
 }, {
   "name": "1.20.2",
   "mc": "1.20.2",
-  "extractor": 2
+  "extractor": 3
 }, {
   "name": "1.20.3",
   "mc": "1.20.4",
-  "extractor": 2
+  "extractor": 3
 }, {
   "name": "1.20.5",
   "mc": "1.20.6",
-  "extractor": 2
+  "extractor": 3
 }]

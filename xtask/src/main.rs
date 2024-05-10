@@ -487,8 +487,14 @@ pub mod latest {{
     )
     .trim_start()
     .to_owned();
-    for (BlocksJson { blocks, enums }, Feature { name: feature, .. }) in
-        block_lists.iter().zip(versions)
+    for (
+        BlocksJson {
+            blocks,
+            enums,
+            map_colors,
+        },
+        Feature { name: feature, .. },
+    ) in block_lists.iter().zip(versions)
     {
         log!(step, "version '{feature}'");
         let mod_name = feature.replace('.', "_").replace('-', "_mc");
@@ -516,6 +522,8 @@ pub mod mc{mod_name} {{
             }
             block_state_list_rs += &format!("\"{}\", ", block.id);
             block_state_list_rs += &name.to_pascal_case();
+            block_state_list_rs += ", ";
+            block_state_list_rs += &block.map_color.to_pascal_case();
 
             if !block.properties.is_empty() {
                 block_state_list_rs += " - ";
@@ -574,8 +582,34 @@ pub mod mc{mod_name} {{
         }
         println!();
 
+        block_state_list_rs += &format!(
+            r###"    }}
+
+    map_colors! {{
+        "{feature}";
+"###
+        );
+        for (i, (name, color)) in map_colors.iter().enumerate() {
+            print!(
+                "{}\x1b[0K\r",
+                log!(raw, trace, "{}/{}: {name}", i + 1, enums.len())
+            );
+            let r = color >> 16 & 0xff;
+            let g = color >> 8 & 0xff;
+            let b = color & 0xff;
+            block_state_list_rs += &format!(
+                "        {} => {} ({r}, {g}, {b}),\n",
+                name.to_pascal_case(),
+                *color as u32
+            );
+        }
+        println!();
+
+        log!(info, "map colors");
+
         block_state_list_rs += "    }\n}\n";
     }
+
     log!(step, "writing file");
     fs::write(
         WORKSPACE_DIR.join("src/block_state/list.rs"),

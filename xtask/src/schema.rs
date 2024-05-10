@@ -17,6 +17,7 @@ pub struct Feature {
 pub struct BlocksJson {
     pub blocks: Vec<Block>,
     pub enums: Vec<Enum>,
+    pub map_colors: BTreeMap<String, i32>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -25,6 +26,7 @@ pub struct Block {
     #[serde(default)]
     pub experimental: bool,
     pub properties: Vec<Property>,
+    pub map_color: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
