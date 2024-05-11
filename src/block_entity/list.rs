@@ -20,7 +20,7 @@ pub mod mc1_14 {
         "minecraft:bell", Bell: BellBlockEntity (> BlockEntity), [];
         "minecraft:blast_furnace", BlastFurnace: BlastFurnaceBlockEntity (> > > BlockEntity), ["BurnTime", "CookTime", "CookTimeTotal", "Items", "RecipesUsedSize", "CustomName", "Lock"];
         "minecraft:brewing_stand", BrewingStand: BrewingStandBlockEntity (> > BlockEntity), ["BrewTime", "Fuel", "Items", "CustomName", "Lock"];
-        "minecraft:campfire", Campfire: CampfireBlockEntity (> BlockEntity), ["CookingTimes", "CookingTotalTimes", "Items", "id", "x", "y", "z"];
+        "minecraft:campfire", Campfire: CampfireBlockEntity (> BlockEntity), ["CookingTimes", "CookingTotalTimes", "Items"];
         "minecraft:chest", Chest: ChestBlockEntity (> > > BlockEntity), ["Items", "LootTable", "LootTableSeed", "CustomName", "Lock"];
         "minecraft:command_block", CommandBlock: CommandBlockEntity (> BlockEntity), ["Command", "CustomName", "LastExecution", "LastOutput", "SuccessCount", "TrackOutput", "UpdateLastExecution", "auto", "conditionMet", "powered"];
         "minecraft:comparator", Comparator: ComparatorBlockEntity (> BlockEntity), ["OutputSignal"];
@@ -59,7 +59,7 @@ pub mod mc1_14 {
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
         BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: i8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
-        CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "id" as id: CowStr, "x" as x: i32, "y" as y: i32, "z" as z: i32 }
+        CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
         ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         CommandBlockEntity > BlockEntity { "Command" as command: CowStr, "CustomName" as custom_name: CowStr, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: CowStr, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
         ComparatorBlockEntity > BlockEntity { "OutputSignal" as output_signal: i32 }
@@ -112,7 +112,7 @@ pub mod mc1_15 {
         "minecraft:bell", Bell: BellBlockEntity (> BlockEntity), [];
         "minecraft:blast_furnace", BlastFurnace: BlastFurnaceBlockEntity (> > > BlockEntity), ["BurnTime", "CookTime", "CookTimeTotal", "Items", "RecipesUsedSize", "CustomName", "Lock"];
         "minecraft:brewing_stand", BrewingStand: BrewingStandBlockEntity (> > BlockEntity), ["BrewTime", "Fuel", "Items", "CustomName", "Lock"];
-        "minecraft:campfire", Campfire: CampfireBlockEntity (> BlockEntity), ["CookingTimes", "CookingTotalTimes", "Items", "id", "x", "y", "z"];
+        "minecraft:campfire", Campfire: CampfireBlockEntity (> BlockEntity), ["CookingTimes", "CookingTotalTimes", "Items"];
         "minecraft:chest", Chest: ChestBlockEntity (> > > BlockEntity), ["Items", "LootTable", "LootTableSeed", "CustomName", "Lock"];
         "minecraft:command_block", CommandBlock: CommandBlockEntity (> BlockEntity), ["Command", "CustomName", "LastExecution", "LastOutput", "SuccessCount", "TrackOutput", "UpdateLastExecution", "auto", "conditionMet", "powered"];
         "minecraft:comparator", Comparator: ComparatorBlockEntity (> BlockEntity), ["OutputSignal"];
@@ -152,7 +152,7 @@ pub mod mc1_15 {
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
         BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: i8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
-        CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "id" as id: CowStr, "x" as x: i32, "y" as y: i32, "z" as z: i32 }
+        CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
         ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         CommandBlockEntity > BlockEntity { "Command" as command: CowStr, "CustomName" as custom_name: CowStr, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: CowStr, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
         ComparatorBlockEntity > BlockEntity { "OutputSignal" as output_signal: i32 }
@@ -206,7 +206,7 @@ pub mod mc1_15_2 {
         "minecraft:bell", Bell: BellBlockEntity (> BlockEntity), [];
         "minecraft:blast_furnace", BlastFurnace: BlastFurnaceBlockEntity (> > > BlockEntity), ["BurnTime", "CookTime", "CookTimeTotal", "Items", "RecipesUsedSize", "CustomName", "Lock"];
         "minecraft:brewing_stand", BrewingStand: BrewingStandBlockEntity (> > BlockEntity), ["BrewTime", "Fuel", "Items", "CustomName", "Lock"];
-        "minecraft:campfire", Campfire: CampfireBlockEntity (> BlockEntity), ["CookingTimes", "CookingTotalTimes", "Items", "id", "x", "y", "z"];
+        "minecraft:campfire", Campfire: CampfireBlockEntity (> BlockEntity), ["CookingTimes", "CookingTotalTimes", "Items"];
         "minecraft:chest", Chest: ChestBlockEntity (> > > BlockEntity), ["Items", "LootTable", "LootTableSeed", "CustomName", "Lock"];
         "minecraft:command_block", CommandBlock: CommandBlockEntity (> BlockEntity), ["Command", "CustomName", "LastExecution", "LastOutput", "SuccessCount", "TrackOutput", "UpdateLastExecution", "auto", "conditionMet", "powered"];
         "minecraft:comparator", Comparator: ComparatorBlockEntity (> BlockEntity), ["OutputSignal"];
@@ -246,7 +246,7 @@ pub mod mc1_15_2 {
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
         BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: i8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
-        CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "id" as id: CowStr, "x" as x: i32, "y" as y: i32, "z" as z: i32 }
+        CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
         ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         CommandBlockEntity > BlockEntity { "Command" as command: CowStr, "CustomName" as custom_name: CowStr, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: CowStr, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
         ComparatorBlockEntity > BlockEntity { "OutputSignal" as output_signal: i32 }
@@ -300,7 +300,7 @@ pub mod mc1_16 {
         "minecraft:bell", Bell: BellBlockEntity (> BlockEntity), [];
         "minecraft:blast_furnace", BlastFurnace: BlastFurnaceBlockEntity (> > > BlockEntity), ["BurnTime", "CookTime", "CookTimeTotal", "Items", "RecipesUsed", "CustomName", "Lock"];
         "minecraft:brewing_stand", BrewingStand: BrewingStandBlockEntity (> > BlockEntity), ["BrewTime", "Fuel", "Items", "CustomName", "Lock"];
-        "minecraft:campfire", Campfire: CampfireBlockEntity (> BlockEntity), ["CookingTimes", "CookingTotalTimes", "Items", "id", "x", "y", "z"];
+        "minecraft:campfire", Campfire: CampfireBlockEntity (> BlockEntity), ["CookingTimes", "CookingTotalTimes", "Items"];
         "minecraft:chest", Chest: ChestBlockEntity (> > > BlockEntity), ["Items", "LootTable", "LootTableSeed", "CustomName", "Lock"];
         "minecraft:command_block", CommandBlock: CommandBlockEntity (> BlockEntity), ["Command", "CustomName", "LastExecution", "LastOutput", "SuccessCount", "TrackOutput", "UpdateLastExecution", "auto", "conditionMet", "powered"];
         "minecraft:comparator", Comparator: ComparatorBlockEntity (> BlockEntity), ["OutputSignal"];
@@ -340,7 +340,7 @@ pub mod mc1_16 {
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
         BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: i8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
-        CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "id" as id: CowStr, "x" as x: i32, "y" as y: i32, "z" as z: i32 }
+        CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
         ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         CommandBlockEntity > BlockEntity { "Command" as command: CowStr, "CustomName" as custom_name: CowStr, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: CowStr, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
         ComparatorBlockEntity > BlockEntity { "OutputSignal" as output_signal: i32 }
@@ -393,7 +393,7 @@ pub mod mc1_16_2 {
         "minecraft:bell", Bell: BellBlockEntity (> BlockEntity), [];
         "minecraft:blast_furnace", BlastFurnace: BlastFurnaceBlockEntity (> > > BlockEntity), ["BurnTime", "CookTime", "CookTimeTotal", "Items", "RecipesUsed", "CustomName", "Lock"];
         "minecraft:brewing_stand", BrewingStand: BrewingStandBlockEntity (> > BlockEntity), ["BrewTime", "Fuel", "Items", "CustomName", "Lock"];
-        "minecraft:campfire", Campfire: CampfireBlockEntity (> BlockEntity), ["CookingTimes", "CookingTotalTimes", "Items", "id", "x", "y", "z"];
+        "minecraft:campfire", Campfire: CampfireBlockEntity (> BlockEntity), ["CookingTimes", "CookingTotalTimes", "Items"];
         "minecraft:chest", Chest: ChestBlockEntity (> > > BlockEntity), ["Items", "LootTable", "LootTableSeed", "CustomName", "Lock"];
         "minecraft:command_block", CommandBlock: CommandBlockEntity (> BlockEntity), ["Command", "CustomName", "LastExecution", "LastOutput", "SuccessCount", "TrackOutput", "UpdateLastExecution", "auto", "conditionMet", "powered"];
         "minecraft:comparator", Comparator: ComparatorBlockEntity (> BlockEntity), ["OutputSignal"];
@@ -433,7 +433,7 @@ pub mod mc1_16_2 {
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
         BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: i8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
-        CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "id" as id: CowStr, "x" as x: i32, "y" as y: i32, "z" as z: i32 }
+        CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
         ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         CommandBlockEntity > BlockEntity { "Command" as command: CowStr, "CustomName" as custom_name: CowStr, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: CowStr, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
         ComparatorBlockEntity > BlockEntity { "OutputSignal" as output_signal: i32 }
@@ -486,7 +486,7 @@ pub mod mc1_17 {
         "minecraft:bell", Bell: BellBlockEntity (> BlockEntity), [];
         "minecraft:blast_furnace", BlastFurnace: BlastFurnaceBlockEntity (> > > BlockEntity), ["BurnTime", "CookTime", "CookTimeTotal", "Items", "RecipesUsed", "CustomName", "Lock"];
         "minecraft:brewing_stand", BrewingStand: BrewingStandBlockEntity (> > BlockEntity), ["BrewTime", "Fuel", "Items", "CustomName", "Lock"];
-        "minecraft:campfire", Campfire: CampfireBlockEntity (> BlockEntity), ["CookingTimes", "CookingTotalTimes", "Items", "id", "x", "y", "z"];
+        "minecraft:campfire", Campfire: CampfireBlockEntity (> BlockEntity), ["CookingTimes", "CookingTotalTimes", "Items"];
         "minecraft:chest", Chest: ChestBlockEntity (> > > BlockEntity), ["Items", "LootTable", "LootTableSeed", "CustomName", "Lock"];
         "minecraft:command_block", CommandBlock: CommandBlockEntity (> BlockEntity), ["Command", "CustomName", "LastExecution", "LastOutput", "SuccessCount", "TrackOutput", "UpdateLastExecution", "auto", "conditionMet", "powered"];
         "minecraft:comparator", Comparator: ComparatorBlockEntity (> BlockEntity), ["OutputSignal"];
@@ -527,7 +527,7 @@ pub mod mc1_17 {
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
         BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: i8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
-        CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "id" as id: CowStr, "x" as x: i32, "y" as y: i32, "z" as z: i32 }
+        CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
         ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         CommandBlockEntity > BlockEntity { "Command" as command: CowStr, "CustomName" as custom_name: CowStr, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: CowStr, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
         ComparatorBlockEntity > BlockEntity { "OutputSignal" as output_signal: i32 }

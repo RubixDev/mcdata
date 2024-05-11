@@ -452,7 +452,8 @@ class Vm(private val jarFile: String, private val mcVersion: Int) {
                 // it but mark everything as optional because it's in `Optional.ifPresent`
                 val consumer = stack.peek()
                 if (consumer is TypeWithLambda) {
-                    call(consumer.method, consumer.args, overrideOptional = true).applyTo(consumer.args, pc)
+                    call(consumer.method, consumer.args, overrideOptional = true, ignoreSuper = ignoreSuper)
+                        .applyTo(consumer.args, pc)
                 }
             } else if (className == "com.mojang.datafixers.util.Either" && methodName == "map") {
                 val mapLeft = stack.peek(1)
@@ -462,11 +463,15 @@ class Vm(private val jarFile: String, private val mcVersion: Int) {
                         ?: Type.getReturnType((mapRight as TypeWithLambda).method.signature)
                     val left = when (mapLeft) {
                         // TODO: perhaps override optional if it modifies an existing tag instead of creating one
-                        is TypeWithLambda -> call(mapLeft.method, mapLeft.args).applyTo(mapLeft.args, pc)
+                        is TypeWithLambda -> call(mapLeft.method, mapLeft.args, ignoreSuper = ignoreSuper)
+                            .applyTo(mapLeft.args, pc)
+
                         else -> mapReturnType.asNbt()
                     }
                     val right = when (mapRight) {
-                        is TypeWithLambda -> call(mapRight.method, mapRight.args).applyTo(mapRight.args, pc)
+                        is TypeWithLambda -> call(mapRight.method, mapRight.args, ignoreSuper = ignoreSuper)
+                            .applyTo(mapRight.args, pc)
+
                         else -> mapReturnType.asNbt()
                     }
 
@@ -620,7 +625,7 @@ class Vm(private val jarFile: String, private val mcVersion: Int) {
                 // pop the args
                 stack.pop(args.size)
                 // call it
-                val res = call(targetMethod, args).applyTo(args, pc)?.asType() ?: returnType
+                val res = call(targetMethod, args, ignoreSuper = ignoreSuper).applyTo(args, pc)?.asType() ?: returnType
                 // store the result
                 if (returnType != Type.VOID) {
                     stack.push(res.forLocalsOrStack())
