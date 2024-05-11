@@ -18,5 +18,6 @@ pub(crate) mod flatten;
 
 pub use block_entity::{BlockEntity, GenericBlockEntity};
 pub use block_state::{BlockState, GenericBlockState};
+#[allow(unused_imports)]
 pub use combined::*;
 pub use entity::{Entity, GenericEntity};
