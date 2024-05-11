@@ -1,6 +1,7 @@
 use std::{
     collections::VecDeque,
     env,
+    fmt::Write,
     fs::{self, File},
     io::BufReader,
     path::{Path, PathBuf},
@@ -140,15 +141,15 @@ fn codegen_features_list(versions: &FeaturesJson) -> Result<()> {
     let mut cargo_features = format!(
         r###"
 ## Enable all Minecraft version features
-mc-all = ["{all}"]
+mc-all = [{all}
+]
 ## Enable lists for the latest supported Minecraft version. Currently {latest}
 latest = ["{latest}"]
 "###,
-        all = versions
-            .iter()
-            .map(|v| v.name.clone())
-            .collect::<Vec<_>>()
-            .join("\", \""),
+        all = versions.iter().fold(String::new(), |mut acc, v| {
+            let _ = write!(acc, "\n    \"{}\",", v.name);
+            acc
+        }),
         latest = versions.last().unwrap().name,
     )
     .trim_start()
