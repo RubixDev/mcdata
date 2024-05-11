@@ -153,8 +153,7 @@ impl NbtElement {
     pub fn as_rust_type(&self) -> Cow<'static, str> {
         match self {
             NbtElement::Any => "fastnbt::Value".into(),
-            // TODO: use i8?
-            NbtElement::Byte => "u8".into(),
+            NbtElement::Byte => "i8".into(),
             NbtElement::Short => "i16".into(),
             NbtElement::Int => "i32".into(),
             NbtElement::Long => "i64".into(),

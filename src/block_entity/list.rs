@@ -58,7 +58,7 @@ pub mod mc1_14 {
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
-        BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: u8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
+        BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: i8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
         CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "id" as id: CowStr, "x" as x: i32, "y" as y: i32, "z" as z: i32 }
         ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         CommandBlockEntity > BlockEntity { "Command" as command: CowStr, "CustomName" as custom_name: CowStr, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: CowStr, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
@@ -90,8 +90,8 @@ pub mod mc1_14 {
     block_entity_compound_types! {
         "1.14";
         Compound3 { optional "Signature" as signature: CowStr, "Value" as value: CowStr }
-        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save { "Count" as count: i8, "Slot" as slot: i8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save_1 { "Count" as count: i8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
         NbtUtils_createUUIDTag { "L" as l: i64, "M" as m: i64 }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
         NbtUtils_writeGameProfile { optional "Id" as id: CowStr, optional "Name" as name: CowStr, optional "Properties" as properties: HashMap<CowStr, Vec<super::compounds::Compound3>> }
@@ -151,7 +151,7 @@ pub mod mc1_15 {
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
-        BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: u8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
+        BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: i8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
         CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "id" as id: CowStr, "x" as x: i32, "y" as y: i32, "z" as z: i32 }
         ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         CommandBlockEntity > BlockEntity { "Command" as command: CowStr, "CustomName" as custom_name: CowStr, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: CowStr, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
@@ -184,8 +184,8 @@ pub mod mc1_15 {
         "1.15";
         Compound3 { optional "Signature" as signature: CowStr, "Value" as value: CowStr }
         Compound7 { "EntityData" as entity_data: HashMap<CowStr, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
-        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save { "Count" as count: i8, "Slot" as slot: i8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save_1 { "Count" as count: i8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
         NbtUtils_createUUIDTag { "L" as l: i64, "M" as m: i64 }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
         NbtUtils_writeGameProfile { optional "Id" as id: CowStr, optional "Name" as name: CowStr, optional "Properties" as properties: HashMap<CowStr, Vec<super::compounds::Compound3>> }
@@ -245,7 +245,7 @@ pub mod mc1_15_2 {
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
-        BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: u8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
+        BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: i8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
         CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "id" as id: CowStr, "x" as x: i32, "y" as y: i32, "z" as z: i32 }
         ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         CommandBlockEntity > BlockEntity { "Command" as command: CowStr, "CustomName" as custom_name: CowStr, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: CowStr, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
@@ -278,8 +278,8 @@ pub mod mc1_15_2 {
         "1.15.2";
         Compound3 { optional "Signature" as signature: CowStr, "Value" as value: CowStr }
         Compound7 { "EntityData" as entity_data: HashMap<CowStr, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
-        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save { "Count" as count: i8, "Slot" as slot: i8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save_1 { "Count" as count: i8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
         NbtUtils_createUUIDTag { "L" as l: i64, "M" as m: i64 }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
         NbtUtils_writeGameProfile { optional "Id" as id: CowStr, optional "Name" as name: CowStr, optional "Properties" as properties: HashMap<CowStr, Vec<super::compounds::Compound3>> }
@@ -339,7 +339,7 @@ pub mod mc1_16 {
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
-        BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: u8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
+        BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: i8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
         CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "id" as id: CowStr, "x" as x: i32, "y" as y: i32, "z" as z: i32 }
         ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         CommandBlockEntity > BlockEntity { "Command" as command: CowStr, "CustomName" as custom_name: CowStr, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: CowStr, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
@@ -372,8 +372,8 @@ pub mod mc1_16 {
         "1.16";
         Compound3 { optional "Signature" as signature: CowStr, "Value" as value: CowStr }
         Compound6 { "EntityData" as entity_data: HashMap<CowStr, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
-        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save { "Count" as count: i8, "Slot" as slot: i8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save_1 { "Count" as count: i8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
         NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: CowStr, optional "Properties" as properties: HashMap<CowStr, Vec<super::compounds::Compound3>> }
         SpawnData_save { "Entity" as entity: HashMap<CowStr, fastnbt::Value>, "Weight" as weight: i32 }
@@ -432,7 +432,7 @@ pub mod mc1_16_2 {
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
-        BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: u8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
+        BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: i8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
         CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "id" as id: CowStr, "x" as x: i32, "y" as y: i32, "z" as z: i32 }
         ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         CommandBlockEntity > BlockEntity { "Command" as command: CowStr, "CustomName" as custom_name: CowStr, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: CowStr, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
@@ -465,8 +465,8 @@ pub mod mc1_16_2 {
         "1.16.2";
         Compound3 { optional "Signature" as signature: CowStr, "Value" as value: CowStr }
         Compound6 { "EntityData" as entity_data: HashMap<CowStr, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
-        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save { "Count" as count: i8, "Slot" as slot: i8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save_1 { "Count" as count: i8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
         NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: CowStr, optional "Properties" as properties: HashMap<CowStr, Vec<super::compounds::Compound3>> }
         SpawnData_save { "Entity" as entity: HashMap<CowStr, fastnbt::Value>, "Weight" as weight: i32 }
@@ -526,7 +526,7 @@ pub mod mc1_17 {
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
-        BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: u8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
+        BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: i8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
         CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save>, "id" as id: CowStr, "x" as x: i32, "y" as y: i32, "z" as z: i32 }
         ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         CommandBlockEntity > BlockEntity { "Command" as command: CowStr, "CustomName" as custom_name: CowStr, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: CowStr, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
@@ -560,8 +560,8 @@ pub mod mc1_17 {
         "1.17";
         Compound3 { optional "Signature" as signature: CowStr, "Value" as value: CowStr }
         Compound6 { "EntityData" as entity_data: HashMap<CowStr, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
-        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save { "Count" as count: i8, "Slot" as slot: i8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save_1 { "Count" as count: i8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
         NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: CowStr, optional "Properties" as properties: HashMap<CowStr, Vec<super::compounds::Compound3>> }
         SpawnData_save { "Entity" as entity: HashMap<CowStr, fastnbt::Value>, "Weight" as weight: i32 }
@@ -621,7 +621,7 @@ pub mod mc1_18 {
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
-        BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: u8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
+        BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: i8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
         CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
         ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         CommandBlockEntity > BlockEntity { "Command" as command: CowStr, "CustomName" as custom_name: CowStr, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: CowStr, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
@@ -655,8 +655,8 @@ pub mod mc1_18 {
         "1.18";
         Compound2 { optional "Signature" as signature: CowStr, "Value" as value: CowStr }
         Compound5 { "EntityData" as entity_data: HashMap<CowStr, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
-        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save { "Count" as count: i8, "Slot" as slot: i8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save_1 { "Count" as count: i8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
         NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: CowStr, optional "Properties" as properties: HashMap<CowStr, Vec<super::compounds::Compound2>> }
     }
@@ -717,7 +717,7 @@ pub mod mc1_19 {
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
-        BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: u8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
+        BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: i8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
         CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
         ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         CommandBlockEntity > BlockEntity { "Command" as command: CowStr, "CustomName" as custom_name: CowStr, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: CowStr, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
@@ -753,8 +753,8 @@ pub mod mc1_19 {
         "1.19";
         Compound2 { optional "Signature" as signature: CowStr, "Value" as value: CowStr }
         Compound5 { "EntityData" as entity_data: HashMap<CowStr, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
-        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save { "Count" as count: i8, "Slot" as slot: i8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save_1 { "Count" as count: i8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
         NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: CowStr, optional "Properties" as properties: HashMap<CowStr, Vec<super::compounds::Compound2>> }
     }
@@ -815,7 +815,7 @@ pub mod mc1_19_1 {
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
-        BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: u8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
+        BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: i8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
         CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
         ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         CommandBlockEntity > BlockEntity { "Command" as command: CowStr, "CustomName" as custom_name: CowStr, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: CowStr, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
@@ -851,8 +851,8 @@ pub mod mc1_19_1 {
         "1.19.1";
         Compound2 { optional "Signature" as signature: CowStr, "Value" as value: CowStr }
         Compound5 { "EntityData" as entity_data: HashMap<CowStr, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
-        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save { "Count" as count: i8, "Slot" as slot: i8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save_1 { "Count" as count: i8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
         NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: CowStr, optional "Properties" as properties: HashMap<CowStr, Vec<super::compounds::Compound2>> }
     }
@@ -915,7 +915,7 @@ pub mod mc1_19_3 {
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
-        BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: u8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
+        BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: i8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
         CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
         ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         ChiseledBookShelfBlockEntity > BlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, "last_interacted_slot" as last_interacted_slot: i32 }
@@ -953,8 +953,8 @@ pub mod mc1_19_3 {
         "1.19.3";
         Compound2 { optional "Signature" as signature: CowStr, "Value" as value: CowStr }
         Compound5 { "EntityData" as entity_data: HashMap<CowStr, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
-        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save { "Count" as count: i8, "Slot" as slot: i8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save_1 { "Count" as count: i8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
         NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: CowStr, optional "Properties" as properties: HashMap<CowStr, Vec<super::compounds::Compound2>> }
     }
@@ -1019,7 +1019,7 @@ pub mod mc1_19_4 {
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
-        BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: u8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
+        BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: i8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
         CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
         ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
         ChiseledBookShelfBlockEntity > BlockEntity { optional "Items" as items: Vec<super::compounds::ItemStack_save>, "last_interacted_slot" as last_interacted_slot: i32 }
@@ -1059,8 +1059,8 @@ pub mod mc1_19_4 {
         "1.19.4";
         Compound2 { optional "Signature" as signature: CowStr, "Value" as value: CowStr }
         Compound5 { "EntityData" as entity_data: HashMap<CowStr, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
-        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save { "Count" as count: i8, "Slot" as slot: i8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save_1 { "Count" as count: i8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
         NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: CowStr, optional "Properties" as properties: HashMap<CowStr, Vec<super::compounds::Compound2>> }
     }
@@ -1126,7 +1126,7 @@ pub mod mc1_20 {
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
-        BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: u8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
+        BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: i8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
         BrushableBlockEntity > BlockEntity { optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64, optional "item" as item: super::compounds::ItemStack_save_1 }
         CalibratedSculkSensorBlockEntity > SculkSensorBlockEntity {  }
         CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
@@ -1167,8 +1167,8 @@ pub mod mc1_20 {
         "1.20";
         Compound2 { optional "Signature" as signature: CowStr, "Value" as value: CowStr }
         Compound5 { "EntityData" as entity_data: HashMap<CowStr, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
-        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save { "Count" as count: i8, "Slot" as slot: i8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save_1 { "Count" as count: i8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
         NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: CowStr, optional "Properties" as properties: HashMap<CowStr, Vec<super::compounds::Compound2>> }
     }
@@ -1234,7 +1234,7 @@ pub mod mc1_20_2 {
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
-        BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: u8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
+        BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: i8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
         BrushableBlockEntity > BlockEntity { optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64, optional "item" as item: super::compounds::ItemStack_save_1 }
         CalibratedSculkSensorBlockEntity > SculkSensorBlockEntity {  }
         CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
@@ -1275,8 +1275,8 @@ pub mod mc1_20_2 {
         "1.20.2";
         Compound2 { optional "Signature" as signature: CowStr, "Value" as value: CowStr }
         Compound5 { "EntityData" as entity_data: HashMap<CowStr, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
-        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save { "Count" as count: i8, "Slot" as slot: i8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save_1 { "Count" as count: i8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
         NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: CowStr, optional "Properties" as properties: HashMap<CowStr, Vec<super::compounds::Compound2>> }
     }
@@ -1344,7 +1344,7 @@ pub mod mc1_20_3 {
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
-        BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: u8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
+        BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: i8, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
         BrushableBlockEntity > BlockEntity { optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64, optional "item" as item: super::compounds::ItemStack_save_1 }
         CalibratedSculkSensorBlockEntity > SculkSensorBlockEntity {  }
         CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<super::compounds::ItemStack_save> }
@@ -1387,8 +1387,8 @@ pub mod mc1_20_3 {
         "1.20.3";
         Compound2 { optional "Signature" as signature: CowStr, "Value" as value: CowStr }
         Compound5 { "EntityData" as entity_data: HashMap<CowStr, fastnbt::Value>, "MinOccupationTicks" as min_occupation_ticks: i32, "TicksInHive" as ticks_in_hive: i32 }
-        ItemStack_save { "Count" as count: u8, "Slot" as slot: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
-        ItemStack_save_1 { "Count" as count: u8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save { "Count" as count: i8, "Slot" as slot: i8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
+        ItemStack_save_1 { "Count" as count: i8, "id" as id: CowStr, optional "tag" as tag: HashMap<CowStr, fastnbt::Value> }
         NbtUtils_writeBlockPos { "X" as x: i32, "Y" as y: i32, "Z" as z: i32 }
         NbtUtils_writeGameProfile { optional "Id" as id: u128, optional "Name" as name: CowStr, optional "Properties" as properties: HashMap<CowStr, Vec<super::compounds::Compound2>> }
     }
@@ -1457,7 +1457,7 @@ pub mod mc1_20_5 {
         BellBlockEntity > BlockEntity {  }
         BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
         BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
-        BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: u8, optional "Items" as items: Vec<fastnbt::Value> }
+        BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: i8, optional "Items" as items: Vec<fastnbt::Value> }
         BrushableBlockEntity > BlockEntity { optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64, optional "item" as item: fastnbt::Value }
         CalibratedSculkSensorBlockEntity > SculkSensorBlockEntity {  }
         CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<fastnbt::Value> }

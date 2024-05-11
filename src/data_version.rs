@@ -4,7 +4,7 @@ macro_rules! data_versions {
     ($( $name:ident: $mc:literal => $version:literal ),* $(,)?) => {
         $(
             #[doc = concat!("Data version ", stringify!($version), " for Minecraft ", $mc, ".")]
-            pub const $name: u32 = $version;
+            pub const $name: i32 = $version;
         )*
     };
 }
