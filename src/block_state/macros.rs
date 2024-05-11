@@ -224,15 +224,20 @@ macro_rules! map_colors {
         /// The possible colors on Minecraft maps.
         #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
         #[repr(u32)]
-        pub enum MapColor {$(
-            #[doc = concat!(r#"<div style="display: inline-block; width: 3em; height: 1em; border: 1px solid black; background: rgb"#, stringify!($rgb), r#";"></div>"#)]
-            $name = $color,
-        )+}
+        pub enum MapColor {
+            /// No map color, fully transparent.
+            None = 0,
+            $(
+                #[doc = concat!(r#"<div style="display: inline-block; width: 3em; height: 1em; border: 1px solid black; background: rgb"#, stringify!($rgb), r#";"></div>"#)]
+                $name = $color,
+            )+
+        }
 
         impl MapColor {
             /// Returns a packed ARGB representation of this color as a [`u32`].
             ///
-            /// The alpha channel will always be `0xff`.
+            /// The alpha channel will always be `0xff`, except for [`MapColor::None`].
+            #[inline]
             pub const fn packed_argb(&self) -> u32 {
                 match self {
                     Self::None => 0,
@@ -240,24 +245,26 @@ macro_rules! map_colors {
                 }
             }
 
-            /// Returns an RGB tuple of this color.
-            pub const fn rgb(&self) -> (u8, u8, u8) {
-                (
-                    (*self as u32 >> 16) as u8,
-                    (*self as u32 >> 8) as u8,
-                    *self as u8,
-                )
+            /// Returns an RGBA array of this color.
+            ///
+            /// The alpha channel will always be `0xff`, except for [`MapColor::None`].
+            #[inline]
+            pub const fn rgba(&self) -> [u8; 4] {
+                self.packed_argb().rotate_left(8).to_be_bytes()
             }
 
-            /// Calculate the RGB color for this map color with the given brightness.
-            pub const fn calc_rgb(&self, brightness: u8) -> (u8, u8, u8) {
-                let (r, g, b) = self.rgb();
+            /// Calculate the RGBA color for this map color with the given brightness.
+            ///
+            /// The alpha channel will always be `0xff`, except for [`MapColor::None`].
+            pub const fn calc_rgba(&self, brightness: u8) -> [u8; 4] {
+                let [r, g, b, a] = self.rgba();
                 let brightness = brightness as u32;
-                (
+                [
                     ((r as u32) * brightness / 255) as u8,
                     ((g as u32) * brightness / 255) as u8,
                     ((b as u32) * brightness / 255) as u8,
-                )
+                    a
+                ]
             }
         }
     };

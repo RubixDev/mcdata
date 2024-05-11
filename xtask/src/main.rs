@@ -591,6 +591,9 @@ pub mod mc{mod_name} {{
 "###
         );
         for (i, (name, color)) in map_colors.iter().enumerate() {
+            if name == "NONE" {
+                continue;
+            }
             print!(
                 "{}\x1b[0K\r",
                 log!(raw, trace, "{}/{}: {name}", i + 1, enums.len())
@@ -654,7 +657,6 @@ fn codegen_class_analysis(
             .zip(outputs.be_list_paths),
     ) {
         log!(info, "version '{feature}'");
-        // TODO: make sure the version compat (especially 1.17/1.18) is still correct with (block) entities
         run_command(
             Command::new(&class_parser_bin)
                 .arg(jar_path)
