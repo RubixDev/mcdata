@@ -24,7 +24,7 @@ block-states = ["dep:bounded-integer"]
 ## Include lists for known, typed entities
 entities = ["dep:either"]
 ## Include lists for known, typed block entities
-block-entities = []
+block-entities = ["dep:either"]
 
 #! ### Other Features
 
