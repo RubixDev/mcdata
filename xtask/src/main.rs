@@ -301,20 +301,6 @@ export default {
     )
     .with_context(|| "failed to build generator lib")?;
 
-    // generate the mod templates for all versions
-    log!(step, "generating the template mods");
-    if mods_dir.is_dir() {
-        log!(info, "directory already exists, skipping mod generation");
-    } else {
-        run_command(
-            Command::new("deno")
-                .args(["run", "-A"])
-                .arg(root.join("gen_template_mods.ts"))
-                .current_dir(&root),
-        )
-        .with_context(|| "failed to generate template mods")?;
-    }
-
     // for each mod:
     let mut logs: Vec<Vec<String>> = vec![];
     let mut block_lists: Vec<BlocksJson> = vec![];
@@ -329,6 +315,21 @@ export default {
     {
         log!(step, "version '{feature}'");
         let mod_dir = mods_dir.join(feature);
+
+        // generate the mod template if it doesn't already exist
+        log!(step, "generating the mod template");
+        if mod_dir.is_dir() {
+            log!(info, "directory already exists, skipping mod generation");
+        } else {
+            run_command(
+                Command::new("deno")
+                    .args(["run", "-A"])
+                    .arg(root.join("gen_template_mods.ts"))
+                    .arg(feature)
+                    .current_dir(&root),
+            )
+            .with_context(|| "failed to generate template mods")?;
+        }
 
         if mod_dir.join("run/blocks.json").is_file()
             && mod_dir.join("run/entities.json").is_file()
