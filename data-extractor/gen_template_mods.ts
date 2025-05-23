@@ -28,40 +28,41 @@ async function isDirEmpty(outputDir: string): Promise<boolean> {
 }
 
 async function generate() {
-    for (const { name, mc: minecraftVersion } of versions) {
-        const outputDir = await getAndPrepareOutputDir('tmp/mods/' + name)
+    const name = Deno.args[0];
+    const minecraftVersion = versions.find(v => v.name === name)?.mc;
 
-        const isTargetEmpty = await isDirEmpty(outputDir)
-        if (!isTargetEmpty) {
-            console.error(error('The target directory must be empty'))
-            Deno.exit(1)
-        }
+    const outputDir = await getAndPrepareOutputDir('tmp/mods/' + name)
 
-        const config = {
-            modid: 'data-extractor',
-            minecraftVersion,
-            projectName: 'data-extractor',
-            packageName: 'com.example',
-            mojmap: true,
-            useKotlin: false,
-            dataGeneration: false,
-            splitSources: false,
-            uniqueModIcon: false,
-        }
-
-        const options: generator.Options = {
-            config,
-            writer: {
-                write: async (contentPath, content, options) => {
-                    await writeFile(outputDir, contentPath, content, options)
-                },
-            },
-        }
-
-        console.log(progress(`Generating mod template for '${name}'...`))
-        await generator.generateTemplate(options)
-        console.log(success('Done!'))
+    const isTargetEmpty = await isDirEmpty(outputDir)
+    if (!isTargetEmpty) {
+        console.error(error('The target directory must be empty'))
+        Deno.exit(1)
     }
+
+    const config = {
+        modid: 'data-extractor',
+        minecraftVersion,
+        projectName: 'data-extractor',
+        packageName: 'com.example',
+        mojmap: true,
+        useKotlin: false,
+        dataGeneration: false,
+        splitSources: false,
+        uniqueModIcon: false,
+    }
+
+    const options: generator.Options = {
+        config,
+        writer: {
+            write: async (contentPath, content, options) => {
+                await writeFile(outputDir, contentPath, content, options)
+            },
+        },
+    }
+
+    console.log(progress(`Generating mod template for '${name}'...`))
+    await generator.generateTemplate(options)
+    console.log(success('Done!'))
 }
 
 async function getAndPrepareOutputDir(outputDirName: string | undefined): Promise<string> {
