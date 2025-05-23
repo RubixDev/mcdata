@@ -421,3 +421,25 @@ pub mod mc1_21_4 {
     #[cfg(feature = "block-entities")]
     pub use crate::block_entity::list::mc1_21_4::compounds as block_entity_compounds;
 }
+
+/// Types for Minecraft 1.21.5.
+#[cfg(feature = "1.21.5")]
+#[rustfmt::skip]
+pub mod mc1_21_5 {
+    #[cfg(feature = "block-states")]
+    pub use crate::block_state::list::mc1_21_5::*;
+
+    #[cfg(feature = "entities")]
+    pub use crate::entity::list::mc1_21_5::Entity;
+    #[cfg(feature = "entities")]
+    pub use crate::entity::list::mc1_21_5::types as entity_types;
+    #[cfg(feature = "entities")]
+    pub use crate::entity::list::mc1_21_5::compounds as entity_compounds;
+
+    #[cfg(feature = "block-entities")]
+    pub use crate::block_entity::list::mc1_21_5::BlockEntity;
+    #[cfg(feature = "block-entities")]
+    pub use crate::block_entity::list::mc1_21_5::types as block_entity_types;
+    #[cfg(feature = "block-entities")]
+    pub use crate::block_entity::list::mc1_21_5::compounds as block_entity_compounds;
+}
