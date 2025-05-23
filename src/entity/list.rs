@@ -5,7 +5,7 @@
 /// Re-exports for all items of the latest Minecraft version.
 #[cfg(feature = "latest")]
 pub mod latest {
-    pub use super::mc1_20_5::*;
+    pub use super::mc1_21::*;
 }
 
 /// Accompanying types for entities in Minecraft 1.14.
@@ -4348,5 +4348,318 @@ pub mod mc1_20_5 {
         AttributeInstance_save { "Base" as base: f64, optional "Modifiers" as modifiers: Vec<super::compounds::AttributeModifier_save>, "Name" as name: CowStr }
         AttributeModifier_save { "Amount" as amount: f64, "Name" as name: CowStr, "Operation" as operation: i32, "UUID" as uuid: u128 }
         Mob_method_56995 { "UUID" as uuid: u128 }
+    }
+}
+
+/// Accompanying types for entities in Minecraft 1.21.
+#[cfg(feature = "1.21")]
+pub mod mc1_21 {
+    entities! {
+        "1.21", mc1_21;
+        "minecraft:allay", Allay: Allay;
+        "minecraft:area_effect_cloud", AreaEffectCloud: AreaEffectCloud;
+        "minecraft:armadillo", Armadillo: Armadillo;
+        "minecraft:armor_stand", ArmorStand: ArmorStand;
+        "minecraft:arrow", Arrow: Arrow;
+        "minecraft:axolotl", Axolotl: Axolotl;
+        "minecraft:bat", Bat: Bat;
+        "minecraft:bee", Bee: Bee;
+        "minecraft:blaze", Blaze: Blaze;
+        "minecraft:block_display", BlockDisplay: BlockDisplay;
+        "minecraft:boat", Boat: Boat;
+        "minecraft:bogged", Bogged: Bogged;
+        "minecraft:breeze", Breeze: Breeze;
+        "minecraft:breeze_wind_charge", BreezeWindCharge: BreezeWindCharge;
+        "minecraft:camel", Camel: Camel;
+        "minecraft:cat", Cat: Cat;
+        "minecraft:cave_spider", CaveSpider: CaveSpider;
+        "minecraft:chest_boat", ChestBoat: ChestBoat;
+        "minecraft:chest_minecart", ChestMinecart: MinecartChest;
+        "minecraft:chicken", Chicken: Chicken;
+        "minecraft:cod", Cod: Cod;
+        "minecraft:command_block_minecart", CommandBlockMinecart: MinecartCommandBlock;
+        "minecraft:cow", Cow: Cow;
+        "minecraft:creeper", Creeper: Creeper;
+        "minecraft:dolphin", Dolphin: Dolphin;
+        "minecraft:donkey", Donkey: Donkey;
+        "minecraft:dragon_fireball", DragonFireball: DragonFireball;
+        "minecraft:drowned", Drowned: Drowned;
+        "minecraft:egg", Egg: ThrownEgg;
+        "minecraft:elder_guardian", ElderGuardian: ElderGuardian;
+        "minecraft:end_crystal", EndCrystal: EndCrystal;
+        "minecraft:ender_dragon", EnderDragon: EnderDragon;
+        "minecraft:ender_pearl", EnderPearl: ThrownEnderpearl;
+        "minecraft:enderman", Enderman: EnderMan;
+        "minecraft:endermite", Endermite: Endermite;
+        "minecraft:evoker", Evoker: Evoker;
+        "minecraft:evoker_fangs", EvokerFangs: EvokerFangs;
+        "minecraft:experience_bottle", ExperienceBottle: ThrownExperienceBottle;
+        "minecraft:experience_orb", ExperienceOrb: ExperienceOrb;
+        "minecraft:eye_of_ender", EyeOfEnder: EyeOfEnder;
+        "minecraft:falling_block", FallingBlock: FallingBlockEntity;
+        "minecraft:fireball", Fireball: LargeFireball;
+        "minecraft:firework_rocket", FireworkRocket: FireworkRocketEntity;
+        "minecraft:fishing_bobber", FishingBobber: FishingHook;
+        "minecraft:fox", Fox: Fox;
+        "minecraft:frog", Frog: Frog;
+        "minecraft:furnace_minecart", FurnaceMinecart: MinecartFurnace;
+        "minecraft:ghast", Ghast: Ghast;
+        "minecraft:giant", Giant: Giant;
+        "minecraft:glow_item_frame", GlowItemFrame: GlowItemFrame;
+        "minecraft:glow_squid", GlowSquid: GlowSquid;
+        "minecraft:goat", Goat: Goat;
+        "minecraft:guardian", Guardian: Guardian;
+        "minecraft:hoglin", Hoglin: Hoglin;
+        "minecraft:hopper_minecart", HopperMinecart: MinecartHopper;
+        "minecraft:horse", Horse: Horse;
+        "minecraft:husk", Husk: Husk;
+        "minecraft:illusioner", Illusioner: Illusioner;
+        "minecraft:interaction", Interaction: Interaction;
+        "minecraft:iron_golem", IronGolem: IronGolem;
+        "minecraft:item", Item: ItemEntity;
+        "minecraft:item_display", ItemDisplay: ItemDisplay;
+        "minecraft:item_frame", ItemFrame: ItemFrame;
+        "minecraft:leash_knot", LeashKnot: LeashFenceKnotEntity;
+        "minecraft:lightning_bolt", LightningBolt: LightningBolt;
+        "minecraft:llama", Llama: Llama;
+        "minecraft:llama_spit", LlamaSpit: LlamaSpit;
+        "minecraft:magma_cube", MagmaCube: MagmaCube;
+        "minecraft:marker", Marker: Marker;
+        "minecraft:minecart", Minecart: Minecart;
+        "minecraft:mooshroom", Mooshroom: MushroomCow;
+        "minecraft:mule", Mule: Mule;
+        "minecraft:ocelot", Ocelot: Ocelot;
+        "minecraft:ominous_item_spawner", OminousItemSpawner: OminousItemSpawner;
+        "minecraft:painting", Painting: Painting;
+        "minecraft:panda", Panda: Panda;
+        "minecraft:parrot", Parrot: Parrot;
+        "minecraft:phantom", Phantom: Phantom;
+        "minecraft:pig", Pig: Pig;
+        "minecraft:piglin", Piglin: Piglin;
+        "minecraft:piglin_brute", PiglinBrute: PiglinBrute;
+        "minecraft:pillager", Pillager: Pillager;
+        "minecraft:polar_bear", PolarBear: PolarBear;
+        "minecraft:potion", Potion: ThrownPotion;
+        "minecraft:pufferfish", Pufferfish: Pufferfish;
+        "minecraft:rabbit", Rabbit: Rabbit;
+        "minecraft:ravager", Ravager: Ravager;
+        "minecraft:salmon", Salmon: Salmon;
+        "minecraft:sheep", Sheep: Sheep;
+        "minecraft:shulker", Shulker: Shulker;
+        "minecraft:shulker_bullet", ShulkerBullet: ShulkerBullet;
+        "minecraft:silverfish", Silverfish: Silverfish;
+        "minecraft:skeleton", Skeleton: Skeleton;
+        "minecraft:skeleton_horse", SkeletonHorse: SkeletonHorse;
+        "minecraft:slime", Slime: Slime;
+        "minecraft:small_fireball", SmallFireball: SmallFireball;
+        "minecraft:sniffer", Sniffer: Sniffer;
+        "minecraft:snow_golem", SnowGolem: SnowGolem;
+        "minecraft:snowball", Snowball: Snowball;
+        "minecraft:spawner_minecart", SpawnerMinecart: MinecartSpawner;
+        "minecraft:spectral_arrow", SpectralArrow: SpectralArrow;
+        "minecraft:spider", Spider: Spider;
+        "minecraft:squid", Squid: Squid;
+        "minecraft:stray", Stray: Stray;
+        "minecraft:strider", Strider: Strider;
+        "minecraft:tadpole", Tadpole: Tadpole;
+        "minecraft:text_display", TextDisplay: TextDisplay;
+        "minecraft:tnt", Tnt: PrimedTnt;
+        "minecraft:tnt_minecart", TntMinecart: MinecartTNT;
+        "minecraft:trader_llama", TraderLlama: TraderLlama;
+        "minecraft:trident", Trident: ThrownTrident;
+        "minecraft:tropical_fish", TropicalFish: TropicalFish;
+        "minecraft:turtle", Turtle: Turtle;
+        "minecraft:vex", Vex: Vex;
+        "minecraft:villager", Villager: Villager;
+        "minecraft:vindicator", Vindicator: Vindicator;
+        "minecraft:wandering_trader", WanderingTrader: WanderingTrader;
+        "minecraft:warden", Warden: Warden;
+        "minecraft:wind_charge", WindCharge: WindCharge;
+        "minecraft:witch", Witch: Witch;
+        "minecraft:wither", Wither: WitherBoss;
+        "minecraft:wither_skeleton", WitherSkeleton: WitherSkeleton;
+        "minecraft:wither_skull", WitherSkull: WitherSkull;
+        "minecraft:wolf", Wolf: Wolf;
+        "minecraft:zoglin", Zoglin: Zoglin;
+        "minecraft:zombie", Zombie: Zombie;
+        "minecraft:zombie_horse", ZombieHorse: ZombieHorse;
+        "minecraft:zombie_villager", ZombieVillager: ZombieVillager;
+        "minecraft:zombified_piglin", ZombifiedPiglin: ZombifiedPiglin;
+    }
+
+    entity_types! {
+        "1.21";
+        AbstractArrow > Projectile { "PierceLevel" as pierce_level: i8, "SoundEvent" as sound_event: CowStr, "crit" as crit: bool, "damage" as damage: f64, optional "inBlockState" as in_block_state: super::BlockState, "inGround" as in_ground: bool, "item" as item: fastnbt::Value, "life" as life: i16, "pickup" as pickup: i8, "shake" as shake: i8, optional "weapon" as weapon: fastnbt::Value }
+        AbstractChestedHorse > AbstractHorse { "ChestedHorse" as chested_horse: bool, optional "Items" as items: Vec<fastnbt::Value> }
+        AbstractFish > WaterAnimal { "FromBucket" as from_bucket: bool }
+        AbstractGolem > PathfinderMob {  }
+        AbstractHorse > Animal { "Bred" as bred: bool, "EatingHaystack" as eating_haystack: bool, optional "Owner" as owner: u128, optional "SaddleItem" as saddle_item: fastnbt::Value, "Tame" as tame: bool, "Temper" as temper: i32 }
+        AbstractHurtingProjectile > Projectile { "acceleration_power" as acceleration_power: f64 }
+        AbstractIllager > Raider {  }
+        AbstractMinecart > VehicleEntity { optional "CustomDisplayTile" as custom_display_tile: bool, optional "DisplayOffset" as display_offset: i32, optional "DisplayState" as display_state: super::BlockState }
+        AbstractMinecartContainer > AbstractMinecart { optional "Items" as items: Vec<fastnbt::Value>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        AbstractPiglin > Monster { optional "IsImmuneToZombification" as is_immune_to_zombification: bool, "TimeInOverworld" as time_in_overworld: i32 }
+        AbstractSchoolingFish > AbstractFish {  }
+        AbstractSkeleton > Monster {  }
+        AbstractVillager > AgeableMob { "Inventory" as inventory: Vec<fastnbt::Value>, optional "Offers" as offers: fastnbt::Value }
+        AbstractWindCharge > AbstractHurtingProjectile {  }
+        AgeableMob > PathfinderMob { "Age" as age: i32, "ForcedAge" as forced_age: i32 }
+        Allay > PathfinderMob { "CanDuplicate" as can_duplicate: bool, "DuplicationCooldown" as duplication_cooldown: i64, "Inventory" as inventory: Vec<fastnbt::Value>, optional "listener" as listener: fastnbt::Value }
+        AmbientCreature > Mob {  }
+        Animal > AgeableMob { "InLove" as in_love: i32, optional "LoveCause" as love_cause: u128 }
+        AreaEffectCloud > Entity { "Age" as age: i32, "Duration" as duration: i32, "DurationOnUse" as duration_on_use: i32, optional "Owner" as owner: u128, "Particle" as particle: fastnbt::Value, "Radius" as radius: f32, "RadiusOnUse" as radius_on_use: f32, "RadiusPerTick" as radius_per_tick: f32, "ReapplicationDelay" as reapplication_delay: i32, "WaitTime" as wait_time: i32, optional "potion_contents" as potion_contents: fastnbt::Value }
+        Armadillo > Animal { "scute_time" as scute_time: i32, "state" as state: CowStr }
+        ArmorStand > LivingEntity { "ArmorItems" as armor_items: Vec<HashMap<CowStr, fastnbt::Value>>, "DisabledSlots" as disabled_slots: i32, "HandItems" as hand_items: Vec<HashMap<CowStr, fastnbt::Value>>, "Invisible" as invisible: bool, optional "Marker" as marker: bool, "NoBasePlate" as no_base_plate: bool, "Pose" as pose: super::compounds::ArmorStand_writePose, "ShowArms" as show_arms: bool, "Small" as small: bool }
+        Arrow > AbstractArrow {  }
+        Axolotl > Animal { "FromBucket" as from_bucket: bool, "Variant" as variant: i32 }
+        Bat > AmbientCreature { "BatFlags" as bat_flags: i8 }
+        Bee > Animal { "AngerTime" as anger_time: i32, optional "AngryAt" as angry_at: u128, "CannotEnterHiveTicks" as cannot_enter_hive_ticks: i32, "CropsGrownSincePollination" as crops_grown_since_pollination: i32, "HasNectar" as has_nectar: bool, "HasStung" as has_stung: bool, "TicksSincePollination" as ticks_since_pollination: i32, optional "flower_pos" as flower_pos: fastnbt::IntArray, optional "hive_pos" as hive_pos: fastnbt::IntArray }
+        Blaze > Monster {  }
+        BlockAttachedEntity > Entity { "TileX" as tile_x: i32, "TileY" as tile_y: i32, "TileZ" as tile_z: i32 }
+        BlockDisplay > Display { "block_state" as block_state: super::BlockState }
+        Boat > VehicleEntity { "Type" as r#type: CowStr, optional "leash" as leash: either::Either<fastnbt::Value, fastnbt::IntArray> }
+        Bogged > AbstractSkeleton { "sheared" as sheared: bool }
+        Breeze > Monster {  }
+        BreezeWindCharge > AbstractWindCharge {  }
+        Camel > AbstractHorse { "LastPoseTick" as last_pose_tick: i64 }
+        Cat > TamableAnimal { "CollarColor" as collar_color: i8, "variant" as variant: CowStr }
+        CaveSpider > Spider {  }
+        ChestBoat > Boat { optional "Items" as items: Vec<fastnbt::Value>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        Chicken > Animal { "EggLayTime" as egg_lay_time: i32, "IsChickenJockey" as is_chicken_jockey: bool }
+        Cod > AbstractSchoolingFish {  }
+        Cow > Animal {  }
+        Creeper > Monster { "ExplosionRadius" as explosion_radius: i8, "Fuse" as fuse: i16, "ignited" as ignited: bool, optional "powered" as powered: bool }
+        Display > Entity { "glow_color_override" as glow_color_override: i32, "height" as height: f32, "interpolation_duration" as interpolation_duration: i32, "shadow_radius" as shadow_radius: f32, "shadow_strength" as shadow_strength: f32, "teleport_duration" as teleport_duration: i32, "view_range" as view_range: f32, "width" as width: f32 }
+        Dolphin > WaterAnimal { "GotFish" as got_fish: bool, "Moistness" as moistness: i32, "TreasurePosX" as treasure_pos_x: i32, "TreasurePosY" as treasure_pos_y: i32, "TreasurePosZ" as treasure_pos_z: i32 }
+        Donkey > AbstractChestedHorse {  }
+        DragonFireball > AbstractHurtingProjectile {  }
+        Drowned > Zombie {  }
+        ElderGuardian > Guardian {  }
+        EndCrystal > Entity { "ShowBottom" as show_bottom: bool, optional "beam_target" as beam_target: fastnbt::IntArray }
+        EnderDragon > Mob { "DragonDeathTime" as dragon_death_time: i32, "DragonPhase" as dragon_phase: i32 }
+        EnderMan > Monster { "AngerTime" as anger_time: i32, optional "AngryAt" as angry_at: u128, optional "carriedBlockState" as carried_block_state: super::BlockState }
+        Endermite > Monster { "Lifetime" as lifetime: i32 }
+        Entity { "Air" as air: i16, optional "CustomName" as custom_name: CowStr, optional "CustomNameVisible" as custom_name_visible: bool, "FallDistance" as fall_distance: f32, "Fire" as fire: i16, optional "Glowing" as glowing: bool, optional "HasVisualFire" as has_visual_fire: bool, "Invulnerable" as invulnerable: bool, "Motion" as motion: Vec<f64>, optional "NoGravity" as no_gravity: bool, "OnGround" as on_ground: bool, optional "Passengers" as passengers: Vec<Box<super::Entity>>, "PortalCooldown" as portal_cooldown: i32, optional "Pos" as pos: Vec<f64>, "Rotation" as rotation: Vec<f32>, optional "Silent" as silent: bool, optional "Tags" as tags: Vec<CowStr>, optional "TicksFrozen" as ticks_frozen: i32, "UUID" as uuid: u128 }
+        Evoker > SpellcasterIllager {  }
+        EvokerFangs > Entity { optional "Owner" as owner: u128, "Warmup" as warmup: i32 }
+        ExperienceOrb > Entity { "Age" as age: i16, "Count" as count: i32, "Health" as health: i16, "Value" as value: i16 }
+        EyeOfEnder > Entity { "Item" as item: fastnbt::Value }
+        FallingBlockEntity > Entity { "BlockState" as block_state: super::BlockState, "CancelDrop" as cancel_drop: bool, "DropItem" as drop_item: bool, "FallHurtAmount" as fall_hurt_amount: f32, "FallHurtMax" as fall_hurt_max: i32, "HurtEntities" as hurt_entities: bool, optional "TileEntityData" as tile_entity_data: HashMap<CowStr, fastnbt::Value>, "Time" as time: i32 }
+        Fireball > AbstractHurtingProjectile { "Item" as item: fastnbt::Value }
+        FireworkRocketEntity > Projectile { "FireworksItem" as fireworks_item: fastnbt::Value, "Life" as life: i32, "LifeTime" as life_time: i32, "ShotAtAngle" as shot_at_angle: bool }
+        FishingHook > Projectile {  }
+        FlyingMob > Mob {  }
+        Fox > Animal { "Crouching" as crouching: bool, "Sitting" as sitting: bool, "Sleeping" as sleeping: bool, "Trusted" as trusted: Vec<fastnbt::IntArray>, "Type" as r#type: CowStr }
+        Frog > Animal { "variant" as variant: CowStr }
+        Ghast > FlyingMob { "ExplosionPower" as explosion_power: i8 }
+        Giant > Monster {  }
+        GlowItemFrame > ItemFrame {  }
+        GlowSquid > Squid { "DarkTicksRemaining" as dark_ticks_remaining: i32 }
+        Goat > Animal { "HasLeftHorn" as has_left_horn: bool, "HasRightHorn" as has_right_horn: bool, "IsScreamingGoat" as is_screaming_goat: bool }
+        Guardian > Monster {  }
+        HangingEntity > BlockAttachedEntity {  }
+        Hoglin > Animal { optional "CannotBeHunted" as cannot_be_hunted: bool, optional "IsImmuneToZombification" as is_immune_to_zombification: bool, "TimeInOverworld" as time_in_overworld: i32 }
+        Horse > AbstractHorse { "Variant" as variant: i32 }
+        Husk > Zombie {  }
+        Illusioner > SpellcasterIllager {  }
+        Interaction > Entity { "height" as height: f32, "response" as response: bool, "width" as width: f32 }
+        IronGolem > AbstractGolem { "AngerTime" as anger_time: i32, optional "AngryAt" as angry_at: u128, "PlayerCreated" as player_created: bool }
+        ItemDisplay > Display { optional "item" as item: fastnbt::Value }
+        ItemEntity > Entity { "Age" as age: i16, "Health" as health: i16, optional "Item" as item: fastnbt::Value, optional "Owner" as owner: u128, "PickupDelay" as pickup_delay: i16, optional "Thrower" as thrower: u128 }
+        ItemFrame > HangingEntity { "Facing" as facing: i8, "Fixed" as fixed: bool, "Invisible" as invisible: bool, optional "Item" as item: fastnbt::Value, optional "ItemDropChance" as item_drop_chance: f32, optional "ItemRotation" as item_rotation: i8 }
+        LargeFireball > Fireball { "ExplosionPower" as explosion_power: i8 }
+        LeashFenceKnotEntity > BlockAttachedEntity {  }
+        LightningBolt > Entity {  }
+        LivingEntity > Entity { "AbsorptionAmount" as absorption_amount: f32, optional "Brain" as brain: fastnbt::Value, "DeathTime" as death_time: i16, "FallFlying" as fall_flying: bool, "Health" as health: f32, "HurtByTimestamp" as hurt_by_timestamp: i32, "HurtTime" as hurt_time: i16, optional "SleepingX" as sleeping_x: i32, optional "SleepingY" as sleeping_y: i32, optional "SleepingZ" as sleeping_z: i32, optional "active_effects" as active_effects: Vec<fastnbt::Value>, "attributes" as attributes: Vec<super::compounds::AttributeInstance_save> }
+        Llama > AbstractChestedHorse { "Strength" as strength: i32, "Variant" as variant: i32 }
+        LlamaSpit > Projectile {  }
+        MagmaCube > Slime {  }
+        Marker > Entity { "data" as data: HashMap<CowStr, fastnbt::Value> }
+        Minecart > AbstractMinecart {  }
+        MinecartChest > AbstractMinecartContainer {  }
+        MinecartCommandBlock > AbstractMinecart { "Command" as command: CowStr, optional "CustomName" as custom_name: CowStr, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: CowStr, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool }
+        MinecartFurnace > AbstractMinecart { "Fuel" as fuel: i16, "PushX" as push_x: f64, "PushZ" as push_z: f64 }
+        MinecartHopper > AbstractMinecartContainer { "Enabled" as enabled: bool }
+        MinecartSpawner > AbstractMinecart { "Delay" as delay: i16, "MaxNearbyEntities" as max_nearby_entities: i16, "MaxSpawnDelay" as max_spawn_delay: i16, "MinSpawnDelay" as min_spawn_delay: i16, "RequiredPlayerRange" as required_player_range: i16, "SpawnCount" as spawn_count: i16, optional "SpawnData" as spawn_data: fastnbt::Value, "SpawnPotentials" as spawn_potentials: fastnbt::Value, "SpawnRange" as spawn_range: i16 }
+        MinecartTNT > AbstractMinecart { "TNTFuse" as tnt_fuse: i32 }
+        Mob > LivingEntity { "ArmorDropChances" as armor_drop_chances: Vec<f32>, "ArmorItems" as armor_items: Vec<HashMap<CowStr, fastnbt::Value>>, "CanPickUpLoot" as can_pick_up_loot: bool, optional "DeathLootTable" as death_loot_table: CowStr, optional "DeathLootTableSeed" as death_loot_table_seed: i64, "HandDropChances" as hand_drop_chances: Vec<f32>, "HandItems" as hand_items: Vec<HashMap<CowStr, fastnbt::Value>>, "LeftHanded" as left_handed: bool, optional "NoAI" as no_ai: bool, "PersistenceRequired" as persistence_required: bool, optional "body_armor_drop_chance" as body_armor_drop_chance: f32, optional "body_armor_item" as body_armor_item: fastnbt::Value, optional "leash" as leash: either::Either<fastnbt::Value, fastnbt::IntArray> }
+        Monster > PathfinderMob {  }
+        Mule > AbstractChestedHorse {  }
+        MushroomCow > Cow { "Type" as r#type: CowStr }
+        Ocelot > Animal { "Trusting" as trusting: bool }
+        OminousItemSpawner > Entity { optional "item" as item: fastnbt::Value, "spawn_item_after_ticks" as spawn_item_after_ticks: i64 }
+        Painting > HangingEntity { "facing" as facing: i8 }
+        Panda > Animal { "HiddenGene" as hidden_gene: CowStr, "MainGene" as main_gene: CowStr }
+        Parrot > ShoulderRidingEntity { "Variant" as variant: i32 }
+        PathfinderMob > Mob {  }
+        PatrollingMonster > Monster { "PatrolLeader" as patrol_leader: bool, "Patrolling" as patrolling: bool, optional "patrol_target" as patrol_target: fastnbt::IntArray }
+        Phantom > FlyingMob { "AX" as ax: i32, "AY" as ay: i32, "AZ" as az: i32, "Size" as size: i32 }
+        Pig > Animal { "Saddle" as saddle: bool }
+        Piglin > AbstractPiglin { optional "CannotHunt" as cannot_hunt: bool, "Inventory" as inventory: Vec<fastnbt::Value>, optional "IsBaby" as is_baby: bool }
+        PiglinBrute > AbstractPiglin {  }
+        Pillager > AbstractIllager { "Inventory" as inventory: Vec<fastnbt::Value> }
+        PolarBear > Animal { "AngerTime" as anger_time: i32, optional "AngryAt" as angry_at: u128 }
+        PrimedTnt > Entity { "block_state" as block_state: super::BlockState, "fuse" as fuse: i16 }
+        Projectile > Entity { "HasBeenShot" as has_been_shot: bool, optional "LeftOwner" as left_owner: bool, optional "Owner" as owner: u128 }
+        Pufferfish > AbstractFish { "PuffState" as puff_state: i32 }
+        Rabbit > Animal { "MoreCarrotTicks" as more_carrot_ticks: i32, "RabbitType" as rabbit_type: i32 }
+        Raider > PatrollingMonster { "CanJoinRaid" as can_join_raid: bool, optional "RaidId" as raid_id: i32, "Wave" as wave: i32 }
+        Ravager > Raider { "AttackTick" as attack_tick: i32, "RoarTick" as roar_tick: i32, "StunTick" as stun_tick: i32 }
+        Salmon > AbstractSchoolingFish {  }
+        Sheep > Animal { "Color" as color: i8, "Sheared" as sheared: bool }
+        ShoulderRidingEntity > TamableAnimal {  }
+        Shulker > AbstractGolem { "AttachFace" as attach_face: i8, "Color" as color: i8, "Peek" as peek: i8 }
+        ShulkerBullet > Projectile { optional "Dir" as dir: i32, "Steps" as steps: i32, "TXD" as txd: f64, "TYD" as tyd: f64, "TZD" as tzd: f64, optional "Target" as target: u128 }
+        Silverfish > Monster {  }
+        Skeleton > AbstractSkeleton { "StrayConversionTime" as stray_conversion_time: i32 }
+        SkeletonHorse > AbstractHorse { "SkeletonTrap" as skeleton_trap: bool, "SkeletonTrapTime" as skeleton_trap_time: i32 }
+        Slime > Mob { "Size" as size: i32, "wasOnGround" as was_on_ground: bool }
+        SmallFireball > Fireball {  }
+        Sniffer > Animal {  }
+        SnowGolem > AbstractGolem { "Pumpkin" as pumpkin: bool }
+        Snowball > ThrowableItemProjectile {  }
+        SpectralArrow > AbstractArrow { "Duration" as duration: i32 }
+        SpellcasterIllager > AbstractIllager { "SpellTicks" as spell_ticks: i32 }
+        Spider > Monster {  }
+        Squid > WaterAnimal {  }
+        Stray > AbstractSkeleton {  }
+        Strider > Animal { "Saddle" as saddle: bool }
+        Tadpole > AbstractFish { "Age" as age: i32 }
+        TamableAnimal > Animal { optional "Owner" as owner: u128, "Sitting" as sitting: bool }
+        TextDisplay > Display { "background" as background: i32, "default_background" as default_background: bool, "line_width" as line_width: i32, "see_through" as see_through: bool, "shadow" as shadow: bool, "text" as text: CowStr, "text_opacity" as text_opacity: i8 }
+        ThrowableItemProjectile > ThrowableProjectile { "Item" as item: fastnbt::Value }
+        ThrowableProjectile > Projectile {  }
+        ThrownEgg > ThrowableItemProjectile {  }
+        ThrownEnderpearl > ThrowableItemProjectile {  }
+        ThrownExperienceBottle > ThrowableItemProjectile {  }
+        ThrownPotion > ThrowableItemProjectile {  }
+        ThrownTrident > AbstractArrow { "DealtDamage" as dealt_damage: bool }
+        TraderLlama > Llama { "DespawnDelay" as despawn_delay: i32 }
+        TropicalFish > AbstractSchoolingFish { "Variant" as variant: i32 }
+        Turtle > Animal { "HasEgg" as has_egg: bool, "HomePosX" as home_pos_x: i32, "HomePosY" as home_pos_y: i32, "HomePosZ" as home_pos_z: i32, "TravelPosX" as travel_pos_x: i32, "TravelPosY" as travel_pos_y: i32, "TravelPosZ" as travel_pos_z: i32 }
+        VehicleEntity > Entity {  }
+        Vex > Monster { optional "BoundX" as bound_x: i32, optional "BoundY" as bound_y: i32, optional "BoundZ" as bound_z: i32, optional "LifeTicks" as life_ticks: i32 }
+        Villager > AbstractVillager { optional "AssignProfessionWhenSpawned" as assign_profession_when_spawned: bool, "FoodLevel" as food_level: i8, "Gossips" as gossips: fastnbt::Value, "LastGossipDecay" as last_gossip_decay: i64, "LastRestock" as last_restock: i64, "RestocksToday" as restocks_today: i32, optional "VillagerData" as villager_data: fastnbt::Value, "Xp" as xp: i32 }
+        Vindicator > AbstractIllager { optional "Johnny" as johnny: bool }
+        WanderingTrader > AbstractVillager { "DespawnDelay" as despawn_delay: i32, optional "wander_target" as wander_target: fastnbt::IntArray }
+        Warden > Monster { optional "anger" as anger: fastnbt::Value, optional "listener" as listener: fastnbt::Value }
+        WaterAnimal > PathfinderMob {  }
+        WindCharge > AbstractWindCharge {  }
+        Witch > Raider {  }
+        WitherBoss > Monster { "Invul" as invul: i32 }
+        WitherSkeleton > AbstractSkeleton {  }
+        WitherSkull > AbstractHurtingProjectile { "dangerous" as dangerous: bool }
+        Wolf > TamableAnimal { "AngerTime" as anger_time: i32, optional "AngryAt" as angry_at: u128, "CollarColor" as collar_color: i8, optional "variant" as variant: CowStr }
+        Zoglin > Monster { optional "IsBaby" as is_baby: bool }
+        Zombie > Monster { "CanBreakDoors" as can_break_doors: bool, "DrownedConversionTime" as drowned_conversion_time: i32, "InWaterTime" as in_water_time: i32, "IsBaby" as is_baby: bool }
+        ZombieHorse > AbstractHorse {  }
+        ZombieVillager > Zombie { optional "ConversionPlayer" as conversion_player: u128, "ConversionTime" as conversion_time: i32, optional "Gossips" as gossips: fastnbt::Value, optional "Offers" as offers: fastnbt::Value, optional "VillagerData" as villager_data: fastnbt::Value, "Xp" as xp: i32 }
+        ZombifiedPiglin > Zombie { "AngerTime" as anger_time: i32, optional "AngryAt" as angry_at: u128 }
+    }
+
+    entity_compound_types! {
+        "1.21";
+        ArmorStand_writePose { optional "Body" as body: Vec<f32>, optional "Head" as head: Vec<f32>, optional "LeftArm" as left_arm: Vec<f32>, optional "LeftLeg" as left_leg: Vec<f32>, optional "RightArm" as right_arm: Vec<f32>, optional "RightLeg" as right_leg: Vec<f32> }
+        AttributeInstance_save { "base" as base: f64, "id" as id: CowStr, optional "modifiers" as modifiers: Vec<HashMap<CowStr, fastnbt::Value>> }
     }
 }
