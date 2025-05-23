@@ -5,7 +5,7 @@
 /// Re-exports for all items of the latest Minecraft version.
 #[cfg(feature = "latest")]
 pub mod latest {
-    pub use super::mc1_21::*;
+    pub use super::mc1_21_2::*;
 }
 
 /// Accompanying types for block entities in Minecraft 1.14.
@@ -1607,5 +1607,115 @@ pub mod mc1_21 {
 
     block_entity_compound_types! {
         "1.21";
+    }
+}
+
+/// Accompanying types for block entities in Minecraft 1.21.2.
+#[cfg(feature = "1.21.2")]
+pub mod mc1_21_2 {
+    block_entities! {
+        "1.21.2", mc1_21_2;
+        "minecraft:banner", Banner: BannerBlockEntity (> BlockEntity), ["CustomName", "patterns"];
+        "minecraft:barrel", Barrel: BarrelBlockEntity (> > > BlockEntity), ["Items", "LootTable", "LootTableSeed", "CustomName", "lock"];
+        "minecraft:beacon", Beacon: BeaconBlockEntity (> BlockEntity), ["CustomName", "Levels", "lock", "primary_effect", "secondary_effect"];
+        "minecraft:bed", Bed: BedBlockEntity (> BlockEntity), [];
+        "minecraft:beehive", Beehive: BeehiveBlockEntity (> BlockEntity), ["bees", "flower_pos"];
+        "minecraft:bell", Bell: BellBlockEntity (> BlockEntity), [];
+        "minecraft:blast_furnace", BlastFurnace: BlastFurnaceBlockEntity (> > > BlockEntity), ["BurnTime", "CookTime", "CookTimeTotal", "Items", "RecipesUsed", "CustomName", "lock"];
+        "minecraft:brewing_stand", BrewingStand: BrewingStandBlockEntity (> > BlockEntity), ["BrewTime", "Fuel", "Items", "CustomName", "lock"];
+        "minecraft:brushable_block", BrushableBlock: BrushableBlockEntity (> BlockEntity), ["LootTable", "LootTableSeed", "item"];
+        "minecraft:calibrated_sculk_sensor", CalibratedSculkSensor: CalibratedSculkSensorBlockEntity (> > BlockEntity), ["last_vibration_frequency", "listener"];
+        "minecraft:campfire", Campfire: CampfireBlockEntity (> BlockEntity), ["CookingTimes", "CookingTotalTimes", "Items"];
+        "minecraft:chest", Chest: ChestBlockEntity (> > > BlockEntity), ["Items", "LootTable", "LootTableSeed", "CustomName", "lock"];
+        "minecraft:chiseled_bookshelf", ChiseledBookshelf: ChiseledBookShelfBlockEntity (> BlockEntity), ["Items", "last_interacted_slot"];
+        "minecraft:command_block", CommandBlock: CommandBlockEntity (> BlockEntity), ["Command", "CustomName", "LastExecution", "LastOutput", "SuccessCount", "TrackOutput", "UpdateLastExecution", "auto", "conditionMet", "powered"];
+        "minecraft:comparator", Comparator: ComparatorBlockEntity (> BlockEntity), ["OutputSignal"];
+        "minecraft:conduit", Conduit: ConduitBlockEntity (> BlockEntity), ["Target"];
+        "minecraft:crafter", Crafter: CrafterBlockEntity (> > > BlockEntity), ["Items", "LootTable", "LootTableSeed", "crafting_ticks_remaining", "disabled_slots", "triggered", "CustomName", "lock"];
+        "minecraft:creaking_heart", CreakingHeart: CreakingHeartBlockEntity (> BlockEntity), [];
+        "minecraft:daylight_detector", DaylightDetector: DaylightDetectorBlockEntity (> BlockEntity), [];
+        "minecraft:decorated_pot", DecoratedPot: DecoratedPotBlockEntity (> BlockEntity), ["LootTable", "LootTableSeed", "item", "sherds"];
+        "minecraft:dispenser", Dispenser: DispenserBlockEntity (> > > BlockEntity), ["Items", "LootTable", "LootTableSeed", "CustomName", "lock"];
+        "minecraft:dropper", Dropper: DropperBlockEntity (> > > > BlockEntity), ["Items", "LootTable", "LootTableSeed", "CustomName", "lock"];
+        "minecraft:enchanting_table", EnchantingTable: EnchantingTableBlockEntity (> BlockEntity), ["CustomName"];
+        "minecraft:end_gateway", EndGateway: TheEndGatewayBlockEntity (> > BlockEntity), ["Age", "ExactTeleport", "exit_portal"];
+        "minecraft:end_portal", EndPortal: TheEndPortalBlockEntity (> BlockEntity), [];
+        "minecraft:ender_chest", EnderChest: EnderChestBlockEntity (> BlockEntity), [];
+        "minecraft:furnace", Furnace: FurnaceBlockEntity (> > > BlockEntity), ["BurnTime", "CookTime", "CookTimeTotal", "Items", "RecipesUsed", "CustomName", "lock"];
+        "minecraft:hanging_sign", HangingSign: HangingSignBlockEntity (> > BlockEntity), ["back_text", "front_text", "is_waxed"];
+        "minecraft:hopper", Hopper: HopperBlockEntity (> > > BlockEntity), ["Items", "LootTable", "LootTableSeed", "TransferCooldown", "CustomName", "lock"];
+        "minecraft:jigsaw", Jigsaw: JigsawBlockEntity (> BlockEntity), ["final_state", "joint", "name", "placement_priority", "pool", "selection_priority", "target"];
+        "minecraft:jukebox", Jukebox: JukeboxBlockEntity (> BlockEntity), ["RecordItem", "ticks_since_song_started"];
+        "minecraft:lectern", Lectern: LecternBlockEntity (> BlockEntity), ["Book", "Page"];
+        "minecraft:mob_spawner", MobSpawner: SpawnerBlockEntity (> BlockEntity), ["Delay", "MaxNearbyEntities", "MaxSpawnDelay", "MinSpawnDelay", "RequiredPlayerRange", "SpawnCount", "SpawnData", "SpawnPotentials", "SpawnRange"];
+        "minecraft:piston", Piston: PistonMovingBlockEntity (> BlockEntity), ["blockState", "extending", "facing", "progress", "source"];
+        "minecraft:sculk_catalyst", SculkCatalyst: SculkCatalystBlockEntity (> BlockEntity), ["cursors"];
+        "minecraft:sculk_sensor", SculkSensor: SculkSensorBlockEntity (> BlockEntity), ["last_vibration_frequency", "listener"];
+        "minecraft:sculk_shrieker", SculkShrieker: SculkShriekerBlockEntity (> BlockEntity), ["listener", "warning_level"];
+        "minecraft:shulker_box", ShulkerBox: ShulkerBoxBlockEntity (> > > BlockEntity), ["Items", "LootTable", "LootTableSeed", "CustomName", "lock"];
+        "minecraft:sign", Sign: SignBlockEntity (> BlockEntity), ["back_text", "front_text", "is_waxed"];
+        "minecraft:skull", Skull: SkullBlockEntity (> BlockEntity), ["custom_name", "note_block_sound", "profile"];
+        "minecraft:smoker", Smoker: SmokerBlockEntity (> > > BlockEntity), ["BurnTime", "CookTime", "CookTimeTotal", "Items", "RecipesUsed", "CustomName", "lock"];
+        "minecraft:structure_block", StructureBlock: StructureBlockEntity (> BlockEntity), ["author", "ignoreEntities", "integrity", "metadata", "mirror", "mode", "name", "posX", "posY", "posZ", "powered", "rotation", "seed", "showair", "showboundingbox", "sizeX", "sizeY", "sizeZ"];
+        "minecraft:trapped_chest", TrappedChest: TrappedChestBlockEntity (> > > > BlockEntity), ["Items", "LootTable", "LootTableSeed", "CustomName", "lock"];
+        "minecraft:trial_spawner", TrialSpawner: TrialSpawnerBlockEntity (> BlockEntity), [];
+        "minecraft:vault", Vault: VaultBlockEntity (> BlockEntity), ["config", "server_data", "shared_data"];
+    }
+
+    block_entity_types! {
+        "1.21.2";
+        AbstractFurnaceBlockEntity > BaseContainerBlockEntity { "BurnTime" as burn_time: i16, "CookTime" as cook_time: i16, "CookTimeTotal" as cook_time_total: i16, optional "Items" as items: Vec<fastnbt::Value>, "RecipesUsed" as recipes_used: HashMap<CowStr, fastnbt::Value> }
+        BannerBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, optional "patterns" as patterns: fastnbt::Value }
+        BarrelBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<fastnbt::Value>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        BaseContainerBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, optional "lock" as lock: fastnbt::Value }
+        BeaconBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr, "Levels" as levels: i32, optional "lock" as lock: fastnbt::Value, optional "primary_effect" as primary_effect: CowStr, optional "secondary_effect" as secondary_effect: CowStr }
+        BedBlockEntity > BlockEntity {  }
+        BeehiveBlockEntity > BlockEntity { "bees" as bees: fastnbt::Value, optional "flower_pos" as flower_pos: fastnbt::IntArray }
+        BellBlockEntity > BlockEntity {  }
+        BlastFurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
+        BlockEntity { "x" as x: i32, "y" as y: i32, "z" as z: i32 }
+        BrewingStandBlockEntity > BaseContainerBlockEntity { "BrewTime" as brew_time: i16, "Fuel" as fuel: i8, optional "Items" as items: Vec<fastnbt::Value> }
+        BrushableBlockEntity > BlockEntity { optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64, optional "item" as item: fastnbt::Value }
+        CalibratedSculkSensorBlockEntity > SculkSensorBlockEntity {  }
+        CampfireBlockEntity > BlockEntity { "CookingTimes" as cooking_times: fastnbt::IntArray, "CookingTotalTimes" as cooking_total_times: fastnbt::IntArray, optional "Items" as items: Vec<fastnbt::Value> }
+        ChestBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<fastnbt::Value>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        ChiseledBookShelfBlockEntity > BlockEntity { optional "Items" as items: Vec<fastnbt::Value>, "last_interacted_slot" as last_interacted_slot: i32 }
+        CommandBlockEntity > BlockEntity { "Command" as command: CowStr, optional "CustomName" as custom_name: CowStr, optional "LastExecution" as last_execution: i64, optional "LastOutput" as last_output: CowStr, "SuccessCount" as success_count: i32, "TrackOutput" as track_output: bool, "UpdateLastExecution" as update_last_execution: bool, "auto" as auto: bool, "conditionMet" as condition_met: bool, "powered" as powered: bool }
+        ComparatorBlockEntity > BlockEntity { "OutputSignal" as output_signal: i32 }
+        ConduitBlockEntity > BlockEntity { optional "Target" as target: u128 }
+        CrafterBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<fastnbt::Value>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64, "crafting_ticks_remaining" as crafting_ticks_remaining: i32, "disabled_slots" as disabled_slots: fastnbt::IntArray, "triggered" as triggered: i32 }
+        CreakingHeartBlockEntity > BlockEntity {  }
+        DaylightDetectorBlockEntity > BlockEntity {  }
+        DecoratedPotBlockEntity > BlockEntity { optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64, optional "item" as item: fastnbt::Value, optional "sherds" as sherds: fastnbt::Value }
+        DispenserBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<fastnbt::Value>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        DropperBlockEntity > DispenserBlockEntity {  }
+        EnchantingTableBlockEntity > BlockEntity { optional "CustomName" as custom_name: CowStr }
+        EnderChestBlockEntity > BlockEntity {  }
+        FurnaceBlockEntity > AbstractFurnaceBlockEntity {  }
+        HangingSignBlockEntity > SignBlockEntity {  }
+        HopperBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<fastnbt::Value>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64, "TransferCooldown" as transfer_cooldown: i32 }
+        JigsawBlockEntity > BlockEntity { "final_state" as final_state: CowStr, "joint" as joint: CowStr, "name" as name: CowStr, "placement_priority" as placement_priority: i32, "pool" as pool: CowStr, "selection_priority" as selection_priority: i32, "target" as target: CowStr }
+        JukeboxBlockEntity > BlockEntity { optional "RecordItem" as record_item: fastnbt::Value, optional "ticks_since_song_started" as ticks_since_song_started: i64 }
+        LecternBlockEntity > BlockEntity { optional "Book" as book: fastnbt::Value, optional "Page" as page: i32 }
+        PistonMovingBlockEntity > BlockEntity { "blockState" as block_state: super::BlockState, "extending" as extending: bool, "facing" as facing: i32, "progress" as progress: f32, "source" as source: bool }
+        RandomizableContainerBlockEntity > BaseContainerBlockEntity {  }
+        SculkCatalystBlockEntity > BlockEntity { optional "cursors" as cursors: fastnbt::Value }
+        SculkSensorBlockEntity > BlockEntity { "last_vibration_frequency" as last_vibration_frequency: i32, optional "listener" as listener: fastnbt::Value }
+        SculkShriekerBlockEntity > BlockEntity { optional "listener" as listener: fastnbt::Value, "warning_level" as warning_level: i32 }
+        ShulkerBoxBlockEntity > RandomizableContainerBlockEntity { optional "Items" as items: Vec<fastnbt::Value>, optional "LootTable" as loot_table: CowStr, optional "LootTableSeed" as loot_table_seed: i64 }
+        SignBlockEntity > BlockEntity { optional "back_text" as back_text: fastnbt::Value, optional "front_text" as front_text: fastnbt::Value, "is_waxed" as is_waxed: bool }
+        SkullBlockEntity > BlockEntity { optional "custom_name" as custom_name: CowStr, optional "note_block_sound" as note_block_sound: CowStr, optional "profile" as profile: fastnbt::Value }
+        SmokerBlockEntity > AbstractFurnaceBlockEntity {  }
+        SpawnerBlockEntity > BlockEntity { "Delay" as delay: i16, "MaxNearbyEntities" as max_nearby_entities: i16, "MaxSpawnDelay" as max_spawn_delay: i16, "MinSpawnDelay" as min_spawn_delay: i16, "RequiredPlayerRange" as required_player_range: i16, "SpawnCount" as spawn_count: i16, optional "SpawnData" as spawn_data: fastnbt::Value, "SpawnPotentials" as spawn_potentials: fastnbt::Value, "SpawnRange" as spawn_range: i16 }
+        StructureBlockEntity > BlockEntity { "author" as author: CowStr, "ignoreEntities" as ignore_entities: bool, "integrity" as integrity: f32, "metadata" as metadata: CowStr, "mirror" as mirror: CowStr, "mode" as mode: CowStr, "name" as name: CowStr, "posX" as pos_x: i32, "posY" as pos_y: i32, "posZ" as pos_z: i32, "powered" as powered: bool, "rotation" as rotation: CowStr, "seed" as seed: i64, "showair" as showair: bool, "showboundingbox" as showboundingbox: bool, "sizeX" as size_x: i32, "sizeY" as size_y: i32, "sizeZ" as size_z: i32 }
+        TheEndGatewayBlockEntity > TheEndPortalBlockEntity { "Age" as age: i64, optional "ExactTeleport" as exact_teleport: bool, optional "exit_portal" as exit_portal: fastnbt::IntArray }
+        TheEndPortalBlockEntity > BlockEntity {  }
+        TrappedChestBlockEntity > ChestBlockEntity {  }
+        TrialSpawnerBlockEntity > BlockEntity {  }
+        VaultBlockEntity > BlockEntity { "config" as config: fastnbt::Value, "server_data" as server_data: fastnbt::Value, "shared_data" as shared_data: fastnbt::Value }
+    }
+
+    block_entity_compound_types! {
+        "1.21.2";
     }
 }
