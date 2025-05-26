@@ -296,7 +296,7 @@ export default {
     log!(step, "building the generator lib");
     run_command(
         Command::new("deno")
-            .args(["task", "buildLib"])
+            .args(["task", "--node-modules-dir=auto", "buildLib"])
             .current_dir(&vite_root),
     )
     .with_context(|| "failed to build generator lib")?;
