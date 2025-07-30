@@ -5,7 +5,7 @@
 /// Re-exports for all items of the latest Minecraft version.
 #[cfg(feature = "latest")]
 pub mod latest {
-    pub use super::mc1_21_5::*;
+    pub use super::mc1_21_7::*;
 }
 
 /// Accompanying types for entities in Minecraft 1.14.
@@ -5680,5 +5680,687 @@ pub mod mc1_21_5 {
     entity_compound_types! {
         "1.21.5";
         AttributeInstance_save { "base" as base: f64 }
+    }
+}
+
+/// Accompanying types for entities in Minecraft 1.21.6.
+#[cfg(feature = "1.21.6")]
+pub mod mc1_21_6 {
+    entities! {
+        "1.21.6", mc1_21_6;
+        "minecraft:acacia_boat", AcaciaBoat: Boat;
+        "minecraft:acacia_chest_boat", AcaciaChestBoat: ChestBoat;
+        "minecraft:allay", Allay: Allay;
+        "minecraft:area_effect_cloud", AreaEffectCloud: AreaEffectCloud;
+        "minecraft:armadillo", Armadillo: Armadillo;
+        "minecraft:armor_stand", ArmorStand: ArmorStand;
+        "minecraft:arrow", Arrow: Arrow;
+        "minecraft:axolotl", Axolotl: Axolotl;
+        "minecraft:bamboo_chest_raft", BambooChestRaft: ChestRaft;
+        "minecraft:bamboo_raft", BambooRaft: Raft;
+        "minecraft:bat", Bat: Bat;
+        "minecraft:bee", Bee: Bee;
+        "minecraft:birch_boat", BirchBoat: Boat;
+        "minecraft:birch_chest_boat", BirchChestBoat: ChestBoat;
+        "minecraft:blaze", Blaze: Blaze;
+        "minecraft:block_display", BlockDisplay: BlockDisplay;
+        "minecraft:bogged", Bogged: Bogged;
+        "minecraft:breeze", Breeze: Breeze;
+        "minecraft:breeze_wind_charge", BreezeWindCharge: BreezeWindCharge;
+        "minecraft:camel", Camel: Camel;
+        "minecraft:cat", Cat: Cat;
+        "minecraft:cave_spider", CaveSpider: CaveSpider;
+        "minecraft:cherry_boat", CherryBoat: Boat;
+        "minecraft:cherry_chest_boat", CherryChestBoat: ChestBoat;
+        "minecraft:chest_minecart", ChestMinecart: MinecartChest;
+        "minecraft:chicken", Chicken: Chicken;
+        "minecraft:cod", Cod: Cod;
+        "minecraft:command_block_minecart", CommandBlockMinecart: MinecartCommandBlock;
+        "minecraft:cow", Cow: Cow;
+        "minecraft:creaking", Creaking: Creaking;
+        "minecraft:creeper", Creeper: Creeper;
+        "minecraft:dark_oak_boat", DarkOakBoat: Boat;
+        "minecraft:dark_oak_chest_boat", DarkOakChestBoat: ChestBoat;
+        "minecraft:dolphin", Dolphin: Dolphin;
+        "minecraft:donkey", Donkey: Donkey;
+        "minecraft:dragon_fireball", DragonFireball: DragonFireball;
+        "minecraft:drowned", Drowned: Drowned;
+        "minecraft:egg", Egg: ThrownEgg;
+        "minecraft:elder_guardian", ElderGuardian: ElderGuardian;
+        "minecraft:end_crystal", EndCrystal: EndCrystal;
+        "minecraft:ender_dragon", EnderDragon: EnderDragon;
+        "minecraft:ender_pearl", EnderPearl: ThrownEnderpearl;
+        "minecraft:enderman", Enderman: EnderMan;
+        "minecraft:endermite", Endermite: Endermite;
+        "minecraft:evoker", Evoker: Evoker;
+        "minecraft:evoker_fangs", EvokerFangs: EvokerFangs;
+        "minecraft:experience_bottle", ExperienceBottle: ThrownExperienceBottle;
+        "minecraft:experience_orb", ExperienceOrb: ExperienceOrb;
+        "minecraft:eye_of_ender", EyeOfEnder: EyeOfEnder;
+        "minecraft:falling_block", FallingBlock: FallingBlockEntity;
+        "minecraft:fireball", Fireball: LargeFireball;
+        "minecraft:firework_rocket", FireworkRocket: FireworkRocketEntity;
+        "minecraft:fishing_bobber", FishingBobber: FishingHook;
+        "minecraft:fox", Fox: Fox;
+        "minecraft:frog", Frog: Frog;
+        "minecraft:furnace_minecart", FurnaceMinecart: MinecartFurnace;
+        "minecraft:ghast", Ghast: Ghast;
+        "minecraft:giant", Giant: Giant;
+        "minecraft:glow_item_frame", GlowItemFrame: GlowItemFrame;
+        "minecraft:glow_squid", GlowSquid: GlowSquid;
+        "minecraft:goat", Goat: Goat;
+        "minecraft:guardian", Guardian: Guardian;
+        "minecraft:happy_ghast", HappyGhast: HappyGhast;
+        "minecraft:hoglin", Hoglin: Hoglin;
+        "minecraft:hopper_minecart", HopperMinecart: MinecartHopper;
+        "minecraft:horse", Horse: Horse;
+        "minecraft:husk", Husk: Husk;
+        "minecraft:illusioner", Illusioner: Illusioner;
+        "minecraft:interaction", Interaction: Interaction;
+        "minecraft:iron_golem", IronGolem: IronGolem;
+        "minecraft:item", Item: ItemEntity;
+        "minecraft:item_display", ItemDisplay: ItemDisplay;
+        "minecraft:item_frame", ItemFrame: ItemFrame;
+        "minecraft:jungle_boat", JungleBoat: Boat;
+        "minecraft:jungle_chest_boat", JungleChestBoat: ChestBoat;
+        "minecraft:leash_knot", LeashKnot: LeashFenceKnotEntity;
+        "minecraft:lightning_bolt", LightningBolt: LightningBolt;
+        "minecraft:lingering_potion", LingeringPotion: ThrownLingeringPotion;
+        "minecraft:llama", Llama: Llama;
+        "minecraft:llama_spit", LlamaSpit: LlamaSpit;
+        "minecraft:magma_cube", MagmaCube: MagmaCube;
+        "minecraft:mangrove_boat", MangroveBoat: Boat;
+        "minecraft:mangrove_chest_boat", MangroveChestBoat: ChestBoat;
+        "minecraft:marker", Marker: Marker;
+        "minecraft:minecart", Minecart: Minecart;
+        "minecraft:mooshroom", Mooshroom: MushroomCow;
+        "minecraft:mule", Mule: Mule;
+        "minecraft:oak_boat", OakBoat: Boat;
+        "minecraft:oak_chest_boat", OakChestBoat: ChestBoat;
+        "minecraft:ocelot", Ocelot: Ocelot;
+        "minecraft:ominous_item_spawner", OminousItemSpawner: OminousItemSpawner;
+        "minecraft:painting", Painting: Painting;
+        "minecraft:pale_oak_boat", PaleOakBoat: Boat;
+        "minecraft:pale_oak_chest_boat", PaleOakChestBoat: ChestBoat;
+        "minecraft:panda", Panda: Panda;
+        "minecraft:parrot", Parrot: Parrot;
+        "minecraft:phantom", Phantom: Phantom;
+        "minecraft:pig", Pig: Pig;
+        "minecraft:piglin", Piglin: Piglin;
+        "minecraft:piglin_brute", PiglinBrute: PiglinBrute;
+        "minecraft:pillager", Pillager: Pillager;
+        "minecraft:polar_bear", PolarBear: PolarBear;
+        "minecraft:pufferfish", Pufferfish: Pufferfish;
+        "minecraft:rabbit", Rabbit: Rabbit;
+        "minecraft:ravager", Ravager: Ravager;
+        "minecraft:salmon", Salmon: Salmon;
+        "minecraft:sheep", Sheep: Sheep;
+        "minecraft:shulker", Shulker: Shulker;
+        "minecraft:shulker_bullet", ShulkerBullet: ShulkerBullet;
+        "minecraft:silverfish", Silverfish: Silverfish;
+        "minecraft:skeleton", Skeleton: Skeleton;
+        "minecraft:skeleton_horse", SkeletonHorse: SkeletonHorse;
+        "minecraft:slime", Slime: Slime;
+        "minecraft:small_fireball", SmallFireball: SmallFireball;
+        "minecraft:sniffer", Sniffer: Sniffer;
+        "minecraft:snow_golem", SnowGolem: SnowGolem;
+        "minecraft:snowball", Snowball: Snowball;
+        "minecraft:spawner_minecart", SpawnerMinecart: MinecartSpawner;
+        "minecraft:spectral_arrow", SpectralArrow: SpectralArrow;
+        "minecraft:spider", Spider: Spider;
+        "minecraft:splash_potion", SplashPotion: ThrownSplashPotion;
+        "minecraft:spruce_boat", SpruceBoat: Boat;
+        "minecraft:spruce_chest_boat", SpruceChestBoat: ChestBoat;
+        "minecraft:squid", Squid: Squid;
+        "minecraft:stray", Stray: Stray;
+        "minecraft:strider", Strider: Strider;
+        "minecraft:tadpole", Tadpole: Tadpole;
+        "minecraft:text_display", TextDisplay: TextDisplay;
+        "minecraft:tnt", Tnt: PrimedTnt;
+        "minecraft:tnt_minecart", TntMinecart: MinecartTNT;
+        "minecraft:trader_llama", TraderLlama: TraderLlama;
+        "minecraft:trident", Trident: ThrownTrident;
+        "minecraft:tropical_fish", TropicalFish: TropicalFish;
+        "minecraft:turtle", Turtle: Turtle;
+        "minecraft:vex", Vex: Vex;
+        "minecraft:villager", Villager: Villager;
+        "minecraft:vindicator", Vindicator: Vindicator;
+        "minecraft:wandering_trader", WanderingTrader: WanderingTrader;
+        "minecraft:warden", Warden: Warden;
+        "minecraft:wind_charge", WindCharge: WindCharge;
+        "minecraft:witch", Witch: Witch;
+        "minecraft:wither", Wither: WitherBoss;
+        "minecraft:wither_skeleton", WitherSkeleton: WitherSkeleton;
+        "minecraft:wither_skull", WitherSkull: WitherSkull;
+        "minecraft:wolf", Wolf: Wolf;
+        "minecraft:zoglin", Zoglin: Zoglin;
+        "minecraft:zombie", Zombie: Zombie;
+        "minecraft:zombie_horse", ZombieHorse: ZombieHorse;
+        "minecraft:zombie_villager", ZombieVillager: ZombieVillager;
+        "minecraft:zombified_piglin", ZombifiedPiglin: ZombifiedPiglin;
+    }
+
+    entity_types! {
+        "1.21.6";
+        AbstractArrow > Projectile {  }
+        AbstractBoat > VehicleEntity {  }
+        AbstractChestBoat > AbstractBoat {  }
+        AbstractChestedHorse > AbstractHorse {  }
+        AbstractCow > Animal {  }
+        AbstractFish > WaterAnimal {  }
+        AbstractGolem > PathfinderMob {  }
+        AbstractHorse > Animal {  }
+        AbstractHurtingProjectile > Projectile {  }
+        AbstractIllager > Raider {  }
+        AbstractMinecart > VehicleEntity {  }
+        AbstractMinecartContainer > AbstractMinecart {  }
+        AbstractPiglin > Monster {  }
+        AbstractSchoolingFish > AbstractFish {  }
+        AbstractSkeleton > Monster {  }
+        AbstractThrownPotion > ThrowableItemProjectile {  }
+        AbstractVillager > AgeableMob {  }
+        AbstractWindCharge > AbstractHurtingProjectile {  }
+        AgeableMob > PathfinderMob {  }
+        AgeableWaterCreature > AgeableMob {  }
+        Allay > PathfinderMob {  }
+        AmbientCreature > Mob {  }
+        Animal > AgeableMob {  }
+        AreaEffectCloud > Entity {  }
+        Armadillo > Animal {  }
+        ArmorStand > LivingEntity {  }
+        Arrow > AbstractArrow {  }
+        Axolotl > Animal {  }
+        Bat > AmbientCreature {  }
+        Bee > Animal {  }
+        Blaze > Monster {  }
+        BlockAttachedEntity > Entity {  }
+        BlockDisplay > Display {  }
+        Boat > AbstractBoat {  }
+        Bogged > AbstractSkeleton {  }
+        Breeze > Monster {  }
+        BreezeWindCharge > AbstractWindCharge {  }
+        Camel > AbstractHorse {  }
+        Cat > TamableAnimal {  }
+        CaveSpider > Spider {  }
+        ChestBoat > AbstractChestBoat {  }
+        ChestRaft > AbstractChestBoat {  }
+        Chicken > Animal {  }
+        Cod > AbstractSchoolingFish {  }
+        Cow > AbstractCow {  }
+        Creaking > Monster {  }
+        Creeper > Monster {  }
+        Display > Entity {  }
+        Dolphin > AgeableWaterCreature {  }
+        Donkey > AbstractChestedHorse {  }
+        DragonFireball > AbstractHurtingProjectile {  }
+        Drowned > Zombie {  }
+        ElderGuardian > Guardian {  }
+        EndCrystal > Entity {  }
+        EnderDragon > Mob {  }
+        EnderMan > Monster {  }
+        Endermite > Monster {  }
+        Entity {  }
+        Evoker > SpellcasterIllager {  }
+        EvokerFangs > Entity {  }
+        ExperienceOrb > Entity {  }
+        EyeOfEnder > Entity {  }
+        FallingBlockEntity > Entity {  }
+        Fireball > AbstractHurtingProjectile {  }
+        FireworkRocketEntity > Projectile {  }
+        FishingHook > Projectile {  }
+        Fox > Animal {  }
+        Frog > Animal {  }
+        Ghast > Mob {  }
+        Giant > Monster {  }
+        GlowItemFrame > ItemFrame {  }
+        GlowSquid > Squid {  }
+        Goat > Animal {  }
+        Guardian > Monster {  }
+        HangingEntity > BlockAttachedEntity {  }
+        HappyGhast > Animal {  }
+        Hoglin > Animal {  }
+        Horse > AbstractHorse {  }
+        Husk > Zombie {  }
+        Illusioner > SpellcasterIllager {  }
+        Interaction > Entity {  }
+        IronGolem > AbstractGolem {  }
+        ItemDisplay > Display {  }
+        ItemEntity > Entity {  }
+        ItemFrame > HangingEntity {  }
+        LargeFireball > Fireball {  }
+        LeashFenceKnotEntity > BlockAttachedEntity {  }
+        LightningBolt > Entity {  }
+        LivingEntity > Entity {  }
+        Llama > AbstractChestedHorse {  }
+        LlamaSpit > Projectile {  }
+        MagmaCube > Slime {  }
+        Marker > Entity {  }
+        Minecart > AbstractMinecart {  }
+        MinecartChest > AbstractMinecartContainer {  }
+        MinecartCommandBlock > AbstractMinecart {  }
+        MinecartFurnace > AbstractMinecart {  }
+        MinecartHopper > AbstractMinecartContainer {  }
+        MinecartSpawner > AbstractMinecart {  }
+        MinecartTNT > AbstractMinecart {  }
+        Mob > LivingEntity {  }
+        Monster > PathfinderMob {  }
+        Mule > AbstractChestedHorse {  }
+        MushroomCow > AbstractCow {  }
+        Ocelot > Animal {  }
+        OminousItemSpawner > Entity {  }
+        Painting > HangingEntity {  }
+        Panda > Animal {  }
+        Parrot > ShoulderRidingEntity {  }
+        PathfinderMob > Mob {  }
+        PatrollingMonster > Monster {  }
+        Phantom > Mob {  }
+        Pig > Animal {  }
+        Piglin > AbstractPiglin {  }
+        PiglinBrute > AbstractPiglin {  }
+        Pillager > AbstractIllager {  }
+        PolarBear > Animal {  }
+        PrimedTnt > Entity {  }
+        Projectile > Entity {  }
+        Pufferfish > AbstractFish {  }
+        Rabbit > Animal {  }
+        Raft > AbstractBoat {  }
+        Raider > PatrollingMonster {  }
+        Ravager > Raider {  }
+        Salmon > AbstractSchoolingFish {  }
+        Sheep > Animal {  }
+        ShoulderRidingEntity > TamableAnimal {  }
+        Shulker > AbstractGolem {  }
+        ShulkerBullet > Projectile {  }
+        Silverfish > Monster {  }
+        Skeleton > AbstractSkeleton {  }
+        SkeletonHorse > AbstractHorse {  }
+        Slime > Mob {  }
+        SmallFireball > Fireball {  }
+        Sniffer > Animal {  }
+        SnowGolem > AbstractGolem {  }
+        Snowball > ThrowableItemProjectile {  }
+        SpectralArrow > AbstractArrow {  }
+        SpellcasterIllager > AbstractIllager {  }
+        Spider > Monster {  }
+        Squid > AgeableWaterCreature {  }
+        Stray > AbstractSkeleton {  }
+        Strider > Animal {  }
+        Tadpole > AbstractFish {  }
+        TamableAnimal > Animal {  }
+        TextDisplay > Display {  }
+        ThrowableItemProjectile > ThrowableProjectile {  }
+        ThrowableProjectile > Projectile {  }
+        ThrownEgg > ThrowableItemProjectile {  }
+        ThrownEnderpearl > ThrowableItemProjectile {  }
+        ThrownExperienceBottle > ThrowableItemProjectile {  }
+        ThrownLingeringPotion > AbstractThrownPotion {  }
+        ThrownSplashPotion > AbstractThrownPotion {  }
+        ThrownTrident > AbstractArrow {  }
+        TraderLlama > Llama {  }
+        TropicalFish > AbstractSchoolingFish {  }
+        Turtle > Animal {  }
+        VehicleEntity > Entity {  }
+        Vex > Monster {  }
+        Villager > AbstractVillager {  }
+        Vindicator > AbstractIllager {  }
+        WanderingTrader > AbstractVillager {  }
+        Warden > Monster {  }
+        WaterAnimal > PathfinderMob {  }
+        WindCharge > AbstractWindCharge {  }
+        Witch > Raider {  }
+        WitherBoss > Monster {  }
+        WitherSkeleton > AbstractSkeleton {  }
+        WitherSkull > AbstractHurtingProjectile {  }
+        Wolf > TamableAnimal {  }
+        Zoglin > Monster {  }
+        Zombie > Monster {  }
+        ZombieHorse > AbstractHorse {  }
+        ZombieVillager > Zombie {  }
+        ZombifiedPiglin > Zombie {  }
+    }
+
+    entity_compound_types! {
+        "1.21.6";
+    }
+}
+
+/// Accompanying types for entities in Minecraft 1.21.7.
+#[cfg(feature = "1.21.7")]
+pub mod mc1_21_7 {
+    entities! {
+        "1.21.7", mc1_21_7;
+        "minecraft:acacia_boat", AcaciaBoat: Boat;
+        "minecraft:acacia_chest_boat", AcaciaChestBoat: ChestBoat;
+        "minecraft:allay", Allay: Allay;
+        "minecraft:area_effect_cloud", AreaEffectCloud: AreaEffectCloud;
+        "minecraft:armadillo", Armadillo: Armadillo;
+        "minecraft:armor_stand", ArmorStand: ArmorStand;
+        "minecraft:arrow", Arrow: Arrow;
+        "minecraft:axolotl", Axolotl: Axolotl;
+        "minecraft:bamboo_chest_raft", BambooChestRaft: ChestRaft;
+        "minecraft:bamboo_raft", BambooRaft: Raft;
+        "minecraft:bat", Bat: Bat;
+        "minecraft:bee", Bee: Bee;
+        "minecraft:birch_boat", BirchBoat: Boat;
+        "minecraft:birch_chest_boat", BirchChestBoat: ChestBoat;
+        "minecraft:blaze", Blaze: Blaze;
+        "minecraft:block_display", BlockDisplay: BlockDisplay;
+        "minecraft:bogged", Bogged: Bogged;
+        "minecraft:breeze", Breeze: Breeze;
+        "minecraft:breeze_wind_charge", BreezeWindCharge: BreezeWindCharge;
+        "minecraft:camel", Camel: Camel;
+        "minecraft:cat", Cat: Cat;
+        "minecraft:cave_spider", CaveSpider: CaveSpider;
+        "minecraft:cherry_boat", CherryBoat: Boat;
+        "minecraft:cherry_chest_boat", CherryChestBoat: ChestBoat;
+        "minecraft:chest_minecart", ChestMinecart: MinecartChest;
+        "minecraft:chicken", Chicken: Chicken;
+        "minecraft:cod", Cod: Cod;
+        "minecraft:command_block_minecart", CommandBlockMinecart: MinecartCommandBlock;
+        "minecraft:cow", Cow: Cow;
+        "minecraft:creaking", Creaking: Creaking;
+        "minecraft:creeper", Creeper: Creeper;
+        "minecraft:dark_oak_boat", DarkOakBoat: Boat;
+        "minecraft:dark_oak_chest_boat", DarkOakChestBoat: ChestBoat;
+        "minecraft:dolphin", Dolphin: Dolphin;
+        "minecraft:donkey", Donkey: Donkey;
+        "minecraft:dragon_fireball", DragonFireball: DragonFireball;
+        "minecraft:drowned", Drowned: Drowned;
+        "minecraft:egg", Egg: ThrownEgg;
+        "minecraft:elder_guardian", ElderGuardian: ElderGuardian;
+        "minecraft:end_crystal", EndCrystal: EndCrystal;
+        "minecraft:ender_dragon", EnderDragon: EnderDragon;
+        "minecraft:ender_pearl", EnderPearl: ThrownEnderpearl;
+        "minecraft:enderman", Enderman: EnderMan;
+        "minecraft:endermite", Endermite: Endermite;
+        "minecraft:evoker", Evoker: Evoker;
+        "minecraft:evoker_fangs", EvokerFangs: EvokerFangs;
+        "minecraft:experience_bottle", ExperienceBottle: ThrownExperienceBottle;
+        "minecraft:experience_orb", ExperienceOrb: ExperienceOrb;
+        "minecraft:eye_of_ender", EyeOfEnder: EyeOfEnder;
+        "minecraft:falling_block", FallingBlock: FallingBlockEntity;
+        "minecraft:fireball", Fireball: LargeFireball;
+        "minecraft:firework_rocket", FireworkRocket: FireworkRocketEntity;
+        "minecraft:fishing_bobber", FishingBobber: FishingHook;
+        "minecraft:fox", Fox: Fox;
+        "minecraft:frog", Frog: Frog;
+        "minecraft:furnace_minecart", FurnaceMinecart: MinecartFurnace;
+        "minecraft:ghast", Ghast: Ghast;
+        "minecraft:giant", Giant: Giant;
+        "minecraft:glow_item_frame", GlowItemFrame: GlowItemFrame;
+        "minecraft:glow_squid", GlowSquid: GlowSquid;
+        "minecraft:goat", Goat: Goat;
+        "minecraft:guardian", Guardian: Guardian;
+        "minecraft:happy_ghast", HappyGhast: HappyGhast;
+        "minecraft:hoglin", Hoglin: Hoglin;
+        "minecraft:hopper_minecart", HopperMinecart: MinecartHopper;
+        "minecraft:horse", Horse: Horse;
+        "minecraft:husk", Husk: Husk;
+        "minecraft:illusioner", Illusioner: Illusioner;
+        "minecraft:interaction", Interaction: Interaction;
+        "minecraft:iron_golem", IronGolem: IronGolem;
+        "minecraft:item", Item: ItemEntity;
+        "minecraft:item_display", ItemDisplay: ItemDisplay;
+        "minecraft:item_frame", ItemFrame: ItemFrame;
+        "minecraft:jungle_boat", JungleBoat: Boat;
+        "minecraft:jungle_chest_boat", JungleChestBoat: ChestBoat;
+        "minecraft:leash_knot", LeashKnot: LeashFenceKnotEntity;
+        "minecraft:lightning_bolt", LightningBolt: LightningBolt;
+        "minecraft:lingering_potion", LingeringPotion: ThrownLingeringPotion;
+        "minecraft:llama", Llama: Llama;
+        "minecraft:llama_spit", LlamaSpit: LlamaSpit;
+        "minecraft:magma_cube", MagmaCube: MagmaCube;
+        "minecraft:mangrove_boat", MangroveBoat: Boat;
+        "minecraft:mangrove_chest_boat", MangroveChestBoat: ChestBoat;
+        "minecraft:marker", Marker: Marker;
+        "minecraft:minecart", Minecart: Minecart;
+        "minecraft:mooshroom", Mooshroom: MushroomCow;
+        "minecraft:mule", Mule: Mule;
+        "minecraft:oak_boat", OakBoat: Boat;
+        "minecraft:oak_chest_boat", OakChestBoat: ChestBoat;
+        "minecraft:ocelot", Ocelot: Ocelot;
+        "minecraft:ominous_item_spawner", OminousItemSpawner: OminousItemSpawner;
+        "minecraft:painting", Painting: Painting;
+        "minecraft:pale_oak_boat", PaleOakBoat: Boat;
+        "minecraft:pale_oak_chest_boat", PaleOakChestBoat: ChestBoat;
+        "minecraft:panda", Panda: Panda;
+        "minecraft:parrot", Parrot: Parrot;
+        "minecraft:phantom", Phantom: Phantom;
+        "minecraft:pig", Pig: Pig;
+        "minecraft:piglin", Piglin: Piglin;
+        "minecraft:piglin_brute", PiglinBrute: PiglinBrute;
+        "minecraft:pillager", Pillager: Pillager;
+        "minecraft:polar_bear", PolarBear: PolarBear;
+        "minecraft:pufferfish", Pufferfish: Pufferfish;
+        "minecraft:rabbit", Rabbit: Rabbit;
+        "minecraft:ravager", Ravager: Ravager;
+        "minecraft:salmon", Salmon: Salmon;
+        "minecraft:sheep", Sheep: Sheep;
+        "minecraft:shulker", Shulker: Shulker;
+        "minecraft:shulker_bullet", ShulkerBullet: ShulkerBullet;
+        "minecraft:silverfish", Silverfish: Silverfish;
+        "minecraft:skeleton", Skeleton: Skeleton;
+        "minecraft:skeleton_horse", SkeletonHorse: SkeletonHorse;
+        "minecraft:slime", Slime: Slime;
+        "minecraft:small_fireball", SmallFireball: SmallFireball;
+        "minecraft:sniffer", Sniffer: Sniffer;
+        "minecraft:snow_golem", SnowGolem: SnowGolem;
+        "minecraft:snowball", Snowball: Snowball;
+        "minecraft:spawner_minecart", SpawnerMinecart: MinecartSpawner;
+        "minecraft:spectral_arrow", SpectralArrow: SpectralArrow;
+        "minecraft:spider", Spider: Spider;
+        "minecraft:splash_potion", SplashPotion: ThrownSplashPotion;
+        "minecraft:spruce_boat", SpruceBoat: Boat;
+        "minecraft:spruce_chest_boat", SpruceChestBoat: ChestBoat;
+        "minecraft:squid", Squid: Squid;
+        "minecraft:stray", Stray: Stray;
+        "minecraft:strider", Strider: Strider;
+        "minecraft:tadpole", Tadpole: Tadpole;
+        "minecraft:text_display", TextDisplay: TextDisplay;
+        "minecraft:tnt", Tnt: PrimedTnt;
+        "minecraft:tnt_minecart", TntMinecart: MinecartTNT;
+        "minecraft:trader_llama", TraderLlama: TraderLlama;
+        "minecraft:trident", Trident: ThrownTrident;
+        "minecraft:tropical_fish", TropicalFish: TropicalFish;
+        "minecraft:turtle", Turtle: Turtle;
+        "minecraft:vex", Vex: Vex;
+        "minecraft:villager", Villager: Villager;
+        "minecraft:vindicator", Vindicator: Vindicator;
+        "minecraft:wandering_trader", WanderingTrader: WanderingTrader;
+        "minecraft:warden", Warden: Warden;
+        "minecraft:wind_charge", WindCharge: WindCharge;
+        "minecraft:witch", Witch: Witch;
+        "minecraft:wither", Wither: WitherBoss;
+        "minecraft:wither_skeleton", WitherSkeleton: WitherSkeleton;
+        "minecraft:wither_skull", WitherSkull: WitherSkull;
+        "minecraft:wolf", Wolf: Wolf;
+        "minecraft:zoglin", Zoglin: Zoglin;
+        "minecraft:zombie", Zombie: Zombie;
+        "minecraft:zombie_horse", ZombieHorse: ZombieHorse;
+        "minecraft:zombie_villager", ZombieVillager: ZombieVillager;
+        "minecraft:zombified_piglin", ZombifiedPiglin: ZombifiedPiglin;
+    }
+
+    entity_types! {
+        "1.21.7";
+        AbstractArrow > Projectile {  }
+        AbstractBoat > VehicleEntity {  }
+        AbstractChestBoat > AbstractBoat {  }
+        AbstractChestedHorse > AbstractHorse {  }
+        AbstractCow > Animal {  }
+        AbstractFish > WaterAnimal {  }
+        AbstractGolem > PathfinderMob {  }
+        AbstractHorse > Animal {  }
+        AbstractHurtingProjectile > Projectile {  }
+        AbstractIllager > Raider {  }
+        AbstractMinecart > VehicleEntity {  }
+        AbstractMinecartContainer > AbstractMinecart {  }
+        AbstractPiglin > Monster {  }
+        AbstractSchoolingFish > AbstractFish {  }
+        AbstractSkeleton > Monster {  }
+        AbstractThrownPotion > ThrowableItemProjectile {  }
+        AbstractVillager > AgeableMob {  }
+        AbstractWindCharge > AbstractHurtingProjectile {  }
+        AgeableMob > PathfinderMob {  }
+        AgeableWaterCreature > AgeableMob {  }
+        Allay > PathfinderMob {  }
+        AmbientCreature > Mob {  }
+        Animal > AgeableMob {  }
+        AreaEffectCloud > Entity {  }
+        Armadillo > Animal {  }
+        ArmorStand > LivingEntity {  }
+        Arrow > AbstractArrow {  }
+        Axolotl > Animal {  }
+        Bat > AmbientCreature {  }
+        Bee > Animal {  }
+        Blaze > Monster {  }
+        BlockAttachedEntity > Entity {  }
+        BlockDisplay > Display {  }
+        Boat > AbstractBoat {  }
+        Bogged > AbstractSkeleton {  }
+        Breeze > Monster {  }
+        BreezeWindCharge > AbstractWindCharge {  }
+        Camel > AbstractHorse {  }
+        Cat > TamableAnimal {  }
+        CaveSpider > Spider {  }
+        ChestBoat > AbstractChestBoat {  }
+        ChestRaft > AbstractChestBoat {  }
+        Chicken > Animal {  }
+        Cod > AbstractSchoolingFish {  }
+        Cow > AbstractCow {  }
+        Creaking > Monster {  }
+        Creeper > Monster {  }
+        Display > Entity {  }
+        Dolphin > AgeableWaterCreature {  }
+        Donkey > AbstractChestedHorse {  }
+        DragonFireball > AbstractHurtingProjectile {  }
+        Drowned > Zombie {  }
+        ElderGuardian > Guardian {  }
+        EndCrystal > Entity {  }
+        EnderDragon > Mob {  }
+        EnderMan > Monster {  }
+        Endermite > Monster {  }
+        Entity {  }
+        Evoker > SpellcasterIllager {  }
+        EvokerFangs > Entity {  }
+        ExperienceOrb > Entity {  }
+        EyeOfEnder > Entity {  }
+        FallingBlockEntity > Entity {  }
+        Fireball > AbstractHurtingProjectile {  }
+        FireworkRocketEntity > Projectile {  }
+        FishingHook > Projectile {  }
+        Fox > Animal {  }
+        Frog > Animal {  }
+        Ghast > Mob {  }
+        Giant > Monster {  }
+        GlowItemFrame > ItemFrame {  }
+        GlowSquid > Squid {  }
+        Goat > Animal {  }
+        Guardian > Monster {  }
+        HangingEntity > BlockAttachedEntity {  }
+        HappyGhast > Animal {  }
+        Hoglin > Animal {  }
+        Horse > AbstractHorse {  }
+        Husk > Zombie {  }
+        Illusioner > SpellcasterIllager {  }
+        Interaction > Entity {  }
+        IronGolem > AbstractGolem {  }
+        ItemDisplay > Display {  }
+        ItemEntity > Entity {  }
+        ItemFrame > HangingEntity {  }
+        LargeFireball > Fireball {  }
+        LeashFenceKnotEntity > BlockAttachedEntity {  }
+        LightningBolt > Entity {  }
+        LivingEntity > Entity {  }
+        Llama > AbstractChestedHorse {  }
+        LlamaSpit > Projectile {  }
+        MagmaCube > Slime {  }
+        Marker > Entity {  }
+        Minecart > AbstractMinecart {  }
+        MinecartChest > AbstractMinecartContainer {  }
+        MinecartCommandBlock > AbstractMinecart {  }
+        MinecartFurnace > AbstractMinecart {  }
+        MinecartHopper > AbstractMinecartContainer {  }
+        MinecartSpawner > AbstractMinecart {  }
+        MinecartTNT > AbstractMinecart {  }
+        Mob > LivingEntity {  }
+        Monster > PathfinderMob {  }
+        Mule > AbstractChestedHorse {  }
+        MushroomCow > AbstractCow {  }
+        Ocelot > Animal {  }
+        OminousItemSpawner > Entity {  }
+        Painting > HangingEntity {  }
+        Panda > Animal {  }
+        Parrot > ShoulderRidingEntity {  }
+        PathfinderMob > Mob {  }
+        PatrollingMonster > Monster {  }
+        Phantom > Mob {  }
+        Pig > Animal {  }
+        Piglin > AbstractPiglin {  }
+        PiglinBrute > AbstractPiglin {  }
+        Pillager > AbstractIllager {  }
+        PolarBear > Animal {  }
+        PrimedTnt > Entity {  }
+        Projectile > Entity {  }
+        Pufferfish > AbstractFish {  }
+        Rabbit > Animal {  }
+        Raft > AbstractBoat {  }
+        Raider > PatrollingMonster {  }
+        Ravager > Raider {  }
+        Salmon > AbstractSchoolingFish {  }
+        Sheep > Animal {  }
+        ShoulderRidingEntity > TamableAnimal {  }
+        Shulker > AbstractGolem {  }
+        ShulkerBullet > Projectile {  }
+        Silverfish > Monster {  }
+        Skeleton > AbstractSkeleton {  }
+        SkeletonHorse > AbstractHorse {  }
+        Slime > Mob {  }
+        SmallFireball > Fireball {  }
+        Sniffer > Animal {  }
+        SnowGolem > AbstractGolem {  }
+        Snowball > ThrowableItemProjectile {  }
+        SpectralArrow > AbstractArrow {  }
+        SpellcasterIllager > AbstractIllager {  }
+        Spider > Monster {  }
+        Squid > AgeableWaterCreature {  }
+        Stray > AbstractSkeleton {  }
+        Strider > Animal {  }
+        Tadpole > AbstractFish {  }
+        TamableAnimal > Animal {  }
+        TextDisplay > Display {  }
+        ThrowableItemProjectile > ThrowableProjectile {  }
+        ThrowableProjectile > Projectile {  }
+        ThrownEgg > ThrowableItemProjectile {  }
+        ThrownEnderpearl > ThrowableItemProjectile {  }
+        ThrownExperienceBottle > ThrowableItemProjectile {  }
+        ThrownLingeringPotion > AbstractThrownPotion {  }
+        ThrownSplashPotion > AbstractThrownPotion {  }
+        ThrownTrident > AbstractArrow {  }
+        TraderLlama > Llama {  }
+        TropicalFish > AbstractSchoolingFish {  }
+        Turtle > Animal {  }
+        VehicleEntity > Entity {  }
+        Vex > Monster {  }
+        Villager > AbstractVillager {  }
+        Vindicator > AbstractIllager {  }
+        WanderingTrader > AbstractVillager {  }
+        Warden > Monster {  }
+        WaterAnimal > PathfinderMob {  }
+        WindCharge > AbstractWindCharge {  }
+        Witch > Raider {  }
+        WitherBoss > Monster {  }
+        WitherSkeleton > AbstractSkeleton {  }
+        WitherSkull > AbstractHurtingProjectile {  }
+        Wolf > TamableAnimal {  }
+        Zoglin > Monster {  }
+        Zombie > Monster {  }
+        ZombieHorse > AbstractHorse {  }
+        ZombieVillager > Zombie {  }
+        ZombifiedPiglin > Zombie {  }
+    }
+
+    entity_compound_types! {
+        "1.21.7";
     }
 }
