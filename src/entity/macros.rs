@@ -15,6 +15,7 @@ macro_rules! entities {
         use serde::{Deserialize, de::Visitor, Serialize};
 
         #[cfg(feature = "block-states")]
+        #[allow(unused)]
         pub(crate) type BlockState = $crate::$mc_mod::BlockState;
         #[cfg(not(feature = "block-states"))]
         pub(crate) type BlockState = $crate::GenericBlockState;

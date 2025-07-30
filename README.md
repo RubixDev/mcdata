@@ -45,7 +45,7 @@ missing IDs.
 ```rust
 # #[cfg(not(feature = "test"))]
 # compile_error!("tests should be run with the 'test' feature enabled");
-use mcdata::latest::{BlockState, props};
+use mcdata::mc1_21_4::{BlockState, props};
 
 let banjo = BlockState::NoteBlock {
     instrument: props::NoteBlockInstrument::Banjo,
@@ -72,7 +72,7 @@ assert_eq!(fastnbt::to_value(&banjo), Ok(banjo_nbt));
 # #[cfg(not(feature = "test"))]
 # compile_error!("tests should be run with the 'test' feature enabled");
 use std::collections::HashMap;
-use mcdata::latest::{Entity, entity_types as types, entity_compounds as compounds};
+use mcdata::mc1_21_4::{Entity, entity_types as types, entity_compounds as compounds};
 
 let axolotl = Entity::Axolotl(types::Axolotl {
     from_bucket: false,
@@ -102,8 +102,8 @@ let axolotl = Entity::Axolotl(types::Axolotl {
                         absorption_amount: 0.,
                         attributes: vec![compounds::AttributeInstance_save {
                             base: 1.,
+                            id: "minecraft:generic.movement_speed".into(),
                             modifiers: None,
-                            name: "minecraft:generic.movement_speed".into(),
                         }],
                         brain: Some(fastnbt::nbt!({ "memories": {} })),
                         death_time: 0,
@@ -129,7 +129,7 @@ let axolotl = Entity::Axolotl(types::Axolotl {
                             on_ground: false,
                             passengers: None,
                             portal_cooldown: 0,
-                            pos: vec![-0.5, 0., 1.5],
+                            pos: Some(vec![-0.5, 0., 1.5]),
                             rotation: vec![-107.68715, 0.],
                             silent: None,
                             tags: None,
@@ -157,9 +157,9 @@ let axolotl_nbt = fastnbt::nbt!({
     "LeftHanded": false,
     "PersistenceRequired": false,
     "AbsorptionAmount": 0_f32,
-    "Attributes": [{
-        "Base": 1.,
-        "Name": "minecraft:generic.movement_speed",
+    "attributes": [{
+        "base": 1.,
+        "id": "minecraft:generic.movement_speed",
     }],
     "Brain": { "memories": {} },
     "DeathTime": 0_i16,
@@ -189,7 +189,7 @@ assert_eq!(fastnbt::to_value(&axolotl), Ok(axolotl_nbt));
 ```rust
 # #[cfg(not(feature = "test"))]
 # compile_error!("tests should be run with the 'test' feature enabled");
-use mcdata::latest::{BlockEntity, block_entity_types as types};
+use mcdata::mc1_21_4::{BlockEntity, block_entity_types as types};
 
 let command_block = BlockEntity::CommandBlock(types::CommandBlockEntity {
     command: "/say hi".into(),

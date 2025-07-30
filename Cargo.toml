@@ -3,7 +3,7 @@ members = ["xtask"]
 
 [package]
 name = "mcdata"
-version = "0.5.0"
+version = "0.6.0"
 authors = ["RubixDev <contact@rubixdev.de>"]
 edition = "2021"
 exclude = ["class-parser", "data-extractor", "find_diffs.sh", ".nlsp-settings", "dprint.json"]
@@ -11,6 +11,9 @@ keywords = ["minecraft", "nbt"]
 license = "GPL-3.0-only"
 repository = "https://github.com/RubixDev/mcdata"
 description = "(De)serializable NBT structures for Minecraft"
+
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(CHANNEL_NIGHTLY)'] }
 
 [features]
 #! ## Features
@@ -31,7 +34,7 @@ block-entities = ["dep:either"]
 ## Enable this when building the docs
 docs = ["dep:document-features", "dep:rustc_version"]
 ## Enables all features required for running the tests
-test = ["serde", "latest", "block-states", "entities", "block-entities"]
+test = ["serde", "1.21.4", "block-states", "entities", "block-entities"]
 
 #! ### Minecraft Version Features
 
