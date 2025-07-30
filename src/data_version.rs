@@ -11,7 +11,7 @@ macro_rules! data_versions {
 
 // JS one-liner to run on https://minecraft.wiki/w/Data_version in dev-tools console:
 // ```js
-// console.log([...document.getElementsByTagName('tbody')[0].children].map(child => [child.firstElementChild.firstElementChild.innerText.replace(/^Java Edition /, ''), child.lastElementChild.innerText]).filter(([mc, data]) => /^\d+(\.\d+)+$/.test(mc) && data !== 'N/A').map(([mc, data]) => `    MC_${mc.replaceAll('.', '_')}: "${mc}" => ${data},\n`).join(''))
+// console.log([...document.getElementsByTagName('tbody')[0].children].map(child => [child.firstElementChild.firstElementChild.innerText.replace(/^Java Edition /, ''), child.lastElementChild.innerText]).filter(([mc, data]) => /^\d+(\.\d+)+$/.test(mc) && data !== 'N/A').map(([mc, data]) => `    MC_${mc.replaceAll('.', '_')}: "${mc}" => ${data},\n`).reverse().join(''))
 // ```
 data_versions! {
     MC_1_14: "1.14" => 1952,
@@ -50,5 +50,8 @@ data_versions! {
     MC_1_21_2: "1.21.2" => 4080,
     MC_1_21_3: "1.21.3" => 4082,
     MC_1_21_4: "1.21.4" => 4189,
-    MC_1_21_5: "1.21.5" => 4325
+    MC_1_21_5: "1.21.5" => 4325,
+    MC_1_21_6: "1.21.6" => 4435,
+    MC_1_21_7: "1.21.7" => 4438,
+    MC_1_21_8: "1.21.8" => 4440,
 }
